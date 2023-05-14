@@ -32,7 +32,7 @@ export default function NavBar() {
             <div className="align-self-end">
               <ul className="navbar-nav">
                   <li className="nav-item">
-                      <Link to="/" className="nav-link text-dark">
+                      <Link to="/login" className="nav-link text-dark">
                           <LoginButton />
                       </Link>
                   </li>
