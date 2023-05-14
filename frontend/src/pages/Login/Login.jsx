@@ -12,11 +12,11 @@ export default function Login() {
                 <form name="newLogin">
                     <div className="error-login" data-error="login">E-mail ou senha incorretos</div>
                     <div>
-                        <label for="email" className="login_label">Email</label> 
+                        <label htmlFor="email" className="login_label">Email</label> 
                         <input name="email" id="email" className="form-input" type="email" />
                     </div>
                     <div> 
-                        <label for="password" className="login_label">Senha</label>
+                        <label htmlFor="password" className="login_label">Senha</label>
                         <input name="password" id="password" className="form-input" type="password" />
                         <div className="error-message" data-error="password"></div>
                     </div>
