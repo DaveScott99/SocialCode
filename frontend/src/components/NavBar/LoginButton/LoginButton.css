@@ -1,0 +1,13 @@
+.login_button {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: relative;
+    margin-left: 20px;
+    color: #333;
+}
