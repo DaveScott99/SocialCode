@@ -1,6 +1,6 @@
 package com.astro.paraCodar.entities;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -17,23 +17,25 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Instant instant;
+	private LocalDate instant;
 	private String title;
+	private String coverImg;
 	
 	@Column(columnDefinition = "TEXT")
 	private String body;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	public Post() {
 	}
 
-	public Post(Long id, Instant instant, String title, String body) {
+	public Post(Long id, LocalDate instant, String title, String coverImg, String body) {
 		this.id = id;
 		this.instant = instant;
 		this.title = title;
+		this.coverImg = coverImg;
 		this.body = body;
 	}
 
@@ -45,11 +47,11 @@ public class Post {
 		this.id = id;
 	}
 
-	public Instant getInstant() {
+	public LocalDate getInstant() {
 		return instant;
 	}
 
-	public void setInstant(Instant instant) {
+	public void setInstant(LocalDate instant) {
 		this.instant = instant;
 	}
 
@@ -61,12 +63,28 @@ public class Post {
 		this.title = title;
 	}
 
+	public String getCoverImg() {
+		return coverImg;
+	}
+
+	public void setCoverImg(String coverImg) {
+		this.coverImg = coverImg;
+	}
+
 	public String getBody() {
 		return body;
 	}
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
