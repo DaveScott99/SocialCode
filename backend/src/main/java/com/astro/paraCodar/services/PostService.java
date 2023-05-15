@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.paraCodar.dto.PostDTO;
 import com.astro.paraCodar.dto.PostMinDTO;
@@ -17,25 +18,24 @@ public class PostService {
 	@Autowired
 	private PostRepository postRepository;
 	
+	@Transactional(readOnly = true)
 	public PostDTO findById(Long id) {
 		Post result = postRepository.findById(id).get();
 		return new PostDTO(result);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<PostMinDTO> findAll(){
 		List<Post> posts = postRepository.findAll();
-		
 		return posts.stream().map(x -> new PostMinDTO(x)).toList();
 	}
 	
+	@Transactional
 	public PostDTO insert(PostDTO dto) {
-		
 		Post entity = new Post();
 		copyDtoToEntity(dto, entity);
-		
 		entity.setInstant(LocalDate.now());
-		entity = postRepository.save(entity);
-				
+		entity = postRepository.save(entity);	
 		return new PostDTO(entity);
 	}
 	

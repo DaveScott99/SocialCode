@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 import { Link } from "react-router-dom";
 
 import './Login.css';
+import { UseApi } from "../../hooks/UseApi";
 
 export default function Login() {
+
+    const [loginUser, setLoginUser] = useState({
+        email: "",
+        password: ""
+    });
+
+    const onChange = (event) => {
+        const { name, value } = event.target;
+        setLoginUser({ ...loginUser, [name]: value})
+    }
+
+    const api = UseApi();
+
+    const handleSubmit = useCallback(
+        (event) => {
+            event.preventDefault();
+
+            const { email, password } = loginUser;
+
+            if (!email, !password) {
+                window.alert("Preencha todos os campos");
+            }
+
+            api.login(loginUser);
+        },
+        [api, loginUser]
+    )
+
     return(
         <section id="form-section" className="form-container">
             <h1 className="login_title">Fazer login</h1>
@@ -13,15 +42,15 @@ export default function Login() {
                     <div className="error-login" data-error="login">E-mail ou senha incorretos</div>
                     <div>
                         <label htmlFor="email" className="login_label">Email</label> 
-                        <input name="email" id="email" className="form-input" type="email" />
+                        <input name="email" id="email" className="form-input" type="email"  onChange={onChange}/>
                     </div>
                     <div> 
                         <label htmlFor="password" className="login_label">Senha</label>
-                        <input name="password" id="password" className="form-input" type="password" />
+                        <input name="password" id="password" className="form-input" type="password" onChange={onChange}/>
                         <div className="error-message" data-error="password"></div>
                     </div>
                     <div className="btn-container">
-                        <button name="btnLogin" className="btn" type="submit">Logar</button>
+                        <button name="btnLogin" className="btn" type="submit" onClick={handleSubmit}>Logar</button>
                     </div>
                     <Link to="/register" className="login_link">Criar conta</Link>
                 </form>

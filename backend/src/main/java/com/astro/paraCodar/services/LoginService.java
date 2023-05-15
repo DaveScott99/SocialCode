@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.astro.paraCodar.dto.LoginDTO;
+import com.astro.paraCodar.dto.UserMinDTO;
 import com.astro.paraCodar.entities.User;
 import com.astro.paraCodar.repositories.UserRepository;
 import com.astro.paraCodar.utils.LoginMessage;
@@ -29,7 +30,7 @@ public class LoginService {
 			if (isPasswordRight) {
 				Optional<User> userLogin = userRepository.findByEmailAndPassword(loginDto.getEmail(), encodedPassword);
 				if(userLogin.isPresent()) {
-					return new LoginMessage("Login efetuado com sucesso", true);
+					return new LoginMessage("Login efetuado com sucesso", true, new UserMinDTO(user));
 				}
 				else {
 					return new LoginMessage("Login falhou", false);

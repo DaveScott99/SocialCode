@@ -7,6 +7,12 @@ export const UseApi = () => ({
         await axios.post('http://localhost:8080/user', { name, email, password})
                 .then((response) => console.log(response.data))
                 .catch((error) => console.log(error.response.data.errors))
+    },
+    login: async (userLogin) => {
+        const { email, password } = userLogin;
+        await axios.post('http://localhost:8080/login', { email, password })
+                    .then((response) => console.log(response.data))
+                    .catch((error) => console.log(error.response))
     }
 
 })
