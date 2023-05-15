@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.astro.paraCodar.entities.User;
+import com.astro.paraCodar.dto.UserDTO;
 import com.astro.paraCodar.services.UserService;
 
 @RestController
@@ -25,30 +25,28 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll(){
-		List<User> users = userService.findAll();
+	public ResponseEntity<List<UserDTO>> findAll(){
+		List<UserDTO> users = userService.findAll();
 		return ResponseEntity.ok().body(users);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> findById(@RequestParam Long id){
-		User user = userService.findById(id);
+	public ResponseEntity<UserDTO> findById(@RequestParam Long id){
+		UserDTO user = userService.findById(id);
 		return ResponseEntity.ok().body(user);
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User obj) {
-		User user = userService.insert(obj);
+	public ResponseEntity<UserDTO> insert(@RequestBody UserDTO dto) {
+		UserDTO user = userService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@RequestParam Long id, @RequestBody User newUser){
-		User user = userService.update(id, newUser);
+	public ResponseEntity<UserDTO> update(@RequestParam Long id, @RequestBody UserDTO dto){
+		UserDTO user = userService.update(id, dto);
 		return ResponseEntity.ok().body(user);
 	}
-	
-	
 	
 }
