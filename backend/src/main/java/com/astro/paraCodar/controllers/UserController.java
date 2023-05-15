@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astro.paraCodar.entities.User;
-import com.astro.paraCodar.service.UserService;
+import com.astro.paraCodar.services.UserService;
 
 @RestController
 @RequestMapping("/user")
