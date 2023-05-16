@@ -26,4 +26,9 @@ export default class UserService {
         return this.axios.post('/user', userData);
     }
 
+    authenticatedUser() {
+        // eslint-disable-next-line eqeqeq
+        return localStorage.getItem("email") != undefined ? true : false;
+    }
+
 }
