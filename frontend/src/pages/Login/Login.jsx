@@ -1,11 +1,15 @@
 import React, { useCallback, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import './Login.css';
-import { UseApi } from "../../hooks/UseApi";
+import UserService from "../../services/UserService";
+
+const userService = new UserService();
 
 export default function Login() {
+
+    const navigate = useNavigate();
 
     const [loginUser, setLoginUser] = useState({
         email: "",
@@ -17,22 +21,27 @@ export default function Login() {
         setLoginUser({ ...loginUser, [name]: value})
     }
 
-    const api = UseApi();
-
-    const handleSubmit = useCallback(
-        (event) => {
+    const handleSubmit = async (event) => {
             event.preventDefault();
 
             const { email, password } = loginUser;
-
-            if (!email, !password) {
+            if (!email || !password) {
                 window.alert("Preencha todos os campos");
             }
+            else {
+                try {
+                    const response = await userService.login(loginUser);
+                    if (response === true) {
+                        console.log('response do Login', response);
+                        navigate('/home');
+                    }
+                }
+                catch (error) {
+                    window.alert('Algo deu errado', error);
+                }
+            }
 
-            api.login(loginUser);
-        },
-        [api, loginUser]
-    )
+        }
 
     return(
         <section id="form-section" className="form-container">

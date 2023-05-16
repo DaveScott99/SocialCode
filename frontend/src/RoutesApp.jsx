@@ -13,7 +13,7 @@ export default function RoutesApp() {
         <main className="flex-fill">
             <div className="content">
                 <Routes>
-                    <Route exact path="/" element={<Home />} />
+                    <Route exact path="/home" element={<Home />} />
                     <Route exact path="/posts" element={<Posts />} />
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/register" element={<Register />} />

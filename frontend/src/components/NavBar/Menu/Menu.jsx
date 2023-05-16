@@ -8,7 +8,7 @@ export default function Menu(){
         <div className="menu">
             <ul className="list">
                 <li className="item">
-                    <Link to="/">Home</Link>
+                    <Link to="/home">Home</Link>
                 </li>
                 <li className="item">
                     <Link to="/posts">Posts Recentes</Link>

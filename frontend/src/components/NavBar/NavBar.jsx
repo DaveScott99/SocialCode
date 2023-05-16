@@ -10,7 +10,7 @@ export default function NavBar() {
     return(
       <nav className="navbar navbar-expand-lg navbar-dark border-bottom shadow-sm mb-3 color">
         <div className="container">
-          <Link to="/" className="navbar-brand text-dark fw-lighter fs-3 fw-bold">
+          <Link to="/home" className="navbar-brand text-dark fw-lighter fs-3 fw-bold">
             <b>ParaCodar</b>
           </Link>
           <button

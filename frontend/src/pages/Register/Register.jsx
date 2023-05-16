@@ -1,10 +1,15 @@
 import React, { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import './Register.css';
-import { UseApi } from "../../hooks/UseApi";
+import UserService from "../../services/UserService";
+// import { UseApi } from "../../hooks/UseApi";
+
+const userService = new UserService();
 
 export default function Register() {
+
+    const navigate = useNavigate();
 
     const [userRegistry, setUserRegistry] = useState ({
         name: "",
@@ -17,10 +22,7 @@ export default function Register() {
         setUserRegistry({ ...userRegistry, [name]: value});
     }
 
-    const api = UseApi();
-
-    const handleSubmit = useCallback(
-        (event) => {
+    const handleSubmit =  async (event) => {
             event.preventDefault();
 
             const { name, email, password } = userRegistry;
@@ -28,11 +30,27 @@ export default function Register() {
             if (!name || !email || !password) {
                 window.alert("Preencha todos os campos");
             }
+            else {
+                try {
+                    const { data } = await userService.resgister(userRegistry);
+                    if (data) {
+                        const responseLogin = await userService.login({
+                            email: email,
+                            password: password
+                        })
 
-            api.registry(userRegistry);
-        },
-        [api, userRegistry]
-    )
+                        if(responseLogin === true){
+                            alert('Usuário cadastrado com sucesso!');
+                            navigate('/home');
+                        }
+                    }
+                }
+                catch (error) {
+                    alert('Algo deu errado', error);
+                }
+            }
+        }
+
     return (
         <section id="form-section" className="form-container">
             <h1 className="registry_title">Cadastrar</h1>
