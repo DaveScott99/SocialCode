@@ -4,13 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 import './Login.css';
 import UserService from "../../services/UserService";
+import { validateEmail, validatePassword } from "../../utils/Validators";
 
 const userService = new UserService();
 
 export default function Login() {
 
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState();
     const [loginUser, setLoginUser] = useState({
         email: "",
         password: ""
@@ -30,11 +31,13 @@ export default function Login() {
             }
             else {
                 try {
+                    setLoading(true);
                     const response = await userService.login(loginUser);
                     if (response === true) {
                         console.log('response do Login', response);
                         navigate('/home');
                     }
+                    setLoading(false);
                 }
                 catch (error) {
                     window.alert('Algo deu errado', error);
@@ -42,6 +45,11 @@ export default function Login() {
             }
 
         }
+
+    const validatorInput = () => {
+        return validateEmail(loginUser.email)
+            && validatePassword(loginUser.password);
+    }
 
     return(
         <section id="form-section" className="form-container">
@@ -59,7 +67,7 @@ export default function Login() {
                         <div className="error-message" data-error="password"></div>
                     </div>
                     <div className="btn-container">
-                        <button name="btnLogin" className="btn" type="submit" onClick={handleSubmit}>Logar</button>
+                        <button name="btnLogin" className="btn" type="submit" onClick={handleSubmit} disabled={loading === true || !validatorInput()}>Logar</button>
                     </div>
                     <Link to="/register" className="login_link">Criar conta</Link>
                 </form>

@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import './DashboardUser.css';
-import FormNewPost from "../../components/FormNewPost/FormNewPost";
 
 export default function DashboardUser() {
 

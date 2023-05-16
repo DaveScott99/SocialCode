@@ -1,17 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import './Register.css';
 import UserService from "../../services/UserService";
-// import { UseApi } from "../../hooks/UseApi";
+import { validateConfirmPassword, validateEmail, validateName, validatePassword } from "../../utils/Validators";
 
 const userService = new UserService();
 
 export default function Register() {
-
     const navigate = useNavigate();
-
-    const [userRegistry, setUserRegistry] = useState ({
+    const [loading, setLoading] = useState();
+    const [formRegistry, setFormRegistry] = useState ({
         name: "",
         email: "",
         password: ""
@@ -19,37 +18,39 @@ export default function Register() {
 
     const onChange = (event) => {
         const { name, value } = event.target;
-        setUserRegistry({ ...userRegistry, [name]: value});
+        setFormRegistry({ ...formRegistry, [name]: value});
     }
 
     const handleSubmit =  async (event) => {
             event.preventDefault();
+            try {
+                setLoading(true);
+                const { data } = await userService.resgister(formRegistry);
+                if (data) {
+                    const responseLogin = await userService.login({
+                        email: formRegistry.email,
+                        password: formRegistry.password
+                    })
 
-            const { name, email, password } = userRegistry;
-
-            if (!name || !email || !password) {
-                window.alert("Preencha todos os campos");
-            }
-            else {
-                try {
-                    const { data } = await userService.resgister(userRegistry);
-                    if (data) {
-                        const responseLogin = await userService.login({
-                            email: email,
-                            password: password
-                        })
-
-                        if(responseLogin === true){
-                            alert('Usuário cadastrado com sucesso!');
-                            navigate('/home');
-                        }
+                    if(responseLogin === true){
+                        alert('Usuário cadastrado com sucesso!');
+                        navigate('/home');
                     }
                 }
-                catch (error) {
-                    alert('Algo deu errado', error);
-                }
+                setLoading(false);
             }
+            catch (error) {
+                alert('Algo deu errado', error);
+            }
+
         }
+
+    const validatorInput = () => {
+        return validateEmail(formRegistry.email)
+            && validateName(formRegistry.name)
+            && validatePassword(formRegistry.password)
+            && validateConfirmPassword(formRegistry.password, formRegistry.confirmPassword)
+    }
 
     return (
         <section id="form-section" className="form-container">
@@ -68,9 +69,14 @@ export default function Register() {
                             <label htmlFor="password" className="registry_label">Senha</label>
                             <input name="password" id="password" className="form-input" type="password" onChange={onChange} /> 
                         </div>
+
+                        <div> 
+                            <label htmlFor="password" className="registry_label">Confirmar senha</label>
+                            <input name="confirmPassword" id="password" className="form-input" type="password" onChange={onChange} /> 
+                        </div>
             
                         <div className="btn-container">
-                            <button name="btnRegistry" className="btn" type="submit" onClick={handleSubmit}>Registrar</button>
+                            <button name="btnRegistry" className="btn" type="submit" onClick={handleSubmit} disabled={loading === true || !validatorInput()}>Registrar</button>
                         </div>
 
                         <Link to="/login" className="registry_link">Logar</Link>
