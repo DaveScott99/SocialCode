@@ -1,4 +1,4 @@
-.login_button {
+.newPost_button {
     font-size: 1rem;
     display: flex;
     align-items: center;
@@ -14,7 +14,7 @@
     font-weight: bold;
 }
 
-.login_button:hover {
+.newPost_button:hover {
     transition: background, color 0.2s;
     background: #ff9100;
     color: white;

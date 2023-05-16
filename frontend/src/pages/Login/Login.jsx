@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -64,6 +64,6 @@ export default function Login() {
                     <Link to="/register" className="login_link">Criar conta</Link>
                 </form>
             </div>
-    </section>
+        </section>
     );
 };
