@@ -1,28 +1,47 @@
 
-import React from "react"
+import React, { useEffect, useState } from "react"
+import PostService from "../../services/PostService";
 
 import './Card.css';
+import axios from "axios";
+
+const postService = new PostService();
 
 export default function Card() {
+
+    const [posts, setPost] = useState([]);
+
+    const getPosts = async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/post");
+
+            const data = response.data;
+
+            setPost(data);
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getPosts();
+    }, [])
+
     return (
-        <div className="card">
-            <div className="img">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPHyV03Deu-xnAG__C1xjV5QdwyOokeVcWrHs9H6fXmQkoJgz_kOlRn7DDRsdujE3SPhu_JvMbKqaIhwuGdbcH5VHWe7YrZojzWu1m0ChI2Zeg-_KFGeb0wJ_tsHseNOi6Y5n37V2aiQ5e4mFR-q4oQ4UyzzzHy-flB0X0fJbwNYJQN703vWaygSui/s425/Capa%20JavaScript.png" alt="" />
-            </div>
+        <>
+            {posts.map((post) => (
+                <div className="card" key={post.id}>
+                    <div className="img">
+                        <img src={post.coverImg} alt="" />
+                    </div>
 
-            <div className="content">
-                <span className="title">Titulo para teste</span>
-                <p className="desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Ex magni dolorum praesentium mollitia deserunt aspernatur, 
-                    a illum velit iste explicabo quos rem quia in corrupti eius, 
-                    facere, amet impedit voluptates.
-                </p>
-            </div>
-
-            <div className="arrow">
-                <span>&#8673;</span>
-            </div>
-        </div>
+                    <div className="content">
+                        <span className="title">{post.title}</span>
+                    </div>
+                </div>
+            ))}
+        </>
+        
     );
 }

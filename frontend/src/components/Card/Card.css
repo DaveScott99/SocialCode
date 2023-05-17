@@ -1,5 +1,5 @@
 .card {
-    border-radius: 16px;
+    border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.129) 0px 5px 15px;
     cursor: pointer;
     width: 360px;
@@ -9,67 +9,27 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-    background-image: linear-gradient(#ff9100, #2f210d);
+    background: #333;
     transition: all .5s;
     border: none;
 }
-
-.card:hover {
-    background-image: linear-gradient(#ff9100, #1e1508);
-}
-
 .card .img {
-    width: 360px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
     background-size: cover;
     background-position: center;
-    transition: all .5s;
-    z-index: 2;
     position: relative;
-    opacity: .8;
-}
-
-.card .img span {
-    text-transform: uppercase;
-    font-size: 24px;
-    font-weight: bold;
-    transition: all .5s;
-    color: #fff;
-}
-
-.card:hover .img {
-    width: 430px;
-    opacity: 1;
-}
-
-.card:hover .img span {
-    font-size: 28px;
 }
 
 .card .content {
-    padding: 0px 20px;
-    height: 0;
-    opacity: 0;
+    padding: 10px;
+    height: 100px;
     transition: all .5s;
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
-    transform: translate(30px);
     color: #fff;
-}
-
-.card:hover .content {
-    height: 160px;
-    padding: 20px;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.card .content p {
-    margin: 0;
 }
 
 .card .content .title {
@@ -77,24 +37,3 @@
     font-weight: 600;
 }
 
-.card .content .desc {
-    font-size: 14px;
-    font-weight: 400;
-    opacity: .8;
-    margin-top: 8px;
-}
-
-.card .arrow {
-    padding: 15px;
-    transform: rotate(-180deg);
-    transform: all .5s;
-}
-
-.card:hover .arrow {
-    transform: rotate(0);
-}
-
-.card .arrow span {
-    font-size: 24px;
-    color: #fff;
-}
