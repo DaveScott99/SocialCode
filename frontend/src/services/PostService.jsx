@@ -7,9 +7,19 @@ export default class PostService {
         })
     }
 
+    // Função para resgatar todos os POSTS que vem do BACKEND
     async findAll() {
-        this.axios.get("/post")
-            .then((response) => console.log(response.data))
-            .catch(err => console.log("ops, ocorreu um erro" + err));
+        try {
+            const { data } = await this.axios.get("/post");
+            if (data) {
+                return data;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (err) {
+            alert("ops, algo deu errado ao carregar os posts");
+        }
     }
 }

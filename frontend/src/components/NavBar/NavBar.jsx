@@ -48,9 +48,9 @@ export default function NavBar() {
               <ul className="navbar-nav">
                   <li className="nav-item">
                       {authenticatedUser ?
-                                          <Button type='button' text='Perfil' onClick={handleClickDashBoard}>Perfil</Button>
+                                          <Button className='button' type='button' text='Perfil' onClick={handleClickDashBoard}>Perfil</Button>
                                          :
-                                          <Button type='button' text='Login' onClick={handleClickLogin}>Login</Button>
+                                          <Button className='button' type='button' text='Login' onClick={handleClickLogin}>Login</Button>
                       }
                   </li>
               </ul>

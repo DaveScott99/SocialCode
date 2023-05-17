@@ -2,14 +2,14 @@ import React from "react";
 
 import './Button.css'
 
-export default function Button({ type, text, onClick, disable }){
+export default function Button({ type, text, onClick, disabled, className }){
     return(
         <button 
         type={type}
         text={text}
         onClick={onClick}
-        disable={disable}
-        className="button"
+        disabled={disabled}
+        className={className}
         >
             {text}
         </button>

@@ -7,6 +7,8 @@ export default class UserService {
         })
     }
 
+    /* Função que enviará as credenciais de LOGIN para o BACKEND e se caso exista o usuário cadastrado
+    armazena no localStorage as credenciais*/
     async login (userData) {
         const { data } = await this.axios.post('/login', userData);
 
@@ -22,10 +24,12 @@ export default class UserService {
         }
     }
 
+    /* Função para registrar um novo usuário na plataforma */
     async resgister (userData){
         return this.axios.post('/user', userData);
     }
 
+    /* Função verificar se existe um usuário logado na plataforma */
     authenticatedUser() {
         // eslint-disable-next-line eqeqeq
         return localStorage.getItem("email") != undefined ? true : false;
