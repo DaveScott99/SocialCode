@@ -30,6 +30,12 @@ public class PostService {
 		return posts.stream().map(x -> new PostMinDTO(x)).toList();
 	}
 	
+	@Transactional(readOnly = true)
+	public List<PostDTO> findPostsByUser(Long id) {
+		List<Post> posts = postRepository.findPostByUserId(id);
+		return posts.stream().map(x -> new PostDTO(x)).toList();
+	}
+	
 	@Transactional
 	public PostDTO insert(PostDTO dto) {
 		Post entity = new Post();

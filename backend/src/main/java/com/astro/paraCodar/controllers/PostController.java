@@ -35,6 +35,12 @@ public class PostController {
 		List<PostMinDTO> posts = postService.findAll();
 		return ResponseEntity.ok().body(posts);
 	}
+	
+	@GetMapping(value = "/usersPost/{userId}")
+	public ResponseEntity<List<PostDTO>> findAll(@PathVariable Long userId) {
+		List<PostDTO> posts = postService.findPostsByUser(userId);
+		return ResponseEntity.ok().body(posts);
+	}
 
 	@PostMapping
 	public ResponseEntity<PostDTO> insert(@RequestBody PostDTO post){

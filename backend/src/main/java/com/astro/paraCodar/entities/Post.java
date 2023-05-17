@@ -19,6 +19,8 @@ public class Post {
 	private Long id;
 	private LocalDate instant;
 	private String title;
+	
+	@Column(columnDefinition = "TEXT")
 	private String coverImg;
 	
 	@Column(columnDefinition = "TEXT")
