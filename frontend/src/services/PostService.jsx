@@ -22,4 +22,24 @@ export default class PostService {
             alert("ops, algo deu errado ao carregar os posts");
         }
     }
+
+    async findPostsByUserId(userId) {
+        try {
+            const { data } = await this.axios.get(`/post/usersPost/${userId}`);
+            if (data) {
+                return data
+            }
+            else {
+                return null;
+            }
+        }
+        catch(err) {
+            alert("ops, algo deu errado ao carregar os posts");
+        }
+        
+    }
+
+    async insert(post) {
+        return this.axios.post('/post', post);
+    }
 }

@@ -1,81 +1,8 @@
-:root {
-    --white: #fff;
-    --whitesmoke: #f9f9f9;
-    --light-grey: #ececec;
-    --medium-gray: #a7a7a7;
-    --deep-gray: #343434;
-    --black: #000000;
-    --orange: #ff9100;
-    --red-light: #ff2c19b0;
-    --red: #FF2E19;
-    --gray: #c4c4c4;
-  }
-  
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(35px, 8%, 70px);
-    width: 100%;
+.newPost input {
+    margin-bottom: 5px;
 }
 
-.post_label {
-    display: block;
-    margin-bottom: 10px;
-    width: 100%;
-    font-size: 0.9em;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--medium-gray);
-    cursor: text;
-}
-
-.form-input {
-    width: 100%;
-    background-color: var(--light-grey);
-    color: var(--deep-gray);
-    border: 2px solid rgba(0, 0, 0, 0);
-    border-radius: 5px;
-    padding: 15px;
-    font-size: 1em;
-    font-weight: 600;
-    outline: none;
-    margin-bottom: 20px;
-}
-
-.form-input:focus {
-    background-color: var(--whitesmoke);
-    border: 2px solid var(--deep-gray);
-}
-
-.card-form {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    border-radius: 5px;
-    padding: 20px;
-}
-
-.btn-container {
-    display: flex;
-    justify-content: center;
-}
-
-.btn {
-    width: 50%;
-    padding: 10px;
-    background: transparent;
-    border: 1px solid var(--orange);
-    color: var(--orange);
-    font-weight: bold;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn:hover {
-    transition: background, color 0.6s;
-    background: var(--orange);
-    color: white;
+.newPost button {
+    margin-top: 10px;
+    margin-right: 10px;
 }

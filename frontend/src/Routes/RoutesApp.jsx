@@ -6,8 +6,8 @@ import Footer from "../components/Footer/Footer ";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import DashboardUser from "../pages/DashboardUser/DashboardUser";
-import FormNewPost from "../components/FormNewPost/FormNewPost";
 import ProtectedRoutes from "./ProtectedRoutes";
+import DashboardPosts from "../pages/DashboardPosts/DashboardPosts";
 
 export default function RoutesApp() {
     return(
@@ -20,14 +20,14 @@ export default function RoutesApp() {
                     <Route exact path="/posts" element={<Posts />} />
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/register" element={<Register />} />
-                    <Route path="/dashboard" element={
+                    <Route path="/dashboard/user" element={
                             <ProtectedRoutes>
                                 <DashboardUser />
                             </ProtectedRoutes>
                     } />
-                    <Route path="/newpost" element={
+                    <Route path="/dashboard/posts" element={
                             <ProtectedRoutes>
-                                <FormNewPost />
+                                <DashboardPosts />
                             </ProtectedRoutes>
                     } />
                 </Routes>

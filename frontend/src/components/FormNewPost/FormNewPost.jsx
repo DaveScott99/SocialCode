@@ -1,24 +1,34 @@
+import Button  from "../Button/Button";
 import React from "react";
 
-export default function FormNewPost(){
+import './FormNewPost.css';
+
+export default function FormNewPost({ btn, onChange, insertPost }){
     return(
         <section id="form-section" className="form-container">
             <div className="card-form">
-                <form name="newPost">
+                <form name="newPost" className="newPost">
                     <div>
-                        <label htmlFor="title" className="post_label">Titulo</label> 
-                        <input name="title" id="title" className="form-input" type="text" />
+                        <input name="title" id="title" className="form-control" type="text" placeholder="Titulo" onChange={onChange} />
                     </div>
                     <div> 
-                        <label htmlFor="imgUrl" className="post_label">URL Imagem da capa</label>
-                        <input name="imgUrl" id="imgUrl" className="form-input" type="text" />
+                        <input name="coverImg" id="imgUrl" className="form-control" type="text" placeholder="URL Imagem da capa" onChange={onChange}/>
                     </div>
                     <div> 
-                        <label htmlFor="content" className="post_label">Conteúdo</label>
-                        <textarea name="content" id="content" rows="4" cols="55" className="form-input"></textarea>
+                        <textarea name="body" id="content" rows="4" cols="55" className="form-control" placeholder="Conteúdo" onChange={onChange}/>
                     </div>
                     <div className="btn-container">
-                        <button name="btnNewPost" className="btn" type="submit">Salvar</button>
+                        {
+                            btn 
+                                ?
+                                    <Button type="button" text="Salvar" className="btn btn-primary" onClick={insertPost} />
+                                :
+                                <div>
+                                    <Button type="button" text="Alterar" className="btn btn-warning" />
+                                    <Button type="button" text="Remover" className="btn btn-danger" />
+                                    <Button type="button" text="Cancelar" className="btn btn-secondary" />
+                                </div>
+                        }                  
                     </div>
                     
                 </form>

@@ -8,7 +8,7 @@ export default function DashboardUser() {
     const navigate = useNavigate();
 
     const handleClickNewPost = () => {
-        navigate('/newpost')
+        navigate('/dashboard/posts')
     }
 
     return (
