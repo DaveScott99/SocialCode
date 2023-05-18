@@ -1,4 +1,14 @@
-.color {
-    background-color: #fafafa;
+.container-sidebar {
+    padding: 20px 10px 0px 10px;
 }
 
+.container-sidebar .logo-app {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.container-sidebar .logo-app a {
+    text-decoration: none;
+    font-size: 1.5em;
+    color: #333;
+}

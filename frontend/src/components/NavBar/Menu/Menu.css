@@ -1,11 +1,26 @@
-.list {
-    display: flex;
+.list-menu ul {
     list-style: none;
-    align-items: center;
 }
 
-.item a {
+.list-menu a {
     color: #000;
     text-decoration: none;
-    font-weight: bold;
+    padding: 10px 4%;
+    display: flex;
+    line-height: 30px;
+    border-radius: 10px;
+    transition: .5s ease;
+}
+
+.list-menu a:hover {
+    background: #efefef;
+}
+
+.list-menu ul li .icon{
+    font-size: 30px;
+}
+
+.list-menu ul li .txt-link {
+    margin-left: 20px;
+    font-size: 20px;
 }
