@@ -23,7 +23,7 @@ export default function NavBar() {
     }
 
     return(
-      <nav className="navbar navbar-expand-lg navbar-dark border-bottom shadow-sm mb-3 color">
+      <nav className="navbar navbar-expand-lg shadow-sm ">
         <div className="container">
           <Link to="/home" className="navbar-brand text-dark fw-lighter fs-3 fw-bold">
             <b>ParaCodar</b>
