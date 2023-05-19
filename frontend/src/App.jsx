@@ -10,12 +10,21 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
+
+        <header className='header'>
+          <p>Header</p>
+        </header>
+
         <main className="main">
             <RoutesApp />
         </main>
+
         <aside className="l-sidebar">
-            <div className='content-sidebar'><NavBar /></div>
+            <div className='content-sidebar'>
+              <NavBar />
+            </div>
         </aside>
+
       </div>
     </BrowserRouter>
   );

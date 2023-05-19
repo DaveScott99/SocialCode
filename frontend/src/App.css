@@ -1,11 +1,11 @@
-
 .wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: .5rem;
     grid-template: 
             "main"
-            "l-sidebar";
+            "l-sidebar"
+            "header";
     height: 100vh;
     margin: 0 auto;
     background: #151515;
@@ -16,11 +16,21 @@
         grid-template-columns: repeat(6, 1fr);
         grid-template-rows: .3fr 2fr .5fr .3fr;
         grid-template-areas: 
-        "l-sidebar main main main main main"
+        "l-sidebar header header header header header"
         "l-sidebar main main main main main"
         "l-sidebar main main main main main"
         "l-sidebar main main main main main";
     }
+}
+
+.header {
+    grid-area: header;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 0px #b2b2b221;
 }
 
 .main {
@@ -40,5 +50,4 @@
 .content-sidebar {
     box-shadow: 1px 0 0 #b2b2b221;
     height: 100vh;
-
 }

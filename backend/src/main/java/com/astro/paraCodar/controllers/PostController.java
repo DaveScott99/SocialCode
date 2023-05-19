@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astro.paraCodar.dto.PostDTO;
-import com.astro.paraCodar.dto.PostMinDTO;
 import com.astro.paraCodar.services.PostService;
 
 @RestController
@@ -31,8 +30,8 @@ public class PostController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<PostMinDTO>> findAll(){
-		List<PostMinDTO> posts = postService.findAll();
+	public ResponseEntity<List<PostDTO>> findAll(){
+		List<PostDTO> posts = postService.findAll();
 		return ResponseEntity.ok().body(posts);
 	}
 	

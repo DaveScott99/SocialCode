@@ -8,10 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.paraCodar.dto.PostDTO;
-import com.astro.paraCodar.dto.PostMinDTO;
 import com.astro.paraCodar.entities.Post;
 import com.astro.paraCodar.repositories.PostRepository;
-
+		
 @Service
 public class PostService {
 
@@ -25,9 +24,9 @@ public class PostService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PostMinDTO> findAll(){
+	public List<PostDTO> findAll(){
 		List<Post> posts = postRepository.findAll();
-		return posts.stream().map(x -> new PostMinDTO(x)).toList();
+		return posts.stream().map(x -> new PostDTO(x)).toList();
 	}
 	
 	@Transactional(readOnly = true)
@@ -45,7 +44,6 @@ public class PostService {
 		return new PostDTO(entity);
 	}
 	
-	
 	private void copyDtoToEntity(PostDTO dto, Post entity) {
 		entity.setId(dto.getId());
 		entity.setTitle(dto.getTitle());
@@ -53,6 +51,6 @@ public class PostService {
 		entity.setBody(dto.getBody());
 		entity.setInstant(dto.getInstant());
 		entity.setUser(dto.getUser());
-}
+	}
 	
 }

@@ -30,7 +30,17 @@ export default function Post({ postData }){
             {posts.map((post) => (
                 <div className="post" key={post.id}>
                     <div className="header-post">
-                        <span>{post.name}</span>
+
+                        <div className="user-data">
+                            <img src={post.user.userImg} alt=""  className="user-image"/>
+
+                            <div className="user-texts">
+                                <span className="user-name">{post.user.name} </span>
+                                <span className="post-date">{post.instant}</span>
+                            </div>
+
+                        </div>
+
                     </div>  
 
                     <div className="img-post">

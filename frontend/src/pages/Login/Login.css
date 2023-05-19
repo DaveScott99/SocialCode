@@ -21,22 +21,10 @@
 }
 
 .login_title {
-    color: var(--deep-gray);
+    color: var(--white);
     font-size: 2em;
     margin-bottom: 30px;
     font-weight: bold;
-}
-
-.error-login{
-    width: 100%;
-    padding: 15px;
-    text-align: left;
-    border-radius: 5px;
-    background: var(--red-light);
-    margin-bottom: 20px;
-    transition: all 200ms ease;
-    display: none;
-    color: var(--whitesmoke);
 }
 
 .login_label {
@@ -74,11 +62,6 @@
     margin: 0 auto;
     border-radius: 5px;
     padding: 20px;
-}
-
-.error-message {
-    margin-top: 5px;
-    color: var(--red);
 }
 
 .btn-container {

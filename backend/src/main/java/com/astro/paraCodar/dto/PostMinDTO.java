@@ -1,7 +1,6 @@
 package com.astro.paraCodar.dto;
 
 import com.astro.paraCodar.entities.Post;
-import com.astro.paraCodar.entities.User;
 
 public class PostMinDTO {
 
@@ -9,7 +8,7 @@ public class PostMinDTO {
 	private String title;
 	private String coverImg;
 	
-	private User user;
+	private UserMinDTO user;
 	
 	public PostMinDTO() {
 	}
@@ -18,7 +17,7 @@ public class PostMinDTO {
 		id = entity.getId();
 		title = entity.getTitle();
 		coverImg = entity.getCoverImg();
-		user = entity.getUser();
+		user = new UserMinDTO(entity.getUser());
 	}
 
 	public Long getId() {
@@ -33,7 +32,7 @@ public class PostMinDTO {
 		return coverImg;
 	}
 
-	public User getUser() {
+	public UserMinDTO getUser() {
 		return user;
 	}
 	

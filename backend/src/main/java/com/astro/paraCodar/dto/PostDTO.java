@@ -15,19 +15,19 @@ public class PostDTO implements Serializable {
 	private String title;
 	private String coverImg;
 	private String body;
-
+	
 	private User user;
 	
 	public PostDTO() {
 	}
 	
-	public PostDTO(Post post) {
-		id = post.getId();
-		instant = post.getInstant();
-		title = post.getTitle();
-		coverImg = post.getCoverImg();
-		body = post.getBody();
-		user = post.getUser();
+	public PostDTO(Post entity) {
+		id = entity.getId();
+		instant = entity.getInstant();
+		title = entity.getTitle();
+		coverImg = entity.getCoverImg();
+		body = entity.getBody();
+		user = entity.getUser();
 	}
 
 	public Long getId() {

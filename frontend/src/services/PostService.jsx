@@ -7,17 +7,31 @@ export default class PostService {
         })
     }
 
-    // Função para resgatar todos os POSTS que vem do BACKEND
-    async findAll() {
+
+    async findPostById(id) {
         try {
-            const { data } = await this.axios.get("/post");
-            
+            const { data } = await this.axios.get(`/post/${id}`);
             if (data) {
-                return data;
+                return data
             }
             else {
                 return null;
             }
+        }
+        catch(err) {
+            alert("ops, algo deu errado ao carregar os posts");
+        }
+    }
+
+    // Função para resgatar todos os POSTS que vem do BACKEND
+    async findAll() {
+        try {
+            const { data } = await this.axios.get("/post");
+
+            
+
+            return data;
+    
         }
         catch (err) {
             alert("ops, algo deu errado ao carregar os posts");
