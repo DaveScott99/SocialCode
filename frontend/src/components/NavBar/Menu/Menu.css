@@ -10,10 +10,11 @@
     line-height: 30px;
     border-radius: 10px;
     transition: .5s ease;
+    color: #ffffff;
 }
 
 .list-menu a:hover {
-    background: #efefef;
+    background: #6f6f6f;
 }
 
 .list-menu ul li .icon{

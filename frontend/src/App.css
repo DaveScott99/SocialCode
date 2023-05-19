@@ -8,6 +8,7 @@
             "l-sidebar";
     height: 100vh;
     margin: 0 auto;
+    background: #151515;
 }
 
 @media (min-width: 48em) {
@@ -26,13 +27,18 @@
     grid-area: main;
     overflow: auto;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
 }
 
 .l-sidebar {
     grid-area: l-sidebar;
+    color: #ffffff;
 }
 
 .content-sidebar {
-    box-shadow: 2px 0 0 #33333321;
+    box-shadow: 1px 0 0 #b2b2b221;
     height: 100vh;
+
 }

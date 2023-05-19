@@ -11,6 +11,7 @@ export default class PostService {
     async findAll() {
         try {
             const { data } = await this.axios.get("/post");
+            
             if (data) {
                 return data;
             }
