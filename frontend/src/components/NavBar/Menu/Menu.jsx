@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai"
-import { BiUserCircle, BiMenu } from "react-icons/bi"
+import { BiUserCircle } from "react-icons/bi"
 import { RiLoginBoxLine } from "react-icons/ri"
 import { BsPlusSquare } from "react-icons/bs"
 import UserService from "../../../services/UserService"
@@ -14,11 +14,7 @@ const userService = new UserService();
 export default function Menu(){
 
     const authenticatedUser = userService.authenticatedUser();
-
-    const showSubMenu = () => {
-        
-    }
-
+    
     return (
         <div className="list-menu">
             <ul>
