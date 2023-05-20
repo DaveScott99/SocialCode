@@ -1,7 +1,6 @@
 import axios from "axios"
 import { toast } from "react-toastify";
 
-
 export default class UserService {
     constructor() {
         this.axios = axios.create({
@@ -23,12 +22,17 @@ export default class UserService {
             localStorage.setItem("id", data.user.id);
             localStorage.setItem("name", data.user.name);
             localStorage.setItem("email", data.user.email);
-            toast.success(data.message)
             return data.status;
         }
         else {
             toast.warning(data.message)
         }
+    }
+
+    logout() {
+        localStorage.removeItem("id");
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
     }
 
     /* Função para registrar um novo usuário na plataforma */

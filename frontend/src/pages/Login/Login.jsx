@@ -45,7 +45,9 @@ export default function Login() {
 
                     // Verificar se o usuário está autenticado, se sim é redirecionado para a HOME
                     if (response === true) {
+                        toast.success(response.message);
                         navigate('/home');
+                        window.location.reload();
                     }
                     setLoading(false);
                 }

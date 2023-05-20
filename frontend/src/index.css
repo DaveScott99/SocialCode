@@ -11,3 +11,17 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+:root {
+  --white: #fff;
+  --whitesmoke: #f9f9f9;
+  --light-grey: #ececec;
+  --medium-gray: #a7a7a7;
+  --deep-gray: #343434;
+  --background-app: #151515;
+  --black: #000000;
+  --orange: #ff9100;
+  --red-light: #ff2c19b0;
+  --red: #FF2E19;
+  --gray: #c4c4c4;
+}

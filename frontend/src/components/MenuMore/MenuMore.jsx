@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BiMenu } from "react-icons/bi"
+import UserService from "../../services/UserService";
 
 import './MenuMore.css'
+import { useNavigate } from "react-router";
+
+const userService = new UserService();
 
 export default function MenuMore() {
 
+    const navigate = useNavigate();
     const [showSubMenu, setShowSubMenu] = useState(false);
     const subMenuRef = useRef(null);
 
@@ -29,12 +34,17 @@ export default function MenuMore() {
 
     }, [showSubMenu])
 
+    const logout = () => {
+        userService.logout();
+        navigate('/login');
+        window.location.reload();
+    }
+
     return (
         <div className="menu-more" ref={subMenuRef}>
                                             
             <div id="sub-menu-more" style={style} >
-                <button className="button-more" >
-                    <span className="icon"></span>
+                <button className="button-more" onClick={logout}>
                     <span className="txt-link">Sair</span>
                 </button>
             </div>
