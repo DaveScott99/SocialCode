@@ -1,0 +1,44 @@
+.menu-more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+}
+
+.menu-more #sub-menu-more {
+    background-color: #1d1d1d;
+    border-radius: 10px;
+    padding: 10px;
+    display: none;
+}
+
+.menu-more .button-more {
+    color: #000;
+    padding: 10px 100px 10px 10px;
+    display: flex;
+    line-height: 25px;
+    border-radius: 10px;
+    transition: .5s ease;
+    color: #ffffff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.menu-more .button-more:hover {
+    background: #393939;
+}
+
+.list-menu ul li button .icon{
+    font-size: 30px;
+}
+
+.list-menu ul li button .txt-link {
+    margin-left: 10px;
+    font-size: 1.3em;
+}

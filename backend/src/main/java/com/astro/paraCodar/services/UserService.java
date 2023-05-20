@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.paraCodar.dto.UserDTO;
+import com.astro.paraCodar.dto.UserMinDTO;
 import com.astro.paraCodar.entities.User;
 import com.astro.paraCodar.repositories.UserRepository;
 import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
@@ -32,10 +33,10 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public UserDTO findById(Long id){
+	public UserMinDTO findById(Long id){
 		Optional<User> user = userRepository.findById(id);
 		User entity = user.orElseThrow(() -> new ControllerNotFoundException("Usuário não encontrado"));
-		return new UserDTO(entity);
+		return new UserMinDTO(entity);
 	}
 	
 	@Transactional

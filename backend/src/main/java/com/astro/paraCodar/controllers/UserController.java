@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astro.paraCodar.dto.UserDTO;
+import com.astro.paraCodar.dto.UserMinDTO;
 import com.astro.paraCodar.services.UserService;
 
 @RestController
@@ -31,8 +33,8 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> findById(@RequestParam Long id){
-		UserDTO user = userService.findById(id);
+	public ResponseEntity<UserMinDTO> findById(@PathVariable Long id){
+		UserMinDTO user = userService.findById(id);
 		return ResponseEntity.ok().body(user);
 	}
 	

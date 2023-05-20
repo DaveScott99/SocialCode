@@ -45,6 +45,7 @@
 .l-sidebar {
     grid-area: l-sidebar;
     color: #ffffff;
+    position: relative;
 }
 
 .content-sidebar {

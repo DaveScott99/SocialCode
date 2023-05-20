@@ -6,6 +6,7 @@ public class UserMinDTO {
 	
 	private Long id;
 	private String name;
+	private String userImg;
 	private String email;
 	
 	public UserMinDTO() {
@@ -14,6 +15,7 @@ public class UserMinDTO {
 	public UserMinDTO(User entity) {
 		id = entity.getId();
 		name = entity.getName();
+		userImg = entity.getUserImg();
 		email = entity.getEmail();
 	}
 
@@ -23,6 +25,14 @@ public class UserMinDTO {
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getUserImg() {
+		return userImg;
+	}
+
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
 	}
 
 	public String getEmail() {

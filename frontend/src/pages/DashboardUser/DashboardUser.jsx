@@ -1,20 +1,65 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import UserService from "../../services/UserService"
 
 import './DashboardUser.css';
 
+const userService = new UserService()
+
 export default function DashboardUser() {
 
-    const navigate = useNavigate();
+    const [user, setUser] = useState();
 
-    const handleClickNewPost = () => {
-        navigate('/dashboard/posts')
+    const findUser = async () => {
+        const data = await userService.findUserById(localStorage.getItem('id'));
+        setUser(data);
     }
 
+    useEffect(() => {
+        findUser();
+    }, [])
+
+    if(!user) return null;
+
     return (
-        <div >
-            <h1>DashboardUser</h1>
-            <button className="newPost_button" onClick={handleClickNewPost}>Novo Post</button>
+        <div className="container-profile-user">
+            
+            <div className="header-profile">
+
+                <div className="image-user">
+                    <img src={user.userImg} alt="Imagem usuário" />
+                </div>
+
+                <div className="data-user">
+                    <div className="header-data-user">
+                        <span className="user-name">{user.name}</span>
+
+                        <div className="status-user-account">
+                            <span>0 publicações</span>
+                            <span>0 seguidores</span>
+                            <span>0 seguindo</span>
+                        </div>
+
+                    </div>
+                    
+                    <div className="body-data-user">
+                        <span className="name-body-data">{user.name}</span>
+
+                        <span className="bio-body-data">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                              Veniam esse cupiditate beatae temporibus, repellendus officiis 
+                              blanditiis exercitationem illo, nostrum eaque quia. Qui consequuntur 
+                              recusandae quibusdam a veniam atque quam ipsam.</span>
+
+                        <span>Site</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div className="posts-user">
+                <p>Posts</p>
+            </div>
+            
         </div>
 
     );

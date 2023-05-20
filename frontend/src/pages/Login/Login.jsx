@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserService from "../../services/UserService";
 import { validateEmail, validatePassword } from "../../utils/Validators";
 import Button from "../../components/Button/Button"
+import { toast } from "react-toastify";
 
 import './Login.css';
 
@@ -33,7 +34,7 @@ export default function Login() {
 
             // Verificar se existe algum input nulo
             if (!email || !password) {
-                window.alert("Preencha todos os campos");
+                toast.error("Preencha todos os campos")
             }
             else {
                 try {
@@ -44,13 +45,12 @@ export default function Login() {
 
                     // Verificar se o usuário está autenticado, se sim é redirecionado para a HOME
                     if (response === true) {
-                        console.log('resposta do Login', response);
                         navigate('/home');
                     }
                     setLoading(false);
                 }
                 catch (error) {
-                    window.alert('Algo deu errado', error);
+                    toast.error("Algo deu errado")
                 }
             }
 

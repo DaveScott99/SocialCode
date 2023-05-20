@@ -11,10 +11,11 @@
     border-radius: 10px;
     transition: .5s ease;
     color: #ffffff;
+    margin-bottom: 10px;
 }
 
 .list-menu a:hover {
-    background: #6f6f6f;
+    background: #393939;
 }
 
 .list-menu ul li .icon{
@@ -23,5 +24,10 @@
 
 .list-menu ul li .txt-link {
     margin-left: 20px;
-    font-size: 20px;
+    font-size: 1.1em;
+}
+
+.list-menu .menu-more-sidebar {
+    position: fixed;
+    bottom: 0;
 }
