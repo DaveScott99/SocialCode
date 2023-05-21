@@ -8,7 +8,6 @@ import UserService from './services/UserService';
 
 import './App.css'
 import RoutesFree from './Routes/RoutesFree';
-import UnauthorizedRequest from './pages/UnauthorizedRequest/UnauthorizedRequest';
 
 const userService = new UserService();
 

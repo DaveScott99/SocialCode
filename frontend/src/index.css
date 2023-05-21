@@ -13,15 +13,11 @@
 }
 
 :root {
-  --white: #fff;
-  --whitesmoke: #f9f9f9;
-  --light-grey: #ececec;
-  --medium-gray: #a7a7a7;
-  --deep-gray: #343434;
-  --background-app: #151515;
-  --black: #000000;
-  --orange: #ff9100;
-  --red-light: #ff2c19b0;
-  --red: #FF2E19;
-  --gray: #c4c4c4;
+  --text-dark: #F2F2F2;
+  --text-white: #333;
+  --border: #dbdbdb25;
+  --button-primary: #6F23D9;
+  --button-primary-hover: #4703a6d8;
+  --background-dark: #010102;
+  --background-input: #202327;
 }

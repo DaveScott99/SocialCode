@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
+import Input from "../Input/Input";
+import Button from "../Button/Button";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import UserService from "../../services/UserService";
 import { validateEmail, validatePassword } from "../../utils/Validators";
-import Button from "../../components/Button/Button"
-import { toast } from "react-toastify";
-
-import './Login.css';
 
 const userService = new UserService();
 
-export default function Login() {
+export default function FormLogin({ className }) {
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState();
     const [loginUser, setLoginUser] = useState({
@@ -65,26 +66,14 @@ export default function Login() {
     }
 
     return(
-        <section id="form-section" className="form-container">
-            <h1 className="login_title">Fazer login</h1>
-            <div className="card-form">
-                <form name="newLogin">
-                    <div className="error-login" data-error="login">E-mail ou senha incorretos</div>
-                    <div>
-                        <label htmlFor="email" className="login_label">Email</label> 
-                        <input name="email" id="email" className="form-input" type="email"  onChange={onChange}/>
-                    </div>
-                    <div> 
-                        <label htmlFor="password" className="login_label">Senha</label>
-                        <input name="password" id="password" className="form-input" type="password" onChange={onChange}/>
-                        <div className="error-message" data-error="password"></div>
-                    </div>
-                    <div className="btn-container">
-                        <Button name="btnLogin" className="btn" type="submit" text="Logar" onClick={handleSubmitLogin} disabled={loading === true || !validatorInput()} />
-                    </div>
-                    <Link to="/register" className="login_link">Criar conta</Link>
-                </form>
-            </div>
-        </section>
+        <form className="form-credentials" >
+
+
+            <Input name="email" type="email" className={className} placeholder="Email" onChange={onChange}/>
+            <Input name="password" type="password" className={className} placeholder="Senha" onChange={onChange} />
+
+            <Button text='Entrar' type="submit" className="btn-form" onClick={handleSubmitLogin} disabled={loading === true || !validatorInput()} />
+
+        </form>
     );
 };

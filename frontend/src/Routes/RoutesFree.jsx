@@ -1,13 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
-import Login from "../pages/Login/Login";
-import Register from "../pages/Register/Register";
+import Authentication from '../pages/Authentication/Authentication';
 
 
 export default function RoutesFree() {
     return(
         <Routes>
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/authentication" element={<Authentication />} />
         </Routes>
     )
 }
