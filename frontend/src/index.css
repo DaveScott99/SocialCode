@@ -15,9 +15,13 @@
 :root {
   --text-dark: #F2F2F2;
   --text-white: #333;
+  --text-link: #9E82FC;
   --border: #dbdbdb25;
-  --button-primary: #6F23D9;
-  --button-primary-hover: #4703a6d8;
+  --border-image: #ffffff67;
+  --button-primary: #7f4bf6;
+  --button-primary-hover: #7e4bf6cc;
   --background-dark: #010102;
-  --background-input: #202327;
+  --background-dark-secondary: #202327;
+  --hover: #55555566;
+  --hover-secondary: #5555553f;
 }

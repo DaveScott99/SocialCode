@@ -19,7 +19,7 @@ export default function Menu(){
         <div className="list-menu">
             <ul>
                 <li>
-                    <Link to="/home">
+                    <Link to="/">
                         <span className="icon"><AiOutlineHome /></span>
                         <span className="txt-link">Home</span>
                     </Link>
@@ -31,17 +31,10 @@ export default function Menu(){
                     </Link>
                 </li>
                 <li>
-                    {authenticatedUser ?
-                                        <Link to={"/dashboard/user"}>
-                                            <span className="icon"><BiUserCircle /></span>
-                                            <span className="txt-link">Perfil</span>
-                                        </Link>
-                                        :
-                                        <Link to="/login">
-                                            <span className="icon"><RiLoginBoxLine /></span>
-                                            <span className="txt-link">Login</span>
-                                        </Link>
-                    }
+                    <Link to={"/profile"}>
+                        <span className="icon"><BiUserCircle /></span>
+                        <span className="txt-link">Perfil</span>
+                    </Link>
                 </li>
                 <li className="menu-more-sidebar">
                     {authenticatedUser ?

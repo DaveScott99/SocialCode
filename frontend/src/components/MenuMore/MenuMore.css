@@ -7,20 +7,19 @@
 }
 
 .menu-more #sub-menu-more {
-    background-color: #1d1d1d;
+    background-color: var(--background-dark-secondary);
     border-radius: 10px;
     padding: 10px;
     display: none;
 }
 
 .menu-more .button-more {
-    color: #000;
     padding: 10px 120px 10px 10px;
     display: flex;
     line-height: 25px;
     border-radius: 10px;
     transition: .5s ease;
-    color: #ffffff;
+    color: var(--text-dark);
     background: none;
     border: none;
     cursor: pointer;
@@ -31,7 +30,7 @@
 }
 
 .menu-more .button-more:hover {
-    background: #393939;
+    background: var(--hover-secondary);
 }
 
 .list-menu ul li button .icon{

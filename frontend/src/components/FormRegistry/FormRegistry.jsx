@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import UserService from "../../services/UserService";
 import { validateConfirmPassword, validateEmail, validateName, validatePassword } from "../../utils/Validators";
@@ -35,7 +35,7 @@ export default function FormRegistry({ className }) {
 
                     if(responseLogin === true){
                         alert('Usuário cadastrado com sucesso!');
-                        navigate('/home');
+                        navigate('/');
                     }
                 }
                 setLoading(false);

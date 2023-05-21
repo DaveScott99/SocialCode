@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserService from './services/UserService';
 
 import './App.css'
-import RoutesFree from './Routes/RoutesFree';
+import Authentication from './pages/Authentication/Authentication';
 
 const userService = new UserService();
 
@@ -39,7 +39,7 @@ function App() {
 
                             </div>
                             :
-                            <RoutesFree />
+                            <Authentication />
         }
       </BrowserRouter>
     </>

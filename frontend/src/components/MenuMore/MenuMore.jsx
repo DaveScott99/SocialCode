@@ -36,7 +36,7 @@ export default function MenuMore() {
 
     const logout = () => {
         userService.logout();
-        navigate('/login');
+        navigate('/authentication');
         window.location.reload();
     }
 

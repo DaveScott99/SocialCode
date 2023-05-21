@@ -9,8 +9,8 @@ export default function NavBar() {
     return(
         <div className="container-sidebar">
           <div className="logo-app">
-            <Link to="/home">
-              <b>ParaCodar</b>
+            <Link to="/">
+              <b>SocialCode</b>
             </Link>
           </div>
 

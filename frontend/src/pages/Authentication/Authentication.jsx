@@ -14,13 +14,15 @@ export default function Authentication() {
 
     return(
         <div className="container-page">
+
+
             
             <article className="image-container">
                 <img src="#" alt="IMAGEM" />
             </article>
 
             <article className="card-form">
-
+           
                 <div className="logo-app">
                     <h1>SocialCode</h1>
                 </div>

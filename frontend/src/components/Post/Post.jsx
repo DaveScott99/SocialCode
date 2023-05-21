@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { BsShare } from "react-icons/bs"
+import { IoIosShareAlt } from "react-icons/io"
 import { BiCommentDetail } from "react-icons/bi"
-import { AiOutlineHeart } from "react-icons/ai"
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 
 import './Post.css'
 import PostService from "../../services/PostService";
@@ -13,6 +13,20 @@ export default function Post({ postData }){
 
         /* useState para armazenar os posts que vem da API */
         const [posts, setPost] = useState([]);
+
+        const [liked, setLiked] = useState(true);
+        const [likes, setLikes] = useState(0);
+
+        const clickLike = () => {
+            setLiked(!liked);
+            if (liked) {
+                setLikes(likes + 1);
+            }
+            else {
+                setLikes(likes - 1);
+            }
+
+        }
 
         /* Função para resgatar os POSTS da API e alocar no useState */
         const getPosts = async () => {
@@ -29,14 +43,15 @@ export default function Post({ postData }){
         <div className="container-post">
             {posts.map((post) => (
                 <div className="post" key={post.id}>
+                    
                     <div className="header-post">
 
                         <div className="user-data">
                             <img src={post.user.userImg} alt=""  className="user-image"/>
 
                             <div className="user-texts">
-                                <span className="user-name">{post.user.name} </span>
-                                <span className="post-date">{post.instant}</span>
+                                <span className="user-name">{post.user.name} ·</span>
+                                <div className="post-date">{post.instant}</div> 
                             </div>
 
                         </div>
@@ -44,13 +59,31 @@ export default function Post({ postData }){
                     </div>  
 
                     <div className="img-post">
-                    <img src={post.coverImg} alt="Imagem do POST" />
+                        <img src={post.coverImg} alt="Imagem do POST" />
                     </div>
 
                     <div className="footer-post">
-                        <span><AiOutlineHeart /></span>
-                        <span><BiCommentDetail /></span>
-                        <span><BsShare /></span>
+
+                        <div className="interactios-button">
+                            <div className="center-box" onClick={clickLike}>
+                                { 
+                                    liked
+                                        ?
+                                        <AiOutlineHeart className="icon-interaction" />
+                                        :
+                                        <AiFillHeart className="icon-interaction" />
+                                } { likes }
+                            </div>
+
+                            <div className="center-box">
+                                <BiCommentDetail className="icon-interaction"/> 0
+                            </div>
+
+                            <div className="center-box">
+                                <IoIosShareAlt className="icon-interaction"/>
+                            </div>
+                        </div>
+        
                     </div>
                 </div>
         

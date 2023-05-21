@@ -51,7 +51,7 @@
     width: 70%;
     outline: none;
     margin-bottom: 10px;
-    background: var(--background-input);
+    background: var(--background-dark-secondary);
     border: 1px solid var(--border);
     border-radius: 3px;
     font-size: .8em;
@@ -76,7 +76,7 @@
 
 
 .container-page > .card-form > .form-credentials .btn-form:disabled {
-    background: var(--background-input);
+    background: var(--background-dark-secondary);
     cursor: auto;
 }
 
@@ -90,6 +90,7 @@
 
 .container-page > .card-form .toggle-render  {
     text-decoration: none;
-    color: var(--button-primary);
+    color: var(--text-link);
     cursor: pointer;
+    font-weight: bold;
 }

@@ -3,19 +3,18 @@
 }
 
 .list-menu a {
-    color: #000;
     text-decoration: none;
     padding: 10px 4%;
     display: flex;
     line-height: 30px;
     border-radius: 10px;
     transition: .5s ease;
-    color: #ffffff;
+    color: var(--text-dark);
     margin-bottom: 10px;
 }
 
 .list-menu a:hover {
-    background: #393939;
+    background: var(--hover);
 }
 
 .list-menu ul li .icon{
