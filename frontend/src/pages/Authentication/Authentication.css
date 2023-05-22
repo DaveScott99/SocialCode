@@ -6,17 +6,21 @@
     align-items: center;
     background: var(--background-dark);
     color: var(--text-dark);
-
 }
 
 .container-page > .image-container {
-    border: 1px solid red;
-    width: 400px;
+    width: 700px;
     height: 500px;
-    margin-right: 10px;
+    margin-right: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.container-page > .image-container > img {
+    width: 700px;
+    height: 500px;
+    padding: 10px;
 }
 
 .container-page > .card-form .logo-app {
@@ -44,7 +48,6 @@
     flex-direction: column;
     padding: 10px;
 }
-
 
 .container-page > .card-form > .form-credentials .form-input {
     padding: 10px;

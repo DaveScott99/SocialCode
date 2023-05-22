@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { IoIosShareAlt } from "react-icons/io"
 import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
-
-import './Post.css'
 import PostService from "../../services/PostService";
+import NewPost from "../NewPost/NewPost";
+
+import './Timeline.css'
 
 const postService = new PostService();
 
-export default function Post({ postData }){
+export default function Timeline({ postData }){
 
         /* useState para armazenar os posts que vem da API */
         const [posts, setPost] = useState([]);
@@ -41,6 +42,9 @@ export default function Post({ postData }){
 
     return (
         <div className="container-post">
+
+            <NewPost />
+
             {posts.map((post) => (
                 <div className="post" key={post.id}>
                     
@@ -57,6 +61,12 @@ export default function Post({ postData }){
                         </div>
 
                     </div>  
+
+                    <div className="text-content-container">
+                        <div className="text-contente">
+                            { post.body }
+                        </div>
+                    </div>
 
                     <div className="img-post">
                         <img src={post.coverImg} alt="Imagem do POST" />

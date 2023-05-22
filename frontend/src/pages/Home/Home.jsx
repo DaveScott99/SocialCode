@@ -1,13 +1,13 @@
 import React from 'react';
+import Timeline from '../../components/Timeline/Timeline';
 
 import './Home.css'
-import Post from '../../components/Post/Post';
 
 export default function Home() {
     return (
         <div className='home'>
             <div className='card-wrapper'>
-                <Post />
+                <Timeline />
             </div>
         </div>
     );

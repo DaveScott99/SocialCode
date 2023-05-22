@@ -1,13 +1,12 @@
 .container-post {
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--background-dark);
-    padding: 10px;
     border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
+    border-right: 1px solid var(--border);   
 }
 
 .container-post .post {
@@ -15,18 +14,7 @@
     margin-bottom: 30px;
     color: var(--text-dark);
     border-bottom: 1px solid var(--border);
-}
-
-.container-post .img-post {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-}
-
-.container-post img {
-    width: 90%;
-    border-radius: 10px;
-    border: 1px solid var(--border-image);
+    padding: 10px;
 }
 
 .container-post .header-post {
@@ -55,13 +43,27 @@
 }
 
 .container-post .header-post .user-texts .user-name {
-    font-weight: 500;
-    font-size: .8em;
+    font-weight: 700;
+    font-size: .9em;
     margin-right: 2px;
 }
 .container-post .header-post .user-texts .post-date {
     font-weight: 300;
-    font-size: .7em;
+    font-size: .9em;
+}
+
+.container-post .img-post {
+    width: 100%;
+}
+
+.container-post img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border-image);
+}
+
+.container-post .text-content-container {
+    padding: 10px 0px 10px 0px;
 }
 
 .container-post .footer-post {
@@ -74,7 +76,7 @@
 }
 
 .container-post .footer-post .interactios-button {
-    font-size: 1em;
+    font-size: 1.2em;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -91,8 +93,4 @@
 
 .container-post .footer-post .interactios-button .icon-interaction {
     margin-right: 10px;
-}
-
-.container-post .footer-post  span {
-    font-size: 1em;
 }

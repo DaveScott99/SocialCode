@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-
-import './Authentication.css';
 import FormRegistry from "../../components/FormRegistry/FormRegistry";
 import FormLogin from "../../components/FormLogin/FormLogin";
+
+import LoginImage from "../../assets/login-image.svg";
+
+import './Authentication.css';
 
 export default function Authentication() {
 
@@ -18,7 +20,7 @@ export default function Authentication() {
 
             
             <article className="image-container">
-                <img src="#" alt="IMAGEM" />
+                <img src={LoginImage} alt="Imagem login" />
             </article>
 
             <article className="card-form">
