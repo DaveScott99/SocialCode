@@ -15,9 +15,14 @@ const validateConfirmPassword = (password, confirmPassword) => {
     return validatePassword(password) && password === confirmPassword;
 }
 
+const validateTextPost = (text) => {
+    return text?.toString().length > 1;
+}
+
 export {
     validateEmail,
     validatePassword,
     validateName,
-    validateConfirmPassword
+    validateConfirmPassword,
+    validateTextPost
 }

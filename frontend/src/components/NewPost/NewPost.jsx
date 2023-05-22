@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import UserService from "../../services/UserService";
+import PostService from "../../services/PostService";
+import { validateTextPost } from "../../utils/Validators";
 
 import './NewPost.css';
-import Textarea from "../Textarea/Textarea";
 
 const userService = new UserService();
+const postService = new PostService();
 
 export default function NewPost() {
 
+    const [loading, setLoading] = useState(true);
     const [user, setUser] = useState();
+    const [post, setPost] = useState({
+        body: '',
+        user: {
+            id: localStorage.getItem("id")
+        }
+    });
 
     const findUser = async () => {
         const data =  await userService.findUserById(localStorage.getItem("id"));
@@ -19,6 +28,27 @@ export default function NewPost() {
     useEffect(() => {
         findUser();
     }, [user])
+
+    /*Função para resgatar o oque foi digitado pelo usuário nos INPUTS, referenciando
+    sempre pelo NAME do input e o seu valor */
+    const onChange = (event) => {
+        setLoading(false);
+        const { name, value } = event.target;
+        setPost({ ...post, [name]: value});
+    }
+
+    const handleResize = (event) => {
+        event.target.style.height = 'auto';
+        event.target.style.height = `${event.target.scrollHeight}px`;
+    }
+
+    const insertPost = async () => {
+        await postService.insert(post);
+    }
+
+    const validatorInput = () => {
+        return validateTextPost(post.body);
+    }
 
     if(!user) return null;
 
@@ -32,12 +62,24 @@ export default function NewPost() {
 
             <div className="body">
                 <div className="text-area-container">
-                    <Textarea name="text-post" placeholder="O que está pensando?" className="text-area"/>
+                    <textarea 
+                        name="body" 
+                        placeholder="O que está pensando?" 
+                        className="text-area" 
+                        onChange={onChange} 
+                        onInput={handleResize}
+                    />
                 </div>
 
                 <div className="footer">
                     <div className="footer-container">
-                        <Button type="submit" text="Criar" className="button-create"/>
+                        <Button 
+                            type="submit" 
+                            text="Criar" 
+                            className="button-create"
+                            onClick={insertPost} 
+                            disabled={loading === true || !validatorInput()}
+                        />
                     </div>
                 </div>
             </div>

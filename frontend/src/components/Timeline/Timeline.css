@@ -22,7 +22,6 @@
 
 .container-post .post {
     width: 100%;
-    margin-bottom: 30px;
     color: var(--text-dark);
     border-bottom: 1px solid var(--border);
     padding: 10px;

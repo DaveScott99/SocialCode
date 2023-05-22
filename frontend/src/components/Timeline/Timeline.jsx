@@ -73,7 +73,7 @@ export default function Timeline({ postData }){
                     </div>
 
                     <div className="img-post">
-                        <img src={post.coverImg} alt="Imagem do POST" />
+                        <img src="/"alt="" />
                     </div>
 
                     <div className="footer-post">

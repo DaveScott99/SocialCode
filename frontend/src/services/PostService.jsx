@@ -27,11 +27,7 @@ export default class PostService {
     async findAll() {
         try {
             const { data } = await this.axios.get("/post");
-
-            
-
             return data;
-    
         }
         catch (err) {
             alert("ops, algo deu errado ao carregar os posts");
