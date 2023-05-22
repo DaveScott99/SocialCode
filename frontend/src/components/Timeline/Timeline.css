@@ -1,12 +1,23 @@
 .container-post {
-    width: 100%;
+    width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: var(--background-dark);
     border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);   
+    border-right: 1px solid var(--border);
+}
+
+.container-post .container-header-timeline {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.container-post .container-header-timeline > h1 {
+    font-size: 1.5em;
 }
 
 .container-post .post {
@@ -15,6 +26,7 @@
     color: var(--text-dark);
     border-bottom: 1px solid var(--border);
     padding: 10px;
+    flex: 1 0 auto;
 }
 
 .container-post .header-post {
@@ -59,7 +71,6 @@
 .container-post img {
     width: 100%;
     border-radius: 10px;
-
 }
 
 .container-post .text-content-container {

@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import UserService from "../../services/UserService";
 
 import './NewPost.css';
+import Textarea from "../Textarea/Textarea";
 
 const userService = new UserService();
 
@@ -31,7 +32,7 @@ export default function NewPost() {
 
             <div className="body">
                 <div className="text-area-container">
-                    <textarea className="text-area" name="text" placeholder="O que está pensando?" />
+                    <Textarea name="text-post" placeholder="O que está pensando?" className="text-area"/>
                 </div>
 
                 <div className="footer">

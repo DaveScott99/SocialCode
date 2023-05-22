@@ -38,8 +38,14 @@ export default function PreviewProfile() {
                     <span>Bio</span>
                 </dir>
 
-                <div className="edit-profile">
-                    <Button text="Editar Pefil" type="button" className="btn-edit-profile"/>
+                <div className="container-followers">
+                    <span className="followers">
+                        0 Seguidores
+                    </span>
+                    ·
+                    <span className="following">
+                        0 Seguindo
+                    </span>
                 </div>
 
             </div>

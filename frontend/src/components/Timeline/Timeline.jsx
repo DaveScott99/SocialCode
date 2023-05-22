@@ -42,6 +42,10 @@ export default function Timeline({ postData }){
 
     return (
         <div className="container-post">
+            
+            <header className="container-header-timeline">
+                <h1>Página Inicial</h1>
+            </header>
 
             <NewPost />
 

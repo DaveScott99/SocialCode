@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx"
+import { BsGearWideConnected } from "react-icons/bs"
 import UserService from "../../services/UserService";
 import { useNavigate } from "react-router";
 
@@ -48,6 +49,8 @@ export default function MenuMore() {
             </button>
 
             <div className="dropdown-content" style={style}>
+                <span><BsGearWideConnected className="icon-sub-menu" /> Configurações</span>
+                <hr className="line-separetor" />
                 <span onClick={logout}>Sair</span>
             </div>
 

@@ -14,6 +14,7 @@
 
 .container-preview-profile > .container-data-user {
     width: 100%;
+    padding: 0px 0px 0px 10px;
 }
 
 .container-preview-profile > .container-data-user .name-user {
@@ -33,27 +34,23 @@
 
 .container-preview-profile > .container-data-user .bio-user {
     margin-top: 10px;
-    margin-bottom: 10px;
     font-size: .9em;
     font-weight: 300;
 }
 
-.container-preview-profile > .container-data-user .edit-profile {
-    padding: 5px;
+.container-preview-profile > .container-data-user .container-followers {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
 }
 
-.container-preview-profile > .container-data-user .edit-profile > .btn-edit-profile {
-    width: 100%;
-    padding: 10px;
-    background: var(--button-primary);
-    border-radius: 5px;
-    border: none;
-    color: var(--text-dark);
-    font-size: .6;
-    font-weight: bold;
-    cursor: pointer;
+.container-preview-profile > .container-data-user .container-followers > .followers {
+    font-size: .9em;
+    margin-right: 5px;
 }
 
-.container-preview-profile > .container-data-user .edit-profile > .btn-edit-profile:hover {
-    background: var(--button-primary-hover);
+.container-preview-profile > .container-data-user .container-followers > .following {
+    font-size: .9em;
+    margin-left: 5px;
 }
