@@ -2,19 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai"
 import { BiUserCircle } from "react-icons/bi"
-import { RiLoginBoxLine } from "react-icons/ri"
 import { BsPlusSquare } from "react-icons/bs"
-import UserService from "../../../services/UserService"
+import MenuMore from "../MenuMore/MenuMore";
 
 import './Menu.css'
-import MenuMore from "../../MenuMore/MenuMore";
 
-const userService = new UserService();
-
-export default function Menu(){
-
-    const authenticatedUser = userService.authenticatedUser();
-    
+export default function Menu(){    
     return (
         <div className="list-menu">
             <ul>
@@ -35,13 +28,6 @@ export default function Menu(){
                         <span className="icon"><BiUserCircle /></span>
                         <span className="txt-link">Perfil</span>
                     </Link>
-                </li>
-                <li className="menu-more-sidebar">
-                    {authenticatedUser ?
-                                        <MenuMore className="menu-more-button" />
-                                        :
-                                        null                       
-                    }    
                 </li>
             </ul>
         </div>

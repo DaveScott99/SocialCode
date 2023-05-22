@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BiMenu } from "react-icons/bi"
+import { BsGear } from "react-icons/bs"
 import UserService from "../../services/UserService";
+import { useNavigate } from "react-router";
 
 import './MenuMore.css'
-import { useNavigate } from "react-router";
 
 const userService = new UserService();
 
@@ -42,18 +42,15 @@ export default function MenuMore() {
 
     return (
         <div className="menu-more" ref={subMenuRef}>
-                                            
-            <div id="sub-menu-more" style={style} >
-                <button className="button-more" onClick={logout}>
-                    <span className="txt-link">Sair</span>
-                </button>
-            </div>
-    
-            <button className="button-more" onClick={handleClickShowSubMenu}>
-                <span className="icon"><BiMenu /></span>
-                <span className="txt-link">Mais</span>
+
+            <button className="drop-btn" onClick={handleClickShowSubMenu}>
+                <BsGear />
             </button>
-        
+
+            <div className="dropdown-content" style={style}>
+                <span onClick={logout}>Sair</span>
+            </div>
+
         </div>
     );
 } 

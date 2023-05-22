@@ -1,10 +1,10 @@
 import React from "react"
-import Menu from "./Menu/Menu";
 import { Link } from "react-router-dom";
+import Menu from "../Menu/Menu";
 
-import './NavBar.css'
+import './Sidebar.css'
 
-export default function NavBar() {
+export default function Sidebar() {
 
     return(
         <div className="container-sidebar">

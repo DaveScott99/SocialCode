@@ -1,6 +1,5 @@
 import React from 'react';
 import RoutesApp from './Routes/RoutesApp';
-import NavBar from './components/NavBar/NavBar';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,6 +7,8 @@ import UserService from './services/UserService';
 
 import './App.css'
 import Authentication from './pages/Authentication/Authentication';
+import Sidebar from './components/Sidebar/Sidebar';
+import Header from './components/Header/Header';
 
 const userService = new UserService();
 
@@ -24,7 +25,7 @@ function App() {
                             <div className="wrapper">
 
                               <header className='header'>
-                                <p>Header</p>
+                                <Header />
                               </header>
 
                               <main className="main">
@@ -33,7 +34,7 @@ function App() {
 
                               <aside className="l-sidebar">
                                   <div className='content-sidebar'>
-                                    <NavBar />
+                                    <Sidebar />
                                   </div>
                               </aside>
 

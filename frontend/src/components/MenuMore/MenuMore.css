@@ -1,43 +1,39 @@
 .menu-more {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
-    flex-direction: column;
+    display: inline-block;
 }
 
-.menu-more #sub-menu-more {
-    background-color: var(--background-dark-secondary);
-    border-radius: 10px;
-    padding: 10px;
-    display: none;
-}
-
-.menu-more .button-more {
-    padding: 10px 120px 10px 10px;
-    display: flex;
-    line-height: 25px;
-    border-radius: 10px;
-    transition: .5s ease;
-    color: var(--text-dark);
+.menu-more .drop-btn {
     background: none;
     border: none;
+    color: var(--text-dark);
+    font-size: 2em;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
 }
 
-.menu-more .button-more:hover {
+.dropdown-content {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--background-dark-secondary);
+    min-width: 160px;
+    z-index: 1;
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dropdown-content span {
+    color: var(--text-dark);
+    font-weight: bold;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.dropdown-content span:hover {
     background: var(--hover-secondary);
-}
-
-.list-menu ul li button .icon{
-    font-size: 30px;
-}
-
-.list-menu ul li button .txt-link {
-    margin-left: 10px;
-    font-size: 1.3em;
 }
