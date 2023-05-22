@@ -20,13 +20,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--border-image);
+    border: none;
 }
 
 .container-create > .header .user-image > img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    border: none;
 }
 
 .container-create > .body {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BsGear } from "react-icons/bs"
+import { RxHamburgerMenu } from "react-icons/rx"
 import UserService from "../../services/UserService";
 import { useNavigate } from "react-router";
 
@@ -44,7 +44,7 @@ export default function MenuMore() {
         <div className="menu-more" ref={subMenuRef}>
 
             <button className="drop-btn" onClick={handleClickShowSubMenu}>
-                <BsGear />
+                <RxHamburgerMenu className="more-icon" /> <span className="more-text">Mais</span> 
             </button>
 
             <div className="dropdown-content" style={style}>

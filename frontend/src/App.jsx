@@ -8,7 +8,6 @@ import UserService from './services/UserService';
 import './App.css'
 import Authentication from './pages/Authentication/Authentication';
 import Sidebar from './components/Sidebar/Sidebar';
-import Header from './components/Header/Header';
 
 const userService = new UserService();
 
@@ -23,10 +22,6 @@ function App() {
         {
           authenticatedUser ? 
                             <div className="wrapper">
-
-                              <header className='header'>
-                                <Header />
-                              </header>
 
                               <main className="main">
                                   <RoutesApp />

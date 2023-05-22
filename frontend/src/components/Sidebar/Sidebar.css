@@ -1,15 +1,20 @@
 .container-sidebar {
-    padding: 20px 10px 0px 10px;
-
+    padding: 20px 5px 0px 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 .container-sidebar .logo-app {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: center;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container-sidebar .logo-app a {
     text-decoration: none;
     font-size: 1.5em;
-    color: #ffffff;
+    color: var(--text-dark);
 }
