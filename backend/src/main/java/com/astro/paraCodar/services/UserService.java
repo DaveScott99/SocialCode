@@ -62,7 +62,10 @@ public class UserService {
 	}
 	
 	private void copyDtoToEntity(UserDTO dto, User entity) {
-			entity.setName(dto.getName());
+			entity.setFirstName(dto.getFirsName());
+			entity.setLastName(dto.getLastName());
+			entity.setUsername(dto.getUsername());
+			entity.setBiography(dto.getBiography());
 			entity.setUserImg(dto.getUserImg());
 			entity.setEmail(dto.getEmail());
 			entity.setPassword(dto.getPassword());

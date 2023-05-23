@@ -6,6 +6,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,9 +22,25 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	
+	@Column(name="first_name", nullable = false, length = 120)
+	private String firstName;
+	
+	@Column(name="last_name", nullable = false, length = 120)
+	private String lastName;
+	
+	@Column(unique = true, nullable = false, length = 150)
+	private String username;
+	
+	@Column(nullable = true, length = 255)
+	private String biography;
+	
 	private String userImg;
+	
+	@Column(unique = true, nullable = false, updatable = false)
 	private String email;
+	
+	@Column(nullable = false)
 	private String password;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
@@ -33,9 +50,13 @@ public class User {
 	public User() {
 	}
 
-	public User(Long id, String name, String userImg, String email, String password) {
+	public User(Long id, String firstName, String lastName, String username, String biography, String userImg, String email,
+			String password) {
 		this.id = id;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.biography = biography;
 		this.userImg = userImg;
 		this.email = email;
 		this.password = password;
@@ -49,12 +70,36 @@ public class User {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getBiography() {
+		return biography;
+	}
+
+	public void setBiography(String biography) {
+		this.biography = biography;
 	}
 
 	public String getUserImg() {
@@ -72,7 +117,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}

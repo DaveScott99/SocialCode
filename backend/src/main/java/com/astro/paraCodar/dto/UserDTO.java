@@ -9,7 +9,10 @@ public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String name;
+	private String firsName;
+	private String lastName;
+	private String username;
+	private String biography;
 	private String userImg;
 	private String email;
 	private String password;
@@ -19,7 +22,10 @@ public class UserDTO implements Serializable {
 	
 	public UserDTO(User entity) {
 		id = entity.getId();
-		name = entity.getName();
+		firsName = entity.getFirstName();
+		lastName = entity.getLastName();
+		username = entity.getUsername();
+		biography = entity.getBiography();
 		userImg = entity.getUserImg();
 		email = entity.getEmail();
 		password = entity.getPassword();
@@ -29,8 +35,20 @@ public class UserDTO implements Serializable {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirsName() {
+		return firsName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getBiography() {
+		return biography;
 	}
 
 	public String getUserImg() {
