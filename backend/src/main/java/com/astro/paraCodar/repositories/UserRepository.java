@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.astro.paraCodar.entities.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 	
 	Optional<User> findByEmailAndPassword(String email, String password); 
 	User findByEmail(String email);

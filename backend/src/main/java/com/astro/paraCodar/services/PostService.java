@@ -1,6 +1,6 @@
 package com.astro.paraCodar.services;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class PostService {
 	private ComentRepository comentRepository;
 	
 	@Transactional(readOnly = true)
-	public PostDTO findById(Long id) {
+	public PostDTO findById(String id) {
 		Post result = postRepository.findById(id).get();
 		return new PostDTO(result);
 	}
@@ -38,7 +38,7 @@ public class PostService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PostDTO> findPostsByUser(Long id) {
+	public List<PostDTO> findPostsByUser(String id) {
 		List<Post> posts = postRepository.findPostByUserId(id);
 		return posts.stream().map(x -> new PostDTO(x)).toList();
 	}
@@ -47,13 +47,13 @@ public class PostService {
 	public PostDTO insert(PostDTO dto) {
 		Post entity = new Post();
 		copyDtoToEntity(dto, entity);
-		entity.setInstant(LocalDate.now());
+		entity.setCreationDate(LocalDateTime.now());
 		entity = postRepository.save(entity);	
 		return new PostDTO(entity);
 	}
 	
 	@Transactional
-	public PostDTO update(Long id, PostDTO dto) {
+	public PostDTO update(String id, PostDTO dto) {
 		try {
 			Post post = postRepository.getReferenceById(id);
 			copyDtoToEntity(dto, post);
@@ -66,25 +66,23 @@ public class PostService {
 	}
 	
 	@Transactional
-	public void incrementLike(Long id) {
+	public void incrementLike(String id) {
 		Post post = postRepository.getReferenceById(id);
 		post.incrementLikes();
 		update(id, new PostDTO(post));
 	}
 	
 	@Transactional
-	public void decrementLike(Long id) {
+	public void decrementLike(String id) {
 		Post post = postRepository.getReferenceById(id);
 		post.decrementLikes();
 		update(id, new PostDTO(post));
 	}
 	
 	private void copyDtoToEntity(PostDTO dto, Post entity) {
-		entity.setId(dto.getId());
-		entity.setTitle(dto.getTitle());
-		entity.setCoverImg(dto.getCoverImg());
+		entity.setImagePost(dto.getImagePost());
 		entity.setBody(dto.getBody());
-		entity.setInstant(dto.getInstant());
+		entity.setCreationDate(dto.getCreationDate());
 		entity.setUser(dto.getUser());
 		
 		entity.getComents().clear();

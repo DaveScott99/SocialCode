@@ -1,4 +1,4 @@
-package com.astro.paraCodar.dto;
+package com.astro.paraCodar.dto.response;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ public class UserMinDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -29,7 +29,7 @@ public class UserMinDTO implements Serializable{
 		email = entity.getEmail();
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	

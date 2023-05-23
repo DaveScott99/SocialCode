@@ -1,6 +1,6 @@
 package com.astro.paraCodar.utils;
 
-import com.astro.paraCodar.dto.UserMinDTO;
+import com.astro.paraCodar.dto.response.UserMinDTO;
 
 public class LoginMessage {
 	

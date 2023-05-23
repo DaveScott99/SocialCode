@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.astro.paraCodar.dto.LoginDTO;
+import com.astro.paraCodar.dto.request.LoginDTO;
 import com.astro.paraCodar.services.LoginService;
 import com.astro.paraCodar.utils.LoginMessage;
 

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.astro.paraCodar.dto.UserDTO;
-import com.astro.paraCodar.dto.UserMinDTO;
+import com.astro.paraCodar.dto.response.UserDTO;
+import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.services.UserService;
 
 @RestController
@@ -33,7 +33,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserMinDTO> findById(@PathVariable Long id){
+	public ResponseEntity<UserMinDTO> findById(@PathVariable String id){
 		UserMinDTO user = userService.findById(id);
 		return ResponseEntity.ok().body(user);
 	}
@@ -46,7 +46,7 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> update(@RequestParam Long id, @RequestBody UserDTO dto){
+	public ResponseEntity<UserDTO> update(@RequestParam String id, @RequestBody UserDTO dto){
 		UserDTO user = userService.update(id, dto);
 		return ResponseEntity.ok().body(user);
 	}

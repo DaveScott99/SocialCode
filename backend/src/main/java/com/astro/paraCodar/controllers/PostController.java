@@ -24,7 +24,7 @@ public class PostController {
 	private PostService postService;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<PostDTO> findById(@PathVariable Long id){
+	public ResponseEntity<PostDTO> findById(@PathVariable String id){
 		PostDTO post = postService.findById(id);
 		return ResponseEntity.ok().body(post);
 	}
@@ -36,7 +36,7 @@ public class PostController {
 	}
 	
 	@GetMapping(value = "/usersPost/{userId}")
-	public ResponseEntity<List<PostDTO>> findAll(@PathVariable Long userId) {
+	public ResponseEntity<List<PostDTO>> findAll(@PathVariable String userId) {
 		List<PostDTO> posts = postService.findPostsByUser(userId);
 		return ResponseEntity.ok().body(posts);
 	}
@@ -49,13 +49,13 @@ public class PostController {
 	}
 	
 	@PostMapping("/{id}/like")
-	public ResponseEntity<Void> like(@PathVariable Long id) {
+	public ResponseEntity<Void> like(@PathVariable String id) {
 		postService.incrementLike(id);
 		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping("/{id}/dislike")
-	public ResponseEntity<Void> dislike(@PathVariable Long id) {
+	public ResponseEntity<Void> dislike(@PathVariable String id) {
 		postService.decrementLike(id);
 		return ResponseEntity.ok().build();
 	}

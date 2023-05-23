@@ -1,7 +1,11 @@
 package com.astro.paraCodar.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,39 +13,43 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "ID", nullable = false, unique = true)
+	private final String id = UUID.randomUUID().toString();
 	
-	@Column(name="first_name", nullable = false, length = 120)
+	@Column(name="FIRST_NAME", nullable = false, length = 120)
 	private String firstName;
 	
-	@Column(name="last_name", nullable = false, length = 120)
+	@Column(name="LAST_NAME", nullable = false, length = 120)
 	private String lastName;
 	
-	@Column(unique = true, nullable = false, length = 150)
+	@Column(name="USERNAME", unique = true, nullable = false, length = 150)
 	private String username;
 	
-	@Column(nullable = true, length = 255)
+	@Column(name="BIOGRAPHY", nullable = true, length = 255)
 	private String biography;
 	
+	@Column(name="USER_IMG", nullable = true, columnDefinition = "TEXT")
 	private String userImg;
 	
-	@Column(unique = true, nullable = false, updatable = false)
+	@Column(name="EMAIL", unique = true, nullable = false, updatable = false)
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(name="PASSWORD", nullable = false)
 	private String password;
+	
+	@Column(name = "REGISTRATION_MOMENT", nullable = false)
+	@CreationTimestamp
+	private LocalDateTime registrationMoment;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
@@ -50,9 +58,8 @@ public class User {
 	public User() {
 	}
 
-	public User(Long id, String firstName, String lastName, String username, String biography, String userImg, String email,
-			String password) {
-		this.id = id;
+	public User(@NotNull String firstName, @NotNull String lastName, @NotNull String username, String biography, String userImg, @NotNull String email,
+			@NotNull String password, LocalDateTime registrationMoment) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -60,14 +67,11 @@ public class User {
 		this.userImg = userImg;
 		this.email = email;
 		this.password = password;
+		this.registrationMoment = registrationMoment;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {

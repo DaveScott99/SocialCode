@@ -1,7 +1,7 @@
 package com.astro.paraCodar.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +13,9 @@ public class PostDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	private LocalDate instant;
-	private String title;
-	private String coverImg;
+	private String id;
+	private LocalDateTime creationDate;
+	private String imagePost;
 	private String body;
 	private Long likes;
 	
@@ -29,29 +28,24 @@ public class PostDTO implements Serializable {
 	
 	public PostDTO(Post entity) {
 		id = entity.getId();
-		instant = entity.getInstant();
-		title = entity.getTitle();
-		coverImg = entity.getCoverImg();
+		creationDate = entity.getCreationDate();
+		imagePost = entity.getImagePost();
 		body = entity.getBody();
 		user = entity.getUser();
 		entity.getComents().forEach(coment -> this.coments.add(coment));
 		likes = entity.getLikes();
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public LocalDate getInstant() {
-		return instant;
+	public LocalDateTime getCreationDate() {
+		return creationDate;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public String getCoverImg() {
-		return coverImg;
+	public String getImagePost() {
+		return imagePost;
 	}
 
 	public String getBody() {

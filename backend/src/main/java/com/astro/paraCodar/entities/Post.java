@@ -1,36 +1,40 @@
 package com.astro.paraCodar.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "post")
 public class Post {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private LocalDate instant;
-	private String title;
+	@Column(name = "ID", nullable = false, unique = true)
+	private final String id = UUID.randomUUID().toString();
 	
-	@Column(columnDefinition = "TEXT")
-	private String coverImg;
+	@Column(name = "CREATION_DATE", nullable = false)
+	@CreationTimestamp
+	private LocalDateTime creationDate;
 	
-	@Column(columnDefinition = "TEXT")
+	@Column(name = "IMAGE_POST", nullable = true, columnDefinition = "TEXT")
+	private String imagePost;
+	
+	@Column(name = "BODY", nullable = false, columnDefinition = "TEXT")
 	private String body;
 	
 	@ManyToOne
@@ -41,50 +45,40 @@ public class Post {
 	@JsonIgnoreProperties("post")
 	private List<Coment> coments = new ArrayList<>();
 	
+	@Column(name = "LIKES", nullable = false)
 	private Long likes = 0L;
 
 	public Post() {
 	}
 
-	public Post(Long id, LocalDate instant, String title, String coverImg, String body, Long likes) {
-		this.id = id;
-		this.instant = instant;
-		this.title = title;
-		this.coverImg = coverImg;
+	public Post(@NotNull LocalDateTime creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments,
+			@NotNull Long likes) {
+		this.creationDate = creationDate;
+		this.imagePost = imagePost;
 		this.body = body;
-		this.likes = 0L;
+		this.user = user;
+		this.coments = coments;
+		this.likes = likes;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
+	}	
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
 	}
 
-	public LocalDate getInstant() {
-		return instant;
+	public String getImagePost() {
+		return imagePost;
 	}
 
-	public void setInstant(LocalDate instant) {
-		this.instant = instant;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getCoverImg() {
-		return coverImg;
-	}
-
-	public void setCoverImg(String coverImg) {
-		this.coverImg = coverImg;
+	public void setImagePost(String imagePost) {
+		this.imagePost = imagePost;
 	}
 
 	public String getBody() {

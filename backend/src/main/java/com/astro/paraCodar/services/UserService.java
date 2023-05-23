@@ -8,8 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.astro.paraCodar.dto.UserDTO;
-import com.astro.paraCodar.dto.UserMinDTO;
+import com.astro.paraCodar.dto.response.UserDTO;
+import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.User;
 import com.astro.paraCodar.repositories.UserRepository;
 import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
@@ -33,7 +33,7 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public UserMinDTO findById(Long id){
+	public UserMinDTO findById(String id){
 		Optional<User> user = userRepository.findById(id);
 		User entity = user.orElseThrow(() -> new ControllerNotFoundException("Usuário não encontrado"));
 		return new UserMinDTO(entity);
@@ -49,7 +49,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO update(Long id, UserDTO dto){
+	public UserDTO update(String id, UserDTO dto){
 		try {
 			User user = userRepository.getReferenceById(id);
 			copyDtoToEntity(dto, user);

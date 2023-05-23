@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.astro.paraCodar.dto.LoginDTO;
-import com.astro.paraCodar.dto.UserMinDTO;
+import com.astro.paraCodar.dto.request.LoginDTO;
+import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.User;
 import com.astro.paraCodar.repositories.UserRepository;
 import com.astro.paraCodar.utils.LoginMessage;
