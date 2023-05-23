@@ -1,16 +1,20 @@
 package com.astro.paraCodar.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,16 +36,23 @@ public class Post {
 	@ManyToOne
 	@JsonIgnoreProperties("posts")
 	private User user;
+	
+	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("post")
+	private List<Coment> coments = new ArrayList<>();
+	
+	private Long likes = 0L;
 
 	public Post() {
 	}
 
-	public Post(Long id, LocalDate instant, String title, String coverImg, String body) {
+	public Post(Long id, LocalDate instant, String title, String coverImg, String body, Long likes) {
 		this.id = id;
 		this.instant = instant;
 		this.title = title;
 		this.coverImg = coverImg;
 		this.body = body;
+		this.likes = 0L;
 	}
 
 	public Long getId() {
@@ -90,6 +101,22 @@ public class Post {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public List<Coment> getComents() {
+		return coments;
+	}
+
+	public Long getLikes() {
+		return likes;
+	}
+	
+	public void incrementLikes() {
+		likes+=1;
+	}
+	
+	public void decrementLikes() {
+		likes-=1;
 	}
 
 	@Override

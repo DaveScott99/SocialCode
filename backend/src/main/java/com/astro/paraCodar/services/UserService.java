@@ -48,7 +48,7 @@ public class UserService {
 		return new UserDTO(user);		
 	}
 	
-	
+	@Transactional
 	public UserDTO update(Long id, UserDTO dto){
 		try {
 			User user = userRepository.getReferenceById(id);
@@ -62,7 +62,7 @@ public class UserService {
 	}
 	
 	private void copyDtoToEntity(UserDTO dto, User entity) {
-			entity.setFirstName(dto.getFirsName());
+			entity.setFirstName(dto.getFirstName());
 			entity.setLastName(dto.getLastName());
 			entity.setUsername(dto.getUsername());
 			entity.setBiography(dto.getBiography());

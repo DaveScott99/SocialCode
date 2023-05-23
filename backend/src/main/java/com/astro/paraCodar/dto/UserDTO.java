@@ -9,7 +9,7 @@ public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String firsName;
+	private String firstName;
 	private String lastName;
 	private String username;
 	private String biography;
@@ -22,7 +22,7 @@ public class UserDTO implements Serializable {
 	
 	public UserDTO(User entity) {
 		id = entity.getId();
-		firsName = entity.getFirstName();
+		firstName = entity.getFirstName();
 		lastName = entity.getLastName();
 		username = entity.getUsername();
 		biography = entity.getBiography();
@@ -35,8 +35,8 @@ public class UserDTO implements Serializable {
 		return id;
 	}
 
-	public String getFirsName() {
-		return firsName;
+	public String getFirstName() {
+		return firstName;
 	}
 
 	public String getLastName() {

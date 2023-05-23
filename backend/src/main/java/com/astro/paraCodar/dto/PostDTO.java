@@ -2,7 +2,10 @@ package com.astro.paraCodar.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.astro.paraCodar.entities.Coment;
 import com.astro.paraCodar.entities.Post;
 import com.astro.paraCodar.entities.User;
 
@@ -15,8 +18,11 @@ public class PostDTO implements Serializable {
 	private String title;
 	private String coverImg;
 	private String body;
+	private Long likes;
 	
 	private User user;
+	
+	private List<Coment> coments = new ArrayList<>();
 	
 	public PostDTO() {
 	}
@@ -28,6 +34,8 @@ public class PostDTO implements Serializable {
 		coverImg = entity.getCoverImg();
 		body = entity.getBody();
 		user = entity.getUser();
+		entity.getComents().forEach(coment -> this.coments.add(coment));
+		likes = entity.getLikes();
 	}
 
 	public Long getId() {
@@ -52,6 +60,14 @@ public class PostDTO implements Serializable {
 
 	public User getUser() {
 		return user;
+	}
+
+	public List<Coment> getComents() {
+		return coments;
+	}
+	
+	public Long getLikes() {
+		return likes;
 	}
 	
 }

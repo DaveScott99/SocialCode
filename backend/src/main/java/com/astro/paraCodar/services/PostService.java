@@ -8,14 +8,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.paraCodar.dto.PostDTO;
+import com.astro.paraCodar.entities.Coment;
 import com.astro.paraCodar.entities.Post;
+import com.astro.paraCodar.repositories.ComentRepository;
 import com.astro.paraCodar.repositories.PostRepository;
+import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 		
 @Service
 public class PostService {
 
 	@Autowired
 	private PostRepository postRepository;
+	
+	@Autowired
+	private ComentRepository comentRepository;
 	
 	@Transactional(readOnly = true)
 	public PostDTO findById(Long id) {
@@ -44,6 +52,33 @@ public class PostService {
 		return new PostDTO(entity);
 	}
 	
+	@Transactional
+	public PostDTO update(Long id, PostDTO dto) {
+		try {
+			Post post = postRepository.getReferenceById(id);
+			copyDtoToEntity(dto, post);
+			post = postRepository.save(post);
+			return new PostDTO(post);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ControllerNotFoundException("Id não encontrado " + id);
+		}
+	}
+	
+	@Transactional
+	public void incrementLike(Long id) {
+		Post post = postRepository.getReferenceById(id);
+		post.incrementLikes();
+		update(id, new PostDTO(post));
+	}
+	
+	@Transactional
+	public void decrementLike(Long id) {
+		Post post = postRepository.getReferenceById(id);
+		post.decrementLikes();
+		update(id, new PostDTO(post));
+	}
+	
 	private void copyDtoToEntity(PostDTO dto, Post entity) {
 		entity.setId(dto.getId());
 		entity.setTitle(dto.getTitle());
@@ -51,6 +86,13 @@ public class PostService {
 		entity.setBody(dto.getBody());
 		entity.setInstant(dto.getInstant());
 		entity.setUser(dto.getUser());
+		
+		entity.getComents().clear();
+		
+		for(Coment comentDto : dto.getComents()) {
+			Coment coment = comentRepository.getReferenceById(comentDto.getId());
+			entity.getComents().add(coment);
+		}
 	}
 	
 }
