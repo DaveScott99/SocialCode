@@ -11,6 +11,8 @@ import com.astro.paraCodar.dto.request.LoginDTO;
 import com.astro.paraCodar.services.LoginService;
 import com.astro.paraCodar.utils.LoginMessage;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -19,7 +21,7 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@PostMapping
-	public ResponseEntity<LoginMessage> login(@RequestBody LoginDTO loginDTO){
+	public ResponseEntity<LoginMessage> login(@Valid @RequestBody LoginDTO loginDTO){
 		LoginMessage message = loginService.loginUser(loginDTO);
 		return ResponseEntity.ok().body(message);
 	}

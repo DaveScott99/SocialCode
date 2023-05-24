@@ -1,13 +1,15 @@
 package com.astro.paraCodar.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.astro.paraCodar.dto.request.RegisterUserDTO;
 import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.User;
@@ -15,7 +17,6 @@ import com.astro.paraCodar.repositories.UserRepository;
 import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
-
 
 @Service
 public class UserService {
@@ -27,9 +28,9 @@ public class UserService {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Transactional(readOnly = true)
-	public List<UserDTO> findAll(){
-		List<User> users = userRepository.findAll();
-		return users.stream().map(x -> new UserDTO(x)).toList();
+	public Page<UserDTO> findAllPaged(Pageable Pageable){
+		Page<User> users = userRepository.findAll(Pageable);
+		return users.map(x -> new UserDTO(x));
 	}
 	
 	@Transactional(readOnly = true)
@@ -40,9 +41,9 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO insert(UserDTO dto) {
+	public UserDTO insert(RegisterUserDTO dto) {
 		User user = new User();
-		copyDtoToEntity(dto, user);
+		copyDtoToEntityInsert(dto, user);
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		user = userRepository.save(user);
 		return new UserDTO(user);		
@@ -52,7 +53,7 @@ public class UserService {
 	public UserDTO update(String id, UserDTO dto){
 		try {
 			User user = userRepository.getReferenceById(id);
-			copyDtoToEntity(dto, user);
+			copyDtoToEntityUpdate(dto, user);
 			user = userRepository.save(user);
 			return new UserDTO(user);
 		}
@@ -61,14 +62,27 @@ public class UserService {
 		}
 	}
 	
-	private void copyDtoToEntity(UserDTO dto, User entity) {
-			entity.setFirstName(dto.getFirstName());
-			entity.setLastName(dto.getLastName());
-			entity.setUsername(dto.getUsername());
-			entity.setBiography(dto.getBiography());
-			entity.setUserImg(dto.getUserImg());
-			entity.setEmail(dto.getEmail());
-			entity.setPassword(dto.getPassword());
+	
+	// Método para copiar os atributos do UserDTO para a entidade User
+	private void copyDtoToEntityUpdate(UserDTO dto, User entity) {
+		entity.setFirstName(dto.getFirstName());
+		entity.setLastName(dto.getLastName());
+		entity.setUsername(dto.getUsername());
+		entity.setBiography(dto.getBiography());
+		entity.setUserImg(dto.getUserImg());
+		entity.setEmail(dto.getEmail());
+		entity.setPassword(dto.getPassword());
+	}
+	
+	
+	// Método para copiar os atributos do RegisterUserDTO para a entidade User
+	private void copyDtoToEntityInsert(RegisterUserDTO dto, User entity) {
+		entity.setId(dto.getId());
+		entity.setFirstName(dto.getFirstName());
+		entity.setLastName(dto.getLastName());
+		entity.setUsername(dto.getUsername());
+		entity.setEmail(dto.getEmail());
+		entity.setPassword(dto.getPassword());
 	}
 	
 	

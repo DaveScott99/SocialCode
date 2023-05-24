@@ -9,12 +9,12 @@ import jakarta.validation.constraints.NotBlank;
 @JsonPropertyOrder(value = {"email", "password"})
 public class LoginDTO {
 
-	@NotBlank
+	@NotBlank(message = "Informe o seu email")
 	@Email
 	@JsonProperty(value = "email")
 	private String email;
 	
-	@NotBlank
+	@NotBlank(message = "Informe a sua senha")
 	@JsonProperty(value = "password")
 	private String password;
 	

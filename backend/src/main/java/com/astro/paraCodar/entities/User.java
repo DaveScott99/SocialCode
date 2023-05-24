@@ -24,7 +24,7 @@ public class User {
 
 	@Id
 	@Column(name = "ID", nullable = false, unique = true)
-	private final String id = UUID.randomUUID().toString();
+	private String id = UUID.randomUUID().toString();
 	
 	@Column(name="FIRST_NAME", nullable = false, length = 120)
 	private String firstName;
@@ -72,6 +72,10 @@ public class User {
 
 	public String getId() {
 		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {

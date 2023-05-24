@@ -16,6 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.astro.paraCodar.dto.PostDTO;
 import com.astro.paraCodar.services.PostService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/post")
 public class PostController {
@@ -42,7 +44,7 @@ public class PostController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PostDTO> insert(@RequestBody PostDTO post){
+	public ResponseEntity<PostDTO> insert(@Valid @RequestBody PostDTO post){
 		PostDTO entity = postService.insert(post);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
 		return ResponseEntity.created(uri).body(entity);

@@ -1,11 +1,10 @@
 package com.astro.paraCodar.controllers.exceptions;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationError implements Serializable{
-	
+public class ValidationError extends StandardError{
+		
 	private static final long serialVersionUID = 1L;
 	
 	private List<FieldMessage> errors = new ArrayList<>();
@@ -14,7 +13,7 @@ public class ValidationError implements Serializable{
 		return errors;
 	}
 
-	public void addErrors(String fieldName, String message) {
+	public void addError(String fieldName, String message) {
 		errors.add(new FieldMessage(fieldName, message));
 	}
 
