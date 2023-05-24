@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.astro.paraCodar.dto.PostDTO;
+import com.astro.paraCodar.dto.response.PostDTO;
 import com.astro.paraCodar.entities.Coment;
 import com.astro.paraCodar.entities.Post;
 import com.astro.paraCodar.repositories.ComentRepository;

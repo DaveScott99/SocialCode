@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.astro.paraCodar.dto.PostDTO;
+import com.astro.paraCodar.dto.response.PostDTO;
 import com.astro.paraCodar.services.PostService;
 
 import jakarta.validation.Valid;
