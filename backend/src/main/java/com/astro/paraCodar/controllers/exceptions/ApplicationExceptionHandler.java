@@ -9,7 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
+import com.astro.paraCodar.services.exceptions.EntityNotFoundException;
 import com.astro.paraCodar.services.exceptions.DatabaseException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,8 +41,8 @@ public class ApplicationExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(ControllerNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(ControllerNotFoundException e, HttpServletRequest request) {
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());

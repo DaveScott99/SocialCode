@@ -12,9 +12,7 @@ import com.astro.paraCodar.entities.Coment;
 import com.astro.paraCodar.entities.Post;
 import com.astro.paraCodar.repositories.ComentRepository;
 import com.astro.paraCodar.repositories.PostRepository;
-import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
-
-import jakarta.persistence.EntityNotFoundException;
+import com.astro.paraCodar.services.exceptions.EntityNotFoundException;
 		
 @Service
 public class PostService {
@@ -61,7 +59,7 @@ public class PostService {
 			return new PostDTO(post);
 		}
 		catch (EntityNotFoundException e) {
-			throw new ControllerNotFoundException("Id não encontrado " + id);
+			throw new EntityNotFoundException("Id não encontrado " + id);
 		}
 	}
 	

@@ -14,9 +14,7 @@ import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.User;
 import com.astro.paraCodar.repositories.UserRepository;
-import com.astro.paraCodar.services.exceptions.ControllerNotFoundException;
-
-import jakarta.persistence.EntityNotFoundException;
+import com.astro.paraCodar.services.exceptions.EntityNotFoundException;
 
 @Service
 public class UserService {
@@ -33,10 +31,22 @@ public class UserService {
 		return users.map(x -> new UserDTO(x));
 	}
 	
+	public Page<UserDTO> searchUserByUsername(Pageable pageable ,String username) {
+		Page<User> users = userRepository.searchUsers(pageable, username);
+		return users.map(x -> new UserDTO(x));
+	}
+	
+	@Transactional(readOnly = true)
+	public UserMinDTO findByUsername(String username) {
+		Optional<User> user = userRepository.findByUsername(username);
+		User entity = user.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+		return new UserMinDTO(entity);
+	}
+	
 	@Transactional(readOnly = true)
 	public UserMinDTO findById(String id){
 		Optional<User> user = userRepository.findById(id);
-		User entity = user.orElseThrow(() -> new ControllerNotFoundException("Usuário não encontrado"));
+		User entity = user.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + id));
 		return new UserMinDTO(entity);
 	}
 	
@@ -58,7 +68,7 @@ public class UserService {
 			return new UserDTO(user);
 		}
 		catch (EntityNotFoundException e) {
-			throw new ControllerNotFoundException("Id não encontrado " + id);
+			throw new EntityNotFoundException("ID não encontrado " + id);
 		}
 	}
 	

@@ -30,26 +30,38 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping
+	@GetMapping(value = "/findAll/")
 	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable){
 		Page<UserDTO> users = userService.findAllPaged(pageable);
 		return ResponseEntity.ok().body(users);
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/searchUserByUsername/{username}")
+	public ResponseEntity<Page<UserDTO>> searchUserByUsername(Pageable pageable, @PathVariable String username) {
+		Page<UserDTO> users = userService.searchUserByUsername(pageable, username);
+		return ResponseEntity.ok().body(users);
+	}
+	
+	@GetMapping(value = "/findByUsername/{username}")
+	public ResponseEntity<UserMinDTO> findByUsername(@PathVariable String username) {
+		UserMinDTO user = userService.findByUsername(username);
+		return ResponseEntity.ok().body(user);
+	}
+	
+	@GetMapping(value = "/findById/{id}")
 	public ResponseEntity<UserMinDTO> findById(@PathVariable String id){
 		UserMinDTO user = userService.findById(id);
 		return ResponseEntity.ok().body(user);
 	}
 	
-	@PostMapping
+	@PostMapping(value = "/insert")
 	public ResponseEntity<UserDTO> insert(@Valid @RequestBody RegisterUserDTO dto) {
 		UserDTO user = userService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}
 	
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/updateUser/{id}")
 	public ResponseEntity<UserDTO> update(@RequestParam String id, @Valid @RequestBody UserDTO dto){
 		UserDTO user = userService.update(id, dto);
 		return ResponseEntity.ok().body(user);

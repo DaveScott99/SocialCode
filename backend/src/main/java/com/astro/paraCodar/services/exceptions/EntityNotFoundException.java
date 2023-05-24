@@ -1,10 +1,10 @@
 package com.astro.paraCodar.services.exceptions;
 
-public class ControllerNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public ControllerNotFoundException(String msg) {
+	public EntityNotFoundException(String msg) {
 		super(msg);
 	}
 	

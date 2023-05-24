@@ -18,7 +18,7 @@ public class ComentController {
 	@Autowired
 	private ComentService comentService;
 	
-	@PostMapping
+	@PostMapping(value = "/publishComent")
 	public ResponseEntity<ComentDTO> publishComent(@RequestBody ComentDTO comentDTO) {
 		ComentDTO coment = comentService.publishComment(comentDTO);
 		return ResponseEntity.ok().body(coment);
