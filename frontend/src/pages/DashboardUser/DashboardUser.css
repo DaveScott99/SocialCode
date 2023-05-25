@@ -1,67 +1,123 @@
 .container-profile-user {
-    width: 100%;
+    min-width: 680px;
+    max-width: 1200px;
+    position: relative;
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    justify-content: center;
 }
 
-.container-profile-user > .header-profile {
+.container-profile-user > .coverImg-user, .container-user-details, .user-pic {
+    position: absolute;
+}
+
+.container-profile-user > .coverImg-user {
+    background-color: rgb(141, 128, 215);
+    z-index: 1;
     width: 100%;
     height: 300px;
+}
+
+.container-profile-user > .user-pic {
+    background: rebeccapurple;
+    width: 150px;
+    height: 150px;
+    z-index: 3;
+    margin-top: 150px;
+    border-radius: 15px;
+}
+
+.container-profile-user > .user-pic img {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+}
+
+.container-profile-user > .container-user-details {
+    background: var(--background-dark);
+    z-index: 2;
+    top: 230px;
+    left: 0;
+    border-radius: 30px 30px 0px 0px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 0px #b2b2b221;
-}
-
-.container-profile-user > .header-profile > .image-user {
-    width: 250px;
-    height: 250px;
-    margin-right: 30px;
-    border-radius: 50%;
-}
-
-.container-profile-user > .header-profile > .image-user > img {
+    flex-direction: column;
     width: 100%;
-    border-radius: 50%;
-    background-position: center;
-    background-size: cover;
 }
 
-.container-profile-user > .header-profile > .data-user {
-    width: 800px;
-    height: 250px;
+.container-profile-user > .container-user-details > .user-details  {
+    width: 100%;
+    margin-top: 70px;
+    color: var(--text-dark);
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    padding: 20px;
-}  
-
-.container-profile-user > .header-profile > .data-user .user-name {
-    font-size: 1.3em;
-    font-weight: 400;
+    padding: 10px;
 }
 
-.container-profile-user > .header-profile > .data-user .status-user-account{
-    display: flex;
-    justify-content: space-between;
-    width: 50%;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.container-profile-user > .container-user-details > .user-details > .name {
+    font-size: 1.7em;
+    font-weight: 600;
 }
 
-.container-profile-user > .header-profile > .data-user .body-data-user {
-    display: flex;
-    flex-direction: column;
-}
-
-.container-profile-user > .header-profile > .data-user .name-body-data {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.container-profile-user > .header-profile > .data-user .bio-body-data {
+.container-profile-user > .container-user-details > .user-details > .username {
+    font-size: 1em;
     font-weight: 300;
-    margin-bottom: 5px;
 }
 
+.container-profile-user > .container-user-details > .user-details > .biography {
+    margin-top: 20px;
+}
+
+.container-profile-user > .container-user-details > .user-details > .statistic-user {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.container-profile-user > .container-user-details > .user-details > .statistic-user .posts, .followers, .following {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 10%;
+}
+
+.container-profile-user > .container-user-details > .user-details > .statistic-user 
+.posts-count,
+.followers-count,
+.following-count {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.container-profile-user > .container-user-details > .user-details > .statistic-user 
+.posts-label,
+.followers-label,
+.following-label {
+    font-size: .9em;
+    font-weight: 300;
+}
+
+.container-profile-user > .container-user-details > .user-details > .statistic-user > .separator {
+    border: 1px solid var(--hover);
+    height: 25px;
+}
+
+.container-profile-user > .container-user-details > .user-details > .activity-user {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.container-profile-user > .container-user-details > .user-details > .activity-user .label {
+    font-size: 1.2em;
+    font-weight: 300;
+
+    width: 100%;
+    padding: 10px 0px 10px 5px;
+    margin-bottom: 5px;
+}

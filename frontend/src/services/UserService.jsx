@@ -41,17 +41,33 @@ export default class UserService {
         if (userData != null) {
 
             this.axios.post('/user/insert', userData)
-                      .then((response) => console.log(response.data))
+                      .then((response) => {
+                        
+                        if (response) {
+                            const userLogin = {
+                                email: response.data.email,
+                                password: response.data.password
+                            }
+
+                            const responseLogin = this.login(userLogin);
+
+                            if (responseLogin === true ){
+                                toast.success("Cadastro realizado com sucesso!");
+                            }
+                            else {
+                                toast.error(responseLogin);
+                            }
+                        }
+
+                      })
                       .catch((err) => {
-                                        const listError = [err.response.data.errors];
+                            const listError = [err.response.data.errors];
 
-                                        console.log(listError)
-
-                                        for (var i = 0; i < listError[0].length; i++) {
-                                            toast.warning(listError[0][i].message)
-                                        }
-                                        
-                                    });
+                            for (var i = 0; i < listError[0].length; i++) {
+                                toast.warning(listError[0][i].message)
+                            }
+                            
+                    });
 
         }
         else {

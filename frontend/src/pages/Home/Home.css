@@ -2,5 +2,16 @@
     display: flex;
     justify-content: center;
     justify-items: center;
+    flex-direction: column;
     width: 680px;
+}
+
+.card-wrapper > .container-header-timeline {
+    width: 100%;
+    padding: 10px 0px 20px 10px;
+    border: 1px solid var(--border);
+}
+
+.card-wrapper > .container-header-timeline > h1 {
+    font-size: 1.5em;
 }

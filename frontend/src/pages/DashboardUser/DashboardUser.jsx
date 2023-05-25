@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserService from "../../services/UserService"
 
 import './DashboardUser.css';
+import Timeline from "../../components/Timeline/Timeline";
 
 const userService = new UserService()
 
@@ -23,43 +24,61 @@ export default function DashboardUser() {
     return (
         <div className="container-profile-user">
             
-            <div className="header-profile">
+            <div className="coverImg-user">
 
-                <div className="image-user">
-                    <img src={user.userImg} alt="Imagem usuário" />
-                </div>
 
-                <div className="data-user">
-                    <div className="header-data-user">
-                        <span className="user-name">{user.name}</span>
-
-                        <div className="status-user-account">
-                            <span>0 publicações</span>
-                            <span>0 seguidores</span>
-                            <span>0 seguindo</span>
-                        </div>
-
-                    </div>
-                    
-                    <div className="body-data-user">
-                        <span className="name-body-data">{user.name}</span>
-
-                        <span className="bio-body-data">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                              Veniam esse cupiditate beatae temporibus, repellendus officiis 
-                              blanditiis exercitationem illo, nostrum eaque quia. Qui consequuntur 
-                              recusandae quibusdam a veniam atque quam ipsam.</span>
-
-                        <span>Site</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div className="posts-user">
-                <p>Posts</p>
             </div>
             
+            
+            <div className="user-pic">
+                <img src={user.userImg} alt="" />
+            </div>
+
+            <div className="container-user-details">
+                
+                <div className="user-details">
+                    <span className="name">{user.firstName} {user.lastName}</span>
+                    <span className="username">{user.username}</span>
+
+                    <span className="biography">{user.biography}</span>
+
+                    <div className="statistic-user">
+                        <div className="posts">
+                            <span className="posts-count">0</span>
+                            <span className="posts-label">Posts</span>
+                        </div>
+
+                        <span className="separator"></span>
+
+                        <div className="followers">
+                            <span className="followers-count">0</span>
+                            <span className="followers-label">Seguidores</span>
+                        </div>
+
+                        <span className="separator"></span>
+
+                        <div className="following">
+                            <span className="following-count">0</span>
+                            <span className="following-label">Seguindo</span>
+                        </div>
+                    </div>
+
+                    <div className="activity-user">
+                        <div className="label"> 
+                            <span>Atividade</span>
+                        </div>
+
+
+                        <Timeline />
+
+
+                    </div>
+
+                </div>
+             
+        
+            </div>
+
         </div>
 
     );

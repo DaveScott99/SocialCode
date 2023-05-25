@@ -30,12 +30,12 @@ export default function PreviewProfile() {
 
             <div className="container-data-user">
                 <div className="name-user">
-                    <span className="name">{user.name}</span>
-                    <span className="username">Username</span>
+                    <span className="name">{user.firstName} {user.lastName}</span>
+                    <span className="username">{user.username}</span>
                 </div>
 
                 <dir className="bio-user">
-                    <span>Bio</span>
+                    <span>{user.biography}</span>
                 </dir>
 
                 <div className="container-followers">

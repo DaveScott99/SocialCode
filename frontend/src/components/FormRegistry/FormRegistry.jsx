@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import UserService from "../../services/UserService";
-import { validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validateName, validatePassword, validateUsername } from "../../utils/Validators";
+import { validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validatePassword, validateUsername } from "../../utils/Validators";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import { toast } from "react-toastify";
 
 const userService = new UserService();
 
 export default function FormRegistry({ className }) {
+    
     const navigate = useNavigate();
+
     const [loading, setLoading] = useState();
     const [formRegistry, setFormRegistry] = useState ({
         firstName: "",

@@ -17,8 +17,6 @@ export default function Authentication() {
     return(
         <div className="container-page">
 
-
-            
             <article className="image-container">
                 <img src={LoginImage} alt="Imagem login" />
             </article>

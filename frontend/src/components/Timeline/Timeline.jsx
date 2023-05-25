@@ -10,7 +10,7 @@ import './Timeline.css'
 
 const postService = new PostService();
 
-export default function Timeline({ postData }){
+export default function Timeline({ postsData }){
 
         /* useState para armazenar os posts que vem da API */
         const [posts, setPost] = useState([]);
@@ -42,12 +42,6 @@ export default function Timeline({ postData }){
 
     return (
         <div className="container-post">
-            
-            <header className="container-header-timeline">
-                <h1>Página Inicial</h1>
-            </header>
-
-            <NewPost />
 
             {posts.map((post) => (
                 <div className="post" key={post.id}>
@@ -58,8 +52,8 @@ export default function Timeline({ postData }){
                             <img src={post.user.userImg} alt=""  className="user-image"/>
 
                             <div className="user-texts">
-                                <span className="user-name">{post.user.name} ·</span>
-                                <div className="post-date">{post.instant}</div> 
+                                <span className="user-name">{post.user.username} ·</span>
+                                <div className="post-date">{post.creationDate}</div> 
                             </div>
 
                         </div>

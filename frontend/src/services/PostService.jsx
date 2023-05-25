@@ -10,7 +10,7 @@ export default class PostService {
 
     async findPostById(id) {
         try {
-            const { data } = await this.axios.get(`/post/${id}`);
+            const { data } = await this.axios.get(`/post/findById/${id}`);
             if (data) {
                 return data
             }
@@ -26,7 +26,7 @@ export default class PostService {
     // Função para resgatar todos os POSTS que vem do BACKEND
     async findAll() {
         try {
-            const { data } = await this.axios.get("/post");
+            const { data } = await this.axios.get("/post/findAll");
             return data;
         }
         catch (err) {
@@ -36,7 +36,7 @@ export default class PostService {
 
     async findPostsByUserId(userId) {
         try {
-            const { data } = await this.axios.get(`/post/usersPost/${userId}`);
+            const { data } = await this.axios.get(`/post/findPostsByUser/${userId}`);
             if (data) {
                 return data
             }
