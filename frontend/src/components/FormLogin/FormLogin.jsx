@@ -72,7 +72,7 @@ export default function FormLogin({ className }) {
             <Input name="email" type="email" className={className} placeholder="Email" onChange={onChange}/>
             <Input name="password" type="password" className={className} placeholder="Senha" onChange={onChange} />
 
-            <Button text='Entrar' type="submit" className="btn-form" onClick={handleSubmitLogin} disabled={loading === true || !validatorInput()} />
+            <Button text='Entrar' type="button" className="btn-form" onClick={handleSubmitLogin} disabled={loading === true || !validatorInput()} />
 
         </form>
     );

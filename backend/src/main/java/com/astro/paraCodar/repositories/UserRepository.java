@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	
 	Optional<User> findByEmailAndPassword(String email, String password); 
 	User findByEmail(String email);
-	Optional<User> findByUsername(String username);
+	User findByUsername(String username);
 	
 	@Query(value = "SELECT * FROM PARACODAR.USER WHERE USERNAME LIKE :username%", nativeQuery = true)
 	Page<User> searchUsers(Pageable pageable,String username);

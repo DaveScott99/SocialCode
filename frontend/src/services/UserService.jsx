@@ -9,7 +9,7 @@ export default class UserService {
     }
 
     async findUserById (id) {
-        const { data } = await this.axios.get(`/user/${id}`);
+        const { data } = await this.axios.get(`/user/findById/${id}`);
         return data;
     }
 
@@ -36,8 +36,30 @@ export default class UserService {
     }
 
     /* Função para registrar um novo usuário na plataforma */
-    async resgister (userData){
-        return this.axios.post('/user', userData);
+    async resgister (userData) {
+    
+        if (userData != null) {
+
+            this.axios.post('/user/insert', userData)
+                      .then((response) => console.log(response.data))
+                      .catch((err) => {
+                                        const listError = [err.response.data.errors];
+
+                                        console.log(listError)
+
+                                        for (var i = 0; i < listError[0].length; i++) {
+                                            toast.warning(listError[0][i].message)
+                                        }
+                                        
+                                    });
+
+        }
+        else {
+            toast.warning('Preencha todos os campos');
+        }
+
+      
+        
     }
 
     /* Função verificar se existe um usuário logado na plataforma */

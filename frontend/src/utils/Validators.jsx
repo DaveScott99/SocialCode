@@ -1,18 +1,25 @@
+const validateFirstName = (firstName) => {
+    return firstName?.toString().length >= 4;
+}
+
+const validateLastName = (lastName) => {
+    return lastName?.toString().length >= 4;
+}
+
+const validateUsername = (username) => {
+    return username?.toString().length >= 4;
+}
 
 const validateEmail = (email) => {
     return email?.toString().includes('@') && email?.toString().includes('.');
 }
 
 const validatePassword = (password) => {
-    return password?.toString().length > 6;
+    return password?.toString().length > 1;
 }
 
-const validateName = (name) => {
-    return name?.toString().length > 2;
-}
-
-const validateConfirmPassword = (password, confirmPassword) => {
-    return validatePassword(password) && password === confirmPassword;
+const validateConfirmPassword = (confirmPassword) => {
+    return confirmPassword?.toString().length > 1;
 }
 
 const validateTextPost = (text) => {
@@ -20,9 +27,11 @@ const validateTextPost = (text) => {
 }
 
 export {
+    validateFirstName,
+    validateLastName,
+    validateUsername,
     validateEmail,
     validatePassword,
-    validateName,
     validateConfirmPassword,
     validateTextPost
 }

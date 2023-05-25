@@ -1,6 +1,7 @@
 package com.astro.paraCodar.services;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,9 +39,9 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public UserMinDTO findByUsername(String username) {
-		Optional<User> user = userRepository.findByUsername(username);
-		User entity = user.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-		return new UserMinDTO(entity);
+		User user = userRepository.findByUsername(username);
+
+		return new UserMinDTO(user);
 	}
 	
 	@Transactional(readOnly = true)
@@ -54,6 +55,7 @@ public class UserService {
 	public UserDTO insert(RegisterUserDTO dto) {
 		User user = new User();
 		copyDtoToEntityInsert(dto, user);
+		user.setId(UUID.randomUUID().toString());
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		user = userRepository.save(user);
 		return new UserDTO(user);		
