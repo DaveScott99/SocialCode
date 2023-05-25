@@ -1,22 +1,52 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom'
-import Home from '../pages/Home/Home'
-import DashboardUser from "../pages/DashboardUser/DashboardUser";
-import ProtectedRoutes from "./ProtectedRoutes";
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
+import Authentication from '../pages/Authentication/Authentication';
+import { AuthProvider, AuthContext } from '../contexts/Auth/AuthContext';
+import { useContext } from 'react';
+import LoadPages from '../utils/LoadPages';
+import Home from '../pages/Home/Home';
+import DashboardUser from '../pages/DashboardUser/DashboardUser';
 
-export default function RoutesApp() {
+export default function RouteApp() {
+
+    const Private = ({ children }) => {
+
+        // Puxando as informações de login do AuthContext
+        const { authenticated, loading } = useContext(AuthContext);
+
+        if (loading) {
+            return <div className="loading">Carregando...</div>
+        }
+        
+        // Se o usuário não estiver autenticado ele ira redirecionar para a página de Autenticação
+        if (!authenticated) {
+            return <Navigate to="/authentication" />
+        }
+
+        // Se o usuário estiver autenticado o componente filho será renderizado
+        return children;
+    }
+
     return(
-        <Routes>
-            <Route exact path="/" element={
-                    <ProtectedRoutes>
-                        <Home />
-                    </ProtectedRoutes>
-            } />
-            <Route exact path="/profile" element={
-                    <ProtectedRoutes>
-                        <DashboardUser />
-                    </ProtectedRoutes>
-            } />
-        </Routes>
+        <BrowserRouter>
+            <AuthProvider>
+                <Routes>
+                    <Route exact path='/' element={ 
+                        <Private>
+                            <LoadPages>
+                                <Home />
+                            </LoadPages>
+                        </Private>
+                    } />
+                    <Route exact path='/profile' element={ 
+                        <Private>
+                            <LoadPages>
+                                <DashboardUser />
+                            </LoadPages>
+                        </Private>
+                    } />
+                    <Route exact path="/authentication" element={<Authentication />} />
+                </Routes>
+            </AuthProvider>
+        </BrowserRouter>
     )
 }

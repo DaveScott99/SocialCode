@@ -4,7 +4,6 @@ import { IoIosShareAlt } from "react-icons/io"
 import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import PostService from "../../services/PostService";
-import NewPost from "../NewPost/NewPost";
 
 import './Timeline.css'
 

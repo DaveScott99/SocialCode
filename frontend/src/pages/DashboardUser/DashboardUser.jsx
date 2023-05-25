@@ -11,8 +11,8 @@ export default function DashboardUser() {
     const [user, setUser] = useState();
 
     const findUser = async () => {
-        const data = await userService.findUserById(localStorage.getItem('id'));
-        setUser(data);
+       
+
     }
 
     useEffect(() => {

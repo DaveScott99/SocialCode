@@ -20,14 +20,7 @@ export default function NewPost() {
         }
     });
 
-    const findUser = async () => {
-        const data =  await userService.findUserById(localStorage.getItem("id"));
-        setUser(data);
-    }
 
-    useEffect(() => {
-        findUser();
-    }, [user])
 
     /*Função para resgatar o oque foi digitado pelo usuário nos INPUTS, referenciando
     sempre pelo NAME do input e o seu valor */

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import FormRegistry from "../../components/FormRegistry/FormRegistry";
 import FormLogin from "../../components/FormLogin/FormLogin";
 
@@ -7,6 +7,8 @@ import LoginImage from "../../assets/login-image.svg";
 import './Authentication.css';
 
 export default function Authentication() {
+
+
 
     const [renderForm, setRenderForm] = useState(true);
 

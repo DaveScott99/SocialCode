@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import UserService from "../../services/UserService";
 import { validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validatePassword, validateUsername } from "../../utils/Validators";
@@ -10,8 +9,6 @@ const userService = new UserService();
 
 export default function FormRegistry({ className }) {
     
-    const navigate = useNavigate();
-
     const [loading, setLoading] = useState();
     const [formRegistry, setFormRegistry] = useState ({
         firstName: "",
