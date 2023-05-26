@@ -1,12 +1,15 @@
 import React from 'react';
 import RoutesApp from './routes/RoutesApp';
+import { ToastContainer, toast } from 'react-toastify';
 
 import './App.css'
 
 function App() {
-
   return (
-    <RoutesApp />
+    <>
+      <ToastContainer autoClose={3000} position={toast.POSITION.TOP_RIGHT} theme='dark' />
+      <RoutesApp />
+    </>
   );
 }
 

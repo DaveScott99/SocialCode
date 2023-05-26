@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-
-import UserService from "../../services/UserService";
 import { validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validatePassword, validateUsername } from "../../utils/Validators";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-
-const userService = new UserService();
+import { resgisterUser } from "../../services/Api";
 
 export default function FormRegistry({ className }) {
     
@@ -29,7 +26,7 @@ export default function FormRegistry({ className }) {
 
         setLoading(true);
         
-        userService.resgister(formRegistry);
+        resgisterUser.resgister(formRegistry);
 
         setLoading(false);
 

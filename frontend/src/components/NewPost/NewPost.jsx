@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "../Button/Button";
-import UserService from "../../services/UserService";
-import PostService from "../../services/PostService";
 import { validateTextPost } from "../../utils/Validators";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { publishPost } from "../../services/Api";
 
 import './NewPost.css';
 
-const userService = new UserService();
-const postService = new PostService();
 
 export default function NewPost() {
+    const { user } = useContext(AuthContext);
+
+    console.log(user)
 
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState();
     const [post, setPost] = useState({
         body: '',
         user: {
             id: localStorage.getItem("id")
         }
     });
-
-
 
     /*Função para resgatar o oque foi digitado pelo usuário nos INPUTS, referenciando
     sempre pelo NAME do input e o seu valor */
@@ -36,14 +34,12 @@ export default function NewPost() {
     }
 
     const insertPost = async () => {
-        await postService.insert(post);
+        await publishPost(post);
     }
 
     const validatorInput = () => {
         return validateTextPost(post.body);
     }
-
-    if(!user) return null;
 
     return(
         <div className="container-create">

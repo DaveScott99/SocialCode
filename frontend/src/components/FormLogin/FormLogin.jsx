@@ -20,7 +20,6 @@ export default function FormLogin({ className }) {
     }
 
     const handleSubmitLogin = () => {
-        console.log("submit", loginUser.email, loginUser.password );
         login(loginUser.email, loginUser.password); // Integração com o contexto de Auth / api
     }
 

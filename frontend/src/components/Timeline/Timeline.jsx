@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
 import { IoIosShareAlt } from "react-icons/io"
 import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
-import PostService from "../../services/PostService";
 
 import './Timeline.css'
 
-const postService = new PostService();
-
 export default function Timeline({ postsData }){
-
-        /* useState para armazenar os posts que vem da API */
-        const [posts, setPost] = useState([]);
 
         const [liked, setLiked] = useState(true);
         const [likes, setLikes] = useState(0);
@@ -28,21 +21,10 @@ export default function Timeline({ postsData }){
 
         }
 
-        /* Função para resgatar os POSTS da API e alocar no useState */
-        const getPosts = async () => {
-            const data = await postService.findAll();
-            setPost(data);
-        }
-    
-        /* Função que executará o carregamento do posts sempre que recarregar a página */
-        useEffect(() => {
-            getPosts();
-        }, [])
-
     return (
         <div className="container-post">
 
-            {posts.map((post) => (
+            {postsData.map((post) => (
                 <div className="post" key={post.id}>
                     
                     <div className="header-post">

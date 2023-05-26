@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from "react";
-import UserService from "../../services/UserService"
-
+import React, { useContext } from "react";
 import './DashboardUser.css';
 import Timeline from "../../components/Timeline/Timeline";
-
-const userService = new UserService()
+import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { FindAllPostsByUser } from "../../services/Api";
 
 export default function DashboardUser() {
-
-    const [user, setUser] = useState();
-
-    const findUser = async () => {
-       
-
-    }
-
-    useEffect(() => {
-        findUser();
-    }, [])
-
-    if(!user) return null;
-
+    
+    const { user } = useContext(AuthContext);
+    const posts = FindAllPostsByUser(user.id);
+    
     return (
         <div className="container-profile-user">
             
@@ -69,8 +57,7 @@ export default function DashboardUser() {
                         </div>
 
 
-                        <Timeline />
-
+                        <Timeline postsData={posts}/>
 
                     </div>
 

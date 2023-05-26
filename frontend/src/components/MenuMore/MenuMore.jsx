@@ -1,16 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx"
 import { BsGearWideConnected } from "react-icons/bs"
-import UserService from "../../services/UserService";
-import { useNavigate } from "react-router";
 
 import './MenuMore.css'
-
-const userService = new UserService();
+import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 export default function MenuMore() {
 
-    const navigate = useNavigate();
     const [showSubMenu, setShowSubMenu] = useState(false);
     const subMenuRef = useRef(null);
 
@@ -35,11 +31,7 @@ export default function MenuMore() {
 
     }, [showSubMenu])
 
-    const logout = () => {
-        userService.logout();
-        navigate('/authentication');
-        window.location.reload();
-    }
+    const { logout } = useContext(AuthContext);
 
     return (
         <div className="menu-more" ref={subMenuRef}>
