@@ -10,7 +10,7 @@ export default function Sidebar() {
         <div className="container-sidebar">
           <div className="logo-app">
             <Link to="/">
-              <b>SocialCode</b>
+            
             </Link>
           </div>
 

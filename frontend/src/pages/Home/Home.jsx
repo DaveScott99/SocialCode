@@ -1,9 +1,9 @@
 import React from 'react';
 import Timeline from '../../components/Timeline/Timeline';
-
-import './Home.css'
 import NewPost from '../../components/NewPost/NewPost';
 import { FindAllPosts } from '../../services/Api';
+
+import './Home.css'
 
 export default function Home() {
 

@@ -6,7 +6,6 @@ import { publishPost } from "../../services/Api";
 
 import './NewPost.css';
 
-
 export default function NewPost() {
     const { user } = useContext(AuthContext);
 

@@ -1,9 +1,5 @@
 .card-wrapper {
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-    flex-direction: column;
-    width: 680px;
+    width: 100%;
 }
 
 .card-wrapper > .container-header-timeline {
