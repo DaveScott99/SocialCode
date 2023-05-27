@@ -10,8 +10,6 @@ import './NewPost.css';
 export default function NewPost() {
     const { user } = useContext(AuthContext);
 
-    console.log(user)
-
     const [loading, setLoading] = useState(true);
     const [post, setPost] = useState({
         body: '',

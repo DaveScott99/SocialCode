@@ -1,22 +1,13 @@
 import React ,{ createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, loginUser } from "../../services/Api"
-import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate();
-    const [user, setUser] = useState({
-        id: "",
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        userImg: "",
-        biography: ""
-    });
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -31,27 +22,23 @@ export const AuthProvider = ({ children }) => {
 
     // Função que irá realizar o login do usuário no sistema
     const login = async (email, password) => {
-        const { data } = await loginUser(email, password); // Enviando as informações de login para a API
-
-        console.log(data);
+        const data = await loginUser(email, password); // Enviando as informações de login para a API
         
-        if (data.status === true) {
+        if (data) {
             const loggedUser = data.user;
             const token = data.user.email;
-
+    
             //api.defaults.headers.Authorization = `Bearer ${token}`;
-
+    
             // Salvando as informações de login no localStorage do navegador
-            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("user", JSON.stringify(loggedUser));
             localStorage.setItem("token", JSON.stringify(token));
             
             // Setando o usuário logado no estado global do context
             setUser(loggedUser);
             navigate("/");
         }
-        else {
-            toast.warning(data.message);
-        }
+
     }
 
     // Função deslogar o usuário do sistema

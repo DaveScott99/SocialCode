@@ -1,23 +1,23 @@
 import React, { useContext } from "react";
-import './DashboardUser.css';
-import Timeline from "../../components/Timeline/Timeline";
+import Timeline from "../Timeline/Timeline";
+
+import './CardUserProfile.css'
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { FindAllPostsByUser } from "../../services/Api";
 
-export default function DashboardUser() {
+const CardUserProfile = () => {
     
     const { user } = useContext(AuthContext);
     const posts = FindAllPostsByUser(user.id);
-    
+
     return (
         <div className="container-profile-user">
-            
+                
             <div className="coverImg-user">
 
 
             </div>
-            
-            
+        
             <div className="user-pic">
                 <img src={user.userImg} alt="" />
             </div>
@@ -55,18 +55,13 @@ export default function DashboardUser() {
                         <div className="label"> 
                             <span>Atividade</span>
                         </div>
-
-
                         <Timeline postsData={posts}/>
-
                     </div>
 
                 </div>
-             
-        
             </div>
-
         </div>
-
     );
-};
+}
+
+export default CardUserProfile;

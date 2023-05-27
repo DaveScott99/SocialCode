@@ -2,9 +2,9 @@ import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import Authentication from '../pages/Authentication/Authentication';
 import { AuthProvider, AuthContext } from '../contexts/Auth/AuthContext';
 import { useContext } from 'react';
-import LoadPages from '../utils/LoadPages';
 import Home from '../pages/Home/Home';
-import DashboardUser from '../pages/DashboardUser/DashboardUser';
+import CardUserProfile from '../components/CardUserProfile/CardUserProfile';
+import Layout from '../components/Layout/Layout';
 
 export default function RouteApp() {
 
@@ -25,23 +25,25 @@ export default function RouteApp() {
         // Se o usuário estiver autenticado o componente filho será renderizado
         return children;
     }
-
+    
     return(
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
                     <Route exact path='/' element={ 
                         <Private>
-                            <LoadPages>
-                                <Home />
-                            </LoadPages>
+                                <Layout>
+                                    <Home />
+                                </Layout>
+
+
                         </Private>
                     } />
                     <Route exact path='/profile' element={ 
                         <Private>
-                            <LoadPages>
-                                <DashboardUser />
-                            </LoadPages>
+                            <Layout>
+                                <CardUserProfile />
+                            </Layout>
                         </Private>
                     } />
                     <Route exact path="/authentication" element={<Authentication />} />

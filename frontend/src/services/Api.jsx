@@ -9,12 +9,15 @@ export const api = axios.create({
 /* Função que enviará as credenciais de LOGIN para o BACKEND e se caso exista o usuário cadastrado
 armazena no localStorage as credenciais*/
 export const loginUser = async (email, password) => {
-    try {
-        return await api.post('/login', { email, password });
+    const { data } = await api.post('/login', { email, password });
+
+    if (data.status !== true) {
+        toast.error(data.message)
     }
-    catch (err) {
-        console.log(err);
+    else {
+        return data;
     }
+    
 }
 
  /* Função para registrar um novo usuário na plataforma */

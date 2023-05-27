@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx"
 import { BsGearWideConnected } from "react-icons/bs"
+import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 import './MenuMore.css'
-import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 export default function MenuMore() {
 
