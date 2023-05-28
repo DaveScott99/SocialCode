@@ -4,14 +4,15 @@
     justify-content: center;
     padding: 10px;
     border: 1px solid var(--border);
+    border: 1px solid red;
 }
 
-.container-create > .header {
+.container-create > .header-new-post {
     width: 10%;
     border: none;
 }
 
-.container-create > .header .user-image {
+.container-create > .header-new-post .user-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -21,7 +22,7 @@
     border: none;
 }
 
-.container-create > .header .user-image > img {
+.container-create > .header-new-post .user-image > img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -68,4 +69,14 @@
 .container-create > .body .footer .button-create:disabled {
     background: var(--background-dark-secondary);
     cursor: auto;
+}
+
+@media (max-width: 767px) {
+    .container-create {
+        padding: 5px;
+    }
+
+    .container-create > .body .text-area-container .text-area  {
+        padding: 10px;
+    }
 }

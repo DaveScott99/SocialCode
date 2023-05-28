@@ -7,11 +7,14 @@ export default function Layout({ children }) {
     return (
         <div className="wrapper">
             <main className="main">
-                {children}
+                <header className="header">
+                    NAV
+                </header>
+                { children }
             </main>
             <aside className="l-sidebar">
                 <div className='content-sidebar'>
-                <Sidebar />
+                    <Sidebar />
                 </div>
             </aside>
         </div>

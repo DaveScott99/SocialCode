@@ -33,8 +33,6 @@ public class PostDTO implements Serializable {
 	@JsonProperty(value = "likes")
 	private Long likes;
 	
-	@NotBlank(message = "O Post precisa de um dono")
-	@JsonProperty(value = "user")
 	private User user;
 	
 	@JsonProperty(value = "coments")

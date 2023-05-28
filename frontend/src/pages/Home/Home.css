@@ -1,9 +1,7 @@
 .card-wrapper {
     display: flex;
-    justify-content: center;
-    justify-items: center;
     flex-direction: column;
-    width: 680px;
+    width: 600px;
 }
 
 .card-wrapper > .container-header-timeline {
@@ -14,4 +12,11 @@
 
 .card-wrapper > .container-header-timeline > h1 {
     font-size: 1.5em;
+}
+
+@media (max-width: 767px) {
+    .card-wrapper {
+        width: 490px;
+        padding: 10px;
+    }
 }

@@ -8,24 +8,16 @@ import './Timeline.css'
 export default function Timeline({ postsData }){
 
         const [liked, setLiked] = useState(true);
-        const [likes, setLikes] = useState(0);
 
-        const clickLike = () => {
+        const clickLike = (postId) => {
             setLiked(!liked);
-            if (liked) {
-                setLikes(likes + 1);
-            }
-            else {
-                setLikes(likes - 1);
-            }
-
         }
 
     return (
         <div className="container-post">
 
-            {postsData.map((post) => (
-                <div className="post" key={post.id}>
+            {postsData.map((post, id) => (
+                <div className="post" key={id}>
                     
                     <div className="header-post">
 
@@ -61,7 +53,7 @@ export default function Timeline({ postsData }){
                                         <AiOutlineHeart className="icon-interaction" />
                                         :
                                         <AiFillHeart className="icon-interaction" />
-                                } { likes }
+                                } { post.likes }
                             </div>
 
                             <div className="center-box">

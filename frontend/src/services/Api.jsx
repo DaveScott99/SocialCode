@@ -61,7 +61,7 @@ export const FindAllPosts = () => {
         api.get('/post/findAll')
             .then(response => setPosts(response.data))
             .catch(err => console.log(err));
-    }, [posts])
+    }, [])
 
     return posts;
    
@@ -75,12 +75,10 @@ export const FindAllPostsByUser = (id) => {
         api.get(`/post/findPostsByUser/${id}`)
             .then(response => setPosts(response.data))
             .catch(err => console.log(err));
-    }, [posts])
+    }, [id])
 
     return posts;
 }
-
-
 
 export const findPostById = async (id) => {
     try {
@@ -93,7 +91,7 @@ export const findPostById = async (id) => {
 
 export const publishPost = async (post) => {
     try {
-        return await api.post('/post/inserPost', { post });
+        return await api.post('/post/insertPost', post);
     }
     catch (err) {
         console.log(err);

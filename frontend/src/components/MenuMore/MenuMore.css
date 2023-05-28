@@ -2,7 +2,9 @@
     display: inline-block;
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
+    padding: 5px;
 }
 
 .menu-more .drop-btn {
@@ -14,10 +16,10 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 95%;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .menu-more .drop-btn:hover {
@@ -43,7 +45,7 @@
     display: none;
     position: absolute;
     bottom: 100%;
-    left: 40%;
+    left: 45%;
     transform: translateX(-50%);
     width: 80%;
     margin-bottom: 5px;
@@ -76,3 +78,37 @@
 .dropdown-content span:hover {
     background: var(--hover);
 }
+
+
+@media (max-width: 1220px) {
+    .menu-more .drop-btn > .more-text {
+        display: none;
+    }
+
+    .menu-more .drop-btn {
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .menu-more .drop-btn > .more-icon {
+        margin-right: 0;
+    }
+
+    .dropdown-content {
+        bottom: 0;
+        left: 195px;
+        width: 200px;
+    }
+
+    .dropdown-content .icon-sub-menu {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 767px) {
+    .menu-more {
+        display: none;
+    }
+}
+

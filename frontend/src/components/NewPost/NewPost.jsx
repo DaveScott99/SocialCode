@@ -6,7 +6,6 @@ import { publishPost } from "../../services/Api";
 
 import './NewPost.css';
 
-
 export default function NewPost() {
     const { user } = useContext(AuthContext);
 
@@ -14,9 +13,11 @@ export default function NewPost() {
     const [post, setPost] = useState({
         body: '',
         user: {
-            id: localStorage.getItem("id")
+            id: user.id
         }
     });
+
+    console.log(post);
 
     /*Função para resgatar o oque foi digitado pelo usuário nos INPUTS, referenciando
     sempre pelo NAME do input e o seu valor */
@@ -33,6 +34,7 @@ export default function NewPost() {
 
     const insertPost = async () => {
         await publishPost(post);
+        window.location.reload();
     }
 
     const validatorInput = () => {
@@ -41,9 +43,9 @@ export default function NewPost() {
 
     return(
         <div className="container-create">
-            <div className="header">
+            <div className="header-new-post">
                 <div className="user-image">
-                    <img src={ user.userImg } alt="" />
+                    <img src={user.userImg} alt="Imagem do usuário" />
                 </div>
             </div>
 
