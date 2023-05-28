@@ -2,22 +2,30 @@ import React, { useState } from "react";
 import { IoIosShareAlt } from "react-icons/io"
 import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
+import { likePost } from '../../services/Api'
 
 import './Timeline.css'
 
-export default function Timeline({ postsData }){
+export default function Timeline({ postsData }) {
 
-        const [liked, setLiked] = useState(true);
+        const [liked, setLiked] = useState(postsData.map(() => true));
 
-        const clickLike = (postId) => {
-            setLiked(!liked);
+        const clickLike = async (postLiked, index) => {
+
+            setLiked(prevLike => {
+                const liked = [...prevLike];
+                liked[index] = !liked[index];
+                return liked;
+            });
+            console.log(postLiked.id, postLiked.body);
+            await likePost(postLiked.id);
         }
 
     return (
         <div className="container-post">
 
-            {postsData.map((post, id) => (
-                <div className="post" key={id}>
+            {postsData.map((post, index) => (
+                <div className="post" key={post.id}>
                     
                     <div className="header-post">
 
@@ -46,13 +54,13 @@ export default function Timeline({ postsData }){
                     <div className="footer-post">
 
                         <div className="interactios-button">
-                            <div className="center-box" onClick={clickLike}>
+                            <div className="center-box" onClick={() => {clickLike(post, index)}}>
                                 { 
-                                    liked
+                                    liked[index]
                                         ?
-                                        <AiOutlineHeart className="icon-interaction" />
-                                        :
                                         <AiFillHeart className="icon-interaction" />
+                                        : 
+                                        <AiOutlineHeart className="icon-interaction" />
                                 } { post.likes }
                             </div>
 

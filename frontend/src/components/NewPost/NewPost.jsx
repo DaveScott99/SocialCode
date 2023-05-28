@@ -17,8 +17,6 @@ export default function NewPost() {
         }
     });
 
-    console.log(post);
-
     /*Função para resgatar o oque foi digitado pelo usuário nos INPUTS, referenciando
     sempre pelo NAME do input e o seu valor */
     const onChange = (event) => {
