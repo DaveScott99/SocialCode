@@ -1,8 +1,10 @@
 package com.astro.paraCodar.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,6 +16,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -47,19 +50,23 @@ public class User {
 	@Column(name="PASSWORD", nullable = false)
 	private String password;
 	
-	@Column(name = "REGISTRATION_MOMENT", nullable = false)
+	@Column(name = "REGISTRATION_MOMENT", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	@CreationTimestamp
-	private LocalDateTime registrationMoment;
+	private Instant registrationMoment;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Post> posts;
 	
+	@ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<Post> likedPosts = new HashSet<>();
+	
 	public User() {
 	}
 
 	public User(@NotNull String firstName, @NotNull String lastName, @NotNull String username, String biography, String userImg, @NotNull String email,
-			@NotNull String password, LocalDateTime registrationMoment) {
+			@NotNull String password, Instant registrationMoment) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -125,6 +132,14 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public Instant getRegistrationMoment() {
+		return registrationMoment;
+	}
+
+	public void setRegistrationMoment(Instant registrationMoment) {
+		this.registrationMoment = registrationMoment;
+	}
 
 	public String getPassword() {
 		return password;
@@ -140,6 +155,10 @@ public class User {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public Set<Post> getLikedPosts() {
+		return likedPosts;
 	}
 
 	@Override

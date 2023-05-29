@@ -98,9 +98,10 @@ export const publishPost = async (post) => {
     }
 }
 
-export const likePost = async (postId) => {
+
+export const likePost = async (postId, userId) => {
     try {
-        return await api.post(`/post/likePost/${postId}`);
+        return await api.post(`/post/${postId}/like/${userId}`);
     }
     catch (err) {
         console.log(err);

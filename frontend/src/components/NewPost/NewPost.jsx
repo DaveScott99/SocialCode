@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { publishPost } from "../../services/Api";
 
 import './NewPost.css';
+import { Avatar } from "@mui/material";
 
 export default function NewPost() {
     const { user } = useContext(AuthContext);
@@ -43,7 +44,7 @@ export default function NewPost() {
         <div className="container-create">
             <div className="header-new-post">
                 <div className="user-image">
-                    <img src={user.userImg} alt="Imagem do usuário" />
+                    <Avatar alt="User image" src={user.userImg} sx={{ width: 40, height: 40 }} />
                 </div>
             </div>
 

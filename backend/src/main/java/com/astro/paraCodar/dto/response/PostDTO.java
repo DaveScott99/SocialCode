@@ -1,13 +1,16 @@
 package com.astro.paraCodar.dto.response;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.astro.paraCodar.entities.Coment;
 import com.astro.paraCodar.entities.Post;
 import com.astro.paraCodar.entities.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -22,7 +25,7 @@ public class PostDTO implements Serializable {
 	private String id;
 	
 	@JsonProperty(value = "creationDate")
-	private LocalDateTime creationDate;
+	private Instant creationDate;
 	
 	@JsonProperty(value = "imagePost")
 	private String imagePost;
@@ -30,13 +33,15 @@ public class PostDTO implements Serializable {
 	@NotBlank(message = "O Post deve conter pelo menos 1 caractere")
 	private String body;
 	
-	@JsonProperty(value = "likes")
-	private Long likes;
-	
+	@JsonIgnoreProperties({"id", "firstName", "lastName", "biography", "email", "password", "registrationMoment"})
 	private User user;
 	
 	@JsonProperty(value = "coments")
 	private List<Coment> coments = new ArrayList<>();
+	
+	@JsonProperty(value = "likes")
+	@JsonIgnoreProperties({"firstName", "lastName", "biography", "email", "password", "registrationMoment"})
+	private Set<User> likes = new HashSet<>();
 	
 	public PostDTO() {
 	}
@@ -48,14 +53,14 @@ public class PostDTO implements Serializable {
 		body = entity.getBody();
 		user = entity.getUser();
 		entity.getComents().forEach(coment -> this.coments.add(coment));
-		likes = entity.getLikes();
+		entity.getLikes().forEach(like -> this.likes.add(like));
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public LocalDateTime getCreationDate() {
+	public Instant getCreationDate() {
 		return creationDate;
 	}
 
@@ -74,9 +79,9 @@ public class PostDTO implements Serializable {
 	public List<Coment> getComents() {
 		return coments;
 	}
-	
-	public Long getLikes() {
+
+	public Set<User> getLikes() {
 		return likes;
 	}
-	
+
 }

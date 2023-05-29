@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.paraCodar.dto.request.RegisterUserDTO;
+import com.astro.paraCodar.dto.request.UserUpdateDTO;
 import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.User;
@@ -62,12 +63,12 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO update(String id, UserDTO dto){
+	public UserDTO update(String id, UserUpdateDTO dto){
 		try {
-			User user = userRepository.getReferenceById(id);
-			copyDtoToEntityUpdate(dto, user);
-			user = userRepository.save(user);
-			return new UserDTO(user);
+			User entity = userRepository.getReferenceById(id);
+			copyDtoToEntityUpdate(dto, entity);
+			entity = userRepository.save(entity);
+			return new UserDTO(entity);
 		}
 		catch (EntityNotFoundException e) {
 			throw new EntityNotFoundException("ID não encontrado " + id);
@@ -82,8 +83,6 @@ public class UserService {
 		entity.setUsername(dto.getUsername());
 		entity.setBiography(dto.getBiography());
 		entity.setUserImg(dto.getUserImg());
-		entity.setEmail(dto.getEmail());
-		entity.setPassword(dto.getPassword());
 	}
 	
 	

@@ -1,9 +1,11 @@
 package com.astro.paraCodar.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +15,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -29,7 +35,7 @@ public class Post {
 	
 	@Column(name = "CREATION_DATE", nullable = false)
 	@CreationTimestamp
-	private LocalDateTime creationDate;
+	private Instant creationDate;
 	
 	@Column(name = "IMAGE_POST", nullable = true, columnDefinition = "TEXT")
 	private String imagePost;
@@ -45,31 +51,32 @@ public class Post {
 	@JsonIgnoreProperties("post")
 	private List<Coment> coments = new ArrayList<>();
 	
-	@Column(name = "LIKES", nullable = false)
-	private Long likes = 0L;
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinTable(name = "post_like",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> likes = new HashSet<>();
 
 	public Post() {
 	}
 
-	public Post(@NotNull LocalDateTime creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments,
-			@NotNull Long likes) {
+	public Post(@NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments) {
 		this.creationDate = creationDate;
 		this.imagePost = imagePost;
 		this.body = body;
 		this.user = user;
 		this.coments = coments;
-		this.likes = likes;
 	}
 
 	public String getId() {
 		return id;
 	}	
 
-	public LocalDateTime getCreationDate() {
+	public Instant getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(LocalDateTime creationDate) {
+	public void setCreationDate(Instant creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -101,16 +108,8 @@ public class Post {
 		return coments;
 	}
 
-	public Long getLikes() {
+	public Set<User> getLikes() {
 		return likes;
-	}
-	
-	public void incrementLikes() {
-		likes+=1;
-	}
-	
-	public void decrementLikes() {
-		likes-=1;
 	}
 
 	@Override

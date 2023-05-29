@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astro.paraCodar.dto.request.RegisterUserDTO;
+import com.astro.paraCodar.dto.request.UserUpdateDTO;
 import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.services.UserService;
@@ -62,7 +62,7 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/updateUser/{id}")
-	public ResponseEntity<UserDTO> update(@RequestParam String id, @Valid @RequestBody UserDTO dto){
+	public ResponseEntity<UserDTO> update(@PathVariable String id, @Valid @RequestBody UserUpdateDTO dto){
 		UserDTO user = userService.update(id, dto);
 		return ResponseEntity.ok().body(user);
 	}

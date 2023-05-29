@@ -50,16 +50,10 @@ public class PostController {
 		return ResponseEntity.created(uri).body(entity);
 	}
 	
-	@PostMapping("/likePost/{id}")
-	public ResponseEntity<Void> like(@PathVariable String id) {
-		postService.incrementLike(id);
-		return ResponseEntity.ok().build();
-	}
-	
-	@PostMapping("/dislikePost/{id}")
-	public ResponseEntity<Void> dislike(@PathVariable String id) {
-		postService.decrementLike(id);
-		return ResponseEntity.ok().build();
+	@PostMapping("/{postId}/like/{userId}")
+	public ResponseEntity<String> likePost(@PathVariable String postId, @PathVariable String userId) {
+		String response = postService.likePost(postId, userId);
+		return ResponseEntity.ok(response);
 	}
 	
 }

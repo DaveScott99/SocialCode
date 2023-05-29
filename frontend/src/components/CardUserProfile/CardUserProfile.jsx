@@ -4,6 +4,7 @@ import Timeline from "../Timeline/Timeline";
 import './CardUserProfile.css'
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { FindAllPostsByUser } from "../../services/Api";
+import { Avatar } from "@mui/material";
 
 const CardUserProfile = () => {
     
@@ -19,7 +20,7 @@ const CardUserProfile = () => {
             </div>
         
             <div className="user-pic">
-                <img src={user.userImg} alt="" />
+                <Avatar className="pic" alt="User image" src={user.userImg} sx={{ width: 150, height: 150 }} />
             </div>
 
             <div className="container-user-details">

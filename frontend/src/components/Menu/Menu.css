@@ -34,10 +34,12 @@
     justify-content: center;
 }
 
-.list-menu .profile-image > img {
+.list-menu .profile-image > .user-pic-sidebar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
 }
 
 @media (max-width: 1220px) {

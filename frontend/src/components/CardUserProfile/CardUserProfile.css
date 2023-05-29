@@ -26,9 +26,7 @@
     border-radius: 15px;
 }
 
-.container-profile-user > .user-pic img {
-    width: 150px;
-    height: 150px;
+.container-profile-user > .user-pic .pic {
     border-radius: 15px;
 }
 

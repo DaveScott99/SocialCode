@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { AiOutlineHome } from "react-icons/ai";
 
 import './Menu.css';
+import { Avatar } from "@mui/material";
 
 export default function Menu(){  
    
@@ -22,7 +23,7 @@ export default function Menu(){
                 <li>
                     <Link to="/profile">
                         <div className="profile-image">
-                            <img src={user.userImg} alt="Imagem do usuário" />
+                            <Avatar className="user-pic-sidebar" alt="User image" src={user.userImg}/>
                         </div>
                         <span className="txt-link">Perfil</span>
                     </Link>
