@@ -55,17 +55,19 @@ public class Post {
     @JoinTable(name = "post_like",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "LIKES", columnDefinition = "TEXT DEFAULT ''")
 	private Set<User> likes = new HashSet<>();
 
 	public Post() {
 	}
 
-	public Post(@NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments) {
+	public Post(@NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments, Set<User> likes) {
 		this.creationDate = creationDate;
 		this.imagePost = imagePost;
 		this.body = body;
 		this.user = user;
 		this.coments = coments;
+		this.likes = likes;
 	}
 
 	public String getId() {

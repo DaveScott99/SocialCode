@@ -23,12 +23,14 @@ export const loginUser = async (email, password) => {
  /* Função para registrar um novo usuário na plataforma */
  export const resgisterUser = async (userData) => {
     try {
-        return await api.post('/user/insert', { userData });   
+        return await api.post('/user/insert',  userData );
     }
     catch (err) {
         const listError = [err.response.data.errors];
-        for (var i = 0; i < listError[0].length; i++) {
-            toast.warning(listError[0][i].message)
+        if (listError) {
+            for (var i = 0; i < listError[0].length; i++) {
+                toast.warning(listError[0][i].message)
+            }
         }
     }
 }

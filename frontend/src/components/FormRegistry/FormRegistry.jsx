@@ -3,9 +3,12 @@ import { validateConfirmPassword, validateEmail, validateFirstName, validateLast
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import { resgisterUser } from "../../services/Api";
+import { useNavigate } from "react-router";
 
 export default function FormRegistry({ className }) {
     
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState();
     const [formRegistry, setFormRegistry] = useState ({
         firstName: "",
@@ -21,14 +24,16 @@ export default function FormRegistry({ className }) {
         setFormRegistry({ ...formRegistry, [name]: value});
     }
 
-    const handleSubmitRegistry =  async (event) => {
+    const handleSubmitRegistry = async (event) => {
         event.preventDefault();
 
         setLoading(true);
         
-        resgisterUser.resgister(formRegistry);
+        await resgisterUser(formRegistry);
 
         setLoading(false);
+
+        navigate("/");
 
     }
 

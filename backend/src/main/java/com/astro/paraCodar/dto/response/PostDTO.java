@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.validation.constraints.NotBlank;
 
-@JsonPropertyOrder(value = {"id", "creationDate", "imagePost", "body", "likes", "coments"})
+@JsonPropertyOrder(value = {"id", "creationDate", "imagePost", "body", "coments", "likes"})
 public class PostDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class PostDTO implements Serializable {
 	@NotBlank(message = "O Post deve conter pelo menos 1 caractere")
 	private String body;
 	
-	@JsonIgnoreProperties({"id", "firstName", "lastName", "biography", "email", "password", "registrationMoment"})
+	@JsonIgnoreProperties({"firstName", "lastName", "biography", "email", "password", "registrationMoment"})
 	private User user;
 	
 	@JsonProperty(value = "coments")

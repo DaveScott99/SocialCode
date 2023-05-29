@@ -124,6 +124,13 @@ public class PostService {
 			Coment coment = comentRepository.getReferenceById(comentDto.getId());
 			entity.getComents().add(coment);
 		}
+		
+		entity.getLikes().clear();
+		
+		for(User userLike : dto.getLikes()) {
+			User coment = userRepository.getReferenceById(userLike.getId());
+			entity.getLikes().add(coment);
+		}
 	}
 	
 }

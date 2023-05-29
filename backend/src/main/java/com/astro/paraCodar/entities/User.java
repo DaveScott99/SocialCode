@@ -50,7 +50,7 @@ public class User {
 	@Column(name="PASSWORD", nullable = false)
 	private String password;
 	
-	@Column(name = "REGISTRATION_MOMENT", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	@Column(name = "REGISTRATION_MOMENT", nullable = false)
 	@CreationTimestamp
 	private Instant registrationMoment;
 	
