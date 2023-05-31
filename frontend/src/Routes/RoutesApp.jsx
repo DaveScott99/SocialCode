@@ -6,6 +6,7 @@ import Home from '../pages/Home/Home';
 import CardUserProfile from '../components/CardUserProfile/CardUserProfile';
 import Layout from '../components/Layout/Layout';
 import Test from '../pages/Tests/Test';
+import ConfigAccount from '../components/ConfigAccount/ConfigAccount';
 
 export default function RouteApp() {
 
@@ -46,6 +47,14 @@ export default function RouteApp() {
                         </Private>
                     } />
 
+                    <Route exact path='/profile/configuration' element={
+                        <Private>
+                            <Layout>
+                                <ConfigAccount />
+                            </Layout>
+                        </Private>
+                    } />
+                    
                     <Route exact path='/test' element={ 
                         <Private>
                           <Layout>
@@ -53,6 +62,7 @@ export default function RouteApp() {
                             </Layout>
                         </Private>
                     } />
+
                     <Route exact path="/authentication" element={<Authentication />} />
                 </Routes>
             </AuthProvider>

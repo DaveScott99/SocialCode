@@ -4,6 +4,7 @@ import { BsGearWideConnected } from "react-icons/bs"
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 import './MenuMore.css'
+import { Link } from "react-router-dom";
 
 export default function MenuMore() {
 
@@ -41,7 +42,9 @@ export default function MenuMore() {
             </button>
 
             <div className="dropdown-content" style={style}>
-                <span><BsGearWideConnected className="icon-sub-menu" /> Configurações</span>
+                <Link to="/profile/configuration">
+                    <BsGearWideConnected className="icon-sub-menu" /> Configurações
+                </Link>
                 <hr className="line-separetor" />
                 <span onClick={logout}>Sair</span>
             </div>

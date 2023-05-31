@@ -35,6 +35,15 @@ export const loginUser = async (email, password) => {
     }
 }
 
+export const updateUser = async (idUser, userDataUpdate) => {
+    try {
+        return await api.put(`/user/updateUser/${idUser}`, userDataUpdate);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 export const findUserById = async (id) =>  {
     try {
         return await api.get(`/user/findById/${id}`);

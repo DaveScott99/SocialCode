@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import Timeline from "../Timeline/Timeline";
-
-import './CardUserProfile.css'
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { FindAllPostsByUser } from "../../services/Api";
 import { Avatar } from "@mui/material";
+
+import './CardUserProfile.css'
 
 const CardUserProfile = () => {
     
