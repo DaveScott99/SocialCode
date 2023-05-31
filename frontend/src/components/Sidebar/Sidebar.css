@@ -5,23 +5,23 @@
     background: var(--background-dark);
 }
 
-.container-sidebar .logo-app {
+.container-sidebar .header-sidebar {
     margin-bottom: 10px;
     text-align: center;
-    height: 72px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    padding: 10px 0px 0px 0px;
 }
 
-.container-sidebar .logo-app a {
+.container-sidebar .header-sidebar a {
     text-decoration: none;
     font-size: 1.5em;
     color: var(--text-dark);
+    margin-bottom: 10px;
 }
 
 @media (max-width: 1220px) {
-    .container-sidebar .logo-app {
+    .container-sidebar .header-sidebar {
         display: none;
     }
 }

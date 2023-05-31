@@ -53,6 +53,18 @@ export const findUserById = async (id) =>  {
     }
 }
 
+export const searchUsersByUsername = async (username) => {
+    try {
+        if (username !== null) {
+            return await api.get(`/user/searchUserByUsername/${username}`);
+        }
+        return null;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 export const findUserByUsername = async (username) => {
     try {
         return await api.get(`/user/findByUsername/${username}`);

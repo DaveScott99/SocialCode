@@ -2,13 +2,17 @@ import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 
 import "./Layout.css";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Layout({ children }) {
     return (
             <div className="wrapper">
                 <main className="main">
                     <header className="header">
-                        NAV
+                        <div className="search-bar">
+                            <SearchBar />
+                        </div>
+
                     </header>
                     { children }
                 </main>

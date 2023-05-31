@@ -8,8 +8,13 @@
     display: flex;
     width: 100%;
     color: #fff;
-    padding: 10px;
     display: none;
+    border: 1px solid red;
+}
+
+.header > .search-bar {
+    border: 1px solid red;
+    width: 50%;
 }
 
 .main {
@@ -62,6 +67,7 @@
         height: 100vh;
         margin: 0;
         display: block;
+
     }
 
     .l-sidebar {

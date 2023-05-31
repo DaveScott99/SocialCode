@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Input({name, type, placeholder, onChange, className, disabled, value}) {
+export default function Input({name, type, placeholder, onChange, className, disabled, value, onClick}) {
     return (
         <input 
             name={name}
@@ -10,6 +10,7 @@ export default function Input({name, type, placeholder, onChange, className, dis
             className={className}
             disabled={disabled}
             value={value}
+            onClick={onClick}
         />
     );
 }
