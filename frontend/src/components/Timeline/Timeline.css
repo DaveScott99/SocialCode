@@ -94,3 +94,9 @@
 .container-post .footer-post .interactios-button .icon-interaction {
     margin-right: 10px;
 }
+
+@media (max-width: 767px) {
+    .container-post {
+        margin-bottom: 55px;
+    }
+}

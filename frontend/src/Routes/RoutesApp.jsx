@@ -3,7 +3,7 @@ import Authentication from '../pages/Authentication/Authentication';
 import { AuthProvider, AuthContext } from '../contexts/Auth/AuthContext';
 import { useContext } from 'react';
 import Home from '../pages/Home/Home';
-import CardUserProfile from '../components/CardUserProfile/CardUserProfile';
+import UserProfile from '../components/UserProfile/UserProfile';
 import Layout from '../components/Layout/Layout';
 import Test from '../pages/Tests/Test';
 import ConfigAccount from '../components/ConfigAccount/ConfigAccount';
@@ -42,7 +42,7 @@ export default function RouteApp() {
                     <Route exact path='/profile' element={ 
                         <Private>
                             <Layout>
-                                <CardUserProfile />
+                                <UserProfile />
                             </Layout>
                         </Private>
                     } />

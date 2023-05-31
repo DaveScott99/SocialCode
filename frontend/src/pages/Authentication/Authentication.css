@@ -98,3 +98,14 @@
     cursor: pointer;
     font-weight: bold;
 }
+
+@media (max-width: 1220px) {
+    .container-page > .image-container {
+        display: none;
+    }
+
+    .container-page {
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -5,7 +5,6 @@
 }
 
 .header {
-    border: 1px solid red;
     display: flex;
     width: 100%;
     color: #fff;
@@ -62,6 +61,7 @@
         width: 100%;
         height: 100vh;
         margin: 0;
+        display: block;
     }
 
     .l-sidebar {
@@ -70,8 +70,8 @@
         height: 60px;
         padding: 0;
         justify-content: center;
-        border: 1px solid red;
         bottom: 0;
+        z-index: 4;
     }
 }
   

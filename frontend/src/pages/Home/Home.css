@@ -16,7 +16,6 @@
 
 @media (max-width: 767px) {
     .card-wrapper {
-        width: 490px;
-        padding: 10px;
+        width: 100%;
     }
 }

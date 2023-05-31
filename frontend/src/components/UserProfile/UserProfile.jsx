@@ -4,9 +4,9 @@ import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { FindAllPostsByUser } from "../../services/Api";
 import { Avatar } from "@mui/material";
 
-import './CardUserProfile.css'
+import './UserProfile.css'
 
-const CardUserProfile = () => {
+const UserProfile = () => {
     
     const { user } = useContext(AuthContext);
     const posts = FindAllPostsByUser(user.id);
@@ -65,4 +65,4 @@ const CardUserProfile = () => {
     );
 }
 
-export default CardUserProfile;
+export default UserProfile;
