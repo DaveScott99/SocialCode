@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.astro.paraCodar.entities.User;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByEmailAndPassword(String email, String password); 
 	User findByEmail(String email);

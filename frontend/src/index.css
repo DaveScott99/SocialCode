@@ -7,6 +7,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  background: var(--background-dark);
+}
+
 .content {
   max-width: 1200px;
   margin: 0 auto;

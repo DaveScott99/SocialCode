@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,6 +14,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
@@ -26,8 +27,9 @@ import jakarta.validation.constraints.NotNull;
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private String id = UUID.randomUUID().toString();
+	private Long id;
 	
 	@Column(name="FIRST_NAME", nullable = false, length = 120)
 	private String firstName;
@@ -65,8 +67,9 @@ public class User {
 	public User() {
 	}
 
-	public User(@NotNull String firstName, @NotNull String lastName, @NotNull String username, String biography, String userImg, @NotNull String email,
+	public User(Long id, @NotNull String firstName, @NotNull String lastName, @NotNull String username, String biography, String userImg, @NotNull String email,
 			@NotNull String password, Instant registrationMoment) {
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
@@ -77,11 +80,11 @@ public class User {
 		this.registrationMoment = registrationMoment;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -16,6 +15,8 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -30,8 +31,9 @@ import jakarta.validation.constraints.NotNull;
 public class Post {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private final String id = UUID.randomUUID().toString();
+	private Long id;
 	
 	@Column(name = "CREATION_DATE", nullable = false)
 	@CreationTimestamp
@@ -61,7 +63,8 @@ public class Post {
 	public Post() {
 	}
 
-	public Post(@NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments, Set<User> likes) {
+	public Post(Long id, @NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments, Set<User> likes) {
+		this.id = id;
 		this.creationDate = creationDate;
 		this.imagePost = imagePost;
 		this.body = body;
@@ -70,9 +73,13 @@ public class Post {
 		this.likes = likes;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
-	}	
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Instant getCreationDate() {
 		return creationDate;

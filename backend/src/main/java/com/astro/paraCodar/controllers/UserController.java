@@ -49,7 +49,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/findById/{id}")
-	public ResponseEntity<UserMinDTO> findById(@PathVariable String id){
+	public ResponseEntity<UserMinDTO> findById(@PathVariable Long id){
 		UserMinDTO user = userService.findById(id);
 		return ResponseEntity.ok().body(user);
 	}
@@ -62,7 +62,7 @@ public class UserController {
 	}
 	
 	@PutMapping(value = "/updateUser/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable String id, @Valid @RequestBody UserUpdateDTO dto){
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto){
 		UserDTO user = userService.update(id, dto);
 		return ResponseEntity.ok().body(user);
 	}

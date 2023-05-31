@@ -8,7 +8,7 @@ public class UserMinDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String id;
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String username;
@@ -29,7 +29,7 @@ public class UserMinDTO implements Serializable{
 		email = entity.getEmail();
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 	

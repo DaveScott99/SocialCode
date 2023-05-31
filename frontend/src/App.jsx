@@ -7,12 +7,10 @@ import './App.css'
 
 function App() {
   return (
-
     <>
       <ToastContainer autoClose={3000} position={toast.POSITION.TOP_RIGHT} theme='dark' />
       <RoutesApp />
     </>
-
   );
 }
 

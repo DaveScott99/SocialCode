@@ -53,21 +53,16 @@ export const findUserByUsername = async (username) => {
     }
 }
 
-
 // Função para resgatar todos os POSTS que vem do BACKEND
-export const FindAllPosts = () => {
-
-    const [posts, setPosts] = useState([]);
-
-    useEffect(() => {
-        api.get('/post/findAll')
-            .then(response => setPosts(response.data))
-            .catch(err => console.log(err));
-    }, [])
-
-    return posts;
-   
-}
+export const FindAllPosts = async (page) => {
+    try {
+      const response = await api.get(`/post/findAll/?size=6&page=${page}`);
+      return response.data.content;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+};
 
 export const FindAllPostsByUser = (id) => {
 

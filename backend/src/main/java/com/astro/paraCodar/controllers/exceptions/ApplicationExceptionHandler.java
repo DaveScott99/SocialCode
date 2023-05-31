@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ApplicationExceptionHandler {
 
-	/*
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<StandardError> anyException(Exception e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.BAD_GATEWAY;
@@ -41,7 +41,6 @@ public class ApplicationExceptionHandler {
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-	*/
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {

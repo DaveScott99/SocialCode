@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import Home from '../pages/Home/Home';
 import CardUserProfile from '../components/CardUserProfile/CardUserProfile';
 import Layout from '../components/Layout/Layout';
+import Test from '../pages/Tests/Test';
 
 export default function RouteApp() {
 
@@ -32,17 +33,23 @@ export default function RouteApp() {
                 <Routes>
                     <Route exact path='/' element={ 
                         <Private>
-                                <Layout>
-                                    <Home />
-                                </Layout>
-
-
+                            <Layout>
+                                <Home />
+                            </Layout>
                         </Private>
                     } />
                     <Route exact path='/profile' element={ 
                         <Private>
                             <Layout>
                                 <CardUserProfile />
+                            </Layout>
+                        </Private>
+                    } />
+
+                    <Route exact path='/test' element={ 
+                        <Private>
+                          <Layout>
+                                <Test />
                             </Layout>
                         </Private>
                     } />

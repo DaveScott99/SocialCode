@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,20 +27,20 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
+	@GetMapping(value = "/findAll/")
+	public ResponseEntity<Page<PostDTO>> findAllPaged(Pageable pageable){
+		Page<PostDTO> posts = postService.findAllPaged(pageable);
+		return ResponseEntity.ok().body(posts);
+	}
+	
 	@GetMapping(value = "/findById/{id}")
-	public ResponseEntity<PostDTO> findById(@PathVariable String id){
+	public ResponseEntity<PostDTO> findById(@PathVariable Long id){
 		PostDTO post = postService.findById(id);
 		return ResponseEntity.ok().body(post);
 	}
 	
-	@GetMapping(value = "/findAll")
-	public ResponseEntity<List<PostDTO>> findAll(){
-		List<PostDTO> posts = postService.findAll();
-		return ResponseEntity.ok().body(posts);
-	}
-	
 	@GetMapping(value = "/findPostsByUser/{userId}")
-	public ResponseEntity<List<PostDTO>> findPostsByUser(@PathVariable String userId) {
+	public ResponseEntity<List<PostDTO>> findPostsByUser(@PathVariable Long userId) {
 		List<PostDTO> posts = postService.findPostsByUser(userId);
 		return ResponseEntity.ok().body(posts);
 	}
@@ -51,7 +53,7 @@ public class PostController {
 	}
 	
 	@PostMapping("/{postId}/like/{userId}")
-	public ResponseEntity<String> likePost(@PathVariable String postId, @PathVariable String userId) {
+	public ResponseEntity<String> likePost(@PathVariable Long postId, @PathVariable Long userId) {
 		String response = postService.likePost(postId, userId);
 		return ResponseEntity.ok(response);
 	}

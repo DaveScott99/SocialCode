@@ -4,10 +4,10 @@ import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { likePost } from "../../services/Api";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { Avatar } from "@mui/material";
 import { dateFormat } from "../../utils/FormatDateInfo";
 
 import './Timeline.css'
+import { Avatar } from "@mui/material";
 
 export default function Timeline({ postsData }) {
 
@@ -31,6 +31,7 @@ export default function Timeline({ postsData }) {
 
         setLikesCount(prevCount => {
             const updatedCount = [...prevCount];
+            console.log(updatedCount);
             updatedCount[index] = liked[index] || postLiked.likes.some(userLike => userLike.id === user.id) ? updatedCount[index] - 1 : updatedCount[index] + 1;
             return updatedCount;
         });
@@ -89,11 +90,12 @@ export default function Timeline({ postsData }) {
                                     <IoIosShareAlt className="icon-interaction"/>
                                 </div>
                             </div>
-            
                         </div>
                     </div>
+                    
                 )})
             }
+ 
         </div>
     );
 };

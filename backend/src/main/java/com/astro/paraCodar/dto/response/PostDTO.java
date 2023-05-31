@@ -22,7 +22,7 @@ public class PostDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@JsonProperty(value = "id")
-	private String id;
+	private Long id;
 	
 	@JsonProperty(value = "creationDate")
 	private Instant creationDate;
@@ -56,7 +56,7 @@ public class PostDTO implements Serializable {
 		entity.getLikes().forEach(like -> this.likes.add(like));
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 

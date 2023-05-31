@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.container .post {
+    border: 1px solid red;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    background: #a6a6a6;
+    margin-bottom: 10px;
+    padding: 100px;
+}

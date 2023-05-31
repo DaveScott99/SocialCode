@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,19 +32,19 @@ public class PostService {
 	private ComentRepository comentRepository;
 	
 	@Transactional(readOnly = true)
-	public PostDTO findById(String id) {
+	public Page<PostDTO> findAllPaged(Pageable pageable){
+		Page<Post> posts = postRepository.findAllByOrderByCreationDateDesc(pageable);
+		return posts.map(x -> new PostDTO(x));
+	}
+	
+	@Transactional(readOnly = true)
+	public PostDTO findById(Long id) {
 		Post result = postRepository.findById(id).get();
 		return new PostDTO(result);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PostDTO> findAll(){
-		List<Post> posts = postRepository.findAll();
-		return posts.stream().map(x -> new PostDTO(x)).toList();
-	}
-	
-	@Transactional(readOnly = true)
-	public List<PostDTO> findPostsByUser(String id) {
+	public List<PostDTO> findPostsByUser(Long id) {
 		List<Post> posts = postRepository.findPostByUserId(id);
 		return posts.stream().map(x -> new PostDTO(x)).toList();
 	}
@@ -57,7 +59,7 @@ public class PostService {
 	}
 	
 	@Transactional
-	public PostDTO update(String id, PostDTO dto) {
+	public PostDTO update(Long id, PostDTO dto) {
 		try {
 			Post post = postRepository.getReferenceById(id);
 			copyDtoToEntity(dto, post);
@@ -69,7 +71,8 @@ public class PostService {
 		}
 	}
 	
-	public String likePost(String postId, String userId) {
+	@Transactional
+	public String likePost(Long postId, Long userId) {
 		
 		Optional<Post> post = postRepository.findById(postId);
 		Optional<User> user = userRepository.findById(userId);

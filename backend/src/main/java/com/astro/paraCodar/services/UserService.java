@@ -1,7 +1,6 @@
 package com.astro.paraCodar.services;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,7 +45,7 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public UserMinDTO findById(String id){
+	public UserMinDTO findById(Long id){
 		Optional<User> user = userRepository.findById(id);
 		User entity = user.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + id));
 		return new UserMinDTO(entity);
@@ -56,14 +55,13 @@ public class UserService {
 	public UserDTO insert(RegisterUserDTO dto) {
 		User user = new User();
 		copyDtoToEntityInsert(dto, user);
-		user.setId(UUID.randomUUID().toString());
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		user = userRepository.save(user);
 		return new UserDTO(user);		
 	}
 	
 	@Transactional
-	public UserDTO update(String id, UserUpdateDTO dto){
+	public UserDTO update(Long id, UserUpdateDTO dto){
 		try {
 			User entity = userRepository.getReferenceById(id);
 			copyDtoToEntityUpdate(dto, entity);
