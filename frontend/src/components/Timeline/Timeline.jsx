@@ -5,9 +5,10 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { likePost } from "../../services/Api";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { dateFormat } from "../../utils/FormatDateInfo";
+import { Avatar } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import './Timeline.css'
-import { Avatar } from "@mui/material";
 
 export default function Timeline({ postsData }) {
 
@@ -50,10 +51,12 @@ export default function Timeline({ postsData }) {
                         <div className="header-post">
 
                             <div className="user-data">
-                                <Avatar className="user-image" alt="User image" src={post.user.userImg}/>
+                                <Link to={`/profile/${post.user.username}`}>
+                                    <Avatar className="user-image" alt="User image" src={post.user.userImg}/>
+                                </Link>
                                 <div className="user-texts">
-                                    <span className="user-name">{post.user.username} ·</span>
-                                    <div className="post-date">{dateFormat(post.creationDate)}</div> 
+                                    <Link to={`/profile/${post.user.username}`} className="user-name">{post.user.username}</Link>
+                                    <div className="post-date"> · {dateFormat(post.creationDate)}</div> 
                                 </div>
                             </div>
 

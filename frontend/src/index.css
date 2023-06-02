@@ -25,7 +25,9 @@ body {
   --button-primary: #7e4bf69e;
   --button-primary-hover: #7e4bf681;
   --background-dark: #010102;
+  --background-dark2: #191622;
   --background-dark-secondary: #262626;
+  --background-white: #F2F2F2;
   --hover: #3C3C3C;
   --hover-secondary: #5555553f;
 }

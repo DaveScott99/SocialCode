@@ -3,7 +3,7 @@ import Authentication from '../pages/Authentication/Authentication';
 import { AuthProvider, AuthContext } from '../contexts/Auth/AuthContext';
 import { useContext } from 'react';
 import Home from '../pages/Home/Home';
-import UserProfile from '../components/UserProfile/UserProfile';
+import UserProfile from '../pages/UserProfile/UserProfile';
 import Layout from '../components/Layout/Layout';
 import Test from '../pages/Tests/Test';
 import ConfigAccount from '../components/ConfigAccount/ConfigAccount';
@@ -13,7 +13,7 @@ export default function RouteApp() {
     const Private = ({ children }) => {
 
         // Puxando as informações de login do AuthContext
-        const { authenticated, loading } = useContext(AuthContext);
+        const {user, authenticated, loading } = useContext(AuthContext);
 
         if (loading) {
             return <div className="loading">Carregando...</div>
@@ -39,7 +39,7 @@ export default function RouteApp() {
                             </Layout>
                         </Private>
                     } />
-                    <Route exact path='/profile' element={ 
+                    <Route exact path='/profile/:username' element={ 
                         <Private>
                             <Layout>
                                 <UserProfile />

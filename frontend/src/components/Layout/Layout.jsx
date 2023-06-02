@@ -18,9 +18,9 @@ export default function Layout({ children }) {
                 </main>
 
                 <aside className="l-sidebar">
-                    <div className='content-sidebar'>
+                    <nav className='content-sidebar'>
                         <Sidebar />
-                    </div>
+                    </nav>
                 </aside>
 
             </div>
