@@ -21,7 +21,7 @@ export default function Menu(){
                     </Link>
                 </li>
                 <li>
-                    <Link to="/profile">
+                    <Link to={`/profile/${user.username}`}>
                         <div className="profile-image">
                             <Avatar className="user-pic-sidebar" alt="User image" src={user.userImg}/>
                         </div>

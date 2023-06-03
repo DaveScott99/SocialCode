@@ -3,10 +3,10 @@ import Authentication from '../pages/Authentication/Authentication';
 import { AuthProvider, AuthContext } from '../contexts/Auth/AuthContext';
 import { useContext } from 'react';
 import Home from '../pages/Home/Home';
-import UserProfile from '../components/UserProfile/UserProfile';
 import Layout from '../components/Layout/Layout';
 import Test from '../pages/Tests/Test';
 import ConfigAccount from '../components/ConfigAccount/ConfigAccount';
+import UserProfile from '../pages/UserProfile/UserProfile';
 
 export default function RouteApp() {
 
@@ -39,7 +39,7 @@ export default function RouteApp() {
                             </Layout>
                         </Private>
                     } />
-                    <Route exact path='/profile' element={ 
+                    <Route exact path='/profile/:username' element={ 
                         <Private>
                             <Layout>
                                 <UserProfile />

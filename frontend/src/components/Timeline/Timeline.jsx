@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoIosShareAlt } from "react-icons/io"
 import { BiCommentDetail } from "react-icons/bi"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
@@ -14,11 +14,6 @@ export default function Timeline({ postsData }) {
     const { user } = useContext(AuthContext);
 
     const [liked, setLiked] = useState(postsData.map(() => true));
-    const [likesCount, setLikesCount] = useState(postsData.map(post => post.likes.length));
-
-    useEffect(() => {
-        setLikesCount(postsData.map(post => post.likes.length));
-    }, [postsData])
 
     const clickLike = async (postLiked, index) => {
         setLiked(prevLike => {
@@ -29,12 +24,6 @@ export default function Timeline({ postsData }) {
 
         await likePost(postLiked.id, user.id);
 
-        setLikesCount(prevCount => {
-            const updatedCount = [...prevCount];
-            console.log(updatedCount);
-            updatedCount[index] = liked[index] || postLiked.likes.some(userLike => userLike.id === user.id) ? updatedCount[index] - 1 : updatedCount[index] + 1;
-            return updatedCount;
-        });
     };
 
     return (
@@ -79,7 +68,7 @@ export default function Timeline({ postsData }) {
                                             : liked[index] && !hasLiked 
                                                     ? <AiFillHeart className="icon-interaction" /> 
                                                     : <AiOutlineHeart className="icon-interaction" />
-                                    } { likesCount[index] }
+                                    }
                                 </div>
 
                                 <div className="center-box">
