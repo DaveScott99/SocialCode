@@ -3,9 +3,9 @@ import MenuMore from "../MenuMore/MenuMore";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { AiOutlineHome } from "react-icons/ai";
-import { Avatar } from "@mui/material";
 
 import './Menu.css';
+import { Avatar } from "@mui/material";
 
 export default function Menu(){  
    
@@ -21,7 +21,7 @@ export default function Menu(){
                     </Link>
                 </li>
                 <li>
-                    <Link to={`/profile/${user.username}`}>
+                    <Link to="/profile">
                         <div className="profile-image">
                             <Avatar className="user-pic-sidebar" alt="User image" src={user.userImg}/>
                         </div>

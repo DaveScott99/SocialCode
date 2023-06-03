@@ -85,13 +85,17 @@ export const FindAllPosts = async (page) => {
     }
 };
 
-export const findAllPostsByUser = async (id) => {
-    try {
-        return await api.get(`/post/findPostsByUser/${id}`);
-    }
-    catch (error) {
-        console.log(error);
-    }
+export const FindAllPostsByUser = (id) => {
+
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        api.get(`/post/findPostsByUser/${id}`)
+            .then(response => setPosts(response.data))
+            .catch(err => console.log(err));
+    }, [id])
+
+    return posts;
 }
 
 export const findPostById = async (id) => {

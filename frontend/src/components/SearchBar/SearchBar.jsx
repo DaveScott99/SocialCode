@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import "./SearchBar.css";
 import { Avatar } from "@mui/material";
 import { searchUsersByUsername } from "../../services/Api";
-import { Link } from "react-router-dom";
 
 export default function SearchBar() {
 
@@ -38,6 +37,8 @@ export default function SearchBar() {
 
     const onChangeUsernameSearch = async (event) => {
 
+        handleClickShowSubMenu();
+
         const usernameSearch = event.target.value;
 
         if (usernameSearch.length >= 1) {
@@ -53,25 +54,24 @@ export default function SearchBar() {
         }
     }
 
+
     return (
         <div className="container-search-input">
-            <Input type="text" name="search" placeholder="Pesquisar no SocialCode" className="search-input" onClick={handleClickShowSubMenu} onChange={onChangeUsernameSearch} />
+            <Input type="text" name="search" placeholder="Pesquisar no SocialCode" className="search-input" onChange={onChangeUsernameSearch} />
 
             <div className="search-response" ref={modalSearchResponseRef} style={style}>
 
                 <div className="card-response">
                     {
                         searchResponse &&
-                            searchResponse.map((user) => (
-                                <div className="container-response" key={user.id}>
-                                    <div className="item">
-                                        <Link to={`/profile/${user.username}`}>
-                                            <Avatar className="img-response" src={user.userImg} /> 
-                                            <span className="username-response">{user.username}</span> 
-                                        </Link>  
-                                    </div>
-                                </div>
+                            searchResponse.map((users) => (
+                                <div className="container-response" key={users.id}>
+                                    <Avatar className="img-response" src={users.userImg} /> 
+                                    <span className="username-response">{users.username}</span> 
+                                </div>  
                             ))
+
+
                     }
                 </div>
 
