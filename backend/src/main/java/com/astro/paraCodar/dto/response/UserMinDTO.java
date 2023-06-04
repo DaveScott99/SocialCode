@@ -13,7 +13,12 @@ public class UserMinDTO implements Serializable{
 	private String lastName;
 	private String username;
 	private String biography;
-	private String userImg;
+	private String title;
+	private String profilePhoto;
+	private String backgroundImage;
+	private String gitHubLink;
+	private String linkedinLink;
+	private String instagramLink;
 	private String email;
 	
 	public UserMinDTO() {
@@ -25,7 +30,12 @@ public class UserMinDTO implements Serializable{
 		lastName = entity.getLastName();
 		username = entity.getUsername();
 		biography = entity.getBiography();
-		userImg = entity.getUserImg();
+		title = entity.getTitle();
+		profilePhoto = entity.getProfilePhoto();
+		backgroundImage = entity.getBackgroundImage();
+		gitHubLink = entity.getGitHubLink();
+		linkedinLink = entity.getLinkedinLink();
+		instagramLink = entity.getInstagramLink();
 		email = entity.getEmail();
 	}
 
@@ -49,12 +59,28 @@ public class UserMinDTO implements Serializable{
 		return biography;
 	}
 
-	public String getUserImg() {
-		return userImg;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setUserImg(String userImg) {
-		this.userImg = userImg;
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public String getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public String getGitHubLink() {
+		return gitHubLink;
+	}
+
+	public String getLinkedinLink() {
+		return linkedinLink;
+	}
+
+	public String getInstagramLink() {
+		return instagramLink;
 	}
 
 	public String getEmail() {

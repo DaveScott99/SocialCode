@@ -41,7 +41,7 @@ export default function Timeline({ postsData }) {
 
                             <div className="user-data">
                                 <Link to={`/profile/${post.user.username}`}>
-                                    <Avatar className="user-image" alt="User image" src={post.user.userImg}/>
+                                    <Avatar className="user-image" alt="User image" src={post.user.profilePhoto}/>
                                 </Link>
                                
                                 <div className="user-texts">

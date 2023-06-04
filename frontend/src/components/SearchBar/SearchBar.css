@@ -39,7 +39,19 @@
 
 .container-search-input > .search-response > .card-response > .container-response {
     display: flex;
+    width: 100%;
+}
+
+.container-search-input > .search-response > .card-response > .container-response .item {
+    width: 100%;
+}
+
+.container-search-input > .search-response > .card-response > .container-response > .item > a {
+    width: 100%;
+    display: flex;
     align-items: center;
+    text-decoration: none;
+    color: var(--text-dark);
 }
 
 .container-search-input > .search-response > .card-response:hover {
@@ -47,7 +59,7 @@
 }
 
 .container-search-input > .search-response > .card-response .username-response {
-    margin-left: 5px;
+    margin-left: 10px;
     font-size: .9em;
     font-weight: 300;
 }

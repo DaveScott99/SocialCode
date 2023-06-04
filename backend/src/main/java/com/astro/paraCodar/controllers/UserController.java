@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astro.paraCodar.dto.request.RegisterUserDTO;
+import com.astro.paraCodar.dto.request.UriDTO;
 import com.astro.paraCodar.dto.request.UserUpdateDTO;
 import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
@@ -65,6 +68,12 @@ public class UserController {
 	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto){
 		UserDTO user = userService.update(id, dto);
 		return ResponseEntity.ok().body(user);
+	}
+	
+	@PostMapping(value = "/insert/image/{username}")
+	public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable String username) {
+		UriDTO dto = userService.uploadProfilePhoto(file, username);
+		return ResponseEntity.ok().body(dto);
 	}
 	
 }

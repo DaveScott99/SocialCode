@@ -1,5 +1,6 @@
 package com.astro.paraCodar.services;
 
+import java.net.URL;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.astro.paraCodar.dto.request.RegisterUserDTO;
+import com.astro.paraCodar.dto.request.UriDTO;
 import com.astro.paraCodar.dto.request.UserUpdateDTO;
 import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
@@ -22,6 +25,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -40,7 +46,6 @@ public class UserService {
 	@Transactional(readOnly = true)
 	public UserMinDTO findByUsername(String username) {
 		User user = userRepository.findByUsername(username);
-
 		return new UserMinDTO(user);
 	}
 	
@@ -73,6 +78,13 @@ public class UserService {
 		}
 	}
 	
+	public UriDTO uploadProfilePhoto(MultipartFile file, String username) {
+		URL url = s3Service.uploadFile(file);
+		User user = userRepository.findByUsername(username);
+		user.setProfilePhoto(url.toString());
+		userRepository.save(user);
+		return new UriDTO(url.toString());
+	}
 	
 	// Método para copiar os atributos do UserDTO para a entidade User
 	private void copyDtoToEntityUpdate(UserDTO dto, User entity) {
@@ -80,7 +92,10 @@ public class UserService {
 		entity.setLastName(dto.getLastName());
 		entity.setUsername(dto.getUsername());
 		entity.setBiography(dto.getBiography());
-		entity.setUserImg(dto.getUserImg());
+		entity.setTitle(dto.getTitle());
+		entity.setLinkedinLink(dto.getLinkedinLink());
+		entity.setInstagramLink(dto.getInstagramLink());
+		entity.setGitHubLink(dto.getGitHubLink());
 	}
 	
 	
@@ -93,6 +108,5 @@ public class UserService {
 		entity.setEmail(dto.getEmail());
 		entity.setPassword(dto.getPassword());
 	}
-	
 	
 }

@@ -1,13 +1,16 @@
 .badge {
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+    margin-right: 5px;
     background: var(--background-white);
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.badge img {
-    width: 50px;
-    height: 50px;
+.badge a {
+    width: 40px;
+    height: 40px;
 }

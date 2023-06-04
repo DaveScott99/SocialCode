@@ -20,7 +20,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER")
@@ -43,8 +42,23 @@ public class User {
 	@Column(name="BIOGRAPHY", nullable = true, length = 255)
 	private String biography;
 	
-	@Column(name="USER_IMG", nullable = true, columnDefinition = "TEXT")
-	private String userImg;
+	@Column(name="TITLE", nullable = true, length = 120)
+	private String title;
+	
+	@Column(name="GITHUB_LINK", nullable = true, length = 255)
+	private String gitHubLink;
+	
+	@Column(name="LINKEDIN_LINK", nullable = true, length = 255)
+	private String linkedinLink;
+	
+	@Column(name="INSTAGRAM_LINK", nullable = true, length = 255)
+	private String instagramLink;
+	
+	@Column(name="BACKGROUND_IMAGE", nullable = true, length = 255)
+	private String backgroundImage;
+	
+	@Column(name="PROFILE_PHOTO", nullable = true, columnDefinition = "TEXT")
+	private String profilePhoto;
 	
 	@Column(name="EMAIL", unique = true, nullable = false, updatable = false)
 	private String email;
@@ -66,15 +80,22 @@ public class User {
 	
 	public User() {
 	}
-
-	public User(Long id, @NotNull String firstName, @NotNull String lastName, @NotNull String username, String biography, String userImg, @NotNull String email,
-			@NotNull String password, Instant registrationMoment) {
+	
+	public User(Long id, String firstName, String lastName, String username, String biography, String title,
+			String gitHubLink, String linkedinLink, String instagramLink, String backgroundImage, String profilePhoto,
+			String email, String password, Instant registrationMoment) {
+		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.biography = biography;
-		this.userImg = userImg;
+		this.title = title;
+		this.gitHubLink = gitHubLink;
+		this.linkedinLink = linkedinLink;
+		this.instagramLink = instagramLink;
+		this.backgroundImage = backgroundImage;
+		this.profilePhoto = profilePhoto;
 		this.email = email;
 		this.password = password;
 		this.registrationMoment = registrationMoment;
@@ -120,12 +141,56 @@ public class User {
 		this.biography = biography;
 	}
 
-	public String getUserImg() {
-		return userImg;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setUserImg(String userImg) {
-		this.userImg = userImg;
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getGitHubLink() {
+		return gitHubLink;
+	}
+
+	public void setGitHubLink(String gitHubLink) {
+		this.gitHubLink = gitHubLink;
+	}
+
+	public String getLinkedinLink() {
+		return linkedinLink;
+	}
+
+	public void setLinkedinLink(String linkedinLink) {
+		this.linkedinLink = linkedinLink;
+	}
+
+	public String getInstagramLink() {
+		return instagramLink;
+	}
+
+	public void setInstagramLink(String instagramLink) {
+		this.instagramLink = instagramLink;
+	}
+
+	public String getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(String backgroundImage) {
+		this.backgroundImage = backgroundImage;
+	}
+
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
+
+	public void setLikedPosts(Set<Post> likedPosts) {
+		this.likedPosts = likedPosts;
 	}
 
 	public String getEmail() {

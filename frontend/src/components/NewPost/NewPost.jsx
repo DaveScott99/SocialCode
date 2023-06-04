@@ -44,7 +44,7 @@ export default function NewPost() {
         <div className="container-create">
             <div className="header-new-post">
                 <div className="user-image">
-                    <Avatar alt="User image" src={user.userImg} sx={{ width: 40, height: 40 }} />
+                    <Avatar alt="User image" src={user.profilePhoto} sx={{ width: 40, height: 40 }} />
                 </div>
             </div>
 

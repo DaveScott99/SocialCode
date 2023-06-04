@@ -4,26 +4,28 @@
     flex-direction: column;
 }
 
-.user-profile-details > .user-stats > .name-and-button .name {
-    font-size: 2em;
-    font-weight: 600;
-    margin-right: 50px;
-}
-
 .user-profile-details > .user-stats > .name-and-button {
     width: 100%;
     display: flex;
     align-items: center;
 }   
 
-.user-profile-details > .user-stats > .name-and-button > .btn {
-    padding: 10px 20px 10px 20px;
+.user-profile-details > .user-stats > .name-and-button > a, .btn  {
+    padding: 10px;
     background: var(--background-white);
     font-weight: bold;
     color: var(--text-white);
     border-radius: 10px;
     border: none;
     cursor: pointer;
+    text-decoration: none;
+    font-size: .9em;
+}
+
+.user-profile-details > .user-stats > .name-and-button .name {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-right: 50px;
 }
 
 .user-profile-details > .user-stats > .username {
@@ -33,12 +35,12 @@
 }
 
 .user-profile-details > .user-stats > .biography {
-    font-size: 1em;
+    font-size: 1.1em;
     font-weight: 300;
     margin-bottom: 10px;
 }
 
-.user-profile-details > .user-stats  > .statistics {
+.user-profile-details > .user-stats > .statistics {
     font-size: .9em;
     display: flex;
 }

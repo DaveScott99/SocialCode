@@ -3,11 +3,11 @@ import Input from "../Input/Input"
 import { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
-
-import "./SearchBar.css";
 import { Avatar } from "@mui/material";
 import { searchUsersByUsername } from "../../services/Api";
 import { Link } from "react-router-dom";
+
+import "./SearchBar.css";
 
 export default function SearchBar() {
 
