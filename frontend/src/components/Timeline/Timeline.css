@@ -43,6 +43,11 @@
     width: 100%;
 }
 
+.container-post .header-post .user-data .user-texts a {
+    text-decoration: none;
+    color: var(--text-dark);
+}
+
 .container-post .header-post .user-texts .user-name {
     font-weight: 700;
     font-size: .9em;

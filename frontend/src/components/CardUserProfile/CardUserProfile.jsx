@@ -8,6 +8,8 @@ import Container from "../Container/Container";
 
 import './CardUserProfile.css';
 import UserAvatar from "../UserAvatar/UserAvatar";
+import UserInfo from "../UserInfo/UserInfo";
+import Badge from "../Badge/Badge";
 
 export default function CardUserProfile({ username }) {
 
@@ -41,39 +43,13 @@ export default function CardUserProfile({ username }) {
 
                     <div className="user-profile-details">
 
-                        <div className="user-stats">
-                            <div className="name-and-button">
-                                <span className="name">{currentUser.firstName} {currentUser.lastName}</span>
-                                <Button type="button" text="Editar perfil" className="btn" />
-                            </div>
-
-                            <span className="username">{currentUser.username}</span>
-                            <span className="biography">{currentUser.biography}</span>
-                            
-                            <div className="statistics">
-                                <div className="followers">
-                                    <span className="followers-count">0</span>
-                                    <span className="followers-label"> Seguidores</span>
-                                </div>
-                                <div className="projects">
-                                    <span className="followers-count">0</span>
-                                    <span className="followers-label"> Projetos</span>
-                                </div>
-                            </div>
-                        </div>
+                        <UserInfo userData={currentUser} />
                        
-                        
                         <div className="user-badges">
                             <div className="badges">
-                                <div className="badge">
-
-                                </div>
-                                <div className="badge">
-
-                                </div>
-                                <div className="badge">
-
-                                </div>
+                                <Badge 
+                                    imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                                    link="https://github.com/DaveScott99" />
                             </div>
                         </div>
 
