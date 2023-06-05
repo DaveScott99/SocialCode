@@ -22,7 +22,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    position: relative;
 }
 
 .user-profile-card > .user-cover-image {

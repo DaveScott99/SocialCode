@@ -9,7 +9,7 @@ import UserInfo from "../UserInfo/UserInfo";
 import Badge from "../Badge/Badge";
 
 import './CardUserProfile.css';
-import { AuthContext } from "../../contexts/Auth/AuthContext";
+
 
 export default function CardUserProfile({ username }) {
 

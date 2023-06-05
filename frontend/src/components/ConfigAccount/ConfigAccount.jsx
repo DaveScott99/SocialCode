@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext"
-import Input from "../Input/Input";
 import Button from "../Button/Button";
 import { updateUser } from "../../services/Api";
+import TextField from "../TextField/TextField";
+import TextArea from "../TextArea/TextArea";
+import InputImage from "../InputImage/InputImage";
 
 import './ConfigAccount.css';
 
@@ -16,8 +17,13 @@ export default function ConfigAccount() {
         firstName: user.firstName,
         lastName: user.lastName,
         username: user.username,
+        title: user.title,
         biography: user.biography,
-        userImg: user.userImg
+        profilePhoto: user.profilePhoto,
+        backgroundImage: user.backgroundImage,
+        gitHubLink: user.gitHubLink,
+        linkedinLink: user.linkedinLink,
+        instagramLink: user.instagramLink,
     })
 
     const handleClickUpdateUser = async () => {
@@ -32,44 +38,84 @@ export default function ConfigAccount() {
         setUserDetails({ ...userDetails, [name]: value});
     }
 
+
     return (
         <section className="container-config">
 
             <article className="card-details-user">
-                <aside className="aside-config">
-                    Editar perfil
-                </aside>
 
                 <main className="user-data">
 
-                    <Avatar className="user-pic" alt="User image" src={user.userImg}/>
+                    <InputImage currentImage={userDetails.backgroundImage} />
+                    <InputImage currentImage={userDetails.profilePhoto} />
+
+
+
 
                     <form className="form-update">
+                            <TextField
+                                type="text"
+                                fieldName="Username"
+                                value={userDetails.username}
+                                name="username"
+                                onChange={onChange}
+                            />
+                       
+                            <TextField
+                                type="text"
+                                fieldName="Nome"
+                                value={userDetails.firstName}
+                                name="firstName"
+                                onChange={onChange}
+                            />
 
-                        <div className="editable">
-                            <label htmlFor="firstName">Nome</label>
-                            <Input type="text" name="firstName" className="input-data" onChange={onChange} value={userDetails.firstName}/>
+                            <TextField
+                                type="text"
+                                fieldName="Sobrenome"
+                                value={userDetails.lastName}
+                                name="lastName"
+                                onChange={onChange}
+                            />
 
-                            <label htmlFor="lastName">Sobrenome</label>
-                            <Input type="text" name="lastName" className="input-data" onChange={onChange} value={userDetails.lastName}/>
+                            <TextField
+                                type="text"
+                                fieldName="Sobrenome"
+                                value={userDetails.lastName}
+                                name="lastName"
+                                onChange={onChange}
+                            />
 
-                            <label htmlFor="biography">Biografia</label>
-                            <textarea name="biography" className="input-data" onChange={onChange} value={userDetails.biography}/>
-                        </div>
+                            <TextArea 
+                                name="biography"
+                                onChange={onChange}
+                                fieldName="Bio"
+                                valueDefault={userDetails.biography}
+                            />
 
-                        <div className="not-editable">
+                            
+                            <TextField
+                                type="text"
+                                fieldName="GitHub"
+                                value={userDetails.gitHubLink}
+                                name="gitHubLink"
+                                onChange={onChange}
+                            />
 
-                            <label htmlFor="username">Username</label>
-                            <Input type="text" name="username" className="input-data" onChange={onChange} value={userDetails.username} />
+                            <TextField
+                                type="text"
+                                fieldName="Linkedin"
+                                value={userDetails.linkedinLink}
+                                name="linkedinLink"
+                                onChange={onChange}
+                            />
 
-                            <label htmlFor="userImg">Imagem de perfil</label>
-                            <Input type="text" name="userImg" className="input-data" onChange={onChange} value={userDetails.userImg} />
-
-                            <label htmlFor="email">Email</label>
-                            <Input type="text" name="email" className="input-data" disabled value={userDetails.email}/>
-
-                        </div>
-
+                            <TextField
+                                type="text"
+                                fieldName="Instagram"
+                                value={userDetails.instagramLink}
+                                name="instagramLink"
+                                onChange={onChange}
+                            />
                     </form>
                     <Button type="button" text="Salvar" className="btn-save" onClick={handleClickUpdateUser}/>
                 </main>

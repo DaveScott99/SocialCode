@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import Button from "../Button/Button";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
+import EditProfileButton from "../EditProfileButton/EditProfileButton";
 
 import './UserInfo.css'
-import { Link } from "react-router-dom";
 
 export default function UserInfo({ userData }) {
 
@@ -17,11 +17,8 @@ export default function UserInfo({ userData }) {
                 {
                     userData.id !== user.id
                                     ? <Button type="button" text="Seguir" className="btn" />
-                                    : 
-                                    <Link to="/profile/configuration">
-                                        <span>Editar perfil</span>
-                                    </Link>
-                                       
+                                    : <EditProfileButton />
+                                     
                 }
                
             </div>

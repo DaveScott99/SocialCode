@@ -1,25 +1,14 @@
 .container-config {
-    width: 100%;
+    width: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    overflow: auto;
 }
 
 .container-config > .card-details-user {
-    border: 1px solid var(--border);
-    width: 1200px;
     display: flex;
     border-radius: 2px;
-}
-
-.container-config > .card-details-user > .aside-config {
-    width: 200px;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    border-right: 1px solid var(--border);
+    width: 100%;
 }
 
 .container-config > .card-details-user > .user-data {
@@ -38,45 +27,13 @@
 }
 
 .container-config > .card-details-user > .user-data .form-update {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.container-config > .card-details-user > .user-data .form-update .editable, .not-editable  {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: 10px;
+    border: 1px solid red;
     width: 100%;
-}
-
-.container-config > .card-details-user > .user-data .form-update .editable > .input-data {
-    padding: 10px;
-    width: 60%;
-    outline: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background: var(--background-dark-secondary);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-size: .9em;
-    color: var(--text-dark);
-}
-
-.container-config > .card-details-user > .user-data .form-update .not-editable > .input-data {
-    padding: 10px;
-    width: 60%;
-    outline: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background: var(--background-dark-secondary);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    font-size: .9em;
-    color: var(--text-dark);
 }
 
 .container-config > .card-details-user > .user-data .btn-save {

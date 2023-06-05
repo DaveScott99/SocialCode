@@ -70,8 +70,8 @@ public class UserController {
 		return ResponseEntity.ok().body(user);
 	}
 	
-	@PostMapping(value = "/insert/image/{username}")
-	public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable String username) {
+	@PostMapping(value = "/upload/profile_photo/{username}")
+	public ResponseEntity<UriDTO> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @PathVariable String username) {
 		UriDTO dto = userService.uploadProfilePhoto(file, username);
 		return ResponseEntity.ok().body(dto);
 	}
