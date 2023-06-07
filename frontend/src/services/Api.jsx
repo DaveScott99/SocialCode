@@ -74,6 +74,19 @@ export const findUserByUsername = async (username) => {
     }
 }
 
+export const uploadProfilePhoto = async (username, photo) => {
+
+    const formData = new FormData();
+    formData.append('file', photo);
+
+    try {
+        return await api.post(`/user/upload/profile_photo/${username}`, formData);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 // Função para resgatar todos os POSTS que vem do BACKEND
 export const FindAllPosts = async (page) => {
     try {

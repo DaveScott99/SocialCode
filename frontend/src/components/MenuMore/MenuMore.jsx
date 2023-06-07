@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx"
-import { BsGearWideConnected } from "react-icons/bs"
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 import './MenuMore.css'
-import { Link } from "react-router-dom";
 
 export default function MenuMore() {
 
@@ -42,9 +40,6 @@ export default function MenuMore() {
             </button>
 
             <div className="dropdown-content" style={style}>
-                <Link to="/profile/configuration">
-                    <BsGearWideConnected className="icon-sub-menu" /> Configurações
-                </Link>
                 <hr className="line-separetor" />
                 <span onClick={logout}>Sair</span>
             </div>

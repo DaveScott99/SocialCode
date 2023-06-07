@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Timeline from "../Timeline/Timeline";
 import { findAllPostsByUser, findUserByUsername } from "../../services/Api";
 import { useState } from "react";
@@ -7,9 +7,9 @@ import Container from "../Container/Container";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import UserInfo from "../UserInfo/UserInfo";
 import Badge from "../Badge/Badge";
+import UserBackgroundImage from "../UserBackgroundImage/UserBackgroundImage";
 
 import './CardUserProfile.css';
-
 
 export default function CardUserProfile({ username }) {
 
@@ -34,12 +34,12 @@ export default function CardUserProfile({ username }) {
             <section className="user-profile-card">
 
                 <div className="user-cover-image">
-                    <img src={currentUser.backgroundImage} alt="" />
+                    <UserBackgroundImage backgroundImage="https://github.com/vinceliuice/WhiteSur-wallpapers/raw/main/1080p/WhiteSur.png" />
                 </div>
 
                 <article className="user-info">
 
-                    <UserAvatar className="user-avatar" userImage={currentUser.profilePhoto} sx={{ width: 200, height: 200 }} variant="rounded" />
+                    <UserAvatar className="user-avatar" userImage={currentUser.profilePhoto} />
 
                     <div className="user-profile-details">
 

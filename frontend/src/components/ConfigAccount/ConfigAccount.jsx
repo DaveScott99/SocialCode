@@ -4,7 +4,6 @@ import Button from "../Button/Button";
 import { updateUser } from "../../services/Api";
 import TextField from "../TextField/TextField";
 import TextArea from "../TextArea/TextArea";
-import InputImage from "../InputImage/InputImage";
 
 import './ConfigAccount.css';
 
@@ -38,7 +37,6 @@ export default function ConfigAccount() {
         setUserDetails({ ...userDetails, [name]: value});
     }
 
-
     return (
         <section className="container-config">
 
@@ -46,12 +44,8 @@ export default function ConfigAccount() {
 
                 <main className="user-data">
 
-                    <InputImage currentImage={userDetails.backgroundImage} />
-                    <InputImage currentImage={userDetails.profilePhoto} />
-
-
-
-
+                    <h2>Editar perfil</h2>
+                    
                     <form className="form-update">
                             <TextField
                                 type="text"
@@ -79,9 +73,9 @@ export default function ConfigAccount() {
 
                             <TextField
                                 type="text"
-                                fieldName="Sobrenome"
-                                value={userDetails.lastName}
-                                name="lastName"
+                                fieldName="Titulo"
+                                value={userDetails.title}
+                                name="title"
                                 onChange={onChange}
                             />
 
@@ -91,7 +85,6 @@ export default function ConfigAccount() {
                                 fieldName="Bio"
                                 valueDefault={userDetails.biography}
                             />
-
                             
                             <TextField
                                 type="text"

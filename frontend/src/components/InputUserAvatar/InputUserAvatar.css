@@ -1,0 +1,81 @@
+.input-user-avatar-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 300px;
+    width: 400px;
+    height: 450px;
+}
+
+.picture-user-avatar {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    background: #51515155;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.picture-user-avatar:hover {
+    background: #51515171;
+}
+
+.picture-user-avatar > .picture-user-avatar-preview > .image {
+    width: 300px;
+    height: 300px;
+    background-size: cover;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.picture-user-avatar > .picture-user-avatar-preview > .upload-image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.picture-user-avatar > .picture-user-avatar-preview> .upload-image-container > .upload-icon {
+    font-size: 3.5em;
+    color: var(--text-dark);
+}
+
+.picture-user-avatar > .picture-user-avatar-preview > .upload-image-container > span {
+    font-size: 1.2em;
+    font-weight: 400;
+    color: var(--text-dark);
+}
+
+.btn-upload-user-avatar {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    padding: 16px 0;
+    border: none;
+    background: #0071FF;
+    color: var(--text-dark);
+    font-weight: bold;
+    width: 50%;
+}
+
+.btn-upload-user-avatar:hover {
+    background: #0073ffb4;
+}
+
+.btn-upload-user-avatar:disabled {
+    background: #6c6c6c7a;
+    cursor: auto;
+    color: #8b8b8b;
+}
+
+.picture-input {
+    display: none;
+}

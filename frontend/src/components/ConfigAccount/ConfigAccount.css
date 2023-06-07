@@ -32,22 +32,22 @@
     justify-content: center;
     flex-direction: column;
     margin-top: 10px;
-    border: 1px solid red;
     width: 100%;
 }
 
 .container-config > .card-details-user > .user-data .btn-save {
     border: none;
     cursor: pointer;
-    width: 20%;
+    width: 100%;
     padding: 10px;
     border-radius: 10px;
     font-weight: bold;
-    background: var(--button-primary);
+    background: #0071FF;
     color: var(--text-dark);
     margin-top: 10px;
+    font-size: 1.1em;
 }
 
 .container-config > .card-details-user > .user-data .btn-save:hover {
-    background: var(--button-primary-hover);
+    background: #0073ffb4;
 }

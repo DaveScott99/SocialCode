@@ -1,10 +1,19 @@
-import { Avatar } from "@mui/material";
 import React from "react";
+import { Avatar } from "@mui/material";
+import ButtonEditUserAvatar from "../ButtonEditUserAvatar/ButtonEditUserAvatar";
 
-export default function UserAvatar({ className, userImage, sx, variant }) {
+import './UserAvatar.css';
+
+export default function UserAvatar({ className, userImage }) {
     return(
         <div className={className}>
-            <Avatar alt="User avatar" src={userImage} sx={sx} variant={variant} />
+            <div className="container-user-avatar">
+
+                <Avatar className="user-avatar" src={userImage} sx={{width: '200px', height: '200px'}} variant="rounded"/>
+
+                <ButtonEditUserAvatar />
+
+            </div>
         </div>
     );
 };

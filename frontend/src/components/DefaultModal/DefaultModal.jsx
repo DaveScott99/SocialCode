@@ -3,7 +3,7 @@ import { IoIosClose } from "react-icons/io"
 
 import './DefaultModal.css'
 
-export default function DefaultModal({ id= 'modal', children, onClose = () => {} }) {
+export default function DefaultModal({ id = 'modal', children, onClose = () => {} }) {
 
     const handleOutsideClick = (event) => {
         if (event.target.id === id) {
@@ -18,7 +18,6 @@ export default function DefaultModal({ id= 'modal', children, onClose = () => {}
                 <div className="close-modal-container">
                     <IoIosClose className="btn-close-modal" onClick={onClose} />
                 </div>
-                
 
                 <div className="modal-content">
                     { children }
