@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 
 @Service
@@ -41,6 +44,20 @@ public class S3Service {
 			throw new IllegalArgumentException(e.getMessage());
 		}
 
+	}
+	
+	public void deleteFile(String fileName) {
+		try {
+			DeleteObjectRequest request = new DeleteObjectRequest(bucketName, fileName);
+			s3client.deleteObject(request);
+		}
+		catch (AmazonServiceException e) {
+			throw new AmazonServiceException(e.getMessage());
+		}
+		catch (SdkClientException e) {
+			throw new SdkClientException(e.getMessage());
+		}
+	
 	}
 
 	private URL uploadFile(InputStream is, String fileName, String contentType) {

@@ -76,4 +76,10 @@ public class UserController {
 		return ResponseEntity.ok().body(dto);
 	}
 	
+	@PostMapping(value = "/upload/background_user/{username}")
+	public ResponseEntity<UriDTO> uploadBackgroundImage(@RequestParam("file") MultipartFile file, @PathVariable String username) {
+		UriDTO dto = userService.uploadBackgroundImage(file, username);
+		return ResponseEntity.ok().body(dto);
+	}
+	
 }

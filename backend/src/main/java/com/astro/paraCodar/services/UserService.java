@@ -79,11 +79,25 @@ public class UserService {
 	}
 	
 	public UriDTO uploadProfilePhoto(MultipartFile file, String username) {
-		URL url = s3Service.uploadFile(file);
 		User user = userRepository.findByUsername(username);
+		/*
+		// Primeiro pegamos o nome do arquivo que está armazenado no Bucket
+		String fileName = user.getProfilePhoto().substring(54); 
+		s3Service.deleteFile(fileName); // Com o nome chamamos o método que irá excluir a imagem do Bucket
+		*/
+		
+		URL url = s3Service.uploadFile(file); // Agora salvamos a imagem nova no Bucket
 		user.setProfilePhoto(url.toString());
 		userRepository.save(user);
 		return new UriDTO(url.toString());
+	}
+	
+	public UriDTO uploadBackgroundImage(MultipartFile file, String username) {
+		User user = userRepository.findByUsername(username);
+		URL urlImage = s3Service.uploadFile(file);
+		user.setBackgroundImage(urlImage.toString());
+		userRepository.save(user);
+		return new UriDTO(urlImage.toString());
 	}
 	
 	// Método para copiar os atributos do UserDTO para a entidade User
