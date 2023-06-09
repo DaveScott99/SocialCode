@@ -86,7 +86,7 @@ public class UserService {
 		s3Service.deleteFile(fileName); // Com o nome chamamos o método que irá excluir a imagem do Bucket
 		*/
 		
-		URL url = s3Service.uploadFile(file); // Agora salvamos a imagem nova no Bucket
+		URL url = s3Service.uploadFile(file, "users", "profile-photo"); // Agora salvamos a imagem nova no Bucket
 		user.setProfilePhoto(url.toString());
 		userRepository.save(user);
 		return new UriDTO(url.toString());
@@ -94,7 +94,7 @@ public class UserService {
 	
 	public UriDTO uploadBackgroundImage(MultipartFile file, String username) {
 		User user = userRepository.findByUsername(username);
-		URL urlImage = s3Service.uploadFile(file);
+		URL urlImage = s3Service.uploadFile(file, "users", "background-image");
 		user.setBackgroundImage(urlImage.toString());
 		userRepository.save(user);
 		return new UriDTO(urlImage.toString());

@@ -24,7 +24,7 @@
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .modal > .modal-container > .close-modal-container > .btn-close-modal {

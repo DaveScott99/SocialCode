@@ -30,3 +30,16 @@ body {
   --hover: #3C3C3C;
   --hover-secondary: #5555553f;
 }
+
+
+::-webkit-scrollbar {
+  width: 9px;               /* Largura da scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-dark);        /* Cor da área de rastreamento */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-image);
+}

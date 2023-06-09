@@ -8,6 +8,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import UserInfo from "../UserInfo/UserInfo";
 import Badge from "../Badge/Badge";
 import UserBackgroundImage from "../UserBackgroundImage/UserBackgroundImage";
+import UserRepositories from "../UserRepositories/UserRepositories";
 
 import './CardUserProfile.css';
 
@@ -34,7 +35,7 @@ export default function CardUserProfile({ username }) {
             <section className="user-profile-card">
 
                 <div className="user-cover-image">
-                    <UserBackgroundImage backgroundImage="https://github.com/vinceliuice/WhiteSur-wallpapers/raw/main/1080p/WhiteSur.png" />
+                    <UserBackgroundImage backgroundImage={currentUser.backgroundImage} />
                 </div>
 
                 <article className="user-info">
@@ -49,7 +50,10 @@ export default function CardUserProfile({ username }) {
                             <div className="badges">
                                 <Badge 
                                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                                    link={currentUser.gitHubLink} />
+                                    link={`https://github.com/${currentUser.gitHubLink}`} />
+                                <Badge 
+                                    imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
+                                    link={`https://www.linkedin.com/in/${currentUser.linkedinLink}/`} />
                             </div>
                         </div>
 
@@ -60,9 +64,7 @@ export default function CardUserProfile({ username }) {
             <section className="activity-user">
 
                 <div className="user-projects">
-                    <div className="label"> 
-                        <span>Projetos</span>
-                    </div>
+                    <UserRepositories />
                 </div>
 
                 <div className="user-posts">

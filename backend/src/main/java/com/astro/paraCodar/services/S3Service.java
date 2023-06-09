@@ -30,11 +30,11 @@ public class S3Service {
 	@Value("${s3.bucket}")
 	private String bucketName;
 
-	public URL uploadFile(MultipartFile file) {
+	public URL uploadFile(MultipartFile file, String folder, String subFolder) {
 		try {
 			String originalName = file.getOriginalFilename();
 			String extension = FilenameUtils.getExtension(originalName);
-			String fileName = Instant.now() + "." + extension;
+			String fileName = folder + "/" + subFolder + "/" + Instant.now() + "." + extension;
 			
 			InputStream is = file.getInputStream();
 			String contentType = file.getContentType();

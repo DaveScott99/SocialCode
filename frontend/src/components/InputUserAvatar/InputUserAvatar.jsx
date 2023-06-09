@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/Auth/AuthContext';
 import { uploadProfilePhoto } from "../../services/Api";
 
 import './InputUserAvatar.css';
+import Loading from "../Loading/Loading";
 
 export default function InputUserAvatar() {
 
@@ -12,6 +13,7 @@ export default function InputUserAvatar() {
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -30,7 +32,20 @@ export default function InputUserAvatar() {
     }
 
     const handleUploadProfilePhoto = async () => {
-        await uploadProfilePhoto(user.username, selectedImage);
+        setLoading(true);
+        try {
+            const imageUrl = await uploadProfilePhoto(user.username, selectedImage);
+
+            const userLocalStorage = JSON.parse(localStorage.getItem("user"));
+            userLocalStorage.profilePhoto = imageUrl.data.uri;
+    
+            localStorage.setItem("user", JSON.stringify(userLocalStorage));
+
+            window.location.reload();
+        }
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -55,8 +70,11 @@ export default function InputUserAvatar() {
                     }
                 </span>
             </label>
-
-            <Button className="btn-upload-user-avatar" text="Salvar foto" onClick={handleUploadProfilePhoto} disabled={!selectedImage}/>
+            {loading 
+                    ? <Button className="btn-upload-user-avatar" text="Salvar foto" onClick={handleUploadProfilePhoto} disabled={!selectedImage}/>
+                    : <Loading />
+            }
+            
         </div>
     );
 };

@@ -8,7 +8,7 @@ import { dateFormat } from "../../utils/FormatDateInfo";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 
-import './Timeline.css'
+import './Timeline.css';
 
 export default function Timeline({ postsData }) {
 

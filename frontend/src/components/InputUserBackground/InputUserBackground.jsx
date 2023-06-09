@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai"
 import Button from '../Button/Button'
 import { AuthContext } from '../../contexts/Auth/AuthContext';
-import { uploadProfilePhoto } from "../../services/Api";
+import { uploadBackgroundImage } from "../../services/Api";
 
 import './InputUserBackground.css';
 
@@ -29,8 +29,8 @@ export default function InputUserBackground() {
         }
     }
 
-    const handleUploadProfilePhoto = async () => {
-        await uploadProfilePhoto(user.username, selectedImage);
+    const handleUploadBackgroundImage = async () => {
+        await uploadBackgroundImage(user.username, selectedImage);
     }
 
     return (
@@ -58,7 +58,7 @@ export default function InputUserBackground() {
                 </span>
             </label>
 
-            <Button className="btn-upload-image-background" text="Salvar foto" onClick={handleUploadProfilePhoto} disabled={!selectedImage}/>
+            <Button className="btn-upload-image-background" text="Salvar foto" onClick={handleUploadBackgroundImage} disabled={!selectedImage}/>
         </div>
     );
 };

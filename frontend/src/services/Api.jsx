@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
@@ -81,6 +80,19 @@ export const uploadProfilePhoto = async (username, photo) => {
 
     try {
         return await api.post(`/user/upload/profile_photo/${username}`, formData);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+export const uploadBackgroundImage = async (username, image) => {
+
+    const formData = new FormData();
+    formData.append('file', image);
+
+    try {
+        return await api.post(`/user/upload/background_user/${username}`, formData);
     }
     catch (error) {
         console.log(error);

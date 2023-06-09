@@ -102,13 +102,6 @@ export default function ConfigAccount() {
                                 onChange={onChange}
                             />
 
-                            <TextField
-                                type="text"
-                                fieldName="Instagram"
-                                value={userDetails.instagramLink}
-                                name="instagramLink"
-                                onChange={onChange}
-                            />
                     </form>
                     <Button type="button" text="Salvar" className="btn-save" onClick={handleClickUpdateUser}/>
                 </main>
