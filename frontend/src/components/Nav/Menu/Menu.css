@@ -1,0 +1,77 @@
+.list-menu ul {
+    list-style: none;
+}
+
+.list-menu a {
+    width: 100%;
+    text-decoration: none;
+    padding: 10px 4%;
+    display: flex;
+    line-height: 30px;
+    border-radius: 10px;
+    transition: .5s ease;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.list-menu a:hover {
+    background: var(--hover);
+}
+
+.list-menu ul li .icon{
+    display: flex;
+    justify-content: center;
+    font-size: 1.7em;
+}
+
+.list-menu ul li .txt-link {
+    font-weight: 300;
+    margin-left: 20px;
+    font-size: 1em;
+}
+
+.list-menu .profile-image {
+    display: flex;
+    justify-content: center;
+}
+
+.list-menu .profile-image > .user-pic-sidebar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+}
+
+@media (max-width: 1220px) {
+    .list-menu ul li .txt-link {
+        display: none;
+    }
+
+    .list-menu a {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .list-menu ul {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+
+    .list-menu ul li {
+        width: 70px;
+        padding: 5px;
+    }
+
+    .list-menu a {
+        margin-bottom: 0;
+    }
+
+    .menu-more-li {
+        display: none;
+    }
+
+}
+

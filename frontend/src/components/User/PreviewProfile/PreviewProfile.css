@@ -1,0 +1,56 @@
+.container-preview-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container-preview-profile > .container-image-user img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.container-preview-profile > .container-data-user {
+    width: 100%;
+    padding: 0px 0px 0px 10px;
+}
+
+.container-preview-profile > .container-data-user .name-user {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-preview-profile > .container-data-user .name-user .name {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.container-preview-profile > .container-data-user .name-user .username {
+    font-weight: 300;
+    font-size: 1em;
+}
+
+.container-preview-profile > .container-data-user .bio-user {
+    margin-top: 10px;
+    font-size: .9em;
+    font-weight: 300;
+}
+
+.container-preview-profile > .container-data-user .container-followers {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+}
+
+.container-preview-profile > .container-data-user .container-followers > .followers {
+    font-size: .9em;
+    margin-right: 5px;
+}
+
+.container-preview-profile > .container-data-user .container-followers > .following {
+    font-size: .9em;
+    margin-left: 5px;
+}

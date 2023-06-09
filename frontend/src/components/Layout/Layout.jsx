@@ -1,8 +1,8 @@
 import React from "react";
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar from "../Nav/Sidebar/Sidebar";
+import SearchBar from "../Generics/SearchBar/SearchBar";
 
 import "./Layout.css";
-import SearchBar from "../SearchBar/SearchBar";
 
 export default function Layout({ children }) {
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import CardUserProfile from "../../components/CardUserProfile/CardUserProfile";
+import CardUserProfile from "../../components/User/CardUserProfile/CardUserProfile";
 import { useParams } from "react-router";
 
 import './UserProfile.css'

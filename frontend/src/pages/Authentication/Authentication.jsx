@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FormRegistry from "../../components/FormRegistry/FormRegistry";
-import FormLogin from "../../components/FormLogin/FormLogin";
+import FormRegistry from "../../components/Forms/FormRegistry/FormRegistry";
+import FormLogin from "../../components/Forms/FormLogin/FormLogin";
 import LoginImage from "../../assets/login-image.svg";
 
 import './Authentication.css';

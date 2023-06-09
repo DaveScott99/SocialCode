@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import Home from '../pages/Home/Home';
 import Layout from '../components/Layout/Layout';
 import Test from '../pages/Tests/Test';
-import ConfigAccount from '../components/ConfigAccount/ConfigAccount';
 import UserProfile from '../pages/UserProfile/UserProfile';
 
 export default function RouteApp() {
@@ -43,14 +42,6 @@ export default function RouteApp() {
                         <Private>
                             <Layout>
                                 <UserProfile />
-                            </Layout>
-                        </Private>
-                    } />
-
-                    <Route exact path='/profile/configuration' element={
-                        <Private>
-                            <Layout>
-                                <ConfigAccount />
                             </Layout>
                         </Private>
                     } />

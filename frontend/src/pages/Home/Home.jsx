@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Timeline from '../../components/Timeline/Timeline';
-import NewPost from '../../components/NewPost/NewPost';
+import NewPost from '../../components/Post/NewPost/NewPost';
 import { FindAllPosts } from '../../services/Api';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/Generics/Loading/Loading';
 
 import './Home.css'
 
