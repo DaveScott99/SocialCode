@@ -2,29 +2,15 @@
     padding: 20px 5px 0px 5px;
     display: flex;
     flex-direction: column;
-    background: var(--background-dark);
-}
-
-.container-sidebar .header-sidebar {
-    margin-bottom: 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0px 0px 0px;
 }
 
 .container-sidebar > .header-sidebar > a {
     text-decoration: none;
     font-size: 1.5em;
-    color: var(--text-dark);
+    color: var(--dark-black);
     margin-bottom: 10px;
 }
 
-@media (max-width: 1220px) {
-    .container-sidebar .header-sidebar {
-        display: none;
-    }
-}
 
 @media (max-width: 767px) {
     .container-sidebar  {

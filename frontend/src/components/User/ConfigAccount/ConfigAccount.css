@@ -42,12 +42,12 @@
     padding: 10px;
     border-radius: 10px;
     font-weight: bold;
-    background: #0071FF;
-    color: var(--text-dark);
+    background: var(--blue);
+    color: var(--white);
     margin-top: 10px;
     font-size: 1.1em;
 }
 
 .container-config > .card-details-user > .user-data .btn-save:hover {
-    background: #0073ffb4;
+    background: var(--light-blue);
 }

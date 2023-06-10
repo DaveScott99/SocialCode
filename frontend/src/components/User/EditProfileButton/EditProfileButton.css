@@ -1,8 +1,8 @@
 .button-edit  {
     padding: 10px;
-    background: var(--background-white);
+    background: var(--blue);
     font-weight: bold;
-    color: var(--text-white);
+    color: var(--white);
     border-radius: 10px;
     border: none;
     cursor: pointer;

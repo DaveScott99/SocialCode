@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx"
-import { AuthContext } from "../../../contexts/Auth/AuthContext";
+import React, { useEffect, useRef, useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai"
+import SearchBar from "../../Generics/SearchBar/SearchBar";
 
-import './MenuMore.css'
+import './Search.css'
 
-export default function MenuMore() {
+export default function Search() {
 
     const [showSubMenu, setShowSubMenu] = useState(false);
     const subMenuRef = useRef(null);
@@ -30,18 +30,15 @@ export default function MenuMore() {
 
     }, [showSubMenu])
 
-    const { logout } = useContext(AuthContext);
-
     return (
-        <div className="menu-more" ref={subMenuRef}>
+        <div className="search" ref={subMenuRef}>
 
-            <button className="drop-btn" onClick={handleClickShowSubMenu}>
-                <RxHamburgerMenu className="more-icon" />
+            <button className="search-btn" onClick={handleClickShowSubMenu}>
+                <AiOutlineSearch className="more-icon" />
             </button>
 
-            <div className="dropdown-content" style={style}>
-                <hr className="line-separetor" />
-                <span onClick={logout}>Sair</span>
+            <div className="search-content" style={style}>
+                <SearchBar />
             </div>
 
         </div>

@@ -6,8 +6,6 @@ import { useEffect } from "react";
 import Container from "../../Generics/Container/Container";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import UserInfo from "../UserInfo/UserInfo";
-import Badge from "../../Generics/Badge/Badge";
-import UserBackgroundImage from "../UserBackgroundImage/UserBackgroundImage";
 import UserRepositories from "../UserRepositories/UserRepositories";
 
 import './CardUserProfile.css';
@@ -34,30 +32,12 @@ export default function CardUserProfile({ username }) {
 
             <section className="user-profile-card">
 
-                <div className="user-cover-image">
-                    <UserBackgroundImage backgroundImage={currentUser.backgroundImage} />
-                </div>
-
                 <article className="user-info">
 
                     <UserAvatar className="user-avatar" userImage={currentUser.profilePhoto} />
 
-                    <div className="user-profile-details">
-
-                        <UserInfo userData={currentUser} />
+                    <UserInfo userData={currentUser} />
                        
-                        <div className="user-badges">
-                            <div className="badges">
-                                <Badge 
-                                    imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                                    link={`https://github.com/${currentUser.gitHubLink}`} />
-                                <Badge 
-                                    imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
-                                    link={`https://www.linkedin.com/in/${currentUser.linkedinLink}/`} />
-                            </div>
-                        </div>
-
-                    </div>
                 </article>
             </section>
 

@@ -14,11 +14,11 @@ public class UserDTO implements Serializable {
 	private String username;
 	private String biography;
 	private String title;
+	private String profilePhoto;
 	private String backgroundImage;
 	private String gitHubLink;
 	private String linkedinLink;
 	private String instagramLink;
-	private String profilePhoto;
 	private String email;
 	private String password;
 	
@@ -32,6 +32,7 @@ public class UserDTO implements Serializable {
 		username = entity.getUsername();
 		biography = entity.getBiography();
 		title = entity.getTitle();
+		profilePhoto = entity.getProfilePhoto();
 		backgroundImage = entity.getBackgroundImage();
 		gitHubLink = entity.getGitHubLink();
 		linkedinLink = entity.getLinkedinLink();

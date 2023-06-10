@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import EditProfileButton from "../EditProfileButton/EditProfileButton";
 
 import './UserInfo.css'
+import Badge from "../../Generics/Badge/Badge";
 
 export default function UserInfo({ userData }) {
 
@@ -31,11 +32,20 @@ export default function UserInfo({ userData }) {
                     <span className="followers-count">0</span>
                     <span className="followers-label"> Seguidores</span>
                 </div>
-                <div className="projects">
-                    <span className="followers-count">0</span>
-                    <span className="followers-label"> Projetos</span>
+  
+                <div className="user-badges">
+                    <div className="badges">
+                        <Badge 
+                            imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                            link={`https://github.com/${user.gitHubLink}`} />
+                        <Badge 
+                            imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
+                            link={`https://www.linkedin.com/in/${user.linkedinLink}/`} />
+                    </div>
                 </div>
             </div>
+
+           
         </div>
     );
 };

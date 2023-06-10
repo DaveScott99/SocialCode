@@ -1,20 +1,21 @@
-.user-info > .user-profile-details > .user-stats {
-    width: 70%;
+.user-stats {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
 }
 
-.user-profile-details > .user-stats > .name-and-button {
+.user-stats > .name-and-button {
     width: 100%;
     display: flex;
     align-items: center;
 }   
 
-.user-profile-details > .user-stats > .name-and-button > a, .btn  {
+.user-stats > .name-and-button > a, .btn  {
     padding: 10px;
-    background: var(--background-white);
+    background: var(--blue);
     font-weight: bold;
-    color: var(--text-white);
+    color: var(--white);
     border-radius: 10px;
     border: none;
     cursor: pointer;
@@ -22,29 +23,47 @@
     font-size: .9em;
 }
 
-.user-profile-details > .user-stats > .name-and-button .name {
-    font-size: 1.8em;
+ .user-stats > .name-and-button .name {
+    font-size: 1.6em;
     font-weight: 600;
     margin-right: 50px;
 }
 
-.user-profile-details > .user-stats > .username {
-    font-size: 1.2em;
+.user-stats > .username {
+    font-size: 1.1em;
     font-weight: 200;
     margin-bottom: 10px;
 }
 
-.user-profile-details > .user-stats > .biography {
-    font-size: 1.1em;
+.user-stats > .biography {
+    font-size: 1em;
     font-weight: 300;
     margin-bottom: 10px;
 }
 
-.user-profile-details > .user-stats > .statistics {
+.user-stats > .statistics {
     font-size: .9em;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.user-profile-details > .user-stats > .statistics > .followers {
+.user-stats > .statistics > .followers {
     margin-right: 10px;
 }
+
+.user-stats > .statistics > .user-badges {
+    padding: 5px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.user-stats > .statistics > .user-badges > .badges {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+

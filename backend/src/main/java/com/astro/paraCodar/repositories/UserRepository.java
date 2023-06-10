@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	User findByEmail(String email);
 	User findByUsername(String username);
 	
-	@Query(value = "SELECT * FROM PARACODAR.USER WHERE USERNAME LIKE :username%", nativeQuery = true)
-	Page<User> searchUsers(Pageable pageable,String username);
+	@Query(value = "SELECT * FROM SOCIALCODE.USER WHERE USERNAME LIKE :username%", nativeQuery = true)
+	Page<User> searchUsers(Pageable pageable, String username);
 	
 }

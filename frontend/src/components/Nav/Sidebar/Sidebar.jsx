@@ -10,12 +10,9 @@ export default function Sidebar() {
     return(
         <div className="container-sidebar">
           <header className="header-sidebar">
-            <Link to="/">
-              <b>SocialCode</b>
-            </Link>
-
-            <SearchBar />
-           
+            {/* 
+              <SearchBar />
+            */}
           </header>
 
           <div className="container-menu">

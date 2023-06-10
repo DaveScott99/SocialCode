@@ -40,8 +40,8 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/searchUserByUsername/{username}")
-	public ResponseEntity<Page<UserDTO>> searchUserByUsername(Pageable pageable, @PathVariable String username) {
-		Page<UserDTO> users = userService.searchUserByUsername(pageable, username);
+	public ResponseEntity<Page<UserMinDTO>> searchUserByUsername(Pageable pageable, @PathVariable String username) {
+		Page<UserMinDTO> users = userService.searchUserByUsername(pageable, username);
 		return ResponseEntity.ok().body(users);
 	}
 	

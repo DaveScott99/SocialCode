@@ -4,6 +4,7 @@ import { validateTextPost } from "../../../utils/Validators";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { publishPost } from "../../../services/Api";
 import { Avatar } from "@mui/material";
+import Input from "../../Generics/Input/Input"
 
 import './NewPost.css';
 
@@ -48,6 +49,14 @@ export default function NewPost() {
                 </div>
             </div>
 
+            <Input 
+                name="new-post"
+                type="button"
+                value="No que está pensando ?"
+                className="new-post-button"
+            />
+
+            {/*
             <div className="body">
                 <div className="text-area-container">
                     <textarea 
@@ -71,6 +80,7 @@ export default function NewPost() {
                     </div>
                 </div>
             </div>
+             */}
         </div>
     );
 }

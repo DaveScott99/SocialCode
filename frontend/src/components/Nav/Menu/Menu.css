@@ -2,7 +2,7 @@
     list-style: none;
 }
 
-.list-menu a {
+.list-menu .menu-item {
     width: 100%;
     text-decoration: none;
     padding: 10px 4%;
@@ -10,12 +10,13 @@
     line-height: 30px;
     border-radius: 10px;
     transition: .5s ease;
-    color: var(--text-dark);
-    margin-bottom: 10px;
+    color: var(--dark-black);
+    justify-content: center;
+    transition: .5s ease;
 }
 
-.list-menu a:hover {
-    background: var(--hover);
+.list-menu .menu-item:hover {
+    background: var(--grey);
 }
 
 .list-menu ul li .icon{
@@ -25,9 +26,10 @@
 }
 
 .list-menu ul li .txt-link {
-    font-weight: 300;
+    font-weight: 500;
     margin-left: 20px;
     font-size: 1em;
+    display: none;
 }
 
 .list-menu .profile-image {

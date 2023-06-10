@@ -38,9 +38,9 @@ public class UserService {
 		return users.map(x -> new UserDTO(x));
 	}
 	
-	public Page<UserDTO> searchUserByUsername(Pageable pageable ,String username) {
+	public Page<UserMinDTO> searchUserByUsername(Pageable pageable ,String username) {
 		Page<User> users = userRepository.searchUsers(pageable, username);
-		return users.map(x -> new UserDTO(x));
+		return users.map(x -> new UserMinDTO(x));
 	}
 	
 	@Transactional(readOnly = true)

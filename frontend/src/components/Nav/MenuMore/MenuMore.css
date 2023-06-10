@@ -10,7 +10,7 @@
 .menu-more .drop-btn {
     background: none;
     border: none;
-    color: var(--text-dark);
+    color: var(--dark-black);
     font-size: 1.4em;
     cursor: pointer;
     display: flex;
@@ -18,16 +18,15 @@
     align-items: center;
     padding: 10px;
     border-radius: 10px;
-    margin-bottom: 20px;
     width: 100%;
+    justify-content: center;
 }
 
 .menu-more .drop-btn:hover {
-    background: var(--hover-secondary);
+    background: var(--grey);
 }
 
 .menu-more .drop-btn > .more-icon {
-    margin-right: 10px;
     font-size: 1.2em;
 }
 
@@ -39,19 +38,18 @@
 .dropdown-content {
     padding: 10px;
     border-radius: 10px;
-    background-color: var(--background-dark-secondary);
+    background-color: var(--white);
     min-width: 160px;
     display: none;
     position: absolute;
-    bottom: 100%;
-    left: 45%;
-    transform: translateX(-50%);
+    bottom: 0;
+    left: 90px;
     width: 80%;
     margin-bottom: 5px;
 }
 
 .dropdown-content span {
-    color: var(--text-dark);
+    color: var(--dark-black);
     font-weight: 300;
     padding: 12px 16px;
     text-decoration: none;
@@ -69,41 +67,13 @@
 }
 
 .dropdown-content .line-separetor {
-    border: 1px solid var(--border);
+    border: 1px solid var(--grey);
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
 .dropdown-content span:hover {
-    background: var(--hover);
-}
-
-
-@media (max-width: 1220px) {
-    .menu-more .drop-btn > .more-text {
-        display: none;
-    }
-
-    .menu-more .drop-btn {
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 0;
-
-    }
-
-    .menu-more .drop-btn > .more-icon {
-        margin-right: 0;
-    }
-
-    .dropdown-content {
-        bottom: 0;
-        left: 195px;
-        width: 200px;
-    }
-
-    .dropdown-content .icon-sub-menu {
-        font-size: 1.2em;
-    }
+    background: var(--grey);
 }
 
 @media (max-width: 767px) {

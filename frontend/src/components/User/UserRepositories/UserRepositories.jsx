@@ -35,7 +35,7 @@ export default function UserRepositories({ gitHubUsername }) {
             window.removeEventListener('load', handleImageResize);
           };
 
-    }, [])
+    }, [gitHubUsername])
 
     
     
@@ -49,30 +49,33 @@ export default function UserRepositories({ gitHubUsername }) {
             placeholder="Pesquisar repositórios" 
             className="search-repository-input"
           />
-       
 
-          {projects.map((project) => (
-              <div className="project-card" key={project.id}>
-                  <h3 className="repository-name">{project.name}</h3>
+          <div className="repositories">
+            {projects.map((project) => (
+                <div className="project-card" key={project.id}>
+                    <h3 className="repository-name">{project.name}</h3>
 
-                  <div className="repository-details">
+                    <div className="repository-details">
 
-                    <div className="status">
-                      <span className="forks item"><BiGitRepoForked />  {project.forks_count}</span>
-                      <span className="watchers item"><AiFillEye /> {project.watchers_count}</span>
-                      <span className="stars item"><BiStar /> {project.stargazers_count}</span>
-                    </div>
-                
-                    <div className="languages">
-                      <RepositoryLanguages owner={project.owner.login} repositoryName={project.name} />
-                    </div>
-
-                  </div>
-                
+                      <div className="status">
+                        <span className="forks item"><BiGitRepoForked />  {project.forks_count}</span>
+                        <span className="watchers item"><AiFillEye /> {project.watchers_count}</span>
+                        <span className="stars item"><BiStar /> {project.stargazers_count}</span>
+                      </div>
                   
+                      <div className="languages">
+                        <RepositoryLanguages owner={project.owner.login} repositoryName={project.name} />
+                      </div>
 
-              </div>
-          ))} 
+                    </div>
+                  
+                    
+
+                </div>
+            ))} 
+          </div>
+
+          
 
         </Container>
     );

@@ -16,13 +16,13 @@
     border-radius: 10px;
     position: relative;
     cursor: pointer;
-    background: #51515155;
+    background: var(--white-smoke);
     padding: 10px;
     margin-top: 20px;
 }
 
 .picture-user-avatar:hover {
-    background: #51515171;
+    background: var(--grey);
 }
 
 .picture-user-avatar > .picture-user-avatar-preview > .image {
@@ -43,13 +43,13 @@
 
 .picture-user-avatar > .picture-user-avatar-preview> .upload-image-container > .upload-icon {
     font-size: 3.5em;
-    color: var(--text-dark);
+    color: var(--dark-black);
 }
 
 .picture-user-avatar > .picture-user-avatar-preview > .upload-image-container > span {
     font-size: 1.2em;
     font-weight: 400;
-    color: var(--text-dark);
+    color: var(--dark-black);
 }
 
 .btn-upload-user-avatar {
@@ -60,20 +60,20 @@
     cursor: pointer;
     padding: 16px 0;
     border: none;
-    background: #0071FF;
-    color: var(--text-dark);
+    background: var(--blue);
+    color: var(--white);
     font-weight: bold;
     width: 50%;
 }
 
 .btn-upload-user-avatar:hover {
-    background: #0073ffb4;
+    background: var(--light-blue);
 }
 
 .btn-upload-user-avatar:disabled {
-    background: #6c6c6c7a;
+    background: var(--grey);
     cursor: auto;
-    color: #8b8b8b;
+    color: var(--white);
 }
 
 .picture-input {

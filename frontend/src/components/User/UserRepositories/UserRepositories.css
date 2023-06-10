@@ -2,7 +2,8 @@
   max-width: 800px;
   width: 100%;
   min-width: 300px;
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
+
 }
 
 .projects-container > .search-repository-input {
@@ -12,17 +13,22 @@
   border-radius: 10px;
   outline: none;
   border: none;
-  background: var(--background-dark-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-dark);
+  background: var(--white-smoke);
+  border: 1px solid var(--grey);
+  color: var(--dark-black);
   font-size: .8em;
 }
 
-.projects-container > .project-card {
-    border: 1px solid var(--border);
+.projects-container > .repositories {
+  height: 520px;
+  overflow: auto;
+  padding: 0px 5px 0px 0px;
+}
+
+.projects-container > .repositories > .project-card {
     width: 100%;
     display: flex;
-    background: var(--background-dark);
+    background: var(--white-smoke);
     margin-bottom: 10px;
     border-radius: 10px;
     padding: 5px 15px 5px 20px;
@@ -31,33 +37,33 @@
     flex-direction: column;
 }
 
-.projects-container > .project-card > .repository-name {
+.projects-container > .repositories > .project-card > .repository-name {
   font-size: 1.1em;
   font-weight: 400;
   margin-bottom: 20px;
 }
 
-.projects-container > .project-card > .repository-details {
+.projects-container > .repositories > .project-card > .repository-details {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.projects-container > .project-card > .repository-details > .status {
+.projects-container > .repositories > .project-card > .repository-details > .status {
   display: flex;
 }
 
-.projects-container > .project-card > .repository-details > .status > .item {
+.projects-container > .repositories > .project-card > .repository-details > .status > .item {
   display: flex;
   align-items: center;
   margin-right: 20px;
   font-size: .9em;
 }
 
-.projects-container > .project-card > .repository-details > .languages {
+.projects-container > .repositories > .project-card > .repository-details > .languages {
   padding: 5px;
 }
 
-.projects-container > .project-card:hover {
-  background: #1e1e1ed4;
+.projects-container > .repositories > .project-card:hover {
+  background: var(--grey);
 }

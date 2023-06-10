@@ -7,10 +7,10 @@
 .text-area-box > textarea {
     width: 100%;
     padding: 20px 20px 10px 10px;
-    border: 1px solid var(--border);
-    background: var(--background-dark-secondary);
+    border: 1px solid var(--grey);
+    background: var(--white-smoke);
     border-radius: 5px;
-    color: var(--text-dark);
+    color: var(--dark-black);
     font-size: 1.1em;
     font-weight: 400;
     resize: none;
@@ -23,13 +23,13 @@
     padding: 15px 0px 0px 10px;
     pointer-events: none;
     font-size: 1em;
-    color: rgba(255,255,255, 0.25);
+    color: var(--dark-black);
     transition: 0.1s;
 }
 
 .text-area-box > textarea:valid ~ span, 
 .text-area-box > textarea:focus ~ span {
-    color: var(--text-dark);
+    color: var(--dark-black);
     font-size: 0.8em;
     padding: 3px 10px;
 }

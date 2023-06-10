@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import MenuMore from "../MenuMore/MenuMore";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
-import { AiOutlineHome } from "react-icons/ai";
+import { AiFillHome } from "react-icons/ai";
+import { Avatar } from "@mui/material";
+import Search from "../Search/Search";
 
 import './Menu.css';
-import { Avatar } from "@mui/material";
 
 export default function Menu(){  
    
@@ -15,13 +16,16 @@ export default function Menu(){
         <div className="list-menu">
             <ul>
                 <li>
-                    <Link to="/">
-                        <span className="icon"><AiOutlineHome /></span>
+                    <Link to="/" className="menu-item">
+                        <span className="icon"><AiFillHome /></span>
                         <span className="txt-link">Home</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to={`/profile/${user.username}`}>
+                    <Search />
+                </li>
+                <li>
+                    <Link to={`/profile/${user.username}`} className="menu-item">
                         <div className="profile-image">
                             <Avatar className="user-pic-sidebar" alt="User image" src={user.profilePhoto}/>
                         </div>
