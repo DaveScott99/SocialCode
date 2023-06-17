@@ -1,14 +1,13 @@
 import React from "react";
-import Timeline from "../../Timeline/Timeline";
 import { findAllPostsByUser, findUserByUsername } from "../../../services/Api";
 import { useState } from "react";
 import { useEffect } from "react";
 import Container from "../../Generics/Container/Container";
-import UserAvatar from "../UserAvatar/UserAvatar";
 import UserInfo from "../UserInfo/UserInfo";
-import UserRepositories from "../UserRepositories/UserRepositories";
 
 import './CardUserProfile.css';
+import Feed from "../../Feed/Feed";
+import Repositories from "../Repositories/Repositories";
 
 export default function CardUserProfile({ username }) {
 
@@ -33,9 +32,7 @@ export default function CardUserProfile({ username }) {
             <section className="user-profile-card">
 
                 <article className="user-info">
-
-                    <UserAvatar className="user-avatar" userImage={currentUser.profilePhoto} />
-
+                        
                     <UserInfo userData={currentUser} />
                        
                 </article>
@@ -44,14 +41,14 @@ export default function CardUserProfile({ username }) {
             <section className="activity-user">
 
                 <div className="user-projects">
-                    <UserRepositories gitHubUsername={currentUser.gitHubLink}/>
+                    <Repositories gitHubUsername={currentUser.gitHubLink}/>
                 </div>
 
                 <div className="user-posts">
                     <div className="label"> 
                         <span>Atividade</span>
                     </div>
-                    <Timeline postsData={posts} />
+                    <Feed postsData={posts} />
                 </div>
 
             </section>

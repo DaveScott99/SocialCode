@@ -1,9 +1,0 @@
-.languages-container > .language-name {
-    padding: 5px 10px 5px 10px;
-    background: var(--light-blue);
-    color: var(--white);
-    font-weight: 300;
-    border-radius: 10px;
-    font-size: .8em;
-    margin: 2px;
-}

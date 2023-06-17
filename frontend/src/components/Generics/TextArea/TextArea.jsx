@@ -1,8 +1,9 @@
 import React from "react";
+import { FieldNameTextArea, TextAreaContainer, TextAreaInput } from "./TextAreaStyles";
 
-import "./TextArea.css";
-
-export default function TextArea({ name, fieldName, onChange, valueDefault }) {
+export default function TextArea({ name, fieldName, onChange, valueDefault, 
+                                   placeholder, padding, background, border,
+                                   height }) {
 
     const handleResize = (event) => {
         event.target.style.height = 'auto';
@@ -10,17 +11,20 @@ export default function TextArea({ name, fieldName, onChange, valueDefault }) {
     }
 
     return (
-        <div className="text-area-box">
-            <textarea 
+        <TextAreaContainer>
+            <TextAreaInput 
                 name={name}
-                className="text-area" 
                 onChange={onChange} 
                 onInput={handleResize}
                 value={valueDefault}
+                placeholder={placeholder}
+                padding={padding}
+                background={background}
+                border={border}
+                height={height}
                 required
             />
-
-            <span>{fieldName}</span>
-        </div>
+            <FieldNameTextArea>{fieldName}</FieldNameTextArea>
+        </TextAreaContainer>
     );
 };

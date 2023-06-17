@@ -1,12 +1,10 @@
 import React from "react";
-
-import "./Loading.css";
+import { Loader, LoaderContainer } from "./LoadingStyles.jsx";
 
 export default function Loading() {
     return (
-        <div className="loader-container">
-            <div className="loader"></div>
-        </div>
-        
+        <LoaderContainer>
+            <Loader />
+        </LoaderContainer>
     );
 };

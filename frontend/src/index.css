@@ -1,39 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
-}
-
 :root {
   --white: #FFFFFF;
   --white-smoke: #F0F2F5;
-  --purple: #7e4bf69e;
   --blue: #0071FF;
-  --grey: #E4E6E8;
+
   --dark: #333;
 
-  --light-purple: #9E82FC;
   --light-blue: #3a93ff;
   --light-grey: #ffffff67;
 
-  --dark-purple: #7e4bf681;
   --dark-blue: #191622;
   --dark-black: #010102;
   --dark-grey: #262626;
-}
-
-::-webkit-scrollbar {
-  width: 8px;               /* Largura da scrollbar */
-}
-
-::-webkit-scrollbar-track {
-  background: var(--white-smoke);        /* Cor da área de rastreamento */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--dark-grey);
-  border-radius: 20px;
 }

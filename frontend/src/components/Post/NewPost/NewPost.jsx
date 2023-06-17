@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
-import Button from "../../Generics/Button/Button";
 import { validateTextPost } from "../../../utils/Validators";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { publishPost } from "../../../services/Api";
 import { Avatar } from "@mui/material";
-import Input from "../../Generics/Input/Input"
-
-import './NewPost.css';
+import { Button } from "../../Generics/Button/Button"
+import { Container, ContentModal, Footer, HeaderModal, MainContent, Others, Separator, TextButton, UserImage, Username } from "./NewPostStyles";
+import Modal from "../../Generics/Modal/Modal";
+import TextArea from "../../Generics/TextArea/TextArea";
+import { FcPicture } from "react-icons/fc"
 
 export default function NewPost() {
     const { user } = useContext(AuthContext);
@@ -27,11 +28,6 @@ export default function NewPost() {
         setPost({ ...post, [name]: value});
     }
 
-    const handleResize = (event) => {
-        event.target.style.height = 'auto';
-        event.target.style.height = `${event.target.scrollHeight}px`;
-    }
-
     const insertPost = async () => {
         await publishPost(post);
         window.location.reload();
@@ -42,45 +38,87 @@ export default function NewPost() {
     }
 
     return(
-        <div className="container-create">
-            <div className="header-new-post">
-                <div className="user-image">
+        <Container>
+            <MainContent>
+                <UserImage>
                     <Avatar alt="User image" src={user.profilePhoto} sx={{ width: 40, height: 40 }} />
-                </div>
-            </div>
+                </UserImage>
 
-            <Input 
-                name="new-post"
-                type="button"
-                value="No que está pensando ?"
-                className="new-post-button"
-            />
+                <Modal 
+                    title="Criar publicação"
+                    textButton="No que está pensando?"
+                    buttonBackground="#F0F2F5"
+                    buttonBorderRadius="10"
+                    buttonFontColor="#969696"
+                    buttonFontSize=".9"
+                    buttonFontWeight="300"
+                    buttonWidth="100"
+                    buttonHoverBackground="#e4e9eec6"
+                    buttonPadding="5"
+                >
 
-            {/*
-            <div className="body">
-                <div className="text-area-container">
-                    <textarea 
-                        name="body" 
-                        placeholder="O que está pensando?" 
-                        className="text-area" 
-                        onChange={onChange} 
-                        onInput={handleResize}
-                    />
-                </div>
+                    <ContentModal className="body">
 
-                <div className="footer">
-                    <div className="footer-container">
+                        <HeaderModal>
+                            <Avatar alt="User image" src={user.profilePhoto} sx={{ width: 40, height: 40 }} />
+                            <Username>{user.username}</Username>
+                        </HeaderModal>
+
+                        <TextArea 
+                            name="body"
+                            placeholder="No que está pensando?"
+                            onChange={onChange}
+                            background="#FFF"
+                            padding="10"
+                            height="150"
+                        />
+                        
+                        <Others>
+                            
+                        </Others>
+
                         <Button 
                             type="submit" 
-                            text="Criar" 
-                            className="button-create"
                             onClick={insertPost} 
+                            width="100"
+                            fontSize="1"
+                            padding="10"
+                            borderradius="5"
+                            fontWeight="bold"
+                            justify="center"
                             disabled={loading === true || !validatorInput()}
-                        />
-                    </div>
-                </div>
-            </div>
-             */}
-        </div>
+                        >
+                            Publicar
+                        </Button>
+                            
+                    </ContentModal>
+                </Modal>
+            </MainContent>    
+
+            <Separator />
+
+            <Footer>
+
+                    <Button 
+                        onClick={insertPost} 
+                        width="30"
+                        fontSize="1"
+                        padding="10"
+                        borderradius="5"
+                        fontWeight="bold"
+                        justify="center"
+                        background="transparent"
+                        fontcolor="#969696"
+                        hoverbackground="#e4e9ee6d"
+                        
+                    > 
+                        <FcPicture /> 
+                        
+                        <TextButton>Foto</TextButton> 
+                    
+                    </Button>     
+            </Footer>
+
+        </Container>
     );
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Timeline from '../../components/Timeline/Timeline';
 import NewPost from '../../components/Post/NewPost/NewPost';
 import { FindAllPosts } from '../../services/Api';
 import Loading from '../../components/Generics/Loading/Loading';
 
 import './Home.css'
+import Feed from '../../components/Feed/Feed';
 
 export default function Home() {
 
@@ -52,7 +52,7 @@ export default function Home() {
                   <h1>Página Inicial</h1>
               </header>
               <NewPost />
-              <Timeline postsData={posts}/>
+              <Feed postsData={posts}/>
               {loading && <Loading />}
           </div>
       </div>

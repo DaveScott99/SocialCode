@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { validateConfirmPassword, validateEmail, validateFirstName, validateLastName, validatePassword, validateUsername } from "../../../utils/Validators";
 import Input from "../../Generics/Input/Input";
-import Button from "../../Generics/Button/Button";
 import { resgisterUser } from "../../../services/Api";
 import { useNavigate } from "react-router";
+import { Button } from "../../Generics/Button/Button";
+import { Form } from "./FormRegistryStyles";
 
 export default function FormRegistry({ className }) {
     
@@ -48,7 +49,7 @@ export default function FormRegistry({ className }) {
 
     return (
 
-        <form className="form-credentials" >
+        <Form className="form-credentials" >
             
             <Input name="firstName" type="text" className={className} placeholder="Nome" onChange={onChange}/>
             <Input name="lastName" type="text" className={className} placeholder="Sobrenome" onChange={onChange}/>
@@ -57,9 +58,21 @@ export default function FormRegistry({ className }) {
             <Input name="password" type="password" className={className} placeholder="Senha" onChange={onChange} />
             <Input name="confirmPassword" type="password" className={className} placeholder="Confirmar senha" onChange={onChange}/>
 
-            <Button text='Cadastre-se' type="button" className="btn-form" onClick={handleSubmitRegistry} disabled={loading === true || !validatorInput()}/>
+            <Button 
+                type="button"
+                width="100"
+                fontSize="1"
+                padding="10"
+                borderradius="5"
+                fontWeight="bold"
+                justify="center"
+                onClick={handleSubmitRegistry} 
+                disabled={loading === true || !validatorInput()}
+            > 
+                Cadastrar-se
+            </Button>
             
-        </form>
+        </Form>
 
     );
 };

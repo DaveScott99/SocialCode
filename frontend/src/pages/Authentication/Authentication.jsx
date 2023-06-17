@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import FormRegistry from "../../components/Forms/FormRegistry/FormRegistry";
 import FormLogin from "../../components/Forms/FormLogin/FormLogin";
 import LoginImage from "../../assets/login-image.svg";
-
-import './Authentication.css';
+import { Card, Container, Image, ImageContainer, Logo, ToggleButton, ToggleButtonContainer } from "./AuthenticationStyles";
 
 export default function Authentication() {
 
@@ -14,39 +13,37 @@ export default function Authentication() {
     }
 
     return(
-        <>
+        <Container>
 
-            <div className="container-page">
+            <ImageContainer>
+                <Image src={LoginImage} alt="Imagem login" />
+            </ImageContainer>
 
-                <article className="image-container">
-                    <img src={LoginImage} alt="Imagem login" />
-                </article>
+            <Card>
+        
+                <Logo>
+                    <h1>SocialCode</h1>
+                </Logo>
 
-                <article className="card-form">
-            
-                    <div className="logo-app">
-                        <h1>SocialCode</h1>
-                    </div>
+                {
+                    renderForm 
+                    ?
+                    <>
+                        <FormLogin /> 
+                        <ToggleButtonContainer>
+                            <span>Não tem uma conta? <ToggleButton onClick={handleClickRender}>Cadastre-se</ToggleButton></span>
+                        </ToggleButtonContainer>
+                    </> 
+                    : 
+                    <>
+                        <FormRegistry />
+                        <ToggleButtonContainer>
+                            <span>Tem uma conta? <ToggleButton onClick={handleClickRender}>Entrar</ToggleButton></span>
+                        </ToggleButtonContainer>
+                    </>
+                }
+            </Card>
 
-                    {
-                        renderForm 
-                        ?
-                        <>
-                            <FormLogin className="form-input"/> 
-                            <div className="container-link-registry">
-                                <span>Não tem uma conta? <span onClick={handleClickRender} className="toggle-render">Cadastre-se</span></span>
-                            </div>
-                        </> 
-                        : 
-                        <>
-                            <FormRegistry className="form-input"/>
-                            <div className="container-link-registry">
-                                <span>Tem uma conta? <span onClick={handleClickRender} className="toggle-render">Entrar</span></span>
-                            </div>
-                        </>
-                    }
-                </article> 
-            </div>
-        </>
+        </Container>
     );
 };

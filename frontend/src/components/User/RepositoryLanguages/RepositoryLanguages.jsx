@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { searchLanguagesOnRepos } from "../../../services/Api-GitHub";
 import Container from "../../Generics/Container/Container";
-
-import './RepositoryLanguages.css';
-
+import { LanguageName } from "./LanguagesStyles";
 
 export default function RepositoryLanguages({ owner, repositoryName }) {
     
@@ -22,9 +20,9 @@ export default function RepositoryLanguages({ owner, repositoryName }) {
     }, [owner, repositoryName])
 
     return (
-        <Container className="languages-container">
+        <Container>
             {repoLanguages.map((languageName, index) => (
-                <span key={index} className="language-name">{languageName}</span>
+                <LanguageName key={index} className="language-name">{languageName}</LanguageName>
             ))}
         </Container>
     );

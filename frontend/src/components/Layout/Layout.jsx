@@ -1,28 +1,25 @@
 import React from "react";
-import Sidebar from "../Nav/Sidebar/Sidebar";
-import SearchBar from "../Generics/SearchBar/SearchBar";
-
-import "./Layout.css";
+import { Header, Main, Sidebar, Wrapper } from "./LayoutStyles";
+import Nav from "../Nav/Nav"
+import Search from "../Generics/Search/Search";
 
 export default function Layout({ children }) {
     return (
-            <div className="wrapper">
-                <main className="main">
-                    <header className="header">
-                        <div className="search-bar">
-                            <SearchBar />
-                        </div>
-
-                    </header>
-                    { children }
-                </main>
-
-                <aside className="l-sidebar">
-                    <div className='content-sidebar'>
-                        <Sidebar />
+        <Wrapper>
+            <Main>
+                <Header>
+                    <div className="search-bar">
+                        <Search />
                     </div>
-                </aside>
 
-            </div>
+                </Header>
+                { children }
+            </Main>
+
+            <Sidebar>
+                <Nav />
+            </Sidebar>
+
+        </Wrapper>  
     );
-}
+};
