@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.astro.paraCodar.services.exceptions.EntityNotFoundException;
+
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.astro.paraCodar.services.exceptions.DatabaseException;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ApplicationExceptionHandler {
 
+	
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<StandardError> anyException(Exception e, HttpServletRequest request) {

@@ -86,5 +86,10 @@ public class UserMinDTO implements Serializable{
 	public String getEmail() {
 		return email;
 	}
+
+	@Override
+	public String toString() {
+		return "id: " + id +" username: " + username + " email: " + email;
+	}
 	
 }
