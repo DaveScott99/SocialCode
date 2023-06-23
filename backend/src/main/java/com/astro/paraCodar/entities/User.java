@@ -17,6 +17,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -51,12 +53,6 @@ public class User {
 	@Column(name="LINKEDIN_LINK", nullable = true, length = 255)
 	private String linkedinLink;
 	
-	@Column(name="INSTAGRAM_LINK", nullable = true, length = 255)
-	private String instagramLink;
-	
-	@Column(name="BACKGROUND_IMAGE", nullable = true, length = 255)
-	private String backgroundImage;
-	
 	@Column(name="PROFILE_PHOTO", nullable = true, columnDefinition = "TEXT")
 	private String profilePhoto;
 	
@@ -78,13 +74,23 @@ public class User {
 	@JsonIgnore
 	private Set<Post> likedPosts = new HashSet<>();
 	
+	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "user_followers",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "follower_id")
+	)
+	private Set<User> followers = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "followers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	private Set<User> following = new HashSet<>();
+	
 	public User() {
 	}
 	
 	public User(Long id, String firstName, String lastName, String username, String biography, String title,
-			String gitHubLink, String linkedinLink, String instagramLink, String backgroundImage, String profilePhoto,
+			String gitHubLink, String linkedinLink, String profilePhoto,
 			String email, String password, Instant registrationMoment) {
-		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -93,8 +99,6 @@ public class User {
 		this.title = title;
 		this.gitHubLink = gitHubLink;
 		this.linkedinLink = linkedinLink;
-		this.instagramLink = instagramLink;
-		this.backgroundImage = backgroundImage;
 		this.profilePhoto = profilePhoto;
 		this.email = email;
 		this.password = password;
@@ -165,22 +169,6 @@ public class User {
 		this.linkedinLink = linkedinLink;
 	}
 
-	public String getInstagramLink() {
-		return instagramLink;
-	}
-
-	public void setInstagramLink(String instagramLink) {
-		this.instagramLink = instagramLink;
-	}
-
-	public String getBackgroundImage() {
-		return backgroundImage;
-	}
-
-	public void setBackgroundImage(String backgroundImage) {
-		this.backgroundImage = backgroundImage;
-	}
-
 	public String getProfilePhoto() {
 		return profilePhoto;
 	}
@@ -227,6 +215,14 @@ public class User {
 
 	public Set<Post> getLikedPosts() {
 		return likedPosts;
+	}
+	
+	public Set<User> getFollowing() {
+		return following;
+	}
+
+	public Set<User> getFollowers() {
+		return followers;
 	}
 
 	@Override

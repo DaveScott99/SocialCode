@@ -1,6 +1,7 @@
 package com.astro.paraCodar.services;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,22 +39,22 @@ public class UserService {
 		return users.map(x -> new UserDTO(x));
 	}
 	
-	public Page<UserMinDTO> searchUserByUsername(Pageable pageable ,String username) {
+	public Page<UserDTO> searchUserByUsername(Pageable pageable ,String username) {
 		Page<User> users = userRepository.searchUsers(pageable, username);
-		return users.map(x -> new UserMinDTO(x));
+		return users.map(x -> new UserDTO(x));
 	}
 	
 	@Transactional(readOnly = true)
-	public UserMinDTO findByUsername(String username) {
+	public UserDTO findByUsername(String username) {
 		User user = userRepository.findByUsername(username);
-		return new UserMinDTO(user);
+		return new UserDTO(user);
 	}
 	
 	@Transactional(readOnly = true)
-	public UserMinDTO findById(Long id){
+	public UserDTO findById(Long id){
 		Optional<User> user = userRepository.findById(id);
 		User entity = user.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + id));
-		return new UserMinDTO(entity);
+		return new UserDTO(entity);
 	}
 	
 	@Transactional
@@ -92,13 +93,44 @@ public class UserService {
 		return new UriDTO(url.toString());
 	}
 	
-	public UriDTO uploadBackgroundImage(MultipartFile file, String username) {
-		User user = userRepository.findByUsername(username);
-		URL urlImage = s3Service.uploadFile(file, "users", "background-image");
-		user.setBackgroundImage(urlImage.toString());
+	public void followUser(Long userId, Long followerId) {
+		
+		Optional<User> userOpt = userRepository.findById(userId);
+		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
+		
+		Optional<User> followerUserOpt = userRepository.findById(followerId);
+		User followUser = followerUserOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + followerId));
+		
+		user.getFollowers().add(followUser);
 		userRepository.save(user);
-		return new UriDTO(urlImage.toString());
+		
 	}
+	
+	public void unfollowUser(Long userId, Long followerId) {
+		Optional<User> userOpt = userRepository.findById(userId);
+		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
+		
+		Optional<User> followerUserOpt = userRepository.findById(followerId);
+		User followUser = followerUserOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + followerId));
+		
+		user.getFollowers().remove(followUser);
+		userRepository.save(user);
+	}
+	
+	public List<UserMinDTO> getFollowers(Long userId) {
+		Optional<User> userOpt = userRepository.findById(userId);
+		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
+		
+		return user.getFollowers().stream().map(x -> new UserMinDTO(x)).toList();
+	}
+	
+	public List<UserMinDTO> getFollowing(Long userId) {
+		Optional<User> userOpt = userRepository.findById(userId);
+		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
+		
+		return user.getFollowing().stream().map(x -> new UserMinDTO(x)).toList();
+	}
+	
 	
 	// Método para copiar os atributos do UserDTO para a entidade User
 	private void copyDtoToEntityUpdate(UserDTO dto, User entity) {
@@ -108,10 +140,8 @@ public class UserService {
 		entity.setBiography(dto.getBiography());
 		entity.setTitle(dto.getTitle());
 		entity.setLinkedinLink(dto.getLinkedinLink());
-		entity.setInstagramLink(dto.getInstagramLink());
 		entity.setGitHubLink(dto.getGitHubLink());
 	}
-	
 	
 	// Método para copiar os atributos do RegisterUserDTO para a entidade User
 	private void copyDtoToEntityInsert(RegisterUserDTO dto, User entity) {

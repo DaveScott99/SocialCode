@@ -1,6 +1,6 @@
 package com.astro.paraCodar.utils;
 
-import com.astro.paraCodar.dto.response.UserMinDTO;
+import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.security.AuthToken;
 
 public class LoginMessage {
@@ -8,12 +8,12 @@ public class LoginMessage {
 	private AuthToken token;
 	
 	private String message;
-	private UserMinDTO user;
+	private UserDTO user;
 	
 	public LoginMessage() {
 	}
 	
-	public LoginMessage(String message, UserMinDTO user, AuthToken token) {
+	public LoginMessage(String message, UserDTO user, AuthToken token) {
 		this.message = message;
 		this.user = user;
 		this.token = token;
@@ -31,11 +31,11 @@ public class LoginMessage {
 		this.message = message;
 	}
 
-	public UserMinDTO getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(UserMinDTO user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 

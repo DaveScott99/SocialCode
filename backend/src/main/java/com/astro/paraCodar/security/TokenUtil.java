@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import com.astro.paraCodar.dto.response.UserMinDTO;
+import com.astro.paraCodar.dto.response.UserDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -28,7 +28,7 @@ public class TokenUtil {
 	private static final long ONE_SECOND = 1000;
 	private static final long EXPIRATION = 600000*ONE_SECOND;
 
-	public static AuthToken encodeToken(UserMinDTO user) {
+	public static AuthToken encodeToken(UserDTO user) {
 		
 		// Criação da chave secreta
 		Key secretKey = Keys.hmacShaKeyFor(TOKEN_KEY.getBytes());
