@@ -7,10 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.astro.paraCodar.entities.Coment;
+import com.astro.paraCodar.dto.ComentDTO;
 import com.astro.paraCodar.entities.Post;
-import com.astro.paraCodar.entities.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -33,15 +31,13 @@ public class PostDTO implements Serializable {
 	@NotBlank(message = "O Post deve conter pelo menos 1 caractere")
 	private String body;
 	
-	@JsonIgnoreProperties({"firstName", "lastName", "biography", "email", "password", "registrationMoment"})
-	private User user;
+	private UserMinDTO owner;
 	
 	@JsonProperty(value = "coments")
-	private List<Coment> coments = new ArrayList<>();
+	private List<ComentDTO> coments = new ArrayList<>();
 	
 	@JsonProperty(value = "likes")
-	@JsonIgnoreProperties({"firstName", "lastName", "biography", "email", "password", "registrationMoment"})
-	private Set<User> likes = new HashSet<>();
+	private Set<UserMinDTO> likes = new HashSet<>();
 	
 	public PostDTO() {
 	}
@@ -51,9 +47,9 @@ public class PostDTO implements Serializable {
 		creationDate = entity.getCreationDate();
 		imagePost = entity.getImagePost();
 		body = entity.getBody();
-		user = entity.getUser();
-		entity.getComents().forEach(coment -> this.coments.add(coment));
-		entity.getLikes().forEach(like -> this.likes.add(like));
+		owner = new UserMinDTO(entity.getOwner());
+		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
+		entity.getLikes().forEach(userLike -> getLikes().add(new UserMinDTO(userLike)));
 	}
 
 	public Long getId() {
@@ -72,15 +68,15 @@ public class PostDTO implements Serializable {
 		return body;
 	}
 
-	public User getUser() {
-		return user;
+	public UserMinDTO getOwner() {
+		return owner;
 	}
 
-	public List<Coment> getComents() {
+	public List<ComentDTO> getComents() {
 		return coments;
 	}
 
-	public Set<User> getLikes() {
+	public Set<UserMinDTO> getLikes() {
 		return likes;
 	}
 

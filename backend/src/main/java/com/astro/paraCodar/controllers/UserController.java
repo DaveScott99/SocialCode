@@ -3,7 +3,6 @@ package com.astro.paraCodar.controllers;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +30,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
+
 	@GetMapping(value = "/findAll/")
 	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable){
 		Page<UserDTO> users = userService.findAllPaged(pageable);
@@ -42,63 +44,57 @@ public class UserController {
 	
 	@GetMapping(value = "/searchUserByUsername/{username}")
 	public ResponseEntity<Page<UserDTO>> searchUserByUsername(Pageable pageable, @PathVariable String username) {
-		Page<UserDTO> users = userService.searchUserByUsername(pageable, username);
-		return ResponseEntity.ok().body(users);
+		return ResponseEntity.ok().body(userService.searchUserByUsername(pageable, username));
 	}
 	
 	@GetMapping(value = "/findByUsername/{username}")
 	public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
-		UserDTO user = userService.findByUsername(username);
-		return ResponseEntity.ok().body(user);
+		return ResponseEntity.ok().body(userService.findByUsername(username));
 	}
 	
 	@GetMapping(value = "/findById/{id}")
 	public ResponseEntity<UserDTO> findById(@PathVariable Long id){
-		UserDTO user = userService.findById(id);
-		return ResponseEntity.ok().body(user);
+		return ResponseEntity.ok().body(userService.findById(id));
 	}
 	
-	@PostMapping(value = "/insert")
-	public ResponseEntity<UserDTO> insert(@Valid @RequestBody RegisterUserDTO dto) {
+	@PostMapping(value = "/register")
+	public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterUserDTO dto) {
 		UserDTO user = userService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}
 	
 	@PutMapping(value = "/updateUser/{id}")
-	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto){
-		UserDTO user = userService.update(id, dto);
-		return ResponseEntity.ok().body(user);
+	public ResponseEntity<UserDTO> update(@PathVariable Long userId, @Valid @RequestBody UserUpdateDTO userUpdateDto){
+		return ResponseEntity.ok().body(userService.update(userId, userUpdateDto));
 	}
 	
-	@PostMapping(value = "/upload/profile_photo/{username}")
+	@PostMapping(value = "/upload/profilePhoto/{username}")
 	public ResponseEntity<UriDTO> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @PathVariable String username) {
 		UriDTO dto = userService.uploadProfilePhoto(file, username);
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@PostMapping("/{userId}/follow")
-	public ResponseEntity<Void> followUser(@PathVariable Long userId, @RequestParam Long followerId) {
+	@PostMapping("/follow/{followerId}")
+	public ResponseEntity<Void> followUser(@RequestParam Long userId, @PathVariable Long followerId) {
 		userService.followUser(userId, followerId);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/{userId}/unfollow")
-	public ResponseEntity<Void> unfollowUser(@PathVariable Long userId, @RequestParam Long followerId) {
+	@PostMapping("/unfollow/{followerId}")
+	public ResponseEntity<Void> unfollowUser(@RequestParam Long userId, @PathVariable Long followerId) {
 		userService.unfollowUser(userId, followerId);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping("/{userId}/followers")
-	public ResponseEntity<List<UserMinDTO>> getFollowers(@PathVariable Long userId) {
-		List<UserMinDTO> followers = userService.getFollowers(userId);
-		return ResponseEntity.ok().body(followers);
+	@GetMapping("/followers/{userId}")
+	public ResponseEntity<List<UserMinDTO>> findUserFollowers(@PathVariable Long userId) {
+		return ResponseEntity.ok().body(userService.findUserFollowers(userId));
 	}
 	
-	@GetMapping("/{userId}/following")
-	public ResponseEntity<List<UserMinDTO>> getFollowing(@PathVariable Long userId) {
-		List<UserMinDTO> following = userService.getFollowing(userId);
-		return ResponseEntity.ok().body(following);
+	@GetMapping("/following/{userId}")
+	public ResponseEntity<List<UserMinDTO>> findUserFollowing(@PathVariable Long userId) {
+		return ResponseEntity.ok().body(userService.findUserFollowing(userId));
 	}
 		
 }

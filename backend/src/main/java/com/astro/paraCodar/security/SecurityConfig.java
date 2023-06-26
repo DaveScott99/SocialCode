@@ -15,11 +15,11 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Desabilito o csrf para implementar a autenticação personalizada
-			.authorizeHttpRequests()	// agora as requisições HTTP são passíveis de autorização
+			.authorizeHttpRequests()	// Agora as requisições HTTP são passíveis de autorização
 			.requestMatchers(HttpMethod.POST, "/login").permitAll()
-			.requestMatchers(HttpMethod.POST, "/user/insert").permitAll()
+			.requestMatchers(HttpMethod.POST, "/user/register").permitAll()
 			.anyRequest()
-			.authenticated() // Todas as outras URLS terão a necessidade de autenticação
+			.authenticated() // Todos os outros Endpoints terão a necessidade de autenticação
 			.and()
 			.cors(cors -> cors.disable());
 		

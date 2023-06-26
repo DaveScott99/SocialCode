@@ -27,7 +27,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "post")
+@Table(name = "POST")
 public class Post {
 	
 	@Id
@@ -47,9 +47,9 @@ public class Post {
 	
 	@ManyToOne
 	@JsonIgnoreProperties("posts")
-	private User user;
+	private User owner;
 	
-	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("post")
 	private List<Coment> coments = new ArrayList<>();
 	
@@ -63,16 +63,21 @@ public class Post {
 	public Post() {
 	}
 
-	public Post(Long id, @NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User user, List<Coment> coments, Set<User> likes) {
+	public Post(Long id, @NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User owner, List<Coment> coments, Set<User> likes) {
 		this.id = id;
 		this.creationDate = creationDate;
 		this.imagePost = imagePost;
 		this.body = body;
-		this.user = user;
+		this.owner = owner;
 		this.coments = coments;
 		this.likes = likes;
 	}
-
+	
+	public Post(Long id, String body) {
+		this.id = id;
+		this.body = body;
+	}
+			
 	public Long getId() {
 		return id;
 	}
@@ -105,14 +110,14 @@ public class Post {
 		this.body = body;
 	}
 	
-	public User getUser() {
-		return user;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
-	
+
 	public List<Coment> getComents() {
 		return coments;
 	}

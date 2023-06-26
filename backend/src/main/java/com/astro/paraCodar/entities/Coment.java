@@ -3,6 +3,8 @@ package com.astro.paraCodar.entities;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -28,20 +30,21 @@ public class Coment {
 	@JsonIgnore
 	private Post post;
 	
-	@Column(nullable = false)
-	private String username;
+	@ManyToOne
+	private User user;
 	
 	@Column(nullable = false)
+	@CreationTimestamp
 	private LocalDateTime creationDate;
 	
 	public Coment() {
 	}
 
-	public Coment(Long id, String text, Post post, String username, LocalDateTime creationDate) {
+	public Coment(Long id, String text, Post post, User user, LocalDateTime creationDate) {
 		this.id = id;
 		this.text = text;
 		this.post = post;
-		this.username = username;
+		this.user = user;
 		this.creationDate = creationDate;
 	}
 
@@ -69,14 +72,14 @@ public class Coment {
 		this.post = post;
 	}
 	
-	public String getUsername() {
-		return username;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
+
 	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}

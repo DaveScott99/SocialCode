@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 
 import com.astro.paraCodar.dto.response.UserDTO;
+import com.astro.paraCodar.entities.AuthToken;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -62,10 +63,7 @@ public class TokenUtil {
 										.build().parseClaimsJws(jwtToken);
 			
 			// Extraindo as informações do Token
-			String username = jwsClaims.getBody().get("Username").toString();
-			
-			System.out.println("DEBUG CLAIM::"+username);
-			
+			String username = jwsClaims.getBody().get("Username").toString();			
 			String issuer = jwsClaims.getBody().getIssuer();
 			Date validity = jwsClaims.getBody().getExpiration();
 						

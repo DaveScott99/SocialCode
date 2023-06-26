@@ -23,9 +23,7 @@ public class Filter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
-		System.out.println("DEBUG::Requisição passou pelo filtro");
-		
+			
 		if (request.getHeader("Authorization") != null) {	
 			
 			// Recupero o cabeçalho

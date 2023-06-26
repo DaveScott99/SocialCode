@@ -1,4 +1,4 @@
-package com.astro.paraCodar.security;
+package com.astro.paraCodar.entities;
 
 public class AuthToken {
 

@@ -1,6 +1,7 @@
 package com.astro.paraCodar.entities;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -66,9 +67,13 @@ public class User {
 	@CreationTimestamp
 	private Instant registrationMoment;
 	
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<Post> posts = new ArrayList<>();
+	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<Post> posts;
+	private List<Coment> coments = new ArrayList<>();
 	
 	@ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
@@ -104,7 +109,13 @@ public class User {
 		this.password = password;
 		this.registrationMoment = registrationMoment;
 	}
-
+	
+	public User(Long id, String username, String profilePhoto) {
+		this.id = id;
+		this.username = username;
+		this.profilePhoto = profilePhoto;
+	}
+			
 	public Long getId() {
 		return id;
 	}
@@ -209,14 +220,14 @@ public class User {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
-
 	public Set<Post> getLikedPosts() {
 		return likedPosts;
 	}
 	
+	public List<Coment> getComents() {
+		return coments;
+	}
+
 	public Set<User> getFollowing() {
 		return following;
 	}

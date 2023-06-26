@@ -22,19 +22,4 @@ public class WebConfig {
 		};
 	}
 
-    /*
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http
-				.httpBasic()
-				.and()
-				.authorizeHttpRequests()
-				.anyRequest().permitAll()
-				.and()
-				.csrf().disable();
-		return http.build();
-	}
-	
-	*/
-	
 }

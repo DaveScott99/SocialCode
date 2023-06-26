@@ -1,74 +1,87 @@
 package com.astro.paraCodar.services;
 
-import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.astro.paraCodar.dto.mapper.PostMapper;
 import com.astro.paraCodar.dto.response.PostDTO;
-import com.astro.paraCodar.entities.Coment;
 import com.astro.paraCodar.entities.Post;
 import com.astro.paraCodar.entities.User;
 import com.astro.paraCodar.repositories.ComentRepository;
 import com.astro.paraCodar.repositories.PostRepository;
 import com.astro.paraCodar.repositories.UserRepository;
+import com.astro.paraCodar.services.exceptions.DatabaseException;
 import com.astro.paraCodar.services.exceptions.EntityNotFoundException;
 		
 @Service
 public class PostService {
+	
+	private final PostMapper postMapper;
+	
+	private final PostRepository postRepository;
+	
+	private final UserRepository userRepository;
+		
+	public PostService(PostMapper postMapper, PostRepository postRepository, UserRepository userRepository,
+			ComentRepository comentRepository) {
+		this.postMapper = postMapper;
+		this.postRepository = postRepository;
+		this.userRepository = userRepository;
+	}
 
-	@Autowired
-	private PostRepository postRepository;
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private ComentRepository comentRepository;
-	
 	@Transactional(readOnly = true)
-	public Page<PostDTO> findAllPaged(Pageable pageable){
-		Page<Post> posts = postRepository.findAllByOrderByCreationDateDesc(pageable);
-		return posts.map(x -> new PostDTO(x));
+	public Page<PostDTO> findAllPaged(Pageable pageable){	
+		return postRepository.findAllByOrderByCreationDateDesc(pageable)
+					  		 .map(postMapper::toDTO);
 	}
 	
 	@Transactional(readOnly = true)
-	public PostDTO findById(Long id) {
-		Post result = postRepository.findById(id).get();
-		return new PostDTO(result);
+	public Page<PostDTO> findPostsByOwner(Pageable pageable ,Long ownerId) {
+		return postRepository.findPostByOwnerId(pageable ,ownerId)
+							 .map(postMapper::toDTO);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<PostDTO> findPostsByUser(Long id) {
-		List<Post> posts = postRepository.findPostByUserId(id);
-		return posts.stream().map(x -> new PostDTO(x)).toList();
+	public PostDTO findById(Long postId) {
+		return postRepository.findById(postId)
+						.map(postMapper::toDTO)
+						.orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 	}
-	
+
 	@Transactional
 	public PostDTO insert(PostDTO dto) {
-		Post entity = new Post();
-		copyDtoToEntity(dto, entity);
-		entity.setCreationDate(Instant.now());
-		entity = postRepository.save(entity);	
-		return new PostDTO(entity);
+		return postMapper.toDTO(postRepository.save(postMapper.toEntity(dto)));
 	}
 	
 	@Transactional
-	public PostDTO update(Long id, PostDTO dto) {
+	public PostDTO update(Long postId, PostDTO dto) {
+		return postRepository.findById(postId)
+							 .map(postFound -> {
+								postFound.setBody(dto.getBody());
+								postFound.setImagePost(dto.getImagePost());
+								return postMapper.toDTO(postRepository.save(postFound));
+							 })
+							 .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+	}
+	
+	public void deletePost(Long postId) {
 		try {
-			Post post = postRepository.getReferenceById(id);
-			copyDtoToEntity(dto, post);
-			post = postRepository.save(post);
-			return new PostDTO(post);
+			 postRepository.findById(postId)
+					  .map(post -> {
+						  	postRepository.deleteById(postId);
+						  	return "Post excluido com sucesso";
+						  })
+					  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 		}
-		catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id não encontrado " + id);
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Violação de integridade");
 		}
+
 	}
 	
 	@Transactional
@@ -113,27 +126,6 @@ public class PostService {
 		
 		return null;
 		
-	}
-
-	private void copyDtoToEntity(PostDTO dto, Post entity) {
-		entity.setImagePost(dto.getImagePost());
-		entity.setBody(dto.getBody());
-		entity.setCreationDate(dto.getCreationDate());
-		entity.setUser(dto.getUser());
-		
-		entity.getComents().clear();
-		
-		for(Coment comentDto : dto.getComents()) {
-			Coment coment = comentRepository.getReferenceById(comentDto.getId());
-			entity.getComents().add(coment);
-		}
-		
-		entity.getLikes().clear();
-		
-		for(User userLike : dto.getLikes()) {
-			User coment = userRepository.getReferenceById(userLike.getId());
-			entity.getLikes().add(coment);
-		}
 	}
 	
 }

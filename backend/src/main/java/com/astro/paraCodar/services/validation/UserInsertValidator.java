@@ -31,21 +31,30 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
 		// Área do código para colocar teste de validação, acrescentando objetos FieldMessage à lista
 		
 		User email = userRepository.findByEmail(dto.getEmail());
-		User username = userRepository.findByUsername(dto.getUsername());
 		
-		if (email != null) { // Validação para saber se o email já é existente
+		User username = userRepository.findByUsername(dto.getUsername())
+									  .map(userFound -> {
+										 return userFound;
+									  })
+									  .orElse(null);
+		
+		// Validação para saber se o email já é existente
+		if (email != null) { 
 			list.add(new FieldMessage("email", "Email já existente"));
 		}
 		
-		if (dto.getPassword().compareTo(dto.getConfirmPassword()) != 0) { // Validação para verificar se as senhas são idênticas
+		// Validação para verificar se as senhas são idênticas
+		if (dto.getPassword().compareTo(dto.getConfirmPassword()) != 0) {
 			list.add(new FieldMessage("password", "Senhas precisam ser idênticas"));
 		}
 		
-		if (username != null) { // Validação para saber se o username já é existente
+		// Validação para saber se o username já é existente
+		if (username != null) { 
 			list.add(new FieldMessage("username", "Username já existente"));
 		}
 		
-		for (FieldMessage e : list) { // FOR para inserir os erros de validação na lista do Beans Validation
+		// FOR para inserir os erros de validação na lista do Beans Validation
+		for (FieldMessage e : list) { 
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
 																		.addConstraintViolation();

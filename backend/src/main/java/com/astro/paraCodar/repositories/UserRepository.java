@@ -12,8 +12,10 @@ import com.astro.paraCodar.entities.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByEmailAndPassword(String email, String password); 
+	
 	User findByEmail(String email);
-	User findByUsername(String username);
+	
+	Optional<User> findByUsername(String username);
 	
 	@Query(value = "SELECT * FROM SOCIALCODE.USER WHERE USERNAME LIKE :username%", nativeQuery = true)
 	Page<User> searchUsers(Pageable pageable, String username);

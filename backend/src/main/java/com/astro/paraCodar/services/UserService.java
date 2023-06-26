@@ -2,19 +2,17 @@ package com.astro.paraCodar.services;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.astro.paraCodar.dto.mapper.UserMapper;
 import com.astro.paraCodar.dto.request.RegisterUserDTO;
 import com.astro.paraCodar.dto.request.UriDTO;
-import com.astro.paraCodar.dto.request.UserUpdateDTO;
 import com.astro.paraCodar.dto.response.UserDTO;
 import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.User;
@@ -24,133 +22,134 @@ import com.astro.paraCodar.services.exceptions.EntityNotFoundException;
 @Service
 public class UserService {
 	
-	@Autowired
-	private UserRepository userRepository;
+	private final UserMapper userMapper;
 	
-	@Autowired
-	private S3Service s3Service;
+	private final UserRepository userRepository;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private final S3Service s3Service;
 	
+	public UserService(UserMapper userMapper, UserRepository userRepository, S3Service s3Service) {
+		this.userMapper = userMapper;
+		this.userRepository = userRepository;
+		this.s3Service = s3Service;
+	}
+
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(Pageable Pageable){
-		Page<User> users = userRepository.findAll(Pageable);
-		return users.map(x -> new UserDTO(x));
+		return userRepository.findAll(Pageable)
+							 .map(userMapper::toDTO);
 	}
 	
 	public Page<UserDTO> searchUserByUsername(Pageable pageable ,String username) {
-		Page<User> users = userRepository.searchUsers(pageable, username);
-		return users.map(x -> new UserDTO(x));
+		return userRepository.searchUsers(pageable, username)
+							 .map(userMapper::toDTO);
 	}
 	
 	@Transactional(readOnly = true)
 	public UserDTO findByUsername(String username) {
-		User user = userRepository.findByUsername(username);
-		return new UserDTO(user);
+		return userRepository.findByUsername(username)
+							 .map(userMapper::toDTO)
+							 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 	}
 	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id){
-		Optional<User> user = userRepository.findById(id);
-		User entity = user.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + id));
-		return new UserDTO(entity);
+		return userRepository.findById(id)
+						  	 .map(userMapper::toDTO)
+						  	 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado " + id));
 	}
 	
 	@Transactional
 	public UserDTO insert(RegisterUserDTO dto) {
-		User user = new User();
-		copyDtoToEntityInsert(dto, user);
-		user.setPassword(passwordEncoder.encode(dto.getPassword()));
-		user = userRepository.save(user);
-		return new UserDTO(user);		
+		return userMapper.toDTO(userRepository.save(userMapper.toEntityRegister(dto)));
 	}
 	
 	@Transactional
-	public UserDTO update(Long id, UserUpdateDTO dto){
-		try {
-			User entity = userRepository.getReferenceById(id);
-			copyDtoToEntityUpdate(dto, entity);
-			entity = userRepository.save(entity);
-			return new UserDTO(entity);
-		}
-		catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("ID não encontrado " + id);
-		}
+	public UserDTO update(Long userId, UserDTO userDTO){
+		return userRepository.findById(userId)
+							 .map(userFound -> {
+								 userFound.setFirstName(userDTO.getFirstName());
+								 userFound.setLastName(userDTO.getLastName());
+								 userFound.setBiography(userDTO.getBiography());
+								 userFound.setGitHubLink(userDTO.getGitHubLink());
+								 userFound.setLinkedinLink(userDTO.getLinkedinLink());
+								 userFound.setTitle(userDTO.getTitle());
+								 userFound.setUsername(userDTO.getUsername());
+								 return userMapper.toDTO(userRepository.save(userFound));
+							 })
+							 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado " + userId));
 	}
 	
 	public UriDTO uploadProfilePhoto(MultipartFile file, String username) {
-		User user = userRepository.findByUsername(username);
-		/*
-		// Primeiro pegamos o nome do arquivo que está armazenado no Bucket
-		String fileName = user.getProfilePhoto().substring(54); 
-		s3Service.deleteFile(fileName); // Com o nome chamamos o método que irá excluir a imagem do Bucket
-		*/
 		
-		URL url = s3Service.uploadFile(file, "users", "profile-photo"); // Agora salvamos a imagem nova no Bucket
-		user.setProfilePhoto(url.toString());
-		userRepository.save(user);
+		//Salvamos a imagem no Bucket
+		URL url = s3Service.uploadFile(file, "users", "profile-photo"); 
+				
+		userRepository.findByUsername(username)
+				 .map(userFound -> {
+					 userFound.setProfilePhoto(url.toString());
+					 return userRepository.save(userFound);
+				 })
+				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+		
 		return new UriDTO(url.toString());
 	}
 	
+	@Transactional
 	public void followUser(Long userId, Long followerId) {
-		
-		Optional<User> userOpt = userRepository.findById(userId);
-		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
-		
-		Optional<User> followerUserOpt = userRepository.findById(followerId);
-		User followUser = followerUserOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + followerId));
-		
-		user.getFollowers().add(followUser);
-		userRepository.save(user);
-		
+		userRepository.findById(userId)
+					  	 .map(foundUser -> {
+					  		User userToFollow = userRepository.findById(followerId)
+													  	    .map(user -> user)
+													  	    .orElseThrow(() -> new EntityNotFoundException("Usuário a ser seguido não encontrado"));
+	
+					  					foundUser.getFollowers().add(userToFollow);
+					  					
+					  					return userRepository.save(foundUser);
+					  	 })
+					  	 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 	}
 	
+	@Transactional
 	public void unfollowUser(Long userId, Long followerId) {
-		Optional<User> userOpt = userRepository.findById(userId);
-		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
-		
-		Optional<User> followerUserOpt = userRepository.findById(followerId);
-		User followUser = followerUserOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + followerId));
-		
-		user.getFollowers().remove(followUser);
-		userRepository.save(user);
+		userRepository.findById(userId)
+					  .map(foundUser -> {
+						  User followedUser = userRepository.findById(followerId)
+							  	    .map(user -> user)
+							  	    .orElseThrow(() -> new EntityNotFoundException("Usuário seguido não encontrado"));
+						  
+						  foundUser.getFollowers().remove(followedUser);
+						  
+						  return userRepository.save(foundUser);
+
+					  })
+					  .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 	}
 	
-	public List<UserMinDTO> getFollowers(Long userId) {
-		Optional<User> userOpt = userRepository.findById(userId);
-		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
-		
-		return user.getFollowers().stream().map(x -> new UserMinDTO(x)).toList();
+	@Transactional(readOnly = true)
+	public List<UserMinDTO> findUserFollowers(Long userId) {
+		return userRepository.findById(userId)
+							 .map(foundUser -> {
+								 List<UserMinDTO> followers = foundUser.getFollowers()
+															 		   .stream()
+															 		   .map(userMapper::toMinDTO)
+															 		   .collect(Collectors.toList());
+								 return followers;
+							 })
+							 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
 	}
 	
-	public List<UserMinDTO> getFollowing(Long userId) {
-		Optional<User> userOpt = userRepository.findById(userId);
-		User user = userOpt.orElseThrow(() -> new EntityNotFoundException("ID não encontrado " + userId));
-		
-		return user.getFollowing().stream().map(x -> new UserMinDTO(x)).toList();
-	}
-	
-	
-	// Método para copiar os atributos do UserDTO para a entidade User
-	private void copyDtoToEntityUpdate(UserDTO dto, User entity) {
-		entity.setFirstName(dto.getFirstName());
-		entity.setLastName(dto.getLastName());
-		entity.setUsername(dto.getUsername());
-		entity.setBiography(dto.getBiography());
-		entity.setTitle(dto.getTitle());
-		entity.setLinkedinLink(dto.getLinkedinLink());
-		entity.setGitHubLink(dto.getGitHubLink());
-	}
-	
-	// Método para copiar os atributos do RegisterUserDTO para a entidade User
-	private void copyDtoToEntityInsert(RegisterUserDTO dto, User entity) {
-		entity.setId(dto.getId());
-		entity.setFirstName(dto.getFirstName());
-		entity.setLastName(dto.getLastName());
-		entity.setUsername(dto.getUsername());
-		entity.setEmail(dto.getEmail());
-		entity.setPassword(dto.getPassword());
+	@Transactional(readOnly = true)
+	public List<UserMinDTO> findUserFollowing(Long userId) {
+		return userRepository.findById(userId)
+				 .map(foundUser -> {
+					 List<UserMinDTO> following = foundUser.getFollowing()
+												 		   .stream()
+												 		   .map(userMapper::toMinDTO)
+												 		   .collect(Collectors.toList());
+					 return following;
+				 })
+				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
 	}
 	
 }

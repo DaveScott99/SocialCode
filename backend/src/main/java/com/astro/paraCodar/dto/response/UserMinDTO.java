@@ -8,6 +8,9 @@ public class UserMinDTO {
 	private String username;
 	private String profilePhoto;
 	
+	public UserMinDTO() {
+	}
+	
 	public UserMinDTO(User user) {
 		id = user.getId();
 		username = user.getUsername();

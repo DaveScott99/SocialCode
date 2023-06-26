@@ -3,8 +3,9 @@ package com.astro.paraCodar.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.astro.paraCodar.dto.response.PostMinDTO;
+import com.astro.paraCodar.dto.response.UserMinDTO;
 import com.astro.paraCodar.entities.Coment;
-import com.astro.paraCodar.entities.Post;
 
 public class ComentDTO implements Serializable{
 
@@ -12,9 +13,11 @@ public class ComentDTO implements Serializable{
 	
 	private Long id;
 	private String text;
-	private Post post;
-	private String username;
 	private LocalDateTime creationDate;
+	
+	private PostMinDTO post;
+	
+	private UserMinDTO user;
 	
 	public ComentDTO() {
 	}
@@ -22,8 +25,8 @@ public class ComentDTO implements Serializable{
 	public ComentDTO(Coment entity) {
 		id = entity.getId();
 		text = entity.getText();
-		post = entity.getPost();
-		username = entity.getUsername();
+		post = new PostMinDTO(entity.getPost()); // Conversão da Entidade para DTO
+		user = new UserMinDTO(entity.getUser()); // Conversão da Entidade para DTO
 		creationDate = entity.getCreationDate();
 	}
 
@@ -34,13 +37,13 @@ public class ComentDTO implements Serializable{
 	public String getText() {
 		return text;
 	}
-
-	public Post getPost() {
+	
+	public PostMinDTO getPost() {
 		return post;
 	}
 
-	public String getUsername() {
-		return username;
+	public UserMinDTO getUser() {
+		return user;
 	}
 
 	public LocalDateTime getCreationDate() {

@@ -20,22 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ApplicationExceptionHandler {
 
-	
-	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<StandardError> anyException(Exception e, HttpServletRequest request) {
-		HttpStatus status = HttpStatus.BAD_GATEWAY;
-		StandardError err = new StandardError();
-		err.setTimestamp(Instant.now());
-		err.setStatus(status.value());
-		err.setError("Recurso não encontrado");
-		err.setMessage(e.getMessage());
-		err.setPath(request.getRequestURI());
-		return ResponseEntity.status(status).body(err);
-	}
-	
-	@ExceptionHandler(NullPointerException.class)
-	public ResponseEntity<StandardError> handleException(Exception e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.BAD_GATEWAY;
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
