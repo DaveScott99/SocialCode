@@ -8,6 +8,8 @@ conta também com mecanismo JWT para autenticação e autorização de usuários
 
 Sua base de dados foi construida em MySQL e a API também faz interação com o serviço AWS S3 Storage para o armazenamento de imagens.
 
+Documentação -> https://documenter.getpostman.com/view/23226419/2s93z87iE1
+
 ## Tecnologias utilizadas
 
 - `Java`
