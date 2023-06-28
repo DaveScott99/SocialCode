@@ -29,9 +29,9 @@ public class ComentService {
 	@Transactional(readOnly = true)
 	public List<ComentDTO> findComentsByUser(Long userId) {
 		return comentRepository.findComentsByUserId(userId)
-							   .stream()
-							   .map(comentMapper::toDTO)
-							   .collect(Collectors.toList());							   
+				   .stream()
+				   .map(comentMapper::toDTO)
+				   .collect(Collectors.toList());							   
 	}
 	
 	@Transactional
@@ -42,11 +42,11 @@ public class ComentService {
 	public void deleteComent(Long comentId) {
 		try {
 			comentRepository.findById(comentId)
-							.map(foundComent -> {
-								comentRepository.deleteById(comentId);
-								return "Comentário excluido com sucesso";
-							})
-							.orElseThrow(() -> new EntityNotFoundException("Comentário não encontrado"));					
+				.map(foundComent -> {
+					comentRepository.deleteById(comentId);
+					return "Comentário excluido com sucesso";
+				})
+				.orElseThrow(() -> new EntityNotFoundException("Comentário não encontrado"));					
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Violação de integridade");

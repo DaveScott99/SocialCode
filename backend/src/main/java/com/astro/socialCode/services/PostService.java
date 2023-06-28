@@ -80,8 +80,8 @@ public class PostService {
 	@Transactional(readOnly = true)
 	public PostDTO findById(Long postId) {
 		return postRepository.findById(postId)
-						.map(postMapper::toDTO)
-						.orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+					.map(postMapper::toDTO)
+					.orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 	}
 
 	@Transactional
@@ -92,22 +92,22 @@ public class PostService {
 	@Transactional
 	public PostDTO update(Long postId, PostDTO dto) {
 		return postRepository.findById(postId)
-							 .map(postFound -> {
-								postFound.setBody(dto.getBody());
-								postFound.setImagePost(dto.getImagePost());
-								return postMapper.toDTO(postRepository.save(postFound));
-							 })
-							 .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+				 .map(postFound -> {
+					postFound.setBody(dto.getBody());
+					postFound.setImagePost(dto.getImagePost());
+					return postMapper.toDTO(postRepository.save(postFound));
+				 })
+				 .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 	}
 	
 	public void deletePost(Long postId) {
 		try {
 			 postRepository.findById(postId)
-					  .map(post -> {
-						  	postRepository.deleteById(postId);
-						  	return "Post excluido com sucesso";
-						  })
-					  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+				  .map(post -> {
+					  	postRepository.deleteById(postId);
+					  	return "Post excluido com sucesso";
+					  })
+				  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Violação de integridade");
@@ -117,37 +117,37 @@ public class PostService {
 	@Transactional
 	public void relevantVote(Long postId, Long userId) {
 		postRepository.findById(postId)
-					  .map(foundPost -> {
-						  userRepository.findById(userId)
-						  				.map(userFound -> {
-					  						foundPost.getVotes().add(userFound);
-					  						userFound.getVotedPosts().add(foundPost);
-					  						postRepository.save(foundPost);
-					  						userRepository.save(userFound);
-					  						return userFound;
-						  				})
-						  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-						  	return foundPost;
-					  })
-					  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+			  .map(foundPost -> {
+				  userRepository.findById(userId)
+				  				.map(userFound -> {
+			  						foundPost.getVotes().add(userFound);
+			  						userFound.getVotedPosts().add(foundPost);
+			  						postRepository.save(foundPost);
+			  						userRepository.save(userFound);
+			  						return userFound;
+				  				})
+				  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+				  	return foundPost;
+			  })
+			  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 	}
 	
 	@Transactional
 	public void unrelevantVote(Long postId, Long userId) {
 		postRepository.findById(postId)
-					  .map(foundPost -> {
-						  userRepository.findById(userId)
-						  				.map(userFound -> {
-						  						foundPost.getVotes().remove(userFound);
-						  						userFound.getVotedPosts().remove(foundPost);
-						  						postRepository.save(foundPost);
-						  						userRepository.save(userFound);
-						  						return userFound;
-						  				})
-						  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-						  	return foundPost;
-					  })
-					  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+			  .map(foundPost -> {
+				  userRepository.findById(userId)
+				  				.map(userFound -> {
+				  						foundPost.getVotes().remove(userFound);
+				  						userFound.getVotedPosts().remove(foundPost);
+				  						postRepository.save(foundPost);
+				  						userRepository.save(userFound);
+				  						return userFound;
+				  				})
+				  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+				  	return foundPost;
+			  })
+			  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
 	}
 	
 }
