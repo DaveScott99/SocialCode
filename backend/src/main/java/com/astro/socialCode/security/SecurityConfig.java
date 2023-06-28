@@ -11,11 +11,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable()) // Desabilito o csrf para implementar a autenticação personalizada
-			.authorizeHttpRequests()	// Agora as requisições HTTP são passíveis de autorização
+		http.csrf(csrf -> csrf.disable())
+			.authorizeHttpRequests()
 			
 			.requestMatchers(HttpMethod.POST, "/login").permitAll()
 			.requestMatchers(HttpMethod.POST, "/user/register").permitAll()
@@ -24,7 +24,7 @@ public class SecurityConfig {
 			.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
 			
 			.anyRequest()
-			.authenticated() // Todos os outros Endpoints terão a necessidade de autenticação
+			.authenticated()
 			.and()
 			.cors(cors -> cors.disable());
 				
