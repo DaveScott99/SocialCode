@@ -26,7 +26,7 @@ public class SecurityConfig {
 			.anyRequest()
 			.authenticated()
 			.and()
-			.cors(cors -> cors.disable());
+			.cors();
 				
 		http.addFilterBefore(new Filter(), UsernamePasswordAuthenticationFilter.class);
 				

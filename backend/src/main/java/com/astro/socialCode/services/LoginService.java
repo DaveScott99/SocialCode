@@ -38,22 +38,22 @@ public class LoginService {
 				Optional<User> userLogin = userRepository.findByEmailAndPassword(loginDto.getEmail(), encodedPassword);
 				
 				if(userLogin.isPresent()) {
-					return new LoginMessage("Login efetuado com sucesso", new UserDTO(user), TokenUtil.encodeToken(new UserDTO(userLogin.get())));
+					return new LoginMessage("Login efetuado com sucesso", new UserDTO(user), TokenUtil.encodeToken(new UserDTO(userLogin.get())), true);
 				}
 				else {
-					return new LoginMessage("Login falhou");
+					return new LoginMessage("Login falhou", false);
 				}
 				
 			}
 			
 			else {
-				return new LoginMessage("Senha incorreta");
+				return new LoginMessage("Senha incorreta", false);
 			}
 			
 		}
 		
 		else {
-			return new LoginMessage("Email não existe");
+			return new LoginMessage("Email não existe", false);
 		}	
 		
 	}
