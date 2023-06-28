@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.validation.constraints.NotBlank;
 
-@JsonPropertyOrder(value = {"id", "creationDate", "imagePost", "body", "coments", "likes"})
+@JsonPropertyOrder(value = {"id", "creationDate", "imagePost", "body", "coments", "votes"})
 public class PostDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,8 +36,8 @@ public class PostDTO implements Serializable {
 	@JsonProperty(value = "coments")
 	private List<ComentDTO> coments = new ArrayList<>();
 	
-	@JsonProperty(value = "likes")
-	private Set<UserMinDTO> likes = new HashSet<>();
+	@JsonProperty(value = "votes")
+	private Set<UserMinDTO> votes = new HashSet<>();
 	
 	public PostDTO() {
 	}
@@ -49,7 +49,7 @@ public class PostDTO implements Serializable {
 		body = entity.getBody();
 		owner = new UserMinDTO(entity.getOwner());
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
-		entity.getLikes().forEach(userLike -> getLikes().add(new UserMinDTO(userLike)));
+		entity.getVotes().forEach(userLike -> getVotes().add(new UserMinDTO(userLike)));
 	}
 
 	public Long getId() {
@@ -76,8 +76,8 @@ public class PostDTO implements Serializable {
 		return coments;
 	}
 
-	public Set<UserMinDTO> getLikes() {
-		return likes;
+	public Set<UserMinDTO> getVotes() {
+		return votes;
 	}
 
 }

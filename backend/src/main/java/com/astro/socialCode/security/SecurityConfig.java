@@ -16,13 +16,18 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()) // Desabilito o csrf para implementar a autenticação personalizada
 			.authorizeHttpRequests()	// Agora as requisições HTTP são passíveis de autorização
+			
 			.requestMatchers(HttpMethod.POST, "/login").permitAll()
 			.requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+						
+			.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
+			
 			.anyRequest()
 			.authenticated() // Todos os outros Endpoints terão a necessidade de autenticação
 			.and()
 			.cors(cors -> cors.disable());
-		
+				
 		http.addFilterBefore(new Filter(), UsernamePasswordAuthenticationFilter.class);
 				
 		return http.build();

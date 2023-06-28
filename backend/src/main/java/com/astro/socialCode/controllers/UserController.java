@@ -36,35 +36,35 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@GetMapping(value = "/findAll/")
+	@GetMapping(value = "/findAllUsers/")
 	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable){
 		Page<UserDTO> users = userService.findAllPaged(pageable);
 		return ResponseEntity.ok().body(users);
 	}
 	
-	@GetMapping(value = "/searchUserByUsername/{username}")
+	@GetMapping(value = "/findUsersByUsername/{username}")
 	public ResponseEntity<Page<UserDTO>> searchUserByUsername(Pageable pageable, @PathVariable String username) {
 		return ResponseEntity.ok().body(userService.searchUserByUsername(pageable, username));
 	}
 	
-	@GetMapping(value = "/findByUsername/{username}")
+	@GetMapping(value = "/findUserByUsername/{username}")
 	public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
 		return ResponseEntity.ok().body(userService.findByUsername(username));
 	}
 	
-	@GetMapping(value = "/findById/{id}")
-	public ResponseEntity<UserDTO> findById(@PathVariable Long id){
-		return ResponseEntity.ok().body(userService.findById(id));
+	@GetMapping(value = "/findUserById/{userId}")
+	public ResponseEntity<UserDTO> findById(@PathVariable Long userId){
+		return ResponseEntity.ok().body(userService.findById(userId));
 	}
 	
 	@PostMapping(value = "/register")
-	public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterUserDTO dto) {
-		UserDTO user = userService.insert(dto);
+	public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterUserDTO RegisterDTO) {
+		UserDTO user = userService.insert(RegisterDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}
 	
-	@PutMapping(value = "/updateUser/{id}")
+	@PutMapping(value = "/updateUser/{userId}")
 	public ResponseEntity<UserDTO> update(@PathVariable Long userId, @Valid @RequestBody UserUpdateDTO userUpdateDto){
 		return ResponseEntity.ok().body(userService.update(userId, userUpdateDto));
 	}
@@ -75,21 +75,22 @@ public class UserController {
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@PostMapping("/follow/{followerId}")
-	public ResponseEntity<Void> followUser(@RequestParam Long userId, @PathVariable Long followerId) {
+	@PostMapping("/follow/{followerId}/{userId}")
+	public ResponseEntity<Void> followUser(@PathVariable Long userId, @PathVariable Long followerId) {
 		userService.followUser(userId, followerId);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/unfollow/{followerId}")
-	public ResponseEntity<Void> unfollowUser(@RequestParam Long userId, @PathVariable Long followerId) {
+	@PostMapping("/unfollow/{followerId}/{userId}")
+	public ResponseEntity<Void> unfollowUser(@PathVariable Long userId, @PathVariable Long followerId) {
 		userService.unfollowUser(userId, followerId);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping("/followers/{userId}")
 	public ResponseEntity<List<UserMinDTO>> findUserFollowers(@PathVariable Long userId) {
-		return ResponseEntity.ok().body(userService.findUserFollowers(userId));
+		List<UserMinDTO> followers = userService.findUserFollowers(userId);
+		return ResponseEntity.ok().body(followers);
 	}
 	
 	@GetMapping("/following/{userId}")

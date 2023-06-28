@@ -54,23 +54,21 @@ public class Post {
 	private List<Coment> coments = new ArrayList<>();
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinTable(name = "post_like",
+    @JoinTable(name = "post_vote",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "LIKES", columnDefinition = "TEXT DEFAULT ''")
-	private Set<User> likes = new HashSet<>();
+    @Column(name = "VOTES", columnDefinition = "TEXT DEFAULT ''")
+	private Set<User> votes = new HashSet<>();
 
 	public Post() {
 	}
 
-	public Post(Long id, @NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User owner, List<Coment> coments, Set<User> likes) {
+	public Post(Long id, @NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User owner) {
 		this.id = id;
 		this.creationDate = creationDate;
 		this.imagePost = imagePost;
 		this.body = body;
 		this.owner = owner;
-		this.coments = coments;
-		this.likes = likes;
 	}
 	
 	public Post(Long id, String body) {
@@ -122,8 +120,8 @@ public class Post {
 		return coments;
 	}
 
-	public Set<User> getLikes() {
-		return likes;
+	public Set<User> getVotes() {
+		return votes;
 	}
 
 	@Override

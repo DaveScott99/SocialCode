@@ -34,7 +34,7 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
 		
 		@SuppressWarnings("unchecked") // Capturar o ID do usuário que virá na requisição
 		var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-		Long userId = Long.parseLong(uriVars.get("id"));
+		Long userId = Long.parseLong(uriVars.get("userId"));
 		
 		List<FieldMessage> list = new ArrayList<>(); // Lista para armazenar eventuais erros de validação
 		

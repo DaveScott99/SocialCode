@@ -75,9 +75,9 @@ public class User {
 	@JsonIgnore
 	private List<Coment> coments = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private Set<Post> likedPosts = new HashSet<>();
+	private Set<Post> votedPosts = new HashSet<>();
 	
 	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	@JoinTable(
@@ -187,11 +187,7 @@ public class User {
 	public void setProfilePhoto(String profilePhoto) {
 		this.profilePhoto = profilePhoto;
 	}
-
-	public void setLikedPosts(Set<Post> likedPosts) {
-		this.likedPosts = likedPosts;
-	}
-
+	
 	public String getEmail() {
 		return email;
 	}
@@ -220,8 +216,8 @@ public class User {
 		return posts;
 	}
 
-	public Set<Post> getLikedPosts() {
-		return likedPosts;
+	public Set<Post> getVotedPosts() {
+		return votedPosts;
 	}
 	
 	public List<Coment> getComents() {

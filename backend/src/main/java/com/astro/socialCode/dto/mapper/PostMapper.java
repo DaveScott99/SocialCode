@@ -42,10 +42,10 @@ public class PostMapper {
 			   .stream()
 			   .map(coment -> post.getComents().add(comentMapper.toEntity(coment)));
 		
-		post.getLikes().clear();
-		postDTO.getLikes()
+		post.getVotes().clear();
+		postDTO.getVotes()
 				.stream()
-				.map(like -> post.getLikes().add(new User(like.getId(), like.getUsername(), like.getProfilePhoto())));
+				.map(like -> post.getVotes().add(new User(like.getId(), like.getUsername(), like.getProfilePhoto())));
 		
 		return post;
 	}

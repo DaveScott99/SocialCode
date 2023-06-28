@@ -25,7 +25,7 @@ public class UserMapper {
 	}
 	
 	public UserMinDTO toMinDTO(User user) {
-		if (user != null) {
+		if (user == null) {
 			return null;
 		}
 		return new UserMinDTO(user);

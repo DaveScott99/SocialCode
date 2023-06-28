@@ -18,7 +18,6 @@ public class UserDTO implements Serializable {
 	private String gitHubLink;
 	private String linkedinLink;
 	private String email;
-	private String password;
 	
 	public UserDTO() {	
 	}
@@ -34,7 +33,6 @@ public class UserDTO implements Serializable {
 		gitHubLink = entity.getGitHubLink();
 		linkedinLink = entity.getLinkedinLink();
 		email = entity.getEmail();
-		password = entity.getPassword();
 	}
 
 	public Long getId() {
@@ -75,10 +73,6 @@ public class UserDTO implements Serializable {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 	
 }

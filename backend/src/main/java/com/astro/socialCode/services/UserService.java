@@ -2,7 +2,6 @@ package com.astro.socialCode.services;
 
 import java.net.URL;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -130,13 +129,16 @@ public class UserService {
 	public List<UserMinDTO> findUserFollowers(Long userId) {
 		return userRepository.findById(userId)
 							 .map(foundUser -> {
-								 List<UserMinDTO> followers = foundUser.getFollowers()
-															 		   .stream()
-															 		   .map(userMapper::toMinDTO)
-															 		   .collect(Collectors.toList());
-								 return followers;
+								  List<UserMinDTO> followers = foundUser.getFollowers()
+											 		   .stream()
+											 		   .map(userMapper::toMinDTO)
+											 		   .toList();
+								  
+								  return followers;
+								  
 							 })
 							 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
+
 	}
 	
 	@Transactional(readOnly = true)
@@ -146,7 +148,7 @@ public class UserService {
 					 List<UserMinDTO> following = foundUser.getFollowing()
 												 		   .stream()
 												 		   .map(userMapper::toMinDTO)
-												 		   .collect(Collectors.toList());
+												 		   .toList();
 					 return following;
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 

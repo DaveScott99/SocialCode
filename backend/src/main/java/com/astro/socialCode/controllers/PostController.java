@@ -31,9 +31,9 @@ public class PostController {
 		this.postService = postService;
 	}
 
-	@GetMapping(value = "/findAllPosts")
-	public ResponseEntity<Page<PostDTO>> findAllPaged(Pageable pageable){
-		return ResponseEntity.ok().body(postService.findAllPaged(pageable));
+	@GetMapping(value = "/findPostsForTimeline")
+	public ResponseEntity<Page<PostDTO>> findPostsForTimeline(Pageable pageable, @RequestParam Long userId){
+		return ResponseEntity.ok().body(postService.findPostsForTimeline(pageable, userId));
 	}
 	
 	@GetMapping(value = "/findPostsByOwner/{ownerId}")
@@ -63,9 +63,16 @@ public class PostController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/likePost/{postId}")
-	public ResponseEntity<String> likePost(@PathVariable Long postId, @RequestParam Long userId) {
-		return ResponseEntity.ok().body(postService.likePost(postId, userId));
+	@PostMapping("/relevantVote/{postId}")
+	public ResponseEntity<Void> relevantVote(@PathVariable Long postId, @RequestParam Long userId) {
+		postService.relevantVote(postId, userId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/unrelevantVote/{postId}")
+	public ResponseEntity<Void> unrelevantVote(@PathVariable Long postId, @RequestParam Long userId) {
+		postService.unrelevantVote(postId, userId);
+		return ResponseEntity.noContent().build();
 	}
 	
 }

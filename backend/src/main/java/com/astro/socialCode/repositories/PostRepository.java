@@ -1,7 +1,7 @@
 package com.astro.socialCode.repositories;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.astro.socialCode.entities.Post;
@@ -9,8 +9,8 @@ import com.astro.socialCode.entities.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
-	Page<Post> findPostByOwnerId(Pageable pageable ,Long ownerId);
+	List<Post> findPostsByOwnerIdOrderByCreationDateDesc(Long ownerId);
 	
-	Page<Post> findAllByOrderByCreationDateDesc(Pageable pageable);
+	List<Post> findAllByOrderByCreationDateDesc();
 		
 }
