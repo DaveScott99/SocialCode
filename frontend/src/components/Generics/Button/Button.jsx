@@ -1,9 +1,11 @@
 import React from "react";
 import { CustomButton } from "./ButtonStyles";
+import Loading from "../Loading/Loading";
 
 export function Button({ children, onClick, type, disabled, width, background, padding, 
                          borderradius, fontcolor, fontWeight, fontSize, hoverbackground,
-                         position, top, bottom, left, right, justify }){
+                         position, top, bottom, left, right, justify, loading, loadingColor,
+                         loadingHeight, loadingWidth }){
     return(
         <CustomButton 
             onClick={onClick}
@@ -24,7 +26,11 @@ export function Button({ children, onClick, type, disabled, width, background, p
             bottom={bottom}
             justify={justify}
         >
-            {children}
+            {
+                loading 
+                    ? <Loading color={loadingColor} height={loadingHeight} width={loadingWidth} />
+                    : children
+            }
         </CustomButton>
     )
 }

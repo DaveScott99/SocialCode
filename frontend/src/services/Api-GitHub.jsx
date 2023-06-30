@@ -7,10 +7,12 @@ const octokit = new Octokit({
 export async function searchLanguagesOnRepos(username, repositoryName) {
 
     try {
-        return await octokit.request("GET /repos/{owner}/{repo}/languages", {
-            owner: username,
-            repo: repositoryName
-        })
+        if (username !== null && repositoryName !== null) {
+            return await octokit.request("GET /repos/{owner}/{repo}/languages", {
+                owner: username,
+                repo: repositoryName
+            })
+        }
     }
     catch (error) {
         console.log(error);
@@ -20,12 +22,14 @@ export async function searchLanguagesOnRepos(username, repositoryName) {
 
 export async function searchRepositoriesByUser(username, page) {
     try {
-        return await octokit.request("GET /users/{owner}/repos?page={page}", {
-            owner: username,
-            page: page,
-            sort: "created",
-            per_page: 10
-        })
+        if (username !== null) {
+            return await octokit.request("GET /users/{owner}/repos?page={page}", {
+                owner: username,
+                page: page,
+                sort: "created",
+                per_page: 10
+            })
+        }
     }
     catch (error) {
         console.log(error);

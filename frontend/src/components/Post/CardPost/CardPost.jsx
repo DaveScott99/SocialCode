@@ -13,12 +13,15 @@ export function CardPost({ post, hasLiked, index }) {
 
             <CardHeader>
                 <UserInfo>
-                    <Link to={`/profile/${post.user.username}`}>
-                        <Avatar alt="User image" src={post.user.profilePhoto} />
+
+                    <Link to={`/profile/${post.owner.username}`}>
+                        <Avatar alt="User image" src={post.owner.profilePhoto} />
                     </Link>
-                    <Link to={`/profile/${post.user.username}`}>
-                        <Username>{post.user.username}</Username>
+
+                    <Link to={`/profile/${post.owner.username}`}>
+                        <Username>{post.owner.username}</Username>
                     </Link>
+
                 </UserInfo>
                 <PostDate>· {dateFormat(post.creationDate)}</PostDate>
             </CardHeader>  

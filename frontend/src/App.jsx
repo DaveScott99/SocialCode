@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 import GlobalStyle from './styles/global';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

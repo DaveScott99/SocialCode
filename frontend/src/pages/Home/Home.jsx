@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import NewPost from '../../components/Post/NewPost/NewPost';
 import { FindAllPosts } from '../../services/Api';
 import Loading from '../../components/Generics/Loading/Loading';
 
 import './Home.css'
 import Feed from '../../components/Feed/Feed';
+import { AuthContext } from '../../contexts/Auth/AuthContext';
 
 export default function Home() {
+
+  
+  const { user } = useContext(AuthContext);
 
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
@@ -16,7 +20,7 @@ export default function Home() {
   const loadPosts = async () => {
     setLoading(true);
     try {
-      const newPosts = await FindAllPosts(page); // Busca novos posts na API referente a página atual
+      const newPosts = await FindAllPosts(page, user.id); // Busca novos posts na API referente a página atual
       setPosts(prevPosts => [...prevPosts, ...newPosts]); // Concatena a resposta da API com os posts já existentes no estado
       setPage(prevPage => prevPage + 1); // Pula para a próxima página
     } finally {

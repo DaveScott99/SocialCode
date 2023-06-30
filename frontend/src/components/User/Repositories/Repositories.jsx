@@ -13,7 +13,14 @@ export default function Repositories({ gitHubUsername }) {
 
         async function fetchRepositories()  {
             const repos = await searchRepositoriesByUser(gitHubUsername, 1);
-            setProjects(repos.data);
+
+            if (repos) {
+              setProjects(repos.data);
+            }
+            else {
+              console.log("Nenhum Repositorio");
+            }
+            
         }
       
         fetchRepositories();

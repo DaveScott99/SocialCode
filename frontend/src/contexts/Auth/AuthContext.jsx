@@ -26,17 +26,15 @@ export const AuthProvider = ({ children }) => {
         
         if (data) {
             const loggedUser = data.user;
-            const token = data.user.email;
-    
-            //api.defaults.headers.Authorization = `Bearer ${token}`;
+            const token = data.token.token;
     
             // Salvando as informações de login no localStorage do navegador
             localStorage.setItem("user", JSON.stringify(loggedUser));
-            localStorage.setItem("token", JSON.stringify(token));
+            localStorage.setItem("token", (token.replace("Bearer ", "")));
             
             // Setando o usuário logado no estado global do context
             setUser(loggedUser);
-            navigate("/");
+            //navigate("/");
         }
 
     }

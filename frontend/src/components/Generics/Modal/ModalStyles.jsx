@@ -7,7 +7,7 @@ export const Overlay = styled.div`
     top: 0;
     left: 0;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.452);
+    background: rgba(75, 75, 75, 0.195);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,6 +22,7 @@ export const Container = styled.div`
     min-width: 300px;
     box-shadow: 1px 0px 10px 2px rgba(0, 0, 0, 0.073);
     position: relative;
+    padding: 10px 5px 5px 5px;
 `;
 
 export const Header = styled.div`
@@ -30,6 +31,7 @@ export const Header = styled.div`
     justify-content: center;
     padding: 10px;
     border-bottom: 1px solid ${props => props.theme.colors.grey};
+    margin-bottom: 5px;
 
     svg {
         cursor: pointer;
@@ -37,6 +39,7 @@ export const Header = styled.div`
         font-size: 1.5em;
         position: absolute;
         right: 10px;
+        margin-bottom: 5px;
     }
 `;
 

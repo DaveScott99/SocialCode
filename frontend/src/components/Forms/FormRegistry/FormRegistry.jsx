@@ -34,7 +34,7 @@ export default function FormRegistry({ className }) {
 
         setLoading(false);
 
-        navigate("/");
+        //navigate("/");
 
     }
 

@@ -36,7 +36,7 @@ export default function Modal({ children, title, textButton, buttonBackground, b
                 right={right}
                 bottom={bottom}
                 width={buttonWidth}
-                center={buttonTextCenter}
+                justify={buttonTextCenter}
             >
                 {textButton}
             </Button>
