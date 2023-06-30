@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Lógica para verificar se existe algum usuário logado no sistema
         const recoveredUser = localStorage.getItem("user");
         if (recoveredUser) {
             setUser(JSON.parse(recoveredUser));
@@ -20,26 +19,22 @@ export const AuthProvider = ({ children }) => {
 
     }, [])
 
-    // Função que irá realizar o login do usuário no sistema
     const login = async (email, password) => {
-        const data = await loginUser(email, password); // Enviando as informações de login para a API
+        const data = await loginUser(email, password);
         
         if (data) {
             const loggedUser = data.user;
             const token = data.token.token;
     
-            // Salvando as informações de login no localStorage do navegador
             localStorage.setItem("user", JSON.stringify(loggedUser));
             localStorage.setItem("token", (token.replace("Bearer ", "")));
             
-            // Setando o usuário logado no estado global do context
             setUser(loggedUser);
-            //navigate("/");
+            navigate("/");
         }
 
     }
 
-    // Função deslogar o usuário do sistema
     const logout = () => {
         localStorage.removeItem("user")
         localStorage.removeItem("token")

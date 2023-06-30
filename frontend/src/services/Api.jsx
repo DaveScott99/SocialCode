@@ -10,7 +10,7 @@ armazena no localStorage as credenciais*/
 export const loginUser = async (email, password) => {
     const { data } = await api.post('/login', { email, password });
 
-    console.log(data);
+    //console.log(data);
 
     if (data.status !== true) {
         toast.error(data.message)
