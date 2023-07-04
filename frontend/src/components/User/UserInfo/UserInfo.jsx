@@ -8,32 +8,20 @@ import { Badges, Followers, Footer, Header, Name, Title, UserAvatar, UserData, U
 import InputAvatar from "../InputAvatar/InputAvatar";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { Button } from "../../Generics/Button/Button";
-import { findUserFollowers, findUserFollowing, followUser } from "../../../services/Api";
+import { followUser } from "../../../services/Api";
 import ConfigFollow from "../ConfigFollow/ConfigFollow";
+import { useSelector } from "react-redux";
 
-export default function UserInfo({ userData }) {
+export default function UserInfo({ currentUser }) {
 
     const { user } = useContext(AuthContext);
 
-    const [userFollowing, setUsersFollowing] = useState([]);
-    const [userFollowers, setUserFollowers] = useState([]);
+    //const { currentUser, followers, following } = useSelector((rootReducer) => rootReducer.userReducer);
+    
     const [isFollowChange, setIsFollowChange] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const loadData = async () => {
-
-            const following = await findUserFollowers(userData.id);
-            const followers = await findUserFollowing(userData.id);
-
-            setUsersFollowing(following.data);
-            setUserFollowers(followers.data);
-
-            setIsFollowChange(followers.data.some(follower => follower.id === user.id));
-
-        }
-        loadData();
-    }, [user.id, userData.id])
+    //setIsFollowChange(followers.some(follower => follower.id === user.id));
 
     const handleClickFollow = async (followerId, userId) => {
         setLoading(true);
@@ -45,15 +33,16 @@ export default function UserInfo({ userData }) {
             setLoading(false);
         }
     }
-
+ 
     return(
         <UserInfoContainer>
             
             <UserAvatar>
-                <Avatar src={userData.profilePhoto} sx={{width: '200px', height: '200px'}} variant="rounded"/>
+                <Avatar src={currentUser.profilePhoto} sx={{width: '200px', height: '200px'}} variant="rounded"/>
 
                 {
-                    user.id === userData.id
+                    
+                    user.id === currentUser.id
                                 ?
                                 <Modal 
                                     textButton={<MdOutlineAddAPhoto />}
@@ -72,6 +61,7 @@ export default function UserInfo({ userData }) {
                                 </Modal>
                             : 
                             null
+                        
                 } 
             
             </UserAvatar>
@@ -79,10 +69,11 @@ export default function UserInfo({ userData }) {
             <UserData>
 
                 <Header>
-                    <Name>{userData.firstName} {userData.lastName}</Name>
+                    <Name>{currentUser.firstName} {currentUser.lastName}</Name>
 
                     {
-                        userData.id !== user.id
+                        /*
+                        currentUser.id !== user.id
                                         ? 
                                         
                                             isFollowChange
@@ -97,12 +88,12 @@ export default function UserInfo({ userData }) {
                                                         buttonHoverBackground="#c2c2c29e"
                                                         buttonFontColor="#000000"
                                                     > 
-                                                        <ConfigFollow userData={userData}/>
+                                                        <ConfigFollow userData={currentUser}/>
                                                     </Modal>
                             
                                                 : 
                                                     <Button 
-                                                        onClick={() => handleClickFollow(userData.id, user.id)}
+                                                        onClick={() => handleClickFollow(currentUser.id, user.id)}
                                                         borderradius="5"
                                                         fontWeight="bold"
                                                         loading={loading}
@@ -125,26 +116,28 @@ export default function UserInfo({ userData }) {
                                             > 
                                                 <ConfigAccount />
                                             </Modal>
+                                            */
+                        
                     }
                 </Header>
                
-                <Username> {userData.username} </Username>
-                <Title> {userData.title} </Title>
+                <Username> {currentUser.username} </Username>
+                <Title> {currentUser.title} </Title>
 
                 <Footer>
 
-                    <Followers>{userFollowers.length} Seguidores</Followers>
+                    <Followers> {/*followers.length */} Seguidores</Followers>
 
-                    <Followers>{userFollowing.length} Seguindo</Followers>    
+                    <Followers> {/*following.length*/} Seguindo</Followers>    
 
                     <Badges>
 
                         <Badge 
                             imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                            link={`https://github.com/${userData.gitHubLink}`} />
+                            link={`https://github.com/${currentUser.gitHubLink}`} />
                         <Badge 
                             imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
-                            link={`https://www.linkedin.com/in/${userData.linkedinLink}/`} />
+                            link={`https://www.linkedin.com/in/${currentUser.linkedinLink}/`} />
                             
                     </Badges>
                 </Footer>

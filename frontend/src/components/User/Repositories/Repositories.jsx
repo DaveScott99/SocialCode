@@ -4,10 +4,13 @@ import RepositoryLanguages from "../RepositoryLanguages/RepositoryLanguages";
 import { BiStar, BiGitRepoForked } from "react-icons/bi";
 import { AiFillEye } from "react-icons/ai"
 import { Card, Container, Details, Item, Languages, Main, RepositoriesResult, RepositoryName, SearchInput, Status } from "./RepositoriesStyles";
+import { useSelector } from "react-redux";
 
 export default function Repositories({ gitHubUsername }) {
 
     const [projects, setProjects] = useState([]);
+
+    //const { currentUser } = useSelector((rootReducer) => rootReducer.userReducer);
     
     useEffect(() => {
 

@@ -1,6 +1,5 @@
 const UserActionTypes = {
-    LOGIN: "user/login",
-    LOGOUT: "user/logout"
-}
+  SELECT: "user/select",
+};
 
 export default UserActionTypes;

@@ -1,40 +1,69 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import Container from "../../Generics/Container/Container";
 import UserInfo from "../UserInfo/UserInfo";
 
 import './CardUserProfile.css';
 import Feed from "../../Feed/Feed";
 import Repositories from "../Repositories/Repositories";
-import { findAllPostsByUser, findUserByUsername, findUserFollowers, findUserFollowing } from "../../../services/Api";
+import { api } from "../../../services/Api";
+import { useDispatch, useSelector } from "react-redux";
+import { loadPosts } from "../../../redux/user/actions";
 
-export default function CardUserProfile({ username }) {
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../Generics/Loading/Loading";
+import { useParams } from "react-router";
 
-    const [currentUser, setCurrentUser] = useState();
-    const [posts, setPosts] = useState([]);
-    const [userFollowing, setUsersFollowing] = useState([]);
-    const [userFollowers, setUserFollowers] = useState([]);
+export default function CardUserProfile() {
 
+    const { username } = useParams();
+
+    const { posts } = useSelector((rootReducer) => rootReducer.userReducer);
+    const dispatch = useDispatch();
+
+    const { data, isLoading } = useQuery(
+        ["currentUser", username],
+        async () => {
+          const currentUser = await api
+            .get(`/user/findUserByUsername/${username}`);
+            
+          const currentPosts = await api
+            .get(`/post/findPostsByOwner/${currentUser.data.id}`);
+
+          dispatch(loadPosts(currentPosts.data.content));
+
+          return currentUser.data;
+        }, {
+            staleTime: 1000 * 100
+        }
+    );
+
+    console.log(posts);
+
+    /*
     useEffect(() => {
         const loadData = async () => {
-            const { data } = await findUserByUsername(username);
-            const posts = await findAllPostsByUser(data.id);
 
-            const following = await findUserFollowers(data.id);
-            const followers = await findUserFollowing(data.id);
+            const selectedUser = await findUserByUsername(username);
+            dispatch(selectUser(selectedUser.data));
 
-            setCurrentUser(data);
-            setPosts(posts.data.content);
+            const currentPosts = await findAllPostsByUser(selectedUser.data.id);
+            dispatch(loadPosts(currentPosts.data.content));
 
-            setUsersFollowing(following.data);
+            const followers = await findUserFollowers(selectedUser.data.id);
+            dispatch(loadFollowers(followers.data));
 
-            setUserFollowers(followers.data);
+            const following = await findUserFollowing(selectedUser.data.id);
+            dispatch(loadFollowing(following.data));
+
         }
         loadData();
-    }, [username])
+    }, [dispatch, username])
 
-    if (!currentUser) return null;
+    */
+
+    if (isLoading) {
+        return <Loading />
+    }
 
     return (
         <Container className="user-profile-container">
@@ -43,15 +72,16 @@ export default function CardUserProfile({ username }) {
 
                 <article className="user-info">
                         
-                    <UserInfo userData={currentUser} followers={userFollowers} following={userFollowing} />
+                    <UserInfo currentUser={data}/>
                        
                 </article>
+
             </section>
 
             <section className="activity-user">
 
                 <div className="user-projects">
-                    <Repositories gitHubUsername={currentUser.gitHubLink}/>
+                    <Repositories gitHubUsername={data.gitHubLink}/>
                 </div>
 
                 <div className="user-posts">
