@@ -1,12 +1,7 @@
 package com.astro.socialCode.services;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +13,7 @@ import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.DatabaseException;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
-
-		
+	
 @Service
 public class PostService {
 	
@@ -37,44 +31,9 @@ public class PostService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<PostDTO> findPostsForTimeline(Pageable pageable, Long userId){			
-		List<PostDTO> followerPosts = userRepository.findById(userId)
-				  .map(userFound -> {
-					  
-					if (!userFound.getFollowers().isEmpty()) {
-						  
-						return userFound.getFollowers()
-					  			.stream()
-					  			.flatMap(followerFound -> 
-					  				 postRepository.findPostsByOwnerIdOrderByCreationDateDesc(followerFound.getId())
-						  				 .stream()
-						  				 .map(postMapper::toDTO)
-					  			)
-					  			.toList();
-					}
-					
-					else {
-						return postRepository.findAllByOrderByCreationDateDesc()
-								.stream()
-				                .sorted(Comparator.comparingInt(post -> -post.getVotes().size()))
-								.map(postMapper::toDTO)
-								.toList();
-					}
-				
-				  })
-				  .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-	
-		return new PageImpl<>(followerPosts, pageable, followerPosts.size());
-	}
-	
-	@Transactional(readOnly = true)
 	public Page<PostDTO> findPostsByOwner(Pageable pageable, Long ownerId) {
-		List<PostDTO> posts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(ownerId)
-							 .stream()
-							 .map(postMapper::toDTO)
-							 .collect(Collectors.toList());
-		
-		return new PageImpl<>(posts, pageable, posts.size());
+		return postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageable, ownerId)
+					.map(postMapper::toDTO);
 	}
 	
 	@Transactional(readOnly = true)

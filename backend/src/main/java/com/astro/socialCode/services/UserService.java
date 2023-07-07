@@ -1,20 +1,27 @@
 package com.astro.socialCode.services;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.astro.socialCode.dto.mapper.PostMapper;
 import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.request.RegisterUserDTO;
 import com.astro.socialCode.dto.request.UriDTO;
+import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.User;
+import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
 
@@ -23,16 +30,22 @@ public class UserService {
 	
 	private final UserMapper userMapper;
 	
+	private final PostMapper postMapper;
+	
 	private final UserRepository userRepository;
+	
+	private final PostRepository postRepository;
 	
 	private final S3Service s3Service;
 	
-	public UserService(UserMapper userMapper, UserRepository userRepository, S3Service s3Service) {
+	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, PostRepository postRepository, S3Service s3Service) {
 		this.userMapper = userMapper;
+		this.postMapper = postMapper;
 		this.userRepository = userRepository;
+		this.postRepository = postRepository;
 		this.s3Service = s3Service;
 	}
-
+	
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAllPaged(Pageable Pageable){
 		return userRepository.findAll(Pageable)
@@ -77,7 +90,7 @@ public class UserService {
 					 return userMapper.toDTO(userRepository.save(userFound));
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado " + userId));
-}
+	}
 	
 	public UriDTO uploadProfilePhoto(MultipartFile file, String username) {
 		
@@ -126,32 +139,70 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<UserMinDTO> findUserFollowers(Long userId) {
-		return userRepository.findById(userId)
+	public Page<UserMinDTO> findUserFollowers(Pageable pageable, Long userId) {
+		List<UserMinDTO> followers = userRepository.findById(userId)
 				 .map(foundUser -> {
-					  List<UserMinDTO> followers = foundUser.getFollowers()
+					 return foundUser.getFollowers()
 								 		   .stream()
 								 		   .map(userMapper::toMinDTO)
 								 		   .toList();
-					  
-					  return followers;
-					  
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
-
+		
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), followers.size());
+		
+		if (start > followers.size() || start < 0 || end < 0 || start > end) {
+			return new PageImpl<>(Collections.emptyList(), pageable, 0);
+		}
+		
+		List<UserMinDTO> pageFollowers = followers.subList(start, end);
+		
+		return new PageImpl<>(pageFollowers, pageable, followers.size());
 	}
 	
 	@Transactional(readOnly = true)
-	public List<UserMinDTO> findUserFollowing(Long userId) {
-		return userRepository.findById(userId)
+	public Page<UserMinDTO> findUserFollowing(Pageable pageable,  Long userId) {
+		List<UserMinDTO> following =  userRepository.findById(userId)
 				 .map(foundUser -> {
-					 List<UserMinDTO> following = foundUser.getFollowing()
+					 return foundUser.getFollowing()
 										 		   .stream()
 										 		   .map(userMapper::toMinDTO)
 										 		   .toList();
-					 return following;
 				 })
-				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
+				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	
+		
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), following.size());
+		
+		if (start > following.size() || start < 0 || end < 0 || start > end) {
+			return new PageImpl<>(Collections.emptyList(), pageable, 0);
+		}
+		
+		List<UserMinDTO> pageFollowers = following.subList(start, end);
+		
+		return new PageImpl<>(pageFollowers, pageable, following.size());
+		
+	}
+	
+	@Transactional(readOnly = true)
+	public Map<String, Page<?>> userComplementsForProfile(Pageable pageablePosts, 
+			Pageable pageableFollowers, Pageable pageableFollowing, Long userId) {
+		
+		Page<PostDTO> userPosts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageablePosts, userId)
+				 .map(postMapper::toDTO);
+		
+		Page<UserMinDTO> userFollowers = findUserFollowers(pageableFollowers, userId);
+		
+		Page<UserMinDTO> userFollowing = findUserFollowing(pageableFollowing, userId);
+		
+		Map<String, Page<?>> lists = new HashMap<>();
+		
+		lists.put("posts", userPosts);
+		lists.put("followers", userFollowers);
+		lists.put("following", userFollowing);
+		
+		return lists;
 	}
 	
 }

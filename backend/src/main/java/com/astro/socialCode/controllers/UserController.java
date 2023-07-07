@@ -1,9 +1,10 @@
 package com.astro.socialCode.controllers;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,24 @@ public class UserController {
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-
+	
+	@GetMapping(value = "/complements/{userId}")
+	public ResponseEntity<Map<String, Page<?>>> getUserComplementsForProfille(
+			@PathVariable Long userId, 
+			@RequestParam int postsPage, 
+			@RequestParam int postsSize,
+			@RequestParam int followersPage,
+			@RequestParam int followersSize,
+			@RequestParam int followingPage,
+			@RequestParam int followingSize) {
+		
+		Pageable postsPageable = PageRequest.of(postsPage, postsSize);
+		Pageable followersPageable = PageRequest.of(followersPage, followersSize);
+		Pageable followingPageable = PageRequest.of(followingPage, followingSize);
+		
+		return ResponseEntity.ok().body(userService.userComplementsForProfile(postsPageable, followersPageable, followingPageable, userId));
+	}
+	
 	@GetMapping(value = "/findAllUsers/")
 	public ResponseEntity<Page<UserDTO>> findAllPaged(Pageable pageable){
 		Page<UserDTO> users = userService.findAllPaged(pageable);
@@ -87,15 +105,14 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping("/followers/{userId}")
-	public ResponseEntity<List<UserMinDTO>> findUserFollowers(@PathVariable Long userId) {
-		List<UserMinDTO> followers = userService.findUserFollowers(userId);
-		return ResponseEntity.ok().body(followers);
+	@GetMapping("/following/{userId}")
+	public ResponseEntity<Page<UserMinDTO>> findUserFollowers(Pageable pageable, @PathVariable Long userId) {
+		return ResponseEntity.ok().body(userService.findUserFollowers(pageable, userId));
 	}
 	
-	@GetMapping("/following/{userId}")
-	public ResponseEntity<List<UserMinDTO>> findUserFollowing(@PathVariable Long userId) {
-		return ResponseEntity.ok().body(userService.findUserFollowing(userId));
+	@GetMapping("/followers/{userId}")
+	public ResponseEntity<Page<UserMinDTO>> findUserFollowing(Pageable pageable, @PathVariable Long userId) {
+		return ResponseEntity.ok().body(userService.findUserFollowing(pageable, userId));
 	}
 		
 }

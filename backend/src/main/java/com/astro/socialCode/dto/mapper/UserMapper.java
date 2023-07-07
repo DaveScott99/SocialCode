@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.astro.socialCode.dto.request.RegisterUserDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
+import com.astro.socialCode.dto.response.UserProfileDTO;
 import com.astro.socialCode.entities.User;
 
 @Component
@@ -30,6 +31,17 @@ public class UserMapper {
 		}
 		return new UserMinDTO(user);
 	}
+	
+	public UserProfileDTO toProfileDTO(User user) {
+		
+		if (user == null) {
+			return null;
+		}
+		
+		return new UserProfileDTO(user);
+		
+	}
+	
 	
 	public User toEntity(UserDTO userDTO) {
 		

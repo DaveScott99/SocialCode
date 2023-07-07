@@ -30,15 +30,10 @@ public class PostController {
 	public PostController(PostService postService) {
 		this.postService = postService;
 	}
-
-	@GetMapping(value = "/findPostsForTimeline")
-	public ResponseEntity<Page<PostDTO>> findPostsForTimeline(Pageable pageable, @RequestParam Long userId){
-		return ResponseEntity.ok().body(postService.findPostsForTimeline(pageable, userId));
-	}
 	
 	@GetMapping(value = "/findPostsByOwner/{ownerId}")
 	public ResponseEntity<Page<PostDTO>> findPostsByOwner(Pageable pageable, @PathVariable Long ownerId) {
-		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable ,ownerId));
+		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerId));
 	}
 	
 	@GetMapping(value = "/findPostById/{id}")
