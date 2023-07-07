@@ -1,13 +1,11 @@
 package com.astro.socialCode.services;
 
 import java.net.URL;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +22,7 @@ import com.astro.socialCode.entities.User;
 import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
+import com.astro.socialCode.util.UtilMethods;
 
 @Service
 public class UserService {
@@ -38,12 +37,15 @@ public class UserService {
 	
 	private final S3Service s3Service;
 	
-	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, PostRepository postRepository, S3Service s3Service) {
+	private final UtilMethods utilMethods;
+	
+	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, PostRepository postRepository, S3Service s3Service, UtilMethods utilMethods) {
 		this.userMapper = userMapper;
 		this.postMapper = postMapper;
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
 		this.s3Service = s3Service;
+		this.utilMethods = utilMethods;
 	}
 	
 	@Transactional(readOnly = true)
@@ -149,16 +151,9 @@ public class UserService {
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
 		
-		int start = (int) pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), followers.size());
+	
 		
-		if (start > followers.size() || start < 0 || end < 0 || start > end) {
-			return new PageImpl<>(Collections.emptyList(), pageable, 0);
-		}
-		
-		List<UserMinDTO> pageFollowers = followers.subList(start, end);
-		
-		return new PageImpl<>(pageFollowers, pageable, followers.size());
+		return utilMethods.convertListToPagination(pageable, followers);
 	}
 	
 	@Transactional(readOnly = true)
@@ -172,16 +167,7 @@ public class UserService {
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	
 		
-		int start = (int) pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), following.size());
-		
-		if (start > following.size() || start < 0 || end < 0 || start > end) {
-			return new PageImpl<>(Collections.emptyList(), pageable, 0);
-		}
-		
-		List<UserMinDTO> pageFollowers = following.subList(start, end);
-		
-		return new PageImpl<>(pageFollowers, pageable, following.size());
+		return utilMethods.convertListToPagination(pageable, following);
 		
 	}
 	
