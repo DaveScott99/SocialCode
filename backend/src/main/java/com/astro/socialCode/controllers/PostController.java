@@ -36,23 +36,23 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerId));
 	}
 	
-	@GetMapping(value = "/findPostById/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<PostDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(postService.findById(id));
 	}
 
-	@PostMapping(value = "/createPost")
+	@PostMapping
 	public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO post){
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
 		return ResponseEntity.created(uri).body(postService.insert(post));
 	}
 	
-	@PutMapping(value = "/updatePost/{postId}")
+	@PutMapping(value = "/{postId}")
 	public ResponseEntity<PostDTO> updatePost(@PathVariable Long postId ,@RequestBody PostDTO post) {
 		return ResponseEntity.ok().body(postService.update(postId, post));
 	}
 	
-	@DeleteMapping(value = "/deletePost/{postId}")
+	@DeleteMapping(value = "/{postId}")
 	public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
 		postService.deletePost(postId);
 		return ResponseEntity.noContent().build();

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.astro.socialCode.dto.mapper.PostMapper;
 import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.repositories.ComentRepository;
+import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.DatabaseException;
@@ -22,9 +23,9 @@ public class PostService {
 	private final PostRepository postRepository;
 	
 	private final UserRepository userRepository;
-		
+			
 	public PostService(PostMapper postMapper, PostRepository postRepository, UserRepository userRepository,
-			ComentRepository comentRepository) {
+			ComentRepository comentRepository, LanguageRepository languageRepository) {
 		this.postMapper = postMapper;
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
@@ -44,7 +45,7 @@ public class PostService {
 	}
 
 	@Transactional
-	public PostDTO insert(PostDTO dto) {
+	public PostDTO insert(PostDTO dto) {				
 		return postMapper.toDTO(postRepository.save(postMapper.toEntity(dto)));
 	}
 	
@@ -72,7 +73,7 @@ public class PostService {
 			throw new DatabaseException("Violação de integridade");
 		}
 	}
-	
+
 	@Transactional
 	public void relevantVote(Long postId, Long userId) {
 		postRepository.findById(postId)

@@ -59,7 +59,13 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "VOTES", columnDefinition = "TEXT DEFAULT ''")
 	private Set<User> votes = new HashSet<>();
-
+	
+	@ManyToMany
+	@JoinTable(name = "post_language",
+		joinColumns = @JoinColumn(name = "post_id"),
+		inverseJoinColumns = @JoinColumn(name = "language_id"))
+	private Set<Language> languages = new HashSet<>();
+	
 	public Post() {
 	}
 
@@ -122,6 +128,10 @@ public class Post {
 
 	public Set<User> getVotes() {
 		return votes;
+	}
+
+	public Set<Language> getLanguages() {
+		return languages;
 	}
 
 	@Override
