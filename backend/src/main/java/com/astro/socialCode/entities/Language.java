@@ -30,6 +30,10 @@ public class Language {
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
 	private Set<Post> posts = new HashSet<>();
+	
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "interest")
+	private Set<User> users = new HashSet<>();
 
 	public Language(){
 	}
@@ -61,6 +65,10 @@ public class Language {
 
 	public Set<Post> getPosts() {
 		return posts;
+	}
+	
+	public Set<User> getUSers() {
+		return users;
 	}
 
 	@Override

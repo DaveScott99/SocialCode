@@ -81,14 +81,22 @@ public class User {
 	
 	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	@JoinTable(
-			name = "user_followers",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "follower_id")
+		name = "user_followers",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "follower_id")
 	)
 	private Set<User> followers = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "followers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Set<User> following = new HashSet<>();
+	
+	@ManyToMany
+	@JoinTable(
+		name = "user_language",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "language_id")
+	)
+	private Set<Language> interest = new HashSet<>();
 	
 	public User() {
 	}
@@ -230,6 +238,10 @@ public class User {
 
 	public Set<User> getFollowers() {
 		return followers;
+	}
+	
+	public Set<Language> getInterest() {
+		return interest;
 	}
 
 	@Override

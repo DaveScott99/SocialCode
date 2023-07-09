@@ -7,13 +7,14 @@ import com.astro.socialCode.dto.request.RegisterUserDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.User;
+import com.astro.socialCode.repositories.LanguageRepository;
 
 @Component
 public class UserMapper {
 
 	private final BCryptPasswordEncoder passwordEncoder;
 	
-	public UserMapper(BCryptPasswordEncoder passwordEncoder) {
+	public UserMapper(BCryptPasswordEncoder passwordEncoder, LanguageRepository languageRepository) {
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -50,6 +51,8 @@ public class UserMapper {
 		user.setTitle(userDTO.getTitle());
 		user.setLinkedinLink(userDTO.getLinkedinLink());
 		user.setGitHubLink(userDTO.getGitHubLink());
+		
+		
 		
 		return user;
 		

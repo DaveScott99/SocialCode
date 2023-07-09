@@ -54,16 +54,19 @@ public class Post {
 	private List<Coment> coments = new ArrayList<>();
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinTable(name = "post_vote",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "VOTES", columnDefinition = "TEXT DEFAULT ''")
+    @JoinTable(
+		name = "post_vote",
+        joinColumns = @JoinColumn(name = "post_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
 	private Set<User> votes = new HashSet<>();
 	
 	@ManyToMany
-	@JoinTable(name = "post_language",
+	@JoinTable(
+		name = "post_language",
 		joinColumns = @JoinColumn(name = "post_id"),
-		inverseJoinColumns = @JoinColumn(name = "language_id"))
+		inverseJoinColumns = @JoinColumn(name = "language_id")
+	)
 	private Set<Language> languages = new HashSet<>();
 	
 	public Post() {

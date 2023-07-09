@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@UserInsertValid // Anotação que irá capturar as exceções de validação
+@UserInsertValid
 @JsonPropertyOrder(value = {"firstName", "lastname", "username", "email", "password", "confirmPassword"})
 public class RegisterUserDTO implements Serializable {
 

@@ -15,10 +15,14 @@ import com.astro.socialCode.dto.mapper.PostMapper;
 import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.request.RegisterUserDTO;
 import com.astro.socialCode.dto.request.UriDTO;
+import com.astro.socialCode.dto.request.UserUpdateDTO;
+import com.astro.socialCode.dto.response.LanguageDTO;
 import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
+import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.entities.User;
+import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
@@ -28,24 +32,23 @@ import com.astro.socialCode.util.UtilMethods;
 public class UserService {
 	
 	private final UserMapper userMapper;
-	
 	private final PostMapper postMapper;
-	
 	private final UserRepository userRepository;
-	
 	private final PostRepository postRepository;
-	
 	private final S3Service s3Service;
-	
 	private final UtilMethods utilMethods;
+	private final LanguageRepository languageRepository;
 	
-	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, PostRepository postRepository, S3Service s3Service, UtilMethods utilMethods) {
+	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, 
+			PostRepository postRepository, S3Service s3Service, 
+			UtilMethods utilMethods, LanguageRepository languageRepository) {
 		this.userMapper = userMapper;
 		this.postMapper = postMapper;
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
 		this.s3Service = s3Service;
 		this.utilMethods = utilMethods;
+		this.languageRepository = languageRepository;
 	}
 	
 	@Transactional(readOnly = true)
@@ -79,7 +82,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO update(Long userId, UserDTO userDTO){
+	public UserDTO update(Long userId, UserUpdateDTO userDTO){
 		return userRepository.findById(userId)
 				 .map(userFound -> {
 					 userFound.setFirstName(userDTO.getFirstName());
@@ -89,6 +92,11 @@ public class UserService {
 					 userFound.setLinkedinLink(userDTO.getLinkedinLink());
 					 userFound.setTitle(userDTO.getTitle());
 					 userFound.setUsername(userDTO.getUsername());
+					 for (LanguageDTO languageDto : userDTO.getInterest()) {
+							Language language = languageRepository.findById(languageDto.getId())
+															.orElseThrow(() -> new EntityNotFoundException("Linguagem não encontrada"));
+							userFound.getInterest().add(language);
+					 }
 					 return userMapper.toDTO(userRepository.save(userFound));
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado " + userId));
