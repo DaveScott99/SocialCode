@@ -26,4 +26,9 @@ public class FeedController {
 		return ResponseEntity.ok().body(feedService.feed(pageable, username));
 	}
 	
+	@GetMapping(value = "/postsByUserInterest/{username}")
+	public ResponseEntity<Page<PostDTO>> postsByUserInterest(Pageable pageable, @PathVariable String username) {
+		return ResponseEntity.ok().body(feedService.postsByUserInterest(pageable, username));
+	}
+	
 }

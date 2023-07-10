@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.astro.socialCode.dto.ComentDTO;
@@ -102,6 +103,23 @@ public class PostDTO implements Serializable {
 
 	public Set<UserMinDTO> getVotes() {
 		return votes;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PostDTO other = (PostDTO) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }

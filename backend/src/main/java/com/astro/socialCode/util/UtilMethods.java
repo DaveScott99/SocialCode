@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UtilMethods {
-
+	
 	public <T> Page<T> convertListToPagination(Pageable pageable, List<T> list) {
 
 		int start = (int) pageable.getOffset();
