@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,9 +55,9 @@ public class UserService {
 				 .map(userMapper::toDTO);
 	}
 	
-	public Page<UserDTO> searchUserByUsername(Pageable pageable ,String username) {
+	public Page<UserMinDTO> searchUsers(Pageable pageable ,String username) {
 		return userRepository.searchUsers(pageable, username)
-				 .map(userMapper::toDTO);
+				 .map(userMapper::toMinDTO);
 	}
 	
 	@Transactional(readOnly = true)
@@ -115,8 +116,8 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Map<String, Page<?>> userComplementsForProfile(Pageable pageablePosts, 
-			Pageable pageableFollowers, Pageable pageableFollowing, Long userId) {
+	public Map<String, Page<?>> userComplementsForProfile(@PageableDefault(size = 10) Pageable pageablePosts, 
+			@PageableDefault(size = 10) Pageable pageableFollowers, @PageableDefault(size = 10) Pageable pageableFollowing, Long userId) {
 		
 		Page<PostDTO> userPosts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageablePosts, userId)
 				 .map(postMapper::toDTO);

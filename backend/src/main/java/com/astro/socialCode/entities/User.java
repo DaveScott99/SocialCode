@@ -79,7 +79,6 @@ public class User {
 	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
 	
-	
 	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "user_following",
@@ -90,9 +89,6 @@ public class User {
 	
 	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Set<User> followers = new HashSet<>();
-	
-	
-	
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
