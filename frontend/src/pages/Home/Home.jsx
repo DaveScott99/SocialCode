@@ -16,7 +16,7 @@ export default function Home() {
     ["postsFeed"],
     async () => {
       const response = await api
-        .get(`/post/findPostsForTimeline?size=6&page=${1}&userId=${user.id}`);
+        .get(`/feed/${user.username}?size=6&page=${0}`);
       return response.data.content;
     },
     {
