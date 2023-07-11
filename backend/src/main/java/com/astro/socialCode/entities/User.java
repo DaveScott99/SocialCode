@@ -79,18 +79,22 @@ public class User {
 	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
 	
+	
 	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	@JoinTable(
-		name = "user_followers",
+		name = "user_following",
 		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "follower_id")
+		inverseJoinColumns = @JoinColumn(name = "following_id")
 	)
-	private Set<User> followers = new HashSet<>();
-	
-	@ManyToMany(mappedBy = "followers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Set<User> following = new HashSet<>();
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	private Set<User> followers = new HashSet<>();
+	
+	
+	
+	
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "user_language",
 		joinColumns = @JoinColumn(name = "user_id"),
@@ -243,7 +247,7 @@ public class User {
 	public Set<Language> getInterest() {
 		return interest;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

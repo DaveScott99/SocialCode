@@ -22,7 +22,6 @@ import com.astro.socialCode.dto.request.RegisterUserDTO;
 import com.astro.socialCode.dto.request.UriDTO;
 import com.astro.socialCode.dto.request.UserUpdateDTO;
 import com.astro.socialCode.dto.response.UserDTO;
-import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.services.UserService;
 
 import jakarta.validation.Valid;
@@ -92,27 +91,5 @@ public class UserController {
 		UriDTO dto = userService.uploadProfilePhoto(file, username);
 		return ResponseEntity.ok().body(dto);
 	}
-	
-	@PostMapping("/follow/{followerId}/{userId}")
-	public ResponseEntity<Void> followUser(@PathVariable Long userId, @PathVariable Long followerId) {
-		userService.followUser(userId, followerId);
-		return ResponseEntity.noContent().build();
-	}
-	
-	@PostMapping("/unfollow/{followerId}/{userId}")
-	public ResponseEntity<Void> unfollowUser(@PathVariable Long userId, @PathVariable Long followerId) {
-		userService.unfollowUser(userId, followerId);
-		return ResponseEntity.noContent().build();
-	}
-	
-	@GetMapping("/following/{userId}")
-	public ResponseEntity<Page<UserMinDTO>> findUserFollowers(Pageable pageable, @PathVariable Long userId) {
-		return ResponseEntity.ok().body(userService.findUserFollowers(pageable, userId));
-	}
-	
-	@GetMapping("/followers/{userId}")
-	public ResponseEntity<Page<UserMinDTO>> findUserFollowing(Pageable pageable, @PathVariable Long userId) {
-		return ResponseEntity.ok().body(userService.findUserFollowing(pageable, userId));
-	}
-		
+
 }

@@ -42,7 +42,7 @@ public class FeedService {
 		Set<PostDTO> feedPosts = new HashSet<>();
 		
 		feedPosts.addAll(
-			user.getFollowers()
+			user.getFollowing()
 				.stream()
 				.flatMap(follower -> {
 					return follower.getPosts()

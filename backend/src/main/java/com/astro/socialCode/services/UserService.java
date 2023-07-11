@@ -2,7 +2,6 @@ package com.astro.socialCode.services;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -21,12 +20,10 @@ import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.Language;
-import com.astro.socialCode.entities.User;
 import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
-import com.astro.socialCode.util.UtilMethods;
 
 @Service
 public class UserService {
@@ -36,19 +33,19 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PostRepository postRepository;
 	private final S3Service s3Service;
-	private final UtilMethods utilMethods;
 	private final LanguageRepository languageRepository;
+	private final FollowerService followerService;
 	
 	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, 
 			PostRepository postRepository, S3Service s3Service, 
-			UtilMethods utilMethods, LanguageRepository languageRepository) {
+			LanguageRepository languageRepository, FollowerService followerService) {
 		this.userMapper = userMapper;
 		this.postMapper = postMapper;
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
 		this.s3Service = s3Service;
-		this.utilMethods = utilMethods;
 		this.languageRepository = languageRepository;
+		this.followerService = followerService;
 	}
 	
 	@Transactional(readOnly = true)
@@ -117,68 +114,6 @@ public class UserService {
 		return new UriDTO(url.toString());
 	}
 	
-	@Transactional
-	public void followUser(Long userId, Long followerId) {
-		userRepository.findById(userId)
-		  	 .map(foundUser -> {
-		  		User userToFollow = userRepository.findById(followerId)
-								  	    .map(user -> user)
-								  	    .orElseThrow(() -> new EntityNotFoundException("Usuário a ser seguido não encontrado"));
-
-		  					foundUser.getFollowers().add(userToFollow);
-		  					
-		  					return userRepository.save(foundUser);
-		  	 })
-		  	 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-	}
-	
-	@Transactional
-	public void unfollowUser(Long userId, Long followerId) {
-		userRepository.findById(userId)
-			  .map(foundUser -> {
-				  User followedUser = userRepository.findById(followerId)
-					  	    .map(user -> user)
-					  	    .orElseThrow(() -> new EntityNotFoundException("Usuário seguido não encontrado"));
-				  
-				  foundUser.getFollowers().remove(followedUser);
-				  
-				  return userRepository.save(foundUser);
-	
-			  })
-			  .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<UserMinDTO> findUserFollowers(Pageable pageable, Long userId) {
-		List<UserMinDTO> followers = userRepository.findById(userId)
-				 .map(foundUser -> {
-					 return foundUser.getFollowers()
-								 		   .stream()
-								 		   .map(userMapper::toMinDTO)
-								 		   .toList();
-				 })
-				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	 
-		
-	
-		
-		return utilMethods.convertListToPagination(pageable, followers);
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<UserMinDTO> findUserFollowing(Pageable pageable,  Long userId) {
-		List<UserMinDTO> following =  userRepository.findById(userId)
-				 .map(foundUser -> {
-					 return foundUser.getFollowing()
-										 		   .stream()
-										 		   .map(userMapper::toMinDTO)
-										 		   .toList();
-				 })
-				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));	
-		
-		return utilMethods.convertListToPagination(pageable, following);
-		
-	}
-	
 	@Transactional(readOnly = true)
 	public Map<String, Page<?>> userComplementsForProfile(Pageable pageablePosts, 
 			Pageable pageableFollowers, Pageable pageableFollowing, Long userId) {
@@ -186,9 +121,9 @@ public class UserService {
 		Page<PostDTO> userPosts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageablePosts, userId)
 				 .map(postMapper::toDTO);
 		
-		Page<UserMinDTO> userFollowers = findUserFollowers(pageableFollowers, userId);
+		Page<UserMinDTO> userFollowers = followerService.findUserFollowers(pageableFollowers, userId);
 		
-		Page<UserMinDTO> userFollowing = findUserFollowing(pageableFollowing, userId);
+		Page<UserMinDTO> userFollowing = followerService.findUserFollowing(pageableFollowing, userId);
 		
 		Map<String, Page<?>> lists = new HashMap<>();
 		
