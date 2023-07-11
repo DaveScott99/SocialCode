@@ -17,7 +17,7 @@ export const loginUser = async (email, password) => {
 
 export const resgisterUser = async (userData) => {
   try {
-    return await api.post("/user/register", userData);
+    return await api.post("/users", userData);
   } catch (err) {
     const listError = [err.response.data.errors];
     if (listError) {
@@ -30,7 +30,7 @@ export const resgisterUser = async (userData) => {
 
 export const updateUser = async (idUser, userDataUpdate) => {
   try {
-    return await api.put(`/user/updateUser/${idUser}`, userDataUpdate, {
+    return await api.put(`/users/${idUser}`, userDataUpdate, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -42,7 +42,7 @@ export const updateUser = async (idUser, userDataUpdate) => {
 
 export const findUserById = async (id) => {
   try {
-    return await api.get(`/user/findById/${id}`, {
+    return await api.get(`/users/findById/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -54,7 +54,7 @@ export const findUserById = async (id) => {
 
 export const findUserByUsername = async (username) => {
   try {
-    return await api.get(`/user/findUserByUsername/${username}`, {
+    return await api.get(`/users/findUserByUsername/${username}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -67,7 +67,7 @@ export const findUserByUsername = async (username) => {
 export const searchUsersByUsername = async (username) => {
   try {
     if (username !== null) {
-      return await api.get(`/user/findUsersByUsername/${username}`, {
+      return await api.get(`/users/searchUsers/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -84,7 +84,7 @@ export const uploadProfilePhoto = async (username, photo) => {
   formData.append("file", photo);
 
   try {
-    return await api.post(`/user/upload/profilePhoto/${username}`, formData, {
+    return await api.post(`/users/upload/profilePhoto/${username}`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -120,7 +120,7 @@ export const findUserFollowing = async (userId) => {
 
 export const followUser = async (followerId, userId) => {
   try {
-    return await api.post(`/user/follow/${followerId}/${userId}`, null, {
+    return await api.post(`/followers/follow/${followerId}/${userId}`, null, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -132,37 +132,7 @@ export const followUser = async (followerId, userId) => {
 
 export const unfollowUser = async (followerId, userId) => {
   try {
-    return await api.post(`/user/unfollow/${followerId}/${userId}`, null, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// Função para resgatar todos os POSTS que vem do BACKEND
-export const findAllPostsForTimeline = async (page, userId) => {
-  try {
-    const response = await api.get(
-      `/post/findPostsForTimeline?size=6&page=${page}&userId=${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    return response.data.content;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export const findAllPostsByUser = async (id) => {
-  try {
-    return await api.get(`/post/findPostsByOwner/${id}`, {
+    return await api.post(`/followers/unfollow/${followerId}/${userId}`, null, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

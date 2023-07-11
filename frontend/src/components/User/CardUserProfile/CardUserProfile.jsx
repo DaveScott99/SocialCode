@@ -16,9 +16,9 @@ export default function CardUserProfile() {
   const { data, isLoading } = useQuery(
     ["currentUser", username],
     async () => {
-      const currentUser = await api.get(`/user/findUserByUsername/${username}`);
+      const currentUser = await api.get(`/users/username/${username}`);
       const complements = await api.get(
-        `/user/complements/${currentUser.data.id}?postsPage=0&postsSize=6&followersPage=0&followersSize=6&followingPage=0&followingSize=6`
+        `/users/complements/${currentUser.data.id}?postsPage=0&followersPage=0&followingPage=0`
       );
       const profileUser = { currentUser, complements };
       return profileUser;
@@ -36,7 +36,10 @@ export default function CardUserProfile() {
     <Container className="user-profile-container">
       <section className="user-profile-card">
         <article className="user-info">
-          <UserInfo currentUser={data.currentUser.data} complements={data.complements.data} />
+          <UserInfo
+            currentUser={data.currentUser.data}
+            complements={data.complements.data}
+          />
         </article>
       </section>
 

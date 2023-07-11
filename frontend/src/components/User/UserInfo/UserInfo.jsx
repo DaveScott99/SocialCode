@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import Badge from "../../Generics/Badge/Badge";
 import Modal from "../../Generics/Modal/Modal";
@@ -19,25 +19,32 @@ import {
 import InputAvatar from "../InputAvatar/InputAvatar";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { Button } from "../../Generics/Button/Button";
-import { followUser } from "../../../services/Api";
+import { api, followUser } from "../../../services/Api";
 import ConfigFollow from "../ConfigFollow/ConfigFollow";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router";
+import Loading from "../../Generics/Loading/Loading";
 
 export default function UserInfo({ currentUser, complements }) {
+  const { username } = useParams();
   const { user } = useContext(AuthContext);
-
-  //const { currentUser, followers, following } = useSelector((rootReducer) => rootReducer.userReducer);
 
   const [isFollowChange, setIsFollowChange] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log(complements.followers.content);
-
-  useEffect(() => {
-    const isUserFollowing = complements.followers.content.some(follower => follower.id === user.id);
-    setIsFollowChange(isUserFollowing);
-  }, [complements.followers.content, user.id]) 
-
-  console.log(complements.followers.content.some(follower => follower.id === user.id));
+  const { isLoading } = useQuery(
+    ["isFollowing", username],
+    async () => {
+      const isFollowing = await api.get(
+        `followers/isFollowing/${user.username}/${currentUser.username}`
+      );
+      setIsFollowChange(isFollowing.data);
+      return isFollowing;
+    },
+    {
+      staleTime: 1000 * 100,
+    }
+  );
 
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
@@ -48,6 +55,10 @@ export default function UserInfo({ currentUser, complements }) {
       setLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <Loading color="#FFF" />;
+  }
 
   return (
     <UserInfoContainer>

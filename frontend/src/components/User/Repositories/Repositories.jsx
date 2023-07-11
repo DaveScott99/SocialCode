@@ -22,8 +22,11 @@ export default function Repositories({ gitHubUsername }) {
   const { data, isLoading } = useQuery(
     ["userRepositories", gitHubUsername],
     async () => {
-      const repos = await searchRepositoriesByUser(gitHubUsername, 1);
-      return repos.data;
+      if (gitHubUsername) {
+        const repos = await searchRepositoriesByUser(gitHubUsername, 1);
+        return repos.data;
+      }
+      return null;
     },
     {
       staleTime: 1000 * 100,
@@ -42,7 +45,7 @@ export default function Repositories({ gitHubUsername }) {
         placeholder="Pesquisar repositórios"
       />
       <RepositoriesResult>
-        {data.map((repository) => (
+        {data?.map((repository) => (
           <Card key={repository.id}>
             <Details>
               <Main>
