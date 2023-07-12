@@ -38,18 +38,14 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@GetMapping(value = "/complements/{userId}")
-	public ResponseEntity<Map<String, Page<?>>> getUserComplementsForProfille(
-			@PathVariable Long userId, 
-			@RequestParam int postsPage, 
-			@RequestParam int followersPage,
-			@RequestParam int followingPage) {
+	@GetMapping(value = "/profile")
+	public ResponseEntity<Map<String, Object>> getUserComplementsForProfille(
+			@RequestParam String username, 
+			@RequestParam int postsPage) {
 		
 		Pageable postsPageable = PageRequest.of(postsPage, 10);
-		Pageable followersPageable = PageRequest.of(followersPage, 10);
-		Pageable followingPageable = PageRequest.of(followingPage, 10);
 		
-		return ResponseEntity.ok().body(userService.userComplementsForProfile(postsPageable, followersPageable, followingPageable, userId));
+		return ResponseEntity.ok().body(userService.profile(postsPageable, username));
 	}
 	
 	@GetMapping

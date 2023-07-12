@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.entities.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDTO implements Serializable {
 
@@ -23,6 +24,12 @@ public class UserDTO implements Serializable {
 	private String email;
 	
 	private Set<LanguageDTO> interest = new HashSet<>();
+	
+	@JsonIgnore
+	private Set<UserMinDTO> following = new HashSet<>();
+	
+	@JsonIgnore
+	private Set<UserMinDTO> followers = new HashSet<>();
 	
 	public UserDTO() {	
 	}
@@ -53,6 +60,8 @@ public class UserDTO implements Serializable {
 		linkedinLink = entity.getLinkedinLink();
 		email = entity.getEmail();
 		entity.getInterest().forEach(language -> getInterest().add(new LanguageDTO(language)));
+		entity.getFollowing().forEach(following -> getFollowing().add(new UserMinDTO(following)));
+		entity.getFollowers().forEach(follower -> getFollowers().add(new UserMinDTO(follower)));
 	}
 	
 	public UserDTO(User entity, Set<Language> interest) {
@@ -102,6 +111,14 @@ public class UserDTO implements Serializable {
 
 	public Set<LanguageDTO> getInterest() {
 		return interest;
+	}
+
+	public Set<UserMinDTO> getFollowing() {
+		return following;
+	}
+
+	public Set<UserMinDTO> getFollowers() {
+		return followers;
 	}
 	
 }

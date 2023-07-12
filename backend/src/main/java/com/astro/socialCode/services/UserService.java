@@ -35,18 +35,36 @@ public class UserService {
 	private final PostRepository postRepository;
 	private final S3Service s3Service;
 	private final LanguageRepository languageRepository;
-	private final FollowerService followerService;
 	
 	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, 
 			PostRepository postRepository, S3Service s3Service, 
-			LanguageRepository languageRepository, FollowerService followerService) {
+			LanguageRepository languageRepository) {
 		this.userMapper = userMapper;
 		this.postMapper = postMapper;
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
 		this.s3Service = s3Service;
 		this.languageRepository = languageRepository;
-		this.followerService = followerService;
+	}
+	
+	@Transactional(readOnly = true)
+	public Map<String, Object> profile(@PageableDefault(size = 10) Pageable pageablePosts, String username) {
+		
+		UserDTO user = userRepository.findByUsername(username)
+				.map(userMapper::toDTO)
+				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+		
+		Page<PostDTO> userPosts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageablePosts, user.getId())
+				 .map(postMapper::toDTO);
+		
+		Map<String, Object> profile = new HashMap<>();
+		
+		profile.put("user_info", user);
+		profile.put("posts", userPosts);
+		profile.put("followers_count", user.getFollowers().stream().count());
+		profile.put("following_count", user.getFollowing().stream().count());
+		
+		return profile;
 	}
 	
 	@Transactional(readOnly = true)
@@ -113,26 +131,6 @@ public class UserService {
 			 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 		
 		return new UriDTO(url.toString());
-	}
-	
-	@Transactional(readOnly = true)
-	public Map<String, Page<?>> userComplementsForProfile(@PageableDefault(size = 10) Pageable pageablePosts, 
-			@PageableDefault(size = 10) Pageable pageableFollowers, @PageableDefault(size = 10) Pageable pageableFollowing, Long userId) {
-		
-		Page<PostDTO> userPosts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageablePosts, userId)
-				 .map(postMapper::toDTO);
-		
-		Page<UserMinDTO> userFollowers = followerService.findUserFollowers(pageableFollowers, userId);
-		
-		Page<UserMinDTO> userFollowing = followerService.findUserFollowing(pageableFollowing, userId);
-		
-		Map<String, Page<?>> lists = new HashMap<>();
-		
-		lists.put("posts", userPosts);
-		lists.put("followers", userFollowers);
-		lists.put("following", userFollowing);
-		
-		return lists;
 	}
 	
 }
