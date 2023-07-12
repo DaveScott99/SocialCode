@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import Authentication from '../pages/Authentication/Authentication';
 import { AuthProvider, AuthContext } from '../contexts/Auth/AuthContext';
 import { useContext } from 'react';
-import Home from '../pages/Home/Home';
+import Home from '../pages/Home';
 import Layout from '../components/Layout/Layout';
 import Test from '../pages/Tests/Test';
 import UserProfile from '../pages/UserProfile/UserProfile';

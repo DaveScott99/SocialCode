@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { FeedContainer } from "./FeedStyles";
-import { CardPost } from "../Post/CardPost/CardPost";
+import { FeedContainer } from "./styles";
+import { CardPost } from "../Post/CardPost";
 
 export default function Feed({ postsData }) {
 

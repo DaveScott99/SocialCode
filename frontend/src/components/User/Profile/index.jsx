@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Container from "../../Generics/Container/Container";
-import Feed from "../../Feed/Feed";
+import Feed from "../../Feed";
 import Repositories from "../Repositories/Repositories";
 import { followUser } from "../../../services/Api";
 import { useQuery } from "@tanstack/react-query";
