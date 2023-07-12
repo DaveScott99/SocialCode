@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed/Feed";
 import Repositories from "../Repositories/Repositories";
-import { api, followUser } from "../../../services/Api";
+import { followUser } from "../../../services/Api";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Generics/Loading/Loading";
 import { useParams } from "react-router";
@@ -15,7 +15,7 @@ import ConfigFollow from "../ConfigFollow/ConfigFollow";
 import { Button } from "../../Generics/Button/Button";
 import ConfigAccount from "../ConfigAccount/ConfigAccount";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
-import { verifyIsFollowing } from "../../../services/User";
+import { fetchProfileUser, verifyIsFollowing } from "../../../services/User";
 
 import "./CardUserProfile.css";
 import {
@@ -32,26 +32,18 @@ import {
 } from "./styles";
 
 export default function Profile() {
-
   const { username } = useParams();
   const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
 
-  const { data: isFollowing } = useQuery(['isFollowing', username], 
-    () => verifyIsFollowing(user.username, username)
+  const { data: isFollowing } = useQuery(["isFollowing", username], () =>
+    verifyIsFollowing(user.username, username)
   );
-   
-  const { data, isLoading } = useQuery(
+
+  const { data: profile, isLoading } = useQuery(
     ["currentUser", username],
-    async () => {
-      const currentUser = await api.get(`/users/username/${username}`);
-      const complements = await api.get(
-        `/users/complements/${currentUser.data.id}?postsPage=0&followersPage=0&followingPage=0`
-      );
-      const profileUser = { currentUser, complements };
-      return profileUser;
-    },
+    () => fetchProfileUser(username, 0),
     {
       staleTime: 1000 * 100,
     }
@@ -77,12 +69,12 @@ export default function Profile() {
           <UserInfoContainer>
             <UserAvatar>
               <Avatar
-                src={data.currentUser.data.profilePhoto}
+                src={profile.user_info.profilePhoto}
                 sx={{ width: "200px", height: "200px" }}
                 variant="rounded"
               />
 
-              {user.id === data.currentUser.data.id ? (
+              {user.id === profile.user_info.id ? (
                 <Modal
                   textButton={<MdOutlineAddAPhoto />}
                   buttonBackground="#0000007b"
@@ -104,11 +96,10 @@ export default function Profile() {
             <UserData>
               <Header>
                 <Name>
-                  {data.currentUser.data.firstName}{" "}
-                  {data.currentUser.data.lastName}
+                  {profile.user_info.firstName} {profile.user_info.lastName}
                 </Name>
 
-                {data.currentUser.data.id !== user.id ? (
+                {profile.user_info.id !== user.id ? (
                   isFollowing ? (
                     <Modal
                       textButton="Seguindo"
@@ -120,12 +111,12 @@ export default function Profile() {
                       buttonHoverBackground="#c2c2c29e"
                       buttonFontColor="#000000"
                     >
-                      <ConfigFollow userData={data.currentUser.data} />
+                      <ConfigFollow userData={profile.user_info} />
                     </Modal>
                   ) : (
                     <Button
                       onClick={() =>
-                        handleClickFollow(data.currentUser.data.id, user.id)
+                        handleClickFollow(profile.user_info.id, user.id)
                       }
                       borderradius="5"
                       fontWeight="bold"
@@ -152,28 +143,22 @@ export default function Profile() {
                 )}
               </Header>
 
-              <Username> {data.currentUser.data.username} </Username>
-              <Title> {data.currentUser.data.title} </Title>
+              <Username> {profile.user_info.username} </Username>
+              <Title> {profile.user_info.title} </Title>
 
               <Footer>
-                <Followers>
-                  {" "}
-                  {data.complements.data.followers.content.length} Seguidores
-                </Followers>
+                <Followers> {profile.followers_count} Seguidores</Followers>
 
-                <Followers>
-                  {" "}
-                  {data.complements.data.following.content.length} Seguindo
-                </Followers>
+                <Followers> {profile.following_count} Seguindo</Followers>
 
                 <Badges>
                   <Badge
                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                    link={`https://github.com/${data.currentUser.data.gitHubLink}`}
+                    link={`https://github.com/${profile.user_info.gitHubLink}`}
                   />
                   <Badge
                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
-                    link={`https://www.linkedin.com/in/${data.currentUser.data.linkedinLink}/`}
+                    link={`https://www.linkedin.com/in/${profile.user_info.linkedinLink}/`}
                   />
                 </Badges>
               </Footer>
@@ -184,14 +169,14 @@ export default function Profile() {
 
       <section className="activity-user">
         <div className="user-projects">
-          <Repositories gitHubUsername={data.currentUser.data.gitHubLink} />
+          <Repositories gitHubUsername={profile.user_info.gitHubLink} />
         </div>
 
         <div className="user-posts">
           <div className="label">
             <span>Atividade</span>
           </div>
-          <Feed postsData={data.complements.data.posts.content} />
+          <Feed postsData={profile.posts.content} />
         </div>
       </section>
     </Container>
