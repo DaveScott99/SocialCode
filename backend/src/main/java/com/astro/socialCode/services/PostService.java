@@ -53,8 +53,9 @@ public class PostService {
 	public PostDTO update(Long postId, PostDTO dto) {
 		return postRepository.findById(postId)
 				 .map(postFound -> {
+					postFound.setTitle(dto.getTitle());
 					postFound.setBody(dto.getBody());
-					postFound.setImagePost(dto.getImagePost());
+					postFound.setImage(dto.getImage());
 					return postMapper.toDTO(postRepository.save(postFound));
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));

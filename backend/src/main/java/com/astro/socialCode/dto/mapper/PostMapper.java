@@ -34,7 +34,8 @@ public class PostMapper {
 		
 		Post post = new Post();
 		
-		post.setImagePost(postDTO.getImagePost());
+		post.setTitle(postDTO.getTitle());
+		post.setImage(postDTO.getImage());
 		post.setBody(postDTO.getBody());
 		post.setCreationDate(Instant.now());
 		post.setOwner(new User(postDTO.getOwner().getId(), postDTO.getOwner().getUsername(), postDTO.getOwner().getProfilePhoto()));

@@ -69,7 +69,7 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.findById(userId));
 	}
 	
-	@PostMapping
+	@PostMapping("/register")
 	public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterUserDTO RegisterDTO) {
 		UserDTO user = userService.insert(RegisterDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();

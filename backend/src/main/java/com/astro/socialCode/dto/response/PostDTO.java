@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.validation.constraints.NotBlank;
 
-@JsonPropertyOrder(value = {"id", "creationDate", "imagePost", "body", "languages", "coments", "votes"})
+@JsonPropertyOrder(value = {"id", "title", "creationDate", "image", "body", "languages", "coments", "votes", "votesCount"})
 public class PostDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,16 +24,22 @@ public class PostDTO implements Serializable {
 	@JsonProperty(value = "id")
 	private Long id;
 	
-	@JsonProperty(value = "creationDate")
-	private Instant creationDate;
+	@JsonProperty(value = "title")
+	private String title;
 	
-	@JsonProperty(value = "imagePost")
-	private String imagePost;
+	@JsonProperty(value = "image")
+	private String image;
 	
 	@NotBlank(message = "O Post deve conter pelo menos 1 caractere")
 	private String body;
 		
+	@JsonProperty(value = "creationDate")
+	private Instant creationDate;
+	
 	private UserMinDTO owner;
+	
+	@JsonProperty(value = "votesCount")
+	private Long votesCount;
 	
 	@JsonProperty(value = "languages")
 	private Set<LanguageDTO> languages = new HashSet<>();
@@ -41,31 +47,30 @@ public class PostDTO implements Serializable {
 	@JsonProperty(value = "coments")
 	private List<ComentDTO> coments = new ArrayList<>();
 	
-	@JsonProperty(value = "votes")
-	private Set<UserMinDTO> votes = new HashSet<>();
-	
 	public PostDTO() {
 	}
 	
-	public PostDTO(Long id, Instant creationDate, String imagePost,
+	public PostDTO(Long id, Instant creationDate, String image,
 			@NotBlank(message = "O Post deve conter pelo menos 1 caractere") String body,
-			UserMinDTO owner) {
+			UserMinDTO owner, Long votesCount) {
 		this.id = id;
 		this.creationDate = creationDate;
-		this.imagePost = imagePost;
+		this.image = image;
 		this.body = body;
 		this.owner = owner;
+		this.votesCount = votesCount;
 	}
 
 	public PostDTO(Post entity) {
 		id = entity.getId();
+		title = entity.getTitle();
 		creationDate = entity.getCreationDate();
-		imagePost = entity.getImagePost();
+		image = entity.getImage();
 		body = entity.getBody();
 		owner = new UserMinDTO(entity.getOwner());
+		votesCount = entity.getVotes().stream().count();
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
-		entity.getVotes().forEach(userLike -> getVotes().add(new UserMinDTO(userLike)));
 	}
 	
 	public PostDTO(Post entity, Set<Language> languages) {
@@ -80,9 +85,13 @@ public class PostDTO implements Serializable {
 	public Instant getCreationDate() {
 		return creationDate;
 	}
-
-	public String getImagePost() {
-		return imagePost;
+	
+	public String getTitle() {
+		return title;
+	}
+ 
+	public String getImage() {
+		return image;
 	}
 
 	public String getBody() {
@@ -93,16 +102,16 @@ public class PostDTO implements Serializable {
 		return owner;
 	}
 	
+	public Long votesCount() {
+		return votesCount;
+	}
+	
 	public Set<LanguageDTO> getLanguages(){
 		return languages;
 	}
 	
 	public List<ComentDTO> getComents() {
 		return coments;
-	}
-
-	public Set<UserMinDTO> getVotes() {
-		return votes;
 	}
 
 	@Override

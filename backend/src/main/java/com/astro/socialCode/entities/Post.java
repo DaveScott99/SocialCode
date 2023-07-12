@@ -35,12 +35,11 @@ public class Post {
 	@Column(name = "ID", nullable = false, unique = true)
 	private Long id;
 	
-	@Column(name = "CREATION_DATE", nullable = false)
-	@CreationTimestamp
-	private Instant creationDate;
+	@Column(name = "IMAGE", nullable = true, columnDefinition = "TEXT")
+	private String image;
 	
-	@Column(name = "IMAGE_POST", nullable = true, columnDefinition = "TEXT")
-	private String imagePost;
+	@Column(name = "TITLE", nullable= false)
+	private String title;
 	
 	@Column(name = "BODY", nullable = false, columnDefinition = "TEXT")
 	private String body;
@@ -48,6 +47,10 @@ public class Post {
 	@ManyToOne
 	@JsonIgnoreProperties("posts")
 	private User owner;
+	
+	@Column(name = "CREATION_DATE", nullable = false)
+	@CreationTimestamp
+	private Instant creationDate;
 	
 	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("post")
@@ -61,22 +64,23 @@ public class Post {
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "post_language",
 		joinColumns = @JoinColumn(name = "post_id"),
 		inverseJoinColumns = @JoinColumn(name = "language_id")
 	)
 	private Set<Language> languages = new HashSet<>();
-	
+		
 	public Post() {
 	}
 
-	public Post(Long id, @NotNull Instant creationDate, String imagePost, @NotNull String body, @NotNull User owner) {
+	public Post(Long id, @NotNull Instant creationDate, String title, String image, @NotNull String body, @NotNull User owner) {
 		this.id = id;
-		this.creationDate = creationDate;
-		this.imagePost = imagePost;
+		this.image = image;
+		this.title = title;
 		this.body = body;
+		this.creationDate = creationDate;
 		this.owner = owner;
 	}
 	
@@ -92,6 +96,14 @@ public class Post {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public Instant getCreationDate() {
 		return creationDate;
@@ -101,12 +113,12 @@ public class Post {
 		this.creationDate = creationDate;
 	}
 
-	public String getImagePost() {
-		return imagePost;
+	public String getImage() {
+		return image;
 	}
 
-	public void setImagePost(String imagePost) {
-		this.imagePost = imagePost;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getBody() {
@@ -136,7 +148,7 @@ public class Post {
 	public Set<Language> getLanguages() {
 		return languages;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
