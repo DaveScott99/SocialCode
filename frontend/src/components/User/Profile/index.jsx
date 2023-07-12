@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed/Feed";
 import Repositories from "../Repositories/Repositories";
@@ -15,6 +15,7 @@ import ConfigFollow from "../ConfigFollow/ConfigFollow";
 import { Button } from "../../Generics/Button/Button";
 import ConfigAccount from "../ConfigAccount/ConfigAccount";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
+import { verifyIsFollowing } from "../../../services/User";
 
 import "./CardUserProfile.css";
 import {
@@ -31,12 +32,16 @@ import {
 } from "./styles";
 
 export default function Profile() {
+
   const { username } = useParams();
   const { user } = useContext(AuthContext);
 
-  const [isFollowChange, setIsFollowChange] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { data: isFollowing } = useQuery(['isFollowing', username], 
+    () => verifyIsFollowing(user.username, username)
+  );
+   
   const { data, isLoading } = useQuery(
     ["currentUser", username],
     async () => {
@@ -44,10 +49,6 @@ export default function Profile() {
       const complements = await api.get(
         `/users/complements/${currentUser.data.id}?postsPage=0&followersPage=0&followingPage=0`
       );
-      const isFollowing = await api.get(
-        `followers/isFollowing/${user.username}/${currentUser.data.username}`
-      );
-      setIsFollowChange(isFollowing.data);
       const profileUser = { currentUser, complements };
       return profileUser;
     },
@@ -60,7 +61,6 @@ export default function Profile() {
     setLoading(true);
     try {
       await followUser(followerId, userId);
-      setIsFollowChange(!isFollowChange);
     } finally {
       setLoading(false);
     }
@@ -109,7 +109,7 @@ export default function Profile() {
                 </Name>
 
                 {data.currentUser.data.id !== user.id ? (
-                  isFollowChange ? (
+                  isFollowing ? (
                     <Modal
                       textButton="Seguindo"
                       buttonBorderRadius="5"

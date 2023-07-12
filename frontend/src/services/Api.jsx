@@ -156,11 +156,7 @@ export const findPostById = async (id) => {
 
 export const publishPost = async (post) => {
   try {
-    return await api.post("/post/createPost", post, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    return await api.post("/post", post);
   } catch (err) {
     console.log(err);
   }
