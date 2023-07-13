@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import NewPost from "../../components/Post/NewPost";
 import Loading from "../../components/Generics/Loading/Loading";
 import Feed from "../../components/Feed";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
@@ -27,7 +26,6 @@ export default function Home() {
           <header className="container-header-timeline">
             <h1>Página Inicial</h1>
           </header>
-          <NewPost />
           {isLoading ? <Loading color="#fff" /> : <Feed postsData={posts} />}
         </div>
       </div>

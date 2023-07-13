@@ -28,6 +28,16 @@ export const AuthProvider = ({ children }) => {
 
       api.defaults.headers.common["Authorization"] = token;
 
+      const newPost = {
+        title: "",
+        body: "",
+        owner: {
+          id: loggedUser.id
+        },
+        languages: []
+      }
+
+      localStorage.setItem("current-newPost", JSON.stringify(newPost));
       localStorage.setItem("user", JSON.stringify(loggedUser));
       localStorage.setItem("token", token);
 

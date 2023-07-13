@@ -1,108 +1,96 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { validateTextPost } from "../../../utils/Validators";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { publishPost } from "../../../services/Api";
-import { Avatar } from "@mui/material";
 import { Button } from "../../Generics/Button/Button";
-import Modal from "../../Generics/Modal/Modal";
-import TextArea from "../../Generics/TextArea/TextArea";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 import {
   Container,
-  ContentModal,
-  HeaderModal,
-  MainContent,
   Others,
-  UserImage,
-  Username,
+  TextEditorContainer,
+  TitleInput,
 } from "./styles";
 
 export default function NewPost() {
   const { user } = useContext(AuthContext);
 
+  const [value, setValue] = React.useState();
   const [loading, setLoading] = useState(true);
-  const [post, setPost] = useState({
-    body: "",
-    owner: {
-      id: user.id,
-    },
+
+  const [newPost, setNewPost] = useState({
+    title: "",
+    body: value,
+    languages: [],
   });
 
-  const onChange = (event) => {
-    setLoading(false);
-    const { name, value } = event.target;
-    setPost({ ...post, [name]: value });
+  useEffect(() => {
+    const storedPost = JSON.parse(localStorage.getItem("current-newPost"));
+    if (storedPost) {
+      setNewPost(storedPost);
+      setValue(storedPost.body);
+    }
+  }, []);
+
+  const handleValueChange = (newValue) => {
+    setValue(newValue);
+
+    const updatedPost = {
+      ...newPost,
+      body: newValue,
+    };
+    setNewPost(updatedPost);
+    localStorage.setItem("current-newPost", JSON.stringify(updatedPost));
   };
 
   const insertPost = async () => {
-    await publishPost(post);
+    await publishPost(JSON.parse(localStorage.getItem("current-newPost")));
     window.location.reload();
   };
 
   const validatorInput = () => {
-    return validateTextPost(post.body);
+    return validateTextPost(newPost.body);
   };
 
   return (
     <Container>
-      <MainContent>
-        <UserImage>
-          <Avatar
-            alt="User image"
-            src={user.profilePhoto}
-            sx={{ width: 40, height: 40 }}
+
+        <h1>Publicar novo conteúdo</h1>
+
+        <TitleInput placeholder="Título"/>
+
+        <TextEditorContainer data-color-mode="light">
+          <MDEditor
+            value={value}
+            onChange={handleValueChange}
+            preview="edit"
+            height={400}
+            extraCommands={[
+              commands.codeEdit,
+              commands.codePreview,
+              commands.fullscreen,
+            ]}
           />
-        </UserImage>
+        </TextEditorContainer>
 
-        <Modal
-          title="Criar publicação"
-          textButton="No que está pensando?"
-          buttonBackground="#F0F2F5"
-          buttonBorderRadius="10"
-          buttonFontColor="#969696"
-          buttonFontSize=".9"
-          buttonFontWeight="300"
-          buttonWidth="100"
-          buttonHoverBackground="#e4e9eec6"
-          buttonPadding="5"
-        >
-          <ContentModal className="body">
-            <HeaderModal>
-              <Avatar
-                alt="User image"
-                src={user.profilePhoto}
-                sx={{ width: 40, height: 40 }}
-              />
-              <Username>{user.username}</Username>
-            </HeaderModal>
+        <Others>
 
-            <TextArea
-              name="body"
-              placeholder="No que está pensando?"
-              onChange={onChange}
-              background="#FFF"
-              padding="10"
-              height="150"
-            />
+          <Button
+            type="submit"
+            onClick={insertPost}
+            width="100"
+            fontSize="1"
+            padding="10"
+            borderradius="5"
+            fontWeight="bold"
+            justify="center"
+            disabled={loading === true || !validatorInput()}
+          >
+            Publicar
+          </Button>
 
-            <Others></Others>
+        </Others>
 
-            <Button
-              type="submit"
-              onClick={insertPost}
-              width="100"
-              fontSize="1"
-              padding="10"
-              borderradius="5"
-              fontWeight="bold"
-              justify="center"
-              disabled={loading === true || !validatorInput()}
-            >
-              Publicar
-            </Button>
-          </ContentModal>
-        </Modal>
-      </MainContent>
     </Container>
   );
 }
