@@ -5,19 +5,17 @@ export const Container = styled.div`
   color: ${(props) => props.theme.colors.black};
   flex: 1 0 auto;  
   margin-bottom: 20px;
-  display: flex;
+  display: flex; 
+  flex-direction: row-reverse;
 `;
 
 export const ContainerVotes = styled.div`
   width: 50px;
-  height: 100px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: ${(props) => props.theme.colors.white};
-
 `;
 
 export const VotesCount = styled.span`
@@ -39,16 +37,12 @@ export const ContainerContent = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   width: 100%;
-  margin-left: 5px;
-  cursor: pointer;
 `;
 
 export const ImagePost = styled.img`
-  max-height: 300px;
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px 10px 0px 0px;
+  width: 600px;
+  height: 300px;
+  border-radius: 10px;
   user-select: none;
 `;
 
@@ -59,8 +53,12 @@ export const Info = styled.header`
   padding: 10px;
 
   a {
-    color: ${(props) => props.theme.colors.black};
+    color: ${(props) => props.theme.colors.primary};
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -77,15 +75,17 @@ export const Owner = styled.div`
 `;
 
 export const Username = styled.span`
-  font-weight: 700;
-  font-size: 1em;
+  font-weight: 600;
+  font-size: .8em;
   margin-right: 5px;
-  margin-left: 5px;
+  background: #0095ff23;
+  padding: 5px;
+  border-radius: 5px;
 `;
 
 export const PostDate = styled.div`
   font-weight: 300;
-  font-size: 0.9em;
+  font-size: 0.8em;
 `;
 
 export const Language = styled.div`
@@ -103,9 +103,13 @@ export const PostBody = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 1.3em;
+  font-size: 1.5em;
   font-weight: 600;
-  padding: 5px 0px 0px 0px;
+  display: flex;
+  align-items: center;
+
+  padding: 5px 0px 5px 0px;
+
 `;
 
 export const Body = styled.main`

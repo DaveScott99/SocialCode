@@ -17,7 +17,7 @@ export const loginUser = async (email, password) => {
 
 export const resgisterUser = async (userData) => {
   try {
-    return await api.post("/users", userData);
+    return await api.post("/users/register", userData);
   } catch (err) {
     const listError = [err.response.data.errors];
     if (listError) {

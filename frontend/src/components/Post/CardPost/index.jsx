@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 
 import {
-  CardBody,
+  Body,
   Container,
   ContainerContent,
   ContainerVotes,
@@ -13,45 +13,43 @@ import {
   InteractionButton,
   Language,
   Owner,
+  PostBody,
   PostDate,
   PostInfo,
+  Title,
   Username,
   VotesCount,
 } from "./styles";
 import { useState } from "react";
+import ModalPost from "../../Generics/ModalPost";
+import FocusPost from "../FocusPost";
 
 export function CardPost({ post }) {
-  const [votesCount, setVotesCount] = useState(0);
-
-  const handleClickUpVote = () => {
-    setVotesCount(votesCount + 1);
-  }
-
-  const handleClickDownVote = () => {
-    if (votesCount > 0) {
-        setVotesCount(votesCount - 1);
-    }
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <Container>
+
+      {isModalVisible ? (
+        <ModalPost onClose={() => setIsModalVisible(false)}>
+          <FocusPost postData={post}/>
+        </ModalPost>
+      ) : null}
+
       <ContainerVotes>
         <InteractionButton>
-          <MdOutlineKeyboardArrowUp onClick={handleClickUpVote}/>
+          <MdOutlineKeyboardArrowUp />
         </InteractionButton>
 
-        <VotesCount>{votesCount}</VotesCount>
+        <VotesCount>{post.votesCount}</VotesCount>
 
         <InteractionButton>
-          <MdKeyboardArrowDown onClick={handleClickDownVote}/>
+          <MdKeyboardArrowDown />
         </InteractionButton>
       </ContainerVotes>
 
-      <ContainerContent>
-        {post.imagePost && (
-          <ImagePost src={post.imagePost} alt="Imagem do post" />
-        )}
-
+      <ContainerContent onClick={() => setIsModalVisible(true)}>
+        {post.image && <ImagePost src={post.image} alt="Imagem do post" />}
         <Info>
           <PostInfo>
             <Owner>
@@ -70,8 +68,10 @@ export function CardPost({ post }) {
               <Language key={language.id}>{language.name}</Language>
             ))}
           </PostInfo>
-
-          <CardBody>{post.body}</CardBody>
+          <PostBody>
+            <Title>{post.title}</Title>
+            <Body>{post.body}</Body>
+          </PostBody>
         </Info>
       </ContainerContent>
     </Container>
