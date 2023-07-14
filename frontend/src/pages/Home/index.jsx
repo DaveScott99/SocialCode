@@ -7,11 +7,22 @@ import { toast } from "react-toastify";
 import { fetchPostsForFeed } from "../../services/Feed";
 
 import "./styles.css";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPostsFeedToRedux } from "../../redux/post/actions";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-   
-  const { data: posts, isLoading, isError } = useQuery(['postsFeed'], () => fetchPostsForFeed(user.username, 0), {
+
+  const { postsFeed } = useSelector(rootReducer => rootReducer.postReducer);
+  const dispatch = useDispatch();
+
+  console.log(postsFeed);
+
+  const { isLoading, isError } = useQuery(['postsFeed'], async () => {
+    const postsData = await fetchPostsForFeed(user.username, 0);
+    dispatch(fetchPostsFeedToRedux(postsData));
+    return postsData;
+  }, {
     staleTime: 1000 * 100,
   });
 
@@ -26,7 +37,7 @@ export default function Home() {
           <header className="container-header-timeline">
             <h1>Página Inicial</h1>
           </header>
-          {isLoading ? <Loading color="#fff" /> : <Feed postsData={posts} />}
+          {isLoading ? <Loading color="#fff" /> : <Feed postsData={postsFeed} />}
         </div>
       </div>
     </>

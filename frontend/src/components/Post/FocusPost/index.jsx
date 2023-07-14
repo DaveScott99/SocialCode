@@ -1,12 +1,15 @@
 import React from "react";
 import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
+import { dateFormat } from "../../../utils/FormatDateInfo";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { unvotePost, votePost } from "../../../redux/post/actions";
 
 import {
   Body,
   Container,
   ContainerContent,
   ContainerVotes,
-  ImagePost,
   Info,
   InteractionButton,
   Language,
@@ -18,11 +21,29 @@ import {
   Username,
   VotesCount,
 } from "./styles";
-import { dateFormat } from "../../../utils/FormatDateInfo";
-import { Avatar } from "@mui/material";
-import { Link } from "react-router-dom";
 
 export default function FocusPost({ postData }) {
+  const dispatch = useDispatch();
+
+  const handleVoteClick = (postId) => {
+    if (postData.votedByUser) {
+      console.log("Já votou");
+    } else {
+      const newVotes = postData.votesCount + 1;
+      dispatch(votePost(postId, newVotes));
+    }
+  };
+
+  const handleUnvoteClick = (postId) => {
+    if (!postData.votedByUser) {
+      console.log("Já retirou o voto");
+    } else {
+      if (postData.votesCount > 0) {
+        const newVotes = postData.votesCount - 1;
+        dispatch(unvotePost(postId, newVotes));
+      }
+    }
+  };
   return (
     <Container>
       <ContainerContent>
@@ -44,13 +65,15 @@ export default function FocusPost({ postData }) {
 
       <ContainerVotes>
         <InteractionButton>
-          <MdOutlineKeyboardArrowUp />
+          <MdOutlineKeyboardArrowUp
+            onClick={() => handleVoteClick(postData.id)}
+          />
         </InteractionButton>
 
         <VotesCount>{postData.votesCount}</VotesCount>
 
         <InteractionButton>
-          <MdKeyboardArrowDown />
+          <MdKeyboardArrowDown onClick={() => handleUnvoteClick(postData.id)} />
         </InteractionButton>
       </ContainerVotes>
     </Container>

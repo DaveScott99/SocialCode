@@ -1,16 +1,16 @@
+import React, { useState } from "react";
 import { Avatar } from "@mui/material";
 import { dateFormat } from "../../../utils/FormatDateInfo";
 import { Link } from "react-router-dom";
-import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
+import ModalPost from "../../Generics/ModalPost";
+import FocusPost from "../FocusPost";
 
 import {
   Body,
   Container,
   ContainerContent,
-  ContainerVotes,
   ImagePost,
   Info,
-  InteractionButton,
   Language,
   Owner,
   PostBody,
@@ -18,35 +18,18 @@ import {
   PostInfo,
   Title,
   Username,
-  VotesCount,
 } from "./styles";
-import { useState } from "react";
-import ModalPost from "../../Generics/ModalPost";
-import FocusPost from "../FocusPost";
 
 export function CardPost({ post }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <Container>
-
       {isModalVisible ? (
         <ModalPost onClose={() => setIsModalVisible(false)}>
           <FocusPost postData={post}/>
         </ModalPost>
       ) : null}
-
-      <ContainerVotes>
-        <InteractionButton>
-          <MdOutlineKeyboardArrowUp />
-        </InteractionButton>
-
-        <VotesCount>{post.votesCount}</VotesCount>
-
-        <InteractionButton>
-          <MdKeyboardArrowDown />
-        </InteractionButton>
-      </ContainerVotes>
 
       <ContainerContent onClick={() => setIsModalVisible(true)}>
         {post.image && <ImagePost src={post.image} alt="Imagem do post" />}
