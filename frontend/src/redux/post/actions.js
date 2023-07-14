@@ -5,6 +5,11 @@ export const fetchPostsFeedToRedux = (payload) => ({
   payload,
 });
 
+export const publishPost = (payload) => ({
+  type: PostActionTypes.PUBLISH_POST,
+  payload,
+})
+
 export const votePost = (postId, newVotes) => ({
   type: PostActionTypes.VOTE_POST,
   payload: { postId, newVotes },

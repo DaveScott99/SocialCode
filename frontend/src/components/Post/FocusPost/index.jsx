@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unvotePost, votePost } from "../../../redux/post/actions";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
+import ReactMarkdown from 'react-markdown';
 
 import {
   Body,
@@ -23,6 +24,7 @@ import {
   VotesCount,
 } from "./styles";
 import { downVotePost, upVotePost } from "../../../services/Feed";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function FocusPost({ postData }) {
   
@@ -65,7 +67,9 @@ export default function FocusPost({ postData }) {
           </PostInfo>
           <PostBody>
             <Title>{postData.title}</Title>
-            <Body>{postData.body}</Body>
+            
+            <MDEditor.Markdown source={postData.body} style={{ background: "#fff", color: "#000" }} />
+  
           </PostBody>
         </Info>
       </ContainerContent>

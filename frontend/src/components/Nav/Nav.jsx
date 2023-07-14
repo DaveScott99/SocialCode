@@ -6,6 +6,7 @@ import { AiFillHome } from "react-icons/ai";
 import { IconItem, Menu, MenuItem, NameItem, NavContainer, ProfileImage } from "./NavStyles";
 import Search from "../Generics/Search/Search";
 import SubMenu from "../SubMenu/SubMenu";
+import { CiSquarePlus } from "react-icons/ci"
 
 export default function Nav() {
 
@@ -38,6 +39,18 @@ export default function Nav() {
                 </NameItem>
               </MenuItem>
             </Link>
+
+            <Link to="/publicar">
+              <MenuItem>
+                <IconItem>
+                  <CiSquarePlus />
+                </IconItem>
+                <NameItem>
+                  Home
+                </NameItem>
+              </MenuItem>
+            </Link>
+
 
           <SubMenu />
 

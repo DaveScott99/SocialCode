@@ -32,9 +32,13 @@ export const AuthProvider = ({ children }) => {
         title: "",
         body: "",
         owner: {
-          id: loggedUser.id
+          id: loggedUser.id,
+          username: loggedUser.username,
+          profilePhoto: loggedUser.profilePhoto
         },
-        languages: []
+        languages: [],
+        votesCount: 0,
+        votedByUser: false,
       }
 
       localStorage.setItem("current-newPost", JSON.stringify(newPost));

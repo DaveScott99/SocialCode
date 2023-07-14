@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { validateTextPost } from "../../../utils/Validators";
-import { publishPost } from "../../../services/Api";
 import { Button } from "../../Generics/Button/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import Select from "react-select";
 
 import { Container, Others, TextEditorContainer, TitleInput } from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { publishPost } from "../../../redux/post/actions";
 
 const languages = [
   {
@@ -23,8 +24,16 @@ const languages = [
 ];
 
 export default function NewPost() {
-  const [value, setValue] = React.useState();
+
+  const { postsFeed } = useSelector(rootReducer => rootReducer.postReducer);
+  
+  const dispatch = useDispatch();
+
+  console.log(postsFeed);
+
+  const [value, setValue] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [title, setTitle] = useState("");
   const [newPost, setNewPost] = useState({
     title: "",
     body: value,
@@ -35,10 +44,22 @@ export default function NewPost() {
     const storedPost = JSON.parse(localStorage.getItem("current-newPost"));
     if (storedPost) {
       setNewPost(storedPost);
+      setTitle(storedPost.title);
       setValue(storedPost.body);
       setSelectedLanguages(storedPost.languages);
     }
   }, []);
+
+  const handleChangeTitle = (event) => {
+    setTitle(event.target.value);
+
+    const updatedPost = {
+      ...newPost,
+      title: event.target.value,
+    }
+    setNewPost(updatedPost);
+    localStorage.setItem("current-newPost", JSON.stringify(updatedPost));
+  }
 
   const handleValueChange = (newValue) => {
     setValue(newValue);
@@ -58,9 +79,12 @@ export default function NewPost() {
     localStorage.setItem("current-newPost", JSON.stringify(updatedPost));
   };
 
-  const insertPost = async () => {
-    await publishPost(JSON.parse(localStorage.getItem("current-newPost")));
-    window.location.reload();
+  const insertPost = () => {
+    
+    dispatch(publishPost(JSON.parse(localStorage.getItem("current-newPost"))));
+
+    //await publishPost(JSON.parse(localStorage.getItem("current-newPost")));
+    //window.location.reload();
   };
 
   const validatorInput = () => {
@@ -71,7 +95,7 @@ export default function NewPost() {
     <Container>
       <h1>Publicar novo conteúdo</h1>
 
-      <TitleInput placeholder="Título" />
+      <TitleInput placeholder="Título" onChange={handleChangeTitle} value={title}/>
 
       <Select
         placeholder="Selecione tecnologias"

@@ -18,9 +18,14 @@ const postReducer = (state = initialState, action) => {
 
     case PostActionTypes.UNVOTE_POST:  
       const postsBeforeUnvote = state.postsFeed.map((post) => 
-        post.id === action.payload.postId ? { ...post, votesCount: action.payload.newVotes, votedByUser: false} : post
+        post.id === action.payload.postId ? { ...post, votesCount: action.payload.newVotes, votedByUser: false } : post
       )
       return { ...state, postsFeed: postsBeforeUnvote }
+
+    case PostActionTypes.PUBLISH_POST:
+      return {
+        ...state, postsFeed: [...state.postsFeed, action.payload] 
+      };
 
     default:
       return state;

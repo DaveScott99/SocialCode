@@ -9,7 +9,6 @@ import {
   Body,
   Container,
   ContainerContent,
-  ImagePost,
   Info,
   Language,
   Owner,
@@ -19,6 +18,7 @@ import {
   Title,
   Username,
 } from "./styles";
+import MDEditor from "@uiw/react-md-editor";
 
 export function CardPost({ post }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -53,7 +53,7 @@ export function CardPost({ post }) {
           </PostInfo>
           <PostBody>
             <Title>{post.title}</Title>
-            <Body>{post.body}</Body>
+            <MDEditor.Markdown source={post.body} style={{ background: "#fff", color: "#000" }} />
           </PostBody>
         </Info>
       </ContainerContent>
