@@ -8,11 +8,7 @@ const postReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case PostActionTypes.FETCH_POSTS_SUCCESS:
-      const postsWithVotedByUser = action.payload.map((post) => ({
-        ...post,
-        votedByUser: false,
-      }));
-      return { ...state, postsFeed: postsWithVotedByUser };
+      return { ...state, postsFeed: action.payload };
 
     case PostActionTypes.VOTE_POST:
       const postsBeforeVote = state.postsFeed.map((post) =>

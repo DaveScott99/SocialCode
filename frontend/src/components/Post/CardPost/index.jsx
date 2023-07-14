@@ -32,7 +32,7 @@ export function CardPost({ post }) {
       ) : null}
 
       <ContainerContent onClick={() => setIsModalVisible(true)}>
-        {post.image && <ImagePost src={post.image} alt="Imagem do post" />}
+        {/* post.image && <ImagePost src={post.image} alt="Imagem do post" /> */}
         <Info>
           <PostInfo>
             <Owner>

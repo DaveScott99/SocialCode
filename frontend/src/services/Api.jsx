@@ -162,14 +162,3 @@ export const publishPost = async (post) => {
   }
 };
 
-export const likePost = async (postId, userId) => {
-  try {
-    return await api.post(`/post/relevantVote/${postId}?userId=${userId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};

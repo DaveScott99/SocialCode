@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import { dateFormat } from "../../../utils/FormatDateInfo";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unvotePost, votePost } from "../../../redux/post/actions";
+import { AuthContext } from "../../../contexts/Auth/AuthContext";
 
 import {
   Body,
@@ -21,8 +22,12 @@ import {
   Username,
   VotesCount,
 } from "./styles";
+import { downVotePost, upVotePost } from "../../../services/Feed";
 
 export default function FocusPost({ postData }) {
+  
+  const { user } = useContext(AuthContext);
+
   const dispatch = useDispatch();
 
   const handleVoteClick = (postId) => {
@@ -31,6 +36,7 @@ export default function FocusPost({ postData }) {
     } else {
       const newVotes = postData.votesCount + 1;
       dispatch(votePost(postId, newVotes));
+      upVotePost(postId, user.id);
     }
   };
 
@@ -41,6 +47,7 @@ export default function FocusPost({ postData }) {
       if (postData.votesCount > 0) {
         const newVotes = postData.votesCount - 1;
         dispatch(unvotePost(postId, newVotes));
+        downVotePost(postId, user.id);
       }
     }
   };

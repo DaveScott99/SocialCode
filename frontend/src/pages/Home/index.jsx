@@ -15,9 +15,7 @@ export default function Home() {
 
   const { postsFeed } = useSelector(rootReducer => rootReducer.postReducer);
   const dispatch = useDispatch();
-
-  console.log(postsFeed);
-
+  
   const { isLoading, isError } = useQuery(['postsFeed'], async () => {
     const postsData = await fetchPostsForFeed(user.username, 0);
     dispatch(fetchPostsFeedToRedux(postsData));
