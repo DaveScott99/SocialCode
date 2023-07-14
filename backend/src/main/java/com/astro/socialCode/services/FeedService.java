@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.socialCode.dto.mapper.PostMapper;
+import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.entities.User;
 import com.astro.socialCode.repositories.PostRepository;
@@ -25,12 +26,14 @@ public class FeedService {
 	private final UserRepository userRepository;
 	private final PostRepository postRepository;
 	private final UtilMethods utilMethods;
+	private final UserMapper userMapper;
 		
-	public FeedService(PostMapper postMapper, UserRepository userRepository, UtilMethods utilMethods, PostRepository postRepository) {
+	public FeedService(PostMapper postMapper, UserRepository userRepository, UtilMethods utilMethods, PostRepository postRepository, UserMapper userMapper) {
 		this.postMapper = postMapper;
 		this.userRepository = userRepository;
 		this.postRepository = postRepository;
 		this.utilMethods = utilMethods;
+		this.userMapper = userMapper;
 	}
 
 	@Transactional(readOnly = true)
@@ -59,7 +62,13 @@ public class FeedService {
 				.map(postMapper::toDTO)
 				.collect(Collectors.toSet())
 		);
-	
+		
+		for (PostDTO post : feedPosts) {
+			if (post.getVotes().contains(userMapper.toMinDTO(user))) {
+				post.setVotedByUser(true);
+			}
+		}
+			
 		return utilMethods.convertListToPagination(pageable, feedPosts.stream().toList());
 	}
 	

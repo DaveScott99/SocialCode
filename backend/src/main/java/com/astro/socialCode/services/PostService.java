@@ -80,14 +80,21 @@ public class PostService {
 		postRepository.findById(postId)
 			  .map(foundPost -> {
 				  userRepository.findById(userId)
-				  				.map(userFound -> {
-			  						foundPost.getVotes().add(userFound);
-			  						userFound.getVotedPosts().add(foundPost);
-			  						postRepository.save(foundPost);
-			  						userRepository.save(userFound);
-			  						return userFound;
-				  				})
-				  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+		  				.map(foundUser -> {
+		  					
+		  					if (!foundPost.getVotes().contains(foundUser)) {
+		  						foundPost.getVotes().add(foundUser);
+		  						foundUser.getVotedPosts().add(foundPost);
+		  						postRepository.save(foundPost);
+		  						userRepository.save(foundUser);
+		  					}
+		  					else {
+		  						System.out.println("DEBUG::Já deu vote");
+		  					}
+	  				
+	  						return foundUser;
+		  				})
+		  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 				  	return foundPost;
 			  })
 			  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
@@ -98,14 +105,21 @@ public class PostService {
 		postRepository.findById(postId)
 			  .map(foundPost -> {
 				  userRepository.findById(userId)
-				  				.map(userFound -> {
-				  						foundPost.getVotes().remove(userFound);
-				  						userFound.getVotedPosts().remove(foundPost);
-				  						postRepository.save(foundPost);
-				  						userRepository.save(userFound);
-				  						return userFound;
-				  				})
-				  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+		  				.map(foundUser -> {
+		  						
+		  					if (foundPost.getVotes().contains(foundUser)) {
+		  						foundPost.getVotes().remove(foundUser);
+		  						foundUser.getVotedPosts().remove(foundPost);
+		  						postRepository.save(foundPost);
+		  						userRepository.save(foundUser);
+		  					}
+		  					else {
+		  						System.out.println("DEBUG:: Já removeu o vote");
+		  					}
+		  						
+		  					return foundUser;
+		  				})
+		  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 				  	return foundPost;
 			  })
 			  .orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));

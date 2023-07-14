@@ -58,14 +58,14 @@ public class PostController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/relevantVote/{postId}")
-	public ResponseEntity<Void> relevantVote(@PathVariable Long postId, @RequestParam Long userId) {
+	@PostMapping("/relevantVote")
+	public ResponseEntity<Void> relevantVote(@RequestParam Long postId, @RequestParam Long userId) {
 		postService.relevantVote(postId, userId);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/unrelevantVote/{postId}")
-	public ResponseEntity<Void> unrelevantVote(@PathVariable Long postId, @RequestParam Long userId) {
+	@PostMapping("/unrelevantVote")
+	public ResponseEntity<Void> unrelevantVote(@RequestParam Long postId, @RequestParam Long userId) {
 		postService.unrelevantVote(postId, userId);
 		return ResponseEntity.noContent().build();
 	}

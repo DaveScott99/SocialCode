@@ -11,6 +11,7 @@ import java.util.Set;
 import com.astro.socialCode.dto.ComentDTO;
 import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.entities.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -41,24 +42,30 @@ public class PostDTO implements Serializable {
 	@JsonProperty(value = "votesCount")
 	private Long votesCount;
 	
+	private boolean votedByUser;
+	
 	@JsonProperty(value = "languages")
 	private Set<LanguageDTO> languages = new HashSet<>();
 	
 	@JsonProperty(value = "coments")
 	private List<ComentDTO> coments = new ArrayList<>();
 	
+	@JsonIgnore
+	private Set<UserMinDTO> votes = new HashSet<>();
+	
 	public PostDTO() {
 	}
 	
 	public PostDTO(Long id, Instant creationDate, String image,
 			@NotBlank(message = "O Post deve conter pelo menos 1 caractere") String body,
-			UserMinDTO owner, Long votesCount) {
+			UserMinDTO owner, Long votesCount, boolean votedByUser) {
 		this.id = id;
 		this.creationDate = creationDate;
 		this.image = image;
 		this.body = body;
 		this.owner = owner;
 		this.votesCount = votesCount;
+		this.votedByUser = votedByUser;
 	}
 
 	public PostDTO(Post entity) {
@@ -71,6 +78,7 @@ public class PostDTO implements Serializable {
 		votesCount = entity.getVotes().stream().count();
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
+		entity.getVotes().forEach(vote -> getVotes().add(new UserMinDTO(vote)));
 	}
 	
 	public PostDTO(Post entity, Set<Language> languages) {
@@ -106,12 +114,24 @@ public class PostDTO implements Serializable {
 		return votesCount;
 	}
 	
+	public boolean isVotedByUser() {
+		return votedByUser;
+	}
+
+	public void setVotedByUser(boolean votedByUser) {
+		this.votedByUser = votedByUser;
+	}
+
 	public Set<LanguageDTO> getLanguages(){
 		return languages;
 	}
 	
 	public List<ComentDTO> getComents() {
 		return coments;
+	}
+
+	public Set<UserMinDTO> getVotes() {
+		return votes;
 	}
 
 	@Override
