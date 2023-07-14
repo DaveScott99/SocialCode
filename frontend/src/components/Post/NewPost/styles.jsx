@@ -11,10 +11,12 @@ export const Container = styled.article`
 
 export const Others = styled.div`
     margin-top: 10px;
+    width: 100%;
 `
 
 export const TextEditorContainer = styled.div`
     width: 100%;
+    margin-top: 10px;
 `
 
 export const TitleInput = styled.input`
