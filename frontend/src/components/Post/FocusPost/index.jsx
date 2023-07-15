@@ -5,10 +5,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unvotePost, votePost } from "../../../redux/post/actions";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
-import ReactMarkdown from 'react-markdown';
 
 import {
-  Body,
   Container,
   ContainerContent,
   ContainerVotes,

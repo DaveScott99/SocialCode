@@ -88,14 +88,15 @@ export const PostDate = styled.div`
   font-size: 0.9em;
 `;
 
-export const Language = styled.div`
-  background: ${(props) => props.theme.colors.primary};
+export const Language = styled.img`
   color: ${(props) => props.theme.colors.white};
-  border-radius: 5px;
-  padding: 10px;
   max-width: 400px;
   font-weight: 600;
   font-size: 0.8em;
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  object-fit: fill;
 `;
 
 export const PostBody = styled.div`

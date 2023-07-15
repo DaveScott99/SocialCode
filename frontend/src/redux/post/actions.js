@@ -5,7 +5,7 @@ export const fetchPostsFeedToRedux = (payload) => ({
   payload,
 });
 
-export const publishPost = (payload) => ({
+export const publishPostOnRedux = (payload) => ({
   type: PostActionTypes.PUBLISH_POST,
   payload,
 })

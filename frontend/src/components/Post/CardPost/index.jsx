@@ -6,7 +6,6 @@ import ModalPost from "../../Generics/ModalPost";
 import FocusPost from "../FocusPost";
 
 import {
-  Body,
   Container,
   ContainerContent,
   Info,
@@ -47,8 +46,10 @@ export function CardPost({ post }) {
               <PostDate>· {dateFormat(post.creationDate)}</PostDate>
             </Owner>
 
+
+
             {post.languages?.map((language) => (
-              <Language key={language.id}>{language.name}</Language>
+              <Language key={language.id} src={language.icon}/>
             ))}
           </PostInfo>
           <PostBody>

@@ -144,11 +144,7 @@ export const unfollowUser = async (followerId, userId) => {
 
 export const findPostById = async (id) => {
   try {
-    return await api.get(`/post/findById/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    return await api.get(`/post/findById/${id}`);
   } catch (err) {
     console.log(err);
   }
@@ -156,9 +152,22 @@ export const findPostById = async (id) => {
 
 export const publishPost = async (post) => {
   try {
-    return await api.post("/post", post);
+    const response = await api.post("/post", post);
+    if (response) {
+      return true
+    } 
   } catch (err) {
     console.log(err);
+    return false;
   }
 };
 
+export const findLanguages = async () => {
+  try {
+    const response = await api.get("/languages");
+    return response.data.content;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}

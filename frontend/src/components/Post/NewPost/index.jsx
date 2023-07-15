@@ -1,44 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { validateTextPost } from "../../../utils/Validators";
 import { Button } from "../../Generics/Button/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import Select from "react-select";
+import { useDispatch } from "react-redux";
+import { publishPostOnRedux } from "../../../redux/post/actions";
+import { useQuery } from "@tanstack/react-query";
+import { findLanguages, publishPost } from "../../../services/Api";
+import { AuthContext } from "../../../contexts/Auth/AuthContext";
+import ModalDialog from "../../Generics/ModalDialog";
+import Dialog from "../../Generics/Dialog";
 
 import { Container, Others, TextEditorContainer, TitleInput } from "./styles";
-import { useDispatch, useSelector } from "react-redux";
-import { publishPost } from "../../../redux/post/actions";
-
-const languages = [
-  {
-    id: 1,
-    name: "Java",
-  },
-  {
-    id: 2,
-    name: "Python",
-  },
-  {
-    id: 3,
-    name: "JavaScript",
-  },
-];
 
 export default function NewPost() {
-
-  const { postsFeed } = useSelector(rootReducer => rootReducer.postReducer);
-  
+  const { user } = useContext(AuthContext);
+  const { data: languages } = useQuery(["languages"], () => findLanguages());
   const dispatch = useDispatch();
 
-  console.log(postsFeed);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [title, setTitle] = useState("");
   const [newPost, setNewPost] = useState({
     title: "",
-    body: value,
+    body: "",
     languages: [],
   });
+
 
   useEffect(() => {
     const storedPost = JSON.parse(localStorage.getItem("current-newPost"));
@@ -56,10 +45,10 @@ export default function NewPost() {
     const updatedPost = {
       ...newPost,
       title: event.target.value,
-    }
+    };
     setNewPost(updatedPost);
     localStorage.setItem("current-newPost", JSON.stringify(updatedPost));
-  }
+  };
 
   const handleValueChange = (newValue) => {
     setValue(newValue);
@@ -79,23 +68,51 @@ export default function NewPost() {
     localStorage.setItem("current-newPost", JSON.stringify(updatedPost));
   };
 
-  const insertPost = () => {
+  const insertPost = async () => {
     
-    dispatch(publishPost(JSON.parse(localStorage.getItem("current-newPost"))));
+    const response = await publishPost(
+      JSON.parse(localStorage.getItem("current-newPost"))
+    );
 
-    //await publishPost(JSON.parse(localStorage.getItem("current-newPost")));
-    //window.location.reload();
+    if (response) {
+      dispatch(
+        publishPostOnRedux(JSON.parse(localStorage.getItem("current-newPost")))
+      );
+
+      const newPostForPublish = {
+        title: "",
+        body: "",
+        owner: {
+          id: user.id,
+          username: user.username,
+          profilePhoto: user.profilePhoto
+        },
+        languages: [],
+        votesCount: 0,
+        votedByUser: false,
+      };
+
+      localStorage.setItem("current-newPost", JSON.stringify(newPostForPublish));
+      
+      setIsModalVisible(true);
+    }
   };
 
   const validatorInput = () => {
-    return validateTextPost(newPost.body);
+    return validateTextPost(newPost.body)
+        && selectedLanguages.length > 0;
   };
 
   return (
+    
     <Container>
       <h1>Publicar novo conteúdo</h1>
 
-      <TitleInput placeholder="Título" onChange={handleChangeTitle} value={title}/>
+      <TitleInput
+        placeholder="Título"
+        onChange={handleChangeTitle}
+        value={title}
+      />
 
       <Select
         placeholder="Selecione tecnologias"
@@ -105,6 +122,7 @@ export default function NewPost() {
         onChange={handleLanguageChange}
         getOptionLabel={(language) => language.name}
         getOptionValue={(language) => language.id}
+        com
       />
 
       <TextEditorContainer data-color-mode="light">
@@ -136,7 +154,13 @@ export default function NewPost() {
           Publicar
         </Button>
       </Others>
-      
+
+      {isModalVisible ? (
+        <ModalDialog onClose={() => setIsModalVisible(false)}>
+          <Dialog message="Publicado com sucesso" pagePath="/" />
+        </ModalDialog>
+      ) : null}
+
     </Container>
   );
 }
