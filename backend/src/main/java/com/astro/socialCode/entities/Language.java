@@ -27,6 +27,9 @@ public class Language {
 	@Column(name="NAME", nullable = false, length = 120)
 	private String name;
 	
+	@Column(name = "ICON", nullable = false, length = 220)
+	private String icon;
+	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
 	private Set<Post> posts = new HashSet<>();
@@ -38,6 +41,14 @@ public class Language {
 	public Language(){
 	}
 	
+	public Language(Long id, String name, String icon, Set<Post> posts, Set<User> users) {
+		this.id = id;
+		this.name = name;
+		this.icon = icon;
+		this.posts = posts;
+		this.users = users;
+	}
+
 	public Language(Long id) {
 		this.id = id;
 	}
@@ -61,6 +72,14 @@ public class Language {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	public Set<Post> getPosts() {

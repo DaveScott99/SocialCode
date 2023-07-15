@@ -27,6 +27,7 @@ public class LanguageMapper {
 		
 		language.setId(dto.getId());
 		language.setName(dto.getName());
+		language.setIcon(dto.getIcon());
 		
 		return language;
 		
