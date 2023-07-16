@@ -7,10 +7,37 @@ import './DashboardPosts.css'
 
 const postService = new PostService();
 
+const listPosts = [
+    {
+        title: 'Post sobre Javascript',
+        coverImg: 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*BPSx-c--z6r7tY29L19ukQ.png',
+        body: 'Javascript é uma linguagem de programação',
+        user: {
+            id: 1
+        }
+    },
+    {
+        title: 'Post sobre Javascript',
+        coverImg: 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*BPSx-c--z6r7tY29L19ukQ.png',
+        body: 'Javascript é uma linguagem de programação',
+        user: {
+            id: 1
+        }
+    },
+    {
+        title: 'Post sobre Javascript',
+        coverImg: 'https://miro.medium.com/v2/resize:fit:720/format:webp/1*BPSx-c--z6r7tY29L19ukQ.png',
+        body: 'Javascript é uma linguagem de programação',
+        user: {
+            id: 1
+        }
+    },
+]
+
 export default function DashboardPosts() {
 
     const [btnSave, setBtnSave] = useState(true);
-    const [listPosts, setListPosts] = useState([]);
+    //const [listPosts, setListPosts] = useState([]);
     const [post, setPost] = useState({
         title: '',
         coverImg: '',
@@ -29,7 +56,7 @@ export default function DashboardPosts() {
 
     const getPosts = async () => {
         const data = await postService.findPostsByUserId(localStorage.getItem("id"));
-        setListPosts(data);
+        //setListPosts(data);
     }
 
     const insertPost = async () => {
@@ -38,7 +65,7 @@ export default function DashboardPosts() {
     }
 
     useEffect(() => {
-        getPosts();
+        //getPosts();
     }, [])
 
     return (
