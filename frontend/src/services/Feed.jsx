@@ -3,7 +3,7 @@ import { api } from "./Api"
 export const fetchPostsForFeed = async (username, page) => {
     try {
         const response =  await api.get(`/feed?username=${username}&page=${page}`);
-        return response.data.content;
+        return response.data;
     }
     catch(err) {
         console.log(err);

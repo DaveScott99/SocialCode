@@ -28,7 +28,6 @@ export default function NewPost() {
     languages: [],
   });
 
-
   useEffect(() => {
     const storedPost = JSON.parse(localStorage.getItem("current-newPost"));
     if (storedPost) {

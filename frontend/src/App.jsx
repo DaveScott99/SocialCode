@@ -6,6 +6,8 @@ import theme from './styles/theme';
 import GlobalStyle from './styles/global';
 import 'react-toastify/dist/ReactToastify.css';
 
+import "./index.css";
+
 function App() {
   return (
     <>

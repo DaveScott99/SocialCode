@@ -1,55 +1,16 @@
 import { styled } from "styled-components";
 
-export const Container = styled.div`
-  width: 100%;
+export const Container = styled.article`
   color: ${(props) => props.theme.colors.black};
-  flex: 1 0 auto;  
-  margin-bottom: 20px;
-  display: flex;
-`;
-
-export const ContainerVotes = styled.div`
-  width: 50px;
-  height: 100px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: ${(props) => props.theme.colors.white};
-
-`;
-
-export const VotesCount = styled.span`
-    user-select: none;
-`;
-
-export const InteractionButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  svg {
-    font-size: 2em;
-  }
+  margin: 10px;
 `;
 
 export const ContainerContent = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   width: 100%;
-  margin-left: 5px;
   cursor: pointer;
-`;
 
-export const ImagePost = styled.img`
-  max-height: 300px;
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px 10px 0px 0px;
-  user-select: none;
 `;
 
 export const Info = styled.header`
@@ -57,11 +18,6 @@ export const Info = styled.header`
   flex-direction: column;
   width: 100%;
   padding: 10px;
-
-  a {
-    color: ${(props) => props.theme.colors.black};
-    text-decoration: none;
-  }
 `;
 
 export const PostInfo = styled.div`
@@ -74,29 +30,29 @@ export const PostInfo = styled.div`
 export const Owner = styled.div`
   display: flex;
   align-items: center;
+
+  a {
+    color: ${(props) => props.theme.colors.primary};
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 export const Username = styled.span`
-  font-weight: 700;
-  font-size: 1em;
+  font-weight: 600;
+  font-size: .8em;
   margin-right: 5px;
-  margin-left: 5px;
+  background: #0095ff23;
+  padding: 5px;
+  border-radius: 5px;
 `;
 
 export const PostDate = styled.div`
   font-weight: 300;
   font-size: 0.9em;
-`;
-
-export const Language = styled.img`
-  color: ${(props) => props.theme.colors.white};
-  max-width: 400px;
-  font-weight: 600;
-  font-size: 0.8em;
-  width: 40px;
-  height: 40px;
-  background-size: cover;
-  object-fit: fill;
 `;
 
 export const PostBody = styled.div`
@@ -109,17 +65,15 @@ export const Title = styled.div`
   padding: 5px 0px 0px 0px;
 `;
 
-export const Body = styled.main`
-  padding: 10px 0px 10px 0px;
-`;
+export const LanguageContainer = styled.div`
+  padding: 5px;
+`
 
-export const CardFooter = styled.footer`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin-top: 5px;
-
-  font-size: 1.2em;
-  justify-content: space-evenly;
-  padding: 0px 5px 0px 5px;
+export const Language = styled.img`
+  color: ${(props) => props.theme.colors.white};
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-right: 3px;
+  margin-left: 3px;
 `;

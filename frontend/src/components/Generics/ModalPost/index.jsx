@@ -1,10 +1,9 @@
 import React from "react";
 import { CgClose } from "react-icons/cg";
-import { Body, CloseButton, Container, Header, Overlay, Title } from "./styles";
+import { Body, CloseButton, Container, Overlay } from "./styles";
 
 export default function ModalPost({
   children,
-  title,
   id = "modal",
   onClose = () => {},
 }) {

@@ -4,15 +4,6 @@
     flex-direction: column;
 }
 
-.card-wrapper > .container-header-timeline {
-    width: 100%;
-    padding: 10px 0px 20px 10px;
-}
-
-.card-wrapper > .container-header-timeline > h1 {
-    font-size: 1.5em;
-}
-
 @media (max-width: 767px) {
     .card-wrapper {
         width: 100%;

@@ -12,7 +12,6 @@ import {
   ContainerVotes,
   Info,
   InteractionButton,
-  Language,
   Owner,
   PostBody,
   PostDate,
