@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
+import { searchUsersByUsername } from "../../../services/Api";
+import { Link } from "react-router-dom";
+import { Avatar } from "@mui/material";
+
 import {
   CardSearchResponse,
-  SearchButton,
   SearchContainer,
   SearchInput,
   SearchResponse,
   SearchResponseContainer,
   Username,
 } from "./SearchStyles";
-import { searchUsersByUsername } from "../../../services/Api";
-import { Link } from "react-router-dom";
-import { Avatar } from "@mui/material";
 
 export default function Search() {
   const [searchResponse, setSearchResponse] = useState([]);
@@ -56,23 +55,21 @@ export default function Search() {
 
   return (
     <SearchContainer ref={subMenuRef}>
-      <SearchButton onClick={handleClickShowSubMenu}>
-        <AiOutlineSearch />
-      </SearchButton>
+      <SearchInput
+        type="text"
+        name="search"
+        placeholder="Pesquisar no SocialCode"
+        onChange={onChangeUsernameSearch}
+        onClick={handleClickShowSubMenu}
+      />
 
       <SearchResponseContainer style={style}>
         <SearchResponse>
-          <SearchInput
-            type="text"
-            name="search"
-            placeholder="Pesquisar no SocialCode"
-            onChange={onChangeUsernameSearch}
-          />
           <CardSearchResponse>
             {searchResponse &&
               searchResponse.map((user) => (
                 <Link to={`/profile/${user.username}`} key={user.id}>
-                  <Avatar src={user.profilePhoto} />
+                  <Avatar src={user.profilePhoto} variant="rounded" />
                   <Username>{user.username}</Username>
                 </Link>
               ))}

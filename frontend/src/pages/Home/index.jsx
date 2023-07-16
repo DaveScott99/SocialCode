@@ -6,14 +6,20 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { fetchPostsForFeed } from "../../services/Feed";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPostsFeedToRedux, nextPage, setTotalPages } from "../../redux/post/actions";
-import { Container } from "./sytles";
+import {
+  fetchPostsFeedToRedux,
+  nextPage,
+  setTotalPages,
+} from "../../redux/post/actions";
+import { Container, Sentinel } from "./sytles";
 
 import "./styles.css";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  const { postsFeed, currentPage, totalPages } = useSelector((rootReducer) => rootReducer.postReducer);
+  const { postsFeed, currentPage, totalPages } = useSelector(
+    (rootReducer) => rootReducer.postReducer
+  );
   const dispatch = useDispatch();
 
   const { isLoading, isFetching, isError } = useInfiniteQuery(
@@ -36,12 +42,12 @@ export default function Home() {
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-          dispatch(nextPage(currentPage + 1));
+        dispatch(nextPage(currentPage + 1));
       }
     });
     intersectionObserver.observe(document.querySelector("#sentinel"));
     return () => intersectionObserver.disconnect();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isError) {
@@ -51,10 +57,7 @@ export default function Home() {
   return (
     <Container>
       {isLoading ? <Loading color="#fff" /> : <Feed postsData={postsFeed} />}
-
-      <i id="sentinel"></i>
-
-      {isFetching && <Loading color="#fff" />}
+      {isFetching && <Loading color="#fff" /> }
     </Container>
   );
 }

@@ -1,25 +1,20 @@
 import React from "react";
-import { Header, Main, Sidebar, Wrapper } from "./LayoutStyles";
-import Nav from "../Nav/Nav"
-import Search from "../Generics/Search/Search";
+import Nav from "../Nav/Nav";
+
+import { Footer, Header, Main, Wrapper } from "./LayoutStyles";
 
 export default function Layout({ children }) {
-    return (
-        <Wrapper>
-            <Main>
-                <Header>
-                    <div className="search-bar">
-                        <Search />
-                    </div>
+  return (
+    <Wrapper>
+      <Main>
+        <Header>
+          <Nav />
+        </Header>
 
-                </Header>
-                { children }
-            </Main>
+        {children}
 
-            <Sidebar>
-                <Nav />
-            </Sidebar>
-
-        </Wrapper>  
-    );
-};
+        <Footer id="sentinel">Footer</Footer>
+      </Main>
+    </Wrapper>
+  );
+}
