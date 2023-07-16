@@ -5,13 +5,18 @@ import './DashboardUser.css';
 
 const userService = new UserService()
 
+const user = {
+    userImg: "https://socialcode-storage.s3.sa-east-1.amazonaws.com/users/profile-photo/2023-07-15T01%3A07%3A14.312315500Z.jpg",
+    name: "Davi"
+}
+
 export default function DashboardUser() {
 
-    const [user, setUser] = useState();
+    //const [user, setUser] = useState();
 
     const findUser = async () => {
-        const data = await userService.findUserById(localStorage.getItem('id'));
-        setUser(data);
+        //const data = await userService.findUserById(localStorage.getItem('id'));
+        //setUser(data);
     }
 
     useEffect(() => {

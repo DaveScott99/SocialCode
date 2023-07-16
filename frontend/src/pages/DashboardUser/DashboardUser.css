@@ -23,10 +23,10 @@
 }
 
 .container-profile-user > .header-profile > .image-user > img {
-    width: 100%;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    background-position: center;
-    background-size: cover;
+    object-fit: cover;
 }
 
 .container-profile-user > .header-profile > .data-user {

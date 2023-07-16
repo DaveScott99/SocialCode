@@ -44,7 +44,7 @@ export default function MenuMore() {
         <div className="menu-more" ref={subMenuRef}>
                                             
             <div id="sub-menu-more" style={style} >
-                <button className="button-more" onClick={logout}>
+                <button className="button-more">
                     <span className="txt-link">Sair</span>
                 </button>
             </div>
