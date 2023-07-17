@@ -2,147 +2,172 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-    baseURL: process.env.REACT_APP_API
-})
+  baseURL: process.env.REACT_APP_API,
+});
 
-/* Função que enviará as credenciais de LOGIN para o BACKEND e se caso exista o usuário cadastrado
-armazena no localStorage as credenciais*/
 export const loginUser = async (email, password) => {
-    const { data } = await api.post('/login', { email, password });
+  const { data } = await api.post("/login", { email, password });
 
-    if (data.status !== true) {
-        toast.error(data.message)
-    }
-    else {
-        return data;
-    }
-    
-}
-
- /* Função para registrar um novo usuário na plataforma */
- export const resgisterUser = async (userData) => {
-    try {
-        return await api.post('/user/insert',  userData );
-    }
-    catch (err) {
-        const listError = [err.response.data.errors];
-        if (listError) {
-            for (var i = 0; i < listError[0].length; i++) {
-                toast.warning(listError[0][i].message)
-            }
-        }
-    }
-}
-
-export const updateUser = async (idUser, userDataUpdate) => {
-    try {
-        return await api.put(`/user/updateUser/${idUser}`, userDataUpdate);
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-export const findUserById = async (id) =>  {
-    try {
-        return await api.get(`/user/findById/${id}`);
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
-
-export const searchUsersByUsername = async (username) => {
-    try {
-        if (username !== null) {
-            return await api.get(`/user/searchUserByUsername/${username}`);
-        }
-        return null;
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-export const findUserByUsername = async (username) => {
-    try {
-        return await api.get(`/user/findByUsername/${username}`);
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
-
-export const uploadProfilePhoto = async (username, photo) => {
-
-    const formData = new FormData();
-    formData.append('file', photo);
-
-    try {
-        return await api.post(`/user/upload/profile_photo/${username}`, formData);
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-export const uploadBackgroundImage = async (username, image) => {
-
-    const formData = new FormData();
-    formData.append('file', image);
-
-    try {
-        return await api.post(`/user/upload/background_user/${username}`, formData);
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-// Função para resgatar todos os POSTS que vem do BACKEND
-export const FindAllPosts = async (page) => {
-    try {
-      const response = await api.get(`/post/findAll/?size=6&page=${page}`);
-      return response.data.content;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
+  if (data.status !== true) {
+    toast.error(data.message);
+  } else {
+    return data;
+  }
 };
 
-export const findAllPostsByUser = async (id) => {
-    try {
-        return await api.get(`/post/findPostsByUser/${id}`);
+export const resgisterUser = async (userData) => {
+  try {
+    return await api.post("/users/register", userData);
+  } catch (err) {
+    const listError = [err.response.data.errors];
+    if (listError) {
+      for (var i = 0; i < listError[0].length; i++) {
+        toast.warning(listError[0][i].message);
+      }
     }
-    catch (error) {
-        console.log(error);
+  }
+};
+
+export const updateUser = async (idUser, userDataUpdate) => {
+  try {
+    return await api.put(`/users/${idUser}`, userDataUpdate, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findUserById = async (id) => {
+  try {
+    return await api.get(`/users/findById/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const findUserByUsername = async (username) => {
+  try {
+    return await api.get(`/users/findUserByUsername/${username}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const searchUsersByUsername = async (username) => {
+  try {
+    if (username !== null) {
+      return await api.get(`/users/searchUsers/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
     }
-}
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const uploadProfilePhoto = async (username, photo) => {
+  const formData = new FormData();
+  formData.append("file", photo);
+
+  try {
+    return await api.post(`/users/upload/profilePhoto/${username}`, formData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findUserFollowers = async (userId) => {
+  try {
+    return await api.get(`/user/followers/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findUserFollowing = async (userId) => {
+  try {
+    return await api.get(`/user/following/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const followUser = async (followerId, userId) => {
+  try {
+    return await api.post(`/followers/follow/${followerId}/${userId}`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unfollowUser = async (followerId, userId) => {
+  try {
+    return await api.post(`/followers/unfollow/${followerId}/${userId}`, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const findPostById = async (id) => {
-    try {
-        return await api.get(`/post/findById/${id}`);
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
+  try {
+    return await api.get(`/post/findById/${id}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const publishPost = async (post) => {
-    try {
-        return await api.post('/post/insertPost', post);
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
+  try {
+    const response = await api.post("/post", post);
+    if (response) {
+      return true
+    } 
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
 
-
-export const likePost = async (postId, userId) => {
-    try {
-        return await api.post(`/post/${postId}/like/${userId}`);
-    }
-    catch (err) {
-        console.log(err);
-    }
+export const findLanguages = async () => {
+  try {
+    const response = await api.get("/languages");
+    return response.data.content;
+  }
+  catch(err) {
+    console.log(err);
+  }
 }

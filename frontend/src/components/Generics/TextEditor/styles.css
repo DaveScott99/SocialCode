@@ -1,0 +1,9 @@
+.container-editor {
+    width: 900px;
+}
+
+.w-md-editor-text-pre > code,
+.w-md-editor-text-input {
+  font-size: 15px !important;
+  line-height: 24px !important;
+}

@@ -5,7 +5,6 @@ export const LoaderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
 `;
 
 const rotate = keyframes`
@@ -15,10 +14,10 @@ const rotate = keyframes`
 `
 export const Loader = styled.div`
     animation: ${rotate} .9s linear infinite;
-    width: 50px;
-    height: 50px;
+    width: ${props => props.width ? props.width : 50}px;
+    height: ${props => props.height ? props.height : 50}px;
     border-radius: 50%;
-    border: 4px solid ${props => props.theme.colors.grey};
+    border: 4px solid ${props => props.color ? props.color : props.theme.colors.primary};
     border-top-color: ${props => props.theme.colors.primary};
 `
 
