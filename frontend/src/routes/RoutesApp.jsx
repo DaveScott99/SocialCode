@@ -7,6 +7,7 @@ import Layout from "../components/Layout/Layout";
 import Test from "../pages/Tests/Test";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Publish from "../pages/Publish";
+import ProgressLoader from "../components/Generics/LoadingFullScreen";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -52,7 +53,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route
             exact
             path="/publicar"
@@ -64,7 +64,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route
             exact
             path="/test"
@@ -76,7 +75,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route exact path="/authentication" element={<Authentication />} />
         </Routes>
       </AuthProvider>

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed";
-import Repositories from "../Repositories/Repositories";
 import { followUser } from "../../../services/Api";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Generics/Loading/Loading";
@@ -16,6 +15,7 @@ import { Button } from "../../Generics/Button/Button";
 import ConfigAccount from "../ConfigAccount/ConfigAccount";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { fetchProfileUser, verifyIsFollowing } from "../../../services/User";
+import LoadingFullScreen from "../../Generics/LoadingFullScreen";
 
 import "./CardUserProfile.css";
 import {
@@ -30,18 +30,17 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
-import { profile } from "../../../utils/Data";
 
 export default function Profile() {
   const { username } = useParams();
   const { user } = useContext(AuthContext);
-  
+
   const [loading, setLoading] = useState(false);
 
-  const { data: isFollowing } = useQuery(["isFollowing", username], () => {}
-    //verifyIsFollowing(user.username, username)
+  const { data: isFollowing } = useQuery(["isFollowing", username], () =>
+    verifyIsFollowing(user.username, username)
   );
- /*
+
   const { data: profile, isLoading } = useQuery(
     ["currentUser", username],
     () => fetchProfileUser(username, 0),
@@ -50,19 +49,18 @@ export default function Profile() {
     }
   );
 
-  if (isLoading) {
-    return <Loading color="#FFF" />;
-  }
-    */
-
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
     try {
-      //await followUser(followerId, userId);
+      await followUser(followerId, userId);
     } finally {
       setLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingFullScreen />;
+  }
 
   return (
     <Container className="user-profile-container">

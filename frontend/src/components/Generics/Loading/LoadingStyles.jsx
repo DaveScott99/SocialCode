@@ -12,6 +12,7 @@ const rotate = keyframes`
         transform: rotate(1turn);
     }
 `
+
 export const Loader = styled.div`
     animation: ${rotate} .9s linear infinite;
     width: ${props => props.width ? props.width : 50}px;

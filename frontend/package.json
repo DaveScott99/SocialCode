@@ -1,6 +1,6 @@
 {
-  "name": "paracodar",
-  "version": "0.1.0",
+  "name": "socialcode",
+  "version": "3.0.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",

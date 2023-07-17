@@ -6,6 +6,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { fetchPostsForFeed } from "../../services/Feed";
 import { useSelector, useDispatch } from "react-redux";
+import LoadingFullScreen from "../../components/Generics/LoadingFullScreen";
+
 import {
   fetchPostsFeedToRedux,
   nextPage,
@@ -14,20 +16,19 @@ import {
 import { Container } from "./sytles";
 
 import "./styles.css";
-import { postsFeed } from "../../utils/Data";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
   
-  const {  currentPage, totalPages } = useSelector(
+  const { postsFeed, currentPage, totalPages } = useSelector(
     (rootReducer) => rootReducer.postReducer
   );
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
     
   const { isLoading, isFetching, isError } = useInfiniteQuery(
     ["postsFeed", currentPage, user.username],
     async () => {
-      /*
+      
       const postsData = await fetchPostsForFeed(user.username, currentPage);
       if (!postsData.empty && currentPage <= totalPages) {
         dispatch(setTotalPages(postsData.totalPages));
@@ -35,7 +36,7 @@ export default function Home() {
         console.log("Tem post");
       }
       return postsData;
-      */
+      
     },
     {
       staleTime: 1000 * 100,
@@ -46,7 +47,7 @@ export default function Home() {
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        //dispatch(nextPage(currentPage + 1));
+        dispatch(nextPage(currentPage + 1));
       }
     });
     intersectionObserver.observe(document.querySelector("#sentinel"));
@@ -60,7 +61,7 @@ export default function Home() {
 
   return (
     <Container>
-      {isLoading ? <Loading color="#fff" /> : <Feed postsData={postsFeed.content} />}
+      {isLoading ? <LoadingFullScreen /> : <Feed postsData={postsFeed} /> }
       {isFetching && <Loading color="#fff" /> }
     </Container>
   );
