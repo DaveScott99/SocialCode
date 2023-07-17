@@ -1,9 +1,7 @@
 package com.astro.socialCode.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -54,7 +52,7 @@ public class Post {
 	
 	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("post")
-	private List<Coment> coments = new ArrayList<>();
+	private Set<Coment> coments = new HashSet<>();
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinTable(
@@ -137,7 +135,7 @@ public class Post {
 		this.owner = owner;
 	}
 
-	public List<Coment> getComents() {
+	public Set<Coment> getComents() {
 		return coments;
 	}
 

@@ -1,7 +1,8 @@
 package com.astro.socialCode.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.Objects;
 
 import com.astro.socialCode.dto.response.PostMinDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
@@ -13,7 +14,8 @@ public class ComentDTO implements Serializable{
 	
 	private Long id;
 	private String text;
-	private LocalDateTime creationDate;
+	
+	private Instant creationDate;
 	
 	private PostMinDTO post;
 	
@@ -46,8 +48,25 @@ public class ComentDTO implements Serializable{
 		return user;
 	}
 
-	public LocalDateTime getCreationDate() {
+	public Instant getCreationDate() {
 		return creationDate;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ComentDTO other = (ComentDTO) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 }

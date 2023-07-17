@@ -24,9 +24,7 @@ public class ComentMapper {
 		}
 		
 		Coment coment = new Coment();
-		if (comentDTO.getId() != null) {
-			coment.setId(comentDTO.getId());
-		}
+		
 		coment.setText(comentDTO.getText());
 		coment.setUser(new User(comentDTO.getUser().getId(), comentDTO.getUser().getUsername(), comentDTO.getUser().getProfilePhoto()));
 		coment.setPost(new Post(comentDTO.getPost().getId(), comentDTO.getPost().getBody()));

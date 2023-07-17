@@ -1,9 +1,7 @@
 package com.astro.socialCode.entities;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,14 +31,13 @@ public class Coment {
 	@ManyToOne
 	private User user;
 	
-	@Column(nullable = false)
-	@CreationTimestamp
-	private LocalDateTime creationDate;
+	@Column(name = "CREATION_DATE", nullable = false)
+	private Instant creationDate;
 	
 	public Coment() {
 	}
 
-	public Coment(Long id, String text, Post post, User user, LocalDateTime creationDate) {
+	public Coment(Long id, String text, Post post, User user, Instant creationDate) {
 		this.id = id;
 		this.text = text;
 		this.post = post;
@@ -80,11 +77,11 @@ public class Coment {
 		this.user = user;
 	}
 
-	public LocalDateTime getCreationDate() {
+	public Instant getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(LocalDateTime creationDate) {
+	public void setCreationDate(Instant creationDate) {
 		this.creationDate = creationDate;
 	}
 

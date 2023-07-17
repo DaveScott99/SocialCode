@@ -2,9 +2,7 @@ package com.astro.socialCode.dto.response;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,7 +46,7 @@ public class PostDTO implements Serializable {
 	private Set<LanguageDTO> languages = new HashSet<>();
 	
 	@JsonProperty(value = "coments")
-	private List<ComentDTO> coments = new ArrayList<>();
+	private Set<ComentDTO> coments = new HashSet<>();
 	
 	@JsonIgnore
 	private Set<UserMinDTO> votes = new HashSet<>();
@@ -126,7 +124,7 @@ public class PostDTO implements Serializable {
 		return languages;
 	}
 	
-	public List<ComentDTO> getComents() {
+	public Set<ComentDTO> getComents() {
 		return coments;
 	}
 
