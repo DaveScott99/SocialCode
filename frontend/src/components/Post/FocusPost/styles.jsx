@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex: 1 0 auto;  
   margin-bottom: 20px;
   display: flex; 
-  flex-direction: row-reverse;
+  flex-direction: column;
 `;
 
 export const ContainerVotes = styled.div`
@@ -16,6 +16,7 @@ export const ContainerVotes = styled.div`
   flex-direction: column;
   align-items: center;
   background: ${(props) => props.theme.colors.white};
+  margin-right: 10px;
 `;
 
 export const VotesCount = styled.span`
@@ -37,6 +38,7 @@ export const ContainerContent = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   width: 100%;
+  border: 1px solid red;
 `;
 
 export const ImagePost = styled.img`
@@ -48,7 +50,7 @@ export const ImagePost = styled.img`
 
 export const Info = styled.header`
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   width: 100%;
   padding: 10px;
 
@@ -64,9 +66,7 @@ export const Info = styled.header`
 
 export const PostInfo = styled.div`
   display: flex;
-  align-items: center;
-  line-height: 10px;
-  justify-content: space-between;
+  flex-direction: column;
 `;
 
 export const Owner = styled.div`
@@ -121,8 +121,31 @@ export const CardFooter = styled.footer`
   display: flex;
   align-items: center;
   margin-top: 5px;
-
   font-size: 1.2em;
   justify-content: space-evenly;
   padding: 0px 5px 0px 5px;
+`;
+
+export const CommentContainer = styled.div`
+  padding: 10px 10px 10px 50px;
+`
+
+export const Comment = styled.div`
+
+`
+
+export const CommentOwner = styled.div`
+  display: flex;
+  a {
+    color: ${(props) => props.theme.colors.primary};
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`
+
+export const CommentBody = styled.div`
+  margin-top: 10px;
 `;

@@ -19,8 +19,6 @@ import {
   Username,
 } from "./styles";
 
-import "./styles.css";
-
 export function CardPost({ post }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -56,7 +54,7 @@ export function CardPost({ post }) {
           <Title>{post.title}</Title>
 
           <PostBody>
-            <MDEditor.Markdown source={post.body} className="markdown-view" />
+            <MDEditor.Markdown source={post.body} style={{ background: "#fff", color: "#000" }} />
           </PostBody>
         </Info>
       </ContainerContent>
