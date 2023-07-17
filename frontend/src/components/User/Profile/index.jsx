@@ -30,17 +30,18 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
+import { profile } from "../../../utils/Data";
 
 export default function Profile() {
   const { username } = useParams();
   const { user } = useContext(AuthContext);
-
+  
   const [loading, setLoading] = useState(false);
 
-  const { data: isFollowing } = useQuery(["isFollowing", username], () =>
-    verifyIsFollowing(user.username, username)
+  const { data: isFollowing } = useQuery(["isFollowing", username], () => {}
+    //verifyIsFollowing(user.username, username)
   );
-
+ /*
   const { data: profile, isLoading } = useQuery(
     ["currentUser", username],
     () => fetchProfileUser(username, 0),
@@ -49,18 +50,19 @@ export default function Profile() {
     }
   );
 
+  if (isLoading) {
+    return <Loading color="#FFF" />;
+  }
+    */
+
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
     try {
-      await followUser(followerId, userId);
+      //await followUser(followerId, userId);
     } finally {
       setLoading(false);
     }
   };
-
-  if (isLoading) {
-    return <Loading color="#FFF" />;
-  }
 
   return (
     <Container className="user-profile-container">
