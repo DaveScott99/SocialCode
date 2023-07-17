@@ -4,8 +4,6 @@ import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { AiOutlinePlus } from "react-icons/ai";
 import Search from "../Generics/Search/Search";
-import SubMenu from "../SubMenu/SubMenu";
-import { CiSquarePlus } from "react-icons/ci";
 
 import {
   Center,

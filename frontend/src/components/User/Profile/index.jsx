@@ -168,9 +168,6 @@ export default function Profile() {
       </section>
 
       <section className="activity-user">
-        <div className="user-projects">
-          <Repositories gitHubUsername={profile.user_info.gitHubLink} />
-        </div>
 
         <div className="user-posts">
           <div className="label">

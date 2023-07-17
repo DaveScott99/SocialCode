@@ -1,7 +1,8 @@
 import React from "react";
 import Nav from "../Nav/Nav";
+import Footer from "../Footer";
 
-import { Footer, Header, Main, Wrapper } from "./LayoutStyles";
+import { Header, Main, Wrapper } from "./LayoutStyles";
 
 export default function Layout({ children }) {
   return (
@@ -13,7 +14,8 @@ export default function Layout({ children }) {
 
         {children}
 
-        <Footer id="sentinel">Footer</Footer>
+        <Footer />
+
       </Main>
     </Wrapper>
   );

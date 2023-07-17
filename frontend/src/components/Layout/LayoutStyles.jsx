@@ -28,13 +28,6 @@ export const Main = styled.main`
   align-items: center;
   flex-direction: column;
   background: var(--white-smoke);
-  
-  @media (max-width: 767px) {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    display: block;
-  }
 `;
 
 export const Footer = styled.div`
@@ -42,7 +35,6 @@ export const Footer = styled.div`
   justify-content: center;
   border: 1px solid red;
   width: 100%;
-  height: 10vh;
 `;
 
 export const Sidebar = styled.nav`
