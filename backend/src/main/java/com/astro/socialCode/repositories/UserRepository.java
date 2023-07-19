@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByUsername(String username);
 	
-	@Query(value = "SELECT * FROM SOCIALCODE.USER WHERE USERNAME LIKE :username%", nativeQuery = true)
+	@Query(value = "SELECT * FROM DB_SOCIALCODE001_SP.USER_ACCOUNT WHERE USERNAME_USER LIKE :username%", nativeQuery = true)
 	Page<User> searchUsers(Pageable pageable, String username);
 	
 }
