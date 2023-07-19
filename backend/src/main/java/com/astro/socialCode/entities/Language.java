@@ -16,18 +16,18 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "LANGUAGE")
+@Table(name = "PROGRAMMING_LANGUAGE")
 public class Language {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "ID_LANGUAGE")
 	private Long id;
 	
-	@Column(name="NAME", nullable = false, length = 120)
+	@Column(name="NAME_LANGUAGE")
 	private String name;
 	
-	@Column(name = "ICON", nullable = false, length = 220)
+	@Column(name = "ICON_LANGUAGE")
 	private String icon;
 	
 	@JsonIgnore

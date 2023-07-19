@@ -78,7 +78,7 @@ export const Username = styled.span`
   font-weight: 600;
   font-size: .8em;
   margin-right: 5px;
-  background: #0095ff23;
+  background: #0095ff16;
   padding: 5px;
   border-radius: 5px;
 `;
@@ -127,15 +127,35 @@ export const CardFooter = styled.footer`
 `;
 
 export const CommentContainer = styled.div`
-  padding: 10px 10px 10px 50px;
+  padding: 10px;
+
 `
 
 export const Comment = styled.div`
+  padding: 10px;
+  display: flex;
+`
 
+export const NewComment = styled.div`
+  border: 1px solid ${(props) => props.theme.colors.grey};
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+`
+
+export const CommentContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
 export const CommentOwner = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0px;
+  line-height: 5px;
+
   a {
     color: ${(props) => props.theme.colors.primary};
     text-decoration: none;

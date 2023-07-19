@@ -3,6 +3,8 @@ package com.astro.socialCode.entities;
 import java.time.Instant;
 import java.util.Objects;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -19,19 +22,23 @@ public class Coment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_COMENT")
 	private Long id;
 	
-	@Column(nullable = false, columnDefinition = "TEXT")
+	@Column(name = "BODY_COMENT")
 	private String text;
 	
 	@ManyToOne
 	@JsonIgnore
+	@JoinColumn(name = "ID_POST")
 	private Post post;
 	
 	@ManyToOne
+	@JoinColumn(name = "ID_OWNER")
 	private User user;
-	
-	@Column(name = "CREATION_DATE", nullable = false)
+
+	@Column(name = "CREATION_MOMENT_COMENT")
+	@CreationTimestamp
 	private Instant creationDate;
 	
 	public Coment() {

@@ -25,45 +25,45 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USER_ACCOUNT")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "ID_USER")
 	private Long id;
 	
-	@Column(name="FIRST_NAME", nullable = false, length = 120)
+	@Column(name="FIRST_NAME_USER")
 	private String firstName;
 	
-	@Column(name="LAST_NAME", nullable = false, length = 120)
+	@Column(name="LAST_NAME_USER")
 	private String lastName;
 	
-	@Column(name="USERNAME", unique = true, nullable = false, length = 150)
+	@Column(name="USERNAME_USER")
 	private String username;
 	
-	@Column(name="BIOGRAPHY", nullable = true, length = 255)
+	@Column(name="BIOGRAPHY_USER")
 	private String biography;
 	
-	@Column(name="TITLE", nullable = true, length = 120)
+	@Column(name="TITLE_USER")
 	private String title;
 	
-	@Column(name="GITHUB_LINK", nullable = true, length = 255)
+	@Column(name="GITHUB_USER")
 	private String gitHubLink;
 	
-	@Column(name="LINKEDIN_LINK", nullable = true, length = 255)
+	@Column(name="LINKEDIN_USER")
 	private String linkedinLink;
 	
-	@Column(name="PROFILE_PHOTO", nullable = true, columnDefinition = "TEXT")
+	@Column(name="PROFILE_PHOTO_USER")
 	private String profilePhoto;
 	
-	@Column(name="EMAIL", unique = true, nullable = false, updatable = false)
+	@Column(name="EMAIL_USER")
 	private String email;
 	
-	@Column(name="PASSWORD", nullable = false)
+	@Column(name="PASSWORD_USER")
 	private String password;
 	
-	@Column(name = "REGISTRATION_MOMENT", nullable = false)
+	@Column(name = "REGISTRATION_MOMENT_USER")
 	@CreationTimestamp
 	private Instant registrationMoment;
 	
@@ -81,9 +81,9 @@ public class User {
 	
 	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
 	@JoinTable(
-		name = "user_following",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "following_id")
+		name = "USER_ACCOUNT_FOLLOWING",
+		joinColumns = @JoinColumn(name = "ID_USER"),
+		inverseJoinColumns = @JoinColumn(name = "ID_FOLLOWING")
 	)
 	private Set<User> following = new HashSet<>();
 	
@@ -92,9 +92,9 @@ public class User {
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
-		name = "user_language",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "language_id")
+		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_USER"),
+		inverseJoinColumns = @JoinColumn(name = "ID_LANGUAGE")
 	)
 	private Set<Language> interest = new HashSet<>();
 	

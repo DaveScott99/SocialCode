@@ -30,23 +30,24 @@ public class Post {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "ID_POST")
 	private Long id;
 	
-	@Column(name = "IMAGE", nullable = true, columnDefinition = "TEXT")
+	@Column(name = "COVER_IMG_POST")
 	private String image;
 	
-	@Column(name = "TITLE", nullable= false)
+	@Column(name = "TITLE_POST")
 	private String title;
 	
-	@Column(name = "BODY", nullable = false, columnDefinition = "TEXT")
+	@Column(name = "BODY_POST")
 	private String body;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("posts")
+	@JoinColumn(name = "OWNER_ID")
 	private User owner;
-	
-	@Column(name = "CREATION_DATE", nullable = false)
+
+	@Column(name = "CREATION_MOMEMT_POST")
 	@CreationTimestamp
 	private Instant creationDate;
 	
@@ -56,24 +57,24 @@ public class Post {
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinTable(
-		name = "post_vote",
-        joinColumns = @JoinColumn(name = "post_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
+		name = "POST_VOTES",
+        joinColumns = @JoinColumn(name = "ID_POST"),
+        inverseJoinColumns = @JoinColumn(name = "ID_USER")
     )
 	private Set<User> votes = new HashSet<>();
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
-		name = "post_language",
-		joinColumns = @JoinColumn(name = "post_id"),
-		inverseJoinColumns = @JoinColumn(name = "language_id")
+		name = "POST_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_POST"),
+		inverseJoinColumns = @JoinColumn(name = "ID_LANGUAGE")
 	)
 	private Set<Language> languages = new HashSet<>();
 		
 	public Post() {
 	}
 
-	public Post(Long id, @NotNull Instant creationDate, String title, String image, @NotNull String body, @NotNull User owner) {
+	public Post(Long id, Instant creationDate, String title, String image, @NotNull String body, @NotNull User owner) {
 		this.id = id;
 		this.image = image;
 		this.title = title;

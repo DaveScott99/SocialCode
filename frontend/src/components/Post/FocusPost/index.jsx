@@ -7,17 +7,19 @@ import { unvotePost, votePost } from "../../../redux/post/actions";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { downVotePost, upVotePost } from "../../../services/Feed";
 import MDEditor from "@uiw/react-md-editor";
+import { Button } from "../../Generics/Button/Button";
 
 import {
   Comment,
   CommentBody,
   CommentContainer,
+  CommentContent,
   CommentOwner,
   Container,
-  ContainerContent,
   ContainerVotes,
   Info,
   InteractionButton,
+  NewComment,
   Owner,
   PostBody,
   PostDate,
@@ -91,24 +93,44 @@ export default function FocusPost({ postData }) {
       </Info>
 
       <CommentContainer>
+        <NewComment>
+          <Button padding={10} borderradius={5} fontSize={0.8}>
+            Responder
+          </Button>
+        </NewComment>
 
         {postData.coments.map((coment) => (
           <Comment key={coment.id}>
+            <ContainerVotes>
+              <InteractionButton>
+                <MdOutlineKeyboardArrowUp />
+              </InteractionButton>
+
+              <VotesCount>{0}</VotesCount>
+
+              <InteractionButton>
+                <MdKeyboardArrowDown />
+              </InteractionButton>
+            </ContainerVotes>
+
+            <CommentContent>
+
+
             <CommentOwner>
-              <Link to={`/profile/${postData.owner.username}`}>
+              <Link to={`/profile/${coment.user.username}`}>
                 <Username>{coment.user.username}</Username>
               </Link>
               <PostDate>· {dateFormat(coment.creationDate)}</PostDate>
             </CommentOwner>
             <CommentBody>
-            <MDEditor.Markdown
-              source={coment.text}
-              style={{ background: "#fff", color: "#000" }}
-            />
-          </CommentBody>
+              <MDEditor.Markdown
+                source={coment.text}
+                style={{ background: "#fff", color: "#000" }}
+              />
+            </CommentBody>
+            </CommentContent>
           </Comment>
         ))}
-
       </CommentContainer>
     </Container>
   );
