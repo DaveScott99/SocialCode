@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
@@ -9,17 +9,42 @@ import {
   Center,
   IconItem,
   Left,
+  LineSeparator,
   Logo,
   Menu,
   MenuItem,
   NavContainer,
   ProfileImage,
   Right,
+  SubMenuContainer,
+  SubMenuContent,
+  SubMenuItem,
 } from "./NavStyles";
 import { BiTerminal } from "react-icons/bi";
+import { BiHomeAlt } from "react-icons/bi";
 
 export default function Nav() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const [showSubMenuUser, setShowSubMenuUser] = useState(false);
+  const subMenuRef = useRef(null);
+
+  const handleOpenSubMenuUser = () => {
+    setShowSubMenuUser(true);
+  };
+
+  useEffect(() => {
+    const closeSubMenyOnClickOutside = (event) => {
+      if (showSubMenuUser && !subMenuRef.current.contains(event.target)) {
+        setShowSubMenuUser(false);
+      }
+    };
+
+    document.addEventListener("mousedown", closeSubMenyOnClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", closeSubMenyOnClickOutside);
+    };
+  }, [showSubMenuUser]);
 
   return (
     <NavContainer>
@@ -47,20 +72,33 @@ export default function Nav() {
             </MenuItem>
           </Link>
 
-          <Link to={`/profile/${user.username}`}>
-            <MenuItem>
-              <ProfileImage>
-                <Avatar
-                  alt="User image"
-                  src={user.profilePhoto}
-                  sx={{ width: "30px", height: "30px" }}
-                  variant="rounded"
-                />
-              </ProfileImage>
-            </MenuItem>
-          </Link>
+          <MenuItem>
+            <ProfileImage onClick={handleOpenSubMenuUser}>
+              <Avatar
+                alt="User image"
+                src={user.profilePhoto}
+                sx={{ width: "30px", height: "30px" }}
+                variant="rounded"
+              />
+              {showSubMenuUser && (
+                <SubMenuContainer ref={subMenuRef}>
+                  <SubMenuContent>
+                    <Link to={`/profile/${user.username}`}>
+                      <SubMenuItem>
+                        <BiHomeAlt /> {user.username}
+                      </SubMenuItem>
+                    </Link>
+                    <Link to={`/publicar`}>
+                      <SubMenuItem>Publicar novo conteúdo</SubMenuItem>
+                    </Link>
+                    <LineSeparator />
+                    <SubMenuItem onClick={logout}>Sair</SubMenuItem>
+                  </SubMenuContent>
+                </SubMenuContainer>
+              )}
+            </ProfileImage>
+          </MenuItem>
         </Right>
-
       </Menu>
     </NavContainer>
   );
