@@ -14,7 +14,10 @@ const postReducer = (state = initialState, action) => {
     case PostActionTypes.NEXT_PAGE:
       return {
         ...state,
-        currentPage: state.currentPage < state.totalPages ? state.currentPage + action.payload : state.currentPage,
+        currentPage:
+          state.currentPage < state.totalPages
+            ? state.currentPage + action.payload
+            : state.currentPage,
       };
 
     case PostActionTypes.SET_TOTAL_PAGES:
@@ -44,6 +47,14 @@ const postReducer = (state = initialState, action) => {
         ...state,
         postsFeed: [...state.postsFeed, action.payload],
       };
+
+    case PostActionTypes.NEW_COMENT:
+      const postBeforeComent = state.postsFeed.map((post) =>
+        post.id === action.payload.postId
+          ? { ...post, coments: [...post.coments, action.payload.coment]}
+          : post
+      );
+      return { ...state, postsFeed: postBeforeComent };
 
     default:
       return state;

@@ -38,7 +38,6 @@ export const ContainerContent = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 10px;
   width: 100%;
-  border: 1px solid red;
 `;
 
 export const ImagePost = styled.img`
@@ -134,6 +133,19 @@ export const CommentContainer = styled.div`
 export const Comment = styled.div`
   padding: 10px;
   display: flex;
+`
+
+export const TextEditorContainer = styled.div`
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+`
+
+export const ContainerButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 `
 
 export const NewComment = styled.div`

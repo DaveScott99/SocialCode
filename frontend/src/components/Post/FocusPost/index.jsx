@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import { dateFormat } from "../../../utils/FormatDateInfo";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { unvotePost, votePost } from "../../../redux/post/actions";
+import { publishNewComent, unvotePost, votePost } from "../../../redux/post/actions";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { downVotePost, upVotePost } from "../../../services/Feed";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 import { Button } from "../../Generics/Button/Button";
+import { publishComent } from "../../../services/Api";
 
 import {
   Comment,
@@ -16,6 +17,7 @@ import {
   CommentContent,
   CommentOwner,
   Container,
+  ContainerButton,
   ContainerVotes,
   Info,
   InteractionButton,
@@ -24,6 +26,7 @@ import {
   PostBody,
   PostDate,
   PostInfo,
+  TextEditorContainer,
   Title,
   Username,
   VotesCount,
@@ -31,6 +34,22 @@ import {
 
 export default function FocusPost({ postData }) {
   const { user } = useContext(AuthContext);
+
+  const [showBtnComent, setShowBtnComent] = useState(true);
+  const [editorIsOpen, setEditorIsOpen] = useState(false);
+  const [comentBody, setComentBody] = useState("");
+  const [newComent, setNewComent] = useState({
+    text: "",
+    post: {
+      id: postData.id,
+      body: postData.body
+    },
+    user: {
+      id: user.id,
+      username: user.username,
+      profilePhoto: user.profilePhoto
+    },
+  });
 
   const dispatch = useDispatch();
 
@@ -55,6 +74,59 @@ export default function FocusPost({ postData }) {
       }
     }
   };
+
+  const handleBodyComentChange = (newValue) => {
+    setComentBody(newValue);
+
+    const updateComent = {
+      ...newComent,
+      text: newValue,
+    };
+    setNewComent(updateComent);
+  };
+
+  const handleShowComentEditor = () => {
+    setShowBtnComent(false);
+    setEditorIsOpen(true);
+  };
+
+  const handleClickPublishComent = async () => {
+    const {data} = await publishComent(newComent);
+
+    console.log(data);
+
+    if (data) {
+      dispatch(publishNewComent(postData.id, newComent));
+      setComentBody("");
+      setNewComent({
+        text: "",
+        post: {
+          id: postData.id,
+        },
+        user: {
+          id: user.id,
+        },
+      });
+      setShowBtnComent(true);
+      setEditorIsOpen(false);
+    }
+  };
+
+  const handleCancelComent = () => {
+    setComentBody("");
+    setNewComent({
+      text: "",
+      post: {
+        id: postData.id,
+      },
+      user: {
+        id: user.id,
+      },
+    });
+    setShowBtnComent(true);
+    setEditorIsOpen(false);
+  };
+
   return (
     <Container>
       <Info>
@@ -94,9 +166,54 @@ export default function FocusPost({ postData }) {
 
       <CommentContainer>
         <NewComment>
-          <Button padding={10} borderradius={5} fontSize={0.8}>
-            Responder
-          </Button>
+          {showBtnComent && (
+            <Button
+              padding={10}
+              borderradius={5}
+              fontSize={0.8}
+              onClick={handleShowComentEditor}
+            >
+              Responder
+            </Button>
+          )}
+
+          {editorIsOpen && (
+            <TextEditorContainer data-color-mode="light">
+              <MDEditor
+                value={comentBody}
+                onChange={handleBodyComentChange}
+                preview="edit"
+                height={200}
+                extraCommands={[
+                  commands.codeEdit,
+                  commands.codePreview,
+                  commands.fullscreen,
+                ]}
+              />
+              <ContainerButton>
+                <Button
+                  padding={10}
+                  borderradius={5}
+                  fontSize={0.8}
+                  background="#fff"
+                  fontcolor="#878787"
+                  hoverbackground="#cdcdcd44"
+                  onClick={handleCancelComent}
+                  marginright={10}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  padding={10}
+                  borderradius={5}
+                  fontSize={0.8}
+                  onClick={handleClickPublishComent}
+                >
+                  Publicar
+                </Button>
+              </ContainerButton>
+            </TextEditorContainer>
+          )}
         </NewComment>
 
         {postData.coments.map((coment) => (
@@ -114,21 +231,20 @@ export default function FocusPost({ postData }) {
             </ContainerVotes>
 
             <CommentContent>
-
-
-            <CommentOwner>
-              <Link to={`/profile/${coment.user.username}`}>
-                <Username>{coment.user.username}</Username>
-              </Link>
-              <PostDate>· {dateFormat(coment.creationDate)}</PostDate>
-            </CommentOwner>
-            <CommentBody>
-              <MDEditor.Markdown
-                source={coment.text}
-                style={{ background: "#fff", color: "#000" }}
-              />
-            </CommentBody>
+              <CommentOwner>
+                <Link to={`/profile/${coment.user.username}`}>
+                  <Username>{coment.user.username}</Username>
+                </Link>
+                <PostDate>· {dateFormat(coment.creationDate)}</PostDate>
+              </CommentOwner>
+              <CommentBody>
+                <MDEditor.Markdown
+                  source={coment.text}
+                  style={{ background: "#fff", color: "#000" }}
+                />
+              </CommentBody>
             </CommentContent>
+            
           </Comment>
         ))}
       </CommentContainer>

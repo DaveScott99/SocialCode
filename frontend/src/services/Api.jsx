@@ -162,6 +162,16 @@ export const publishPost = async (post) => {
   }
 };
 
+export const publishComent = async (coment) => {
+  try {
+    const response = api.post("/coment/publishComent", coment)
+    return response;
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
 export const findLanguages = async () => {
   try {
     const response = await api.get("/languages");

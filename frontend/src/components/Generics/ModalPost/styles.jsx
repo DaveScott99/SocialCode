@@ -11,7 +11,6 @@ export const Overlay = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto;
 `;
 
 export const Container = styled.div`
@@ -21,18 +20,17 @@ export const Container = styled.div`
     width: 1000px;
     max-width: 1200px;
     min-width: 300px;
-    height: 600px;
     box-shadow: 1px 0px 10px 2px rgba(0, 0, 0, 0.073);
-    position: relative;
     padding: 10px 5px 5px 5px;
+
 `;
 
 export const Body = styled.div`
     width: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
-    position: relative;
+    overflow: auto;
+    height: 900px;
 `;
 
 export const CloseButton = styled.svg`

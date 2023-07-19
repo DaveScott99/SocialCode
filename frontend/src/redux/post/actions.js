@@ -29,3 +29,8 @@ export const unvotePost = (postId, newVotes) => ({
   type: PostActionTypes.UNVOTE_POST,
   payload: { postId, newVotes }
 })
+
+export const publishNewComent = (postId, coment) => ({
+  type: PostActionTypes.NEW_COMENT,
+  payload: { postId, coment }
+})
