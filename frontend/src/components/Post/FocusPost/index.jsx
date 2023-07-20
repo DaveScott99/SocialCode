@@ -1,14 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import { dateFormat } from "../../../utils/FormatDateInfo";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { publishNewComent, unvotePost, votePost } from "../../../redux/post/actions";
+import {
+  publishNewComent,
+  unvotePost,
+  votePost,
+} from "../../../redux/post/actions";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { downVotePost, upVotePost } from "../../../services/Feed";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { Button } from "../../Generics/Button/Button";
 import { publishComent } from "../../../services/Api";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 import {
   Comment,
@@ -21,11 +26,16 @@ import {
   ContainerVotes,
   Info,
   InteractionButton,
+  MoreButton,
   NewComment,
   Owner,
   PostBody,
   PostDate,
+  PostHeader,
   PostInfo,
+  SubMenuContainer,
+  SubMenuContent,
+  SubMenuItem,
   TextEditorContainer,
   Title,
   Username,
@@ -35,6 +45,8 @@ import {
 export default function FocusPost({ postData }) {
   const { user } = useContext(AuthContext);
 
+  const [showSubMenuPost, setShowSubMenuPost] = useState(false);
+  const subMenuRef = useRef(null);
   const [showBtnComent, setShowBtnComent] = useState(true);
   const [editorIsOpen, setEditorIsOpen] = useState(false);
   const [comentBody, setComentBody] = useState("");
@@ -42,12 +54,12 @@ export default function FocusPost({ postData }) {
     text: "",
     post: {
       id: postData.id,
-      body: postData.body
+      body: postData.body,
     },
     user: {
       id: user.id,
       username: user.username,
-      profilePhoto: user.profilePhoto
+      profilePhoto: user.profilePhoto,
     },
   });
 
@@ -91,7 +103,7 @@ export default function FocusPost({ postData }) {
   };
 
   const handleClickPublishComent = async () => {
-    const {data} = await publishComent(newComent);
+    const { data } = await publishComent(newComent);
 
     console.log(data);
 
@@ -127,19 +139,54 @@ export default function FocusPost({ postData }) {
     setEditorIsOpen(false);
   };
 
+  const handleOpenSubMenuPost = () => {
+    setShowSubMenuPost(true);
+  };
+
+  useEffect(() => {
+    const closeSubMenuOnClickOutside = (event) => {
+      if (showSubMenuPost && !subMenuRef.current.contains(event.target)) {
+        setShowSubMenuPost(false);
+      }
+    };
+
+    document.addEventListener("mousedown", closeSubMenuOnClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", closeSubMenuOnClickOutside);
+    };
+  }, [showSubMenuPost]);
+
   return (
     <Container>
       <Info>
         <PostInfo>
-          <Owner>
-            <Link to={`/profile/${postData.owner.username}`}>
-              <Username>{postData.owner.username}</Username>
-            </Link>
-            <PostDate>· {dateFormat(postData.creationDate)}</PostDate>
-          </Owner>
+          <PostHeader>
+            <Owner>
+              <Link to={`/profile/${postData.owner.username}`}>
+                <Username>{postData.owner.username}</Username>
+              </Link>
+              <PostDate>· {dateFormat(postData.creationDate)}</PostDate>
+            </Owner>
+
+            <MoreButton onClick={handleOpenSubMenuPost}>
+              <FiMoreHorizontal />
+            </MoreButton>
+
+            {showSubMenuPost && (
+              <SubMenuContainer ref={subMenuRef}>
+                <SubMenuContent>
+                  <SubMenuItem>Salvar</SubMenuItem>
+                  {postData.owner.id === user.id && (
+                    <SubMenuItem>Excluir publicação</SubMenuItem>
+                  )}
+                </SubMenuContent>
+              </SubMenuContainer>
+            )}
+          </PostHeader>
+
           <PostBody>
             <Title>{postData.title}</Title>
-
             <MDEditor.Markdown
               source={postData.body}
               style={{ background: "#fff", color: "#000" }}
@@ -244,7 +291,6 @@ export default function FocusPost({ postData }) {
                 />
               </CommentBody>
             </CommentContent>
-            
           </Comment>
         ))}
       </CommentContainer>

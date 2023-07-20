@@ -68,9 +68,17 @@ export const PostInfo = styled.div`
   flex-direction: column;
 `;
 
+export const PostHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+
+
 export const Owner = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const Username = styled.span`
@@ -181,3 +189,68 @@ export const CommentOwner = styled.div`
 export const CommentBody = styled.div`
   margin-top: 10px;
 `;
+
+
+export const MoreButton = styled.div`
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all .1s;
+    padding: 5px;
+    position: relative;
+
+    svg {
+        font-size: 1.5em;
+    }
+
+    &:hover {
+        background: #9d9d9d32;
+    }
+
+`
+
+export const SubMenuContainer = styled.div`
+    position: absolute;
+    top: 45px;
+    right: 35px;
+    padding: 5px;
+`
+
+export const SubMenuContent = styled.div`
+    border-radius: 10px;
+    background: ${props => props.theme.colors.white};
+    box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.14);
+    margin-bottom: 5px;
+    width: 200px;
+    padding: 5px;
+
+    a {
+        text-decoration: none;
+    }
+`
+
+export const SubMenuItem = styled.span`
+    color: ${props => props.theme.colors.black};
+    font-weight: 500;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: .9em;
+    display: flex;
+    align-items: center;
+    transition: all .1s;
+
+    svg {
+        font-size: 1.2em;
+        margin-right: 10px;
+    }
+
+    &:hover {
+        background: ${props => props.theme.colors.grey};
+    }
+`

@@ -31,16 +31,26 @@ export const Body = styled.div`
     justify-content: center;
     overflow: auto;
     height: 900px;
+    position: relative;
 `;
 
-export const CloseButton = styled.svg`
-    cursor: pointer;
-    color: ${props => props.theme.colors.black};
-    font-size: 1.5em;
+export const CloseButton = styled.div`
     position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    height: 30px;
-    margin-bottom: 5px;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    padding: 5px;
+    transition: all .1s;
+
+    svg {
+        font-size: 1.5em;
+    }
+
+    &:hover {
+        background: #9d9d9d32;
+    }
+
 `;
