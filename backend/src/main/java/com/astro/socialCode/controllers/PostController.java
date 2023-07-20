@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ import com.astro.socialCode.services.PostService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
 
 	private final PostService postService;
@@ -31,8 +32,8 @@ public class PostController {
 		this.postService = postService;
 	}
 	
-	@GetMapping(value = "/findPostsByOwner/{ownerId}")
-	public ResponseEntity<Page<PostDTO>> findPostsByOwner(Pageable pageable, @PathVariable Long ownerId) {
+	@GetMapping(value = "/findPostsByOwner")
+	public ResponseEntity<Page<PostDTO>> findPostsByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long ownerId) {
 		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerId));
 	}
 	

@@ -67,19 +67,19 @@ public class User {
 	@CreationTimestamp
 	private Instant registrationMoment;
 	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private List<Post> posts = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private List<Coment> coments = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(
 		name = "USER_ACCOUNT_FOLLOWING",
 		joinColumns = @JoinColumn(name = "ID_USER"),
@@ -87,10 +87,10 @@ public class User {
 	)
 	private Set<User> following = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE)
 	private Set<User> followers = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(
 		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_USER"),

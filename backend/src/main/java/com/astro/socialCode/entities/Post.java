@@ -51,11 +51,11 @@ public class Post {
 	@CreationTimestamp
 	private Instant creationDate;
 	
-	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("post")
 	private Set<Coment> coments = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
 		name = "POST_VOTES",
         joinColumns = @JoinColumn(name = "ID_POST"),
@@ -63,7 +63,7 @@ public class Post {
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	@JoinTable(
 		name = "POST_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_POST"),
