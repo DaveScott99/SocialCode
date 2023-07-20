@@ -34,6 +34,7 @@ export const CustomButton = styled.button`
 
     &:disabled {
         background: ${props => props.theme.colors.grey};
+        color: #8d8d8d;
         cursor: auto;
     }
 `;

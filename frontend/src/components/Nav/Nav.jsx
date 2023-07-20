@@ -4,6 +4,10 @@ import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { AiOutlinePlus } from "react-icons/ai";
 import Search from "../Generics/Search/Search";
+import { BiTerminal } from "react-icons/bi";
+import { BiHomeAlt } from "react-icons/bi";
+import ModalDialog from "../Generics/ModalDialog";
+import DialogConfirmation from "../Generics/DialogConfirmation";
 
 import {
   Center,
@@ -20,12 +24,11 @@ import {
   SubMenuContent,
   SubMenuItem,
 } from "./NavStyles";
-import { BiTerminal } from "react-icons/bi";
-import { BiHomeAlt } from "react-icons/bi";
 
 export default function Nav() {
   const { user, logout } = useContext(AuthContext);
   const [showSubMenuUser, setShowSubMenuUser] = useState(false);
+  const [isModalLoggout, setIsModalLoggout] = useState(false);
   const subMenuRef = useRef(null);
 
   const handleOpenSubMenuUser = () => {
@@ -45,6 +48,10 @@ export default function Nav() {
       document.removeEventListener("mousedown", closeSubMenyOnClickOutside);
     };
   }, [showSubMenuUser]);
+
+  const handleOpenModalLoggout = () => {
+    setIsModalLoggout(true);
+  };
 
   return (
     <NavContainer>
@@ -92,7 +99,9 @@ export default function Nav() {
                       <SubMenuItem>Publicar novo conteúdo</SubMenuItem>
                     </Link>
                     <LineSeparator />
-                    <SubMenuItem onClick={logout}>Sair</SubMenuItem>
+                    <SubMenuItem onClick={handleOpenModalLoggout}>
+                      Sair
+                    </SubMenuItem>
                   </SubMenuContent>
                 </SubMenuContainer>
               )}
@@ -100,6 +109,16 @@ export default function Nav() {
           </MenuItem>
         </Right>
       </Menu>
+
+      {isModalLoggout ? (
+        <ModalDialog>
+          <DialogConfirmation
+            title="Tem certeza que deseja sair?"
+            onClose={() => setIsModalLoggout(false)}
+            functionIfYes={logout}
+          />
+        </ModalDialog>
+      ) : null}
     </NavContainer>
   );
 }

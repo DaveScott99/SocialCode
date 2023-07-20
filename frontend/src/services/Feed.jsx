@@ -12,7 +12,7 @@ export const fetchPostsForFeed = async (username, page) => {
 
 export const upVotePost = async (postId, userId) => {
     try {
-      return await api.post(`/post/relevantVote?postId=${postId}&userId=${userId}`);
+      return await api.post(`/posts/relevantVote?postId=${postId}&userId=${userId}`);
     } catch (err) {
       console.log(err);
     }
@@ -20,7 +20,7 @@ export const upVotePost = async (postId, userId) => {
 
 export const downVotePost = async (postId, userId) => {
     try {
-        return await api.post(`/post/unrelevantVote?postId=${postId}&userId=${userId}`);
+        return await api.post(`/posts/unrelevantVote?postId=${postId}&userId=${userId}`);
     } catch (err) {
         console.log(err);
     }

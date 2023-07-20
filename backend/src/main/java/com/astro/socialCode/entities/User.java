@@ -75,11 +75,11 @@ public class User {
 	@JsonIgnore
 	private List<Coment> coments = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "USER_ACCOUNT_FOLLOWING",
 		joinColumns = @JoinColumn(name = "ID_USER"),
@@ -87,10 +87,10 @@ public class User {
 	)
 	private Set<User> following = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Set<User> followers = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_USER"),

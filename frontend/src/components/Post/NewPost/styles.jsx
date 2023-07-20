@@ -12,6 +12,8 @@ export const Container = styled.article`
 export const Others = styled.div`
     margin-top: 10px;
     width: 100%;
+    display: flex;
+    justify-content: flex-end;
 `
 
 export const TextEditorContainer = styled.div`

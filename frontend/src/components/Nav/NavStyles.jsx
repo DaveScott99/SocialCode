@@ -40,7 +40,6 @@ export const Logo = styled.div`
 export const MenuItem = styled.li`
     text-decoration: none;
     color: ${(props) => props.theme.colors.white};
-    cursor: pointer;
 `;
 
 export const IconItem = styled.i`
@@ -55,6 +54,7 @@ export const IconItem = styled.i`
 `
 
 export const ProfileImage = styled.div`
+    cursor: pointer;
 `
 
 export const Left = styled.div`

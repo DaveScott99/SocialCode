@@ -41,12 +41,15 @@ import {
   Username,
   VotesCount,
 } from "./styles";
+import ModalDialog from "../../Generics/ModalDialog";
+import DialogConfirmation from "../../Generics/DialogConfirmation";
 
 export default function FocusPost({ postData }) {
   const { user } = useContext(AuthContext);
 
   const [showSubMenuPost, setShowSubMenuPost] = useState(false);
   const subMenuRef = useRef(null);
+  const [isModalCancel, setIsModalCancel] = useState(false);
   const [showBtnComent, setShowBtnComent] = useState(true);
   const [editorIsOpen, setEditorIsOpen] = useState(false);
   const [comentBody, setComentBody] = useState("");
@@ -124,6 +127,10 @@ export default function FocusPost({ postData }) {
     }
   };
 
+  const handleShowConfirmationCancelComent = () => {
+    setIsModalCancel(true);
+  };
+
   const handleCancelComent = () => {
     setComentBody("");
     setNewComent({
@@ -137,6 +144,7 @@ export default function FocusPost({ postData }) {
     });
     setShowBtnComent(true);
     setEditorIsOpen(false);
+    setIsModalCancel(false);
   };
 
   const handleOpenSubMenuPost = () => {
@@ -245,7 +253,7 @@ export default function FocusPost({ postData }) {
                   background="#fff"
                   fontcolor="#878787"
                   hoverbackground="#cdcdcd44"
-                  onClick={handleCancelComent}
+                  onClick={handleShowConfirmationCancelComent}
                   marginright={10}
                 >
                   Cancelar
@@ -261,6 +269,17 @@ export default function FocusPost({ postData }) {
               </ContainerButton>
             </TextEditorContainer>
           )}
+
+          {isModalCancel ? (
+            <ModalDialog>
+              <DialogConfirmation
+                title="Tem certeza que deseja sair da edição?"
+                body="Os dados não salvos serão perdidos."
+                onClose={() => setIsModalCancel(false)}
+                functionIfYes={handleCancelComent}
+              />
+            </ModalDialog>
+          ) : null}
         </NewComment>
 
         {postData.coments.map((coment) => (
