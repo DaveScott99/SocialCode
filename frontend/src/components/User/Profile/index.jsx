@@ -1,10 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed";
 import { followUser } from "../../../services/Api";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../Generics/Loading/Loading";
-import { useParams } from "react-router";
 import InputAvatar from "../InputAvatar/InputAvatar";
 import { Avatar } from "@mui/material";
 import Modal from "../../Generics/Modal/Modal";
@@ -16,7 +14,14 @@ import ConfigAccount from "../ConfigAccount/ConfigAccount";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { fetchProfileUser, verifyIsFollowing } from "../../../services/User";
 import LoadingFullScreen from "../../Generics/LoadingFullScreen";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchPostsUserToRedux,
+  nextPage,
+  selectUser,
+  setIsFollowing,
+  setTotalPages,
+} from "../../../redux/user/actions";
 import "./CardUserProfile.css";
 import {
   Badges,
@@ -31,32 +36,63 @@ import {
   Username,
 } from "./styles";
 
-export default function Profile() {
-  const { username } = useParams();
+export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
-
   const [loading, setLoading] = useState(false);
 
-  const { data: isFollowing } = useQuery(["isFollowing", username], () =>
-    verifyIsFollowing(user.username, username)
+  const { currentUser, isFollowing, postsCurrentUser, currentPage, totalPages } = useSelector(
+    (rootReducer) => rootReducer.userReducer
   );
 
-  const { data: profile, isLoading } = useQuery(
-    ["currentUser", username],
-    () => fetchProfileUser(username, 0),
+  const dispatch = useDispatch();
+
+  const { isLoading, refetch } = useQuery(
+    [username, currentPage],
+    async () => {
+      const profile = await fetchProfileUser(username, currentPage);      
+      const isFollowing = await verifyIsFollowing(user.username, username);
+      if (profile) {
+        dispatch(selectUser(profile));
+        dispatch(setIsFollowing(isFollowing));
+
+        if (currentPage <= totalPages) {
+          dispatch(fetchPostsUserToRedux(profile.posts.content));
+          dispatch(setTotalPages(profile.posts.totalPages));
+        }
+      }
+      return profile;
+    },
     {
-      staleTime: 1000 * 100,
+      staleTime: 2000 * 100,
+      cacheTime: 0,
+      keepPreviousData: true,
     }
   );
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, username]);
 
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
     try {
       await followUser(followerId, userId);
+      dispatch(setIsFollowing(true));
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        dispatch(nextPage(currentPage + 1));
+      }
+    });
+    intersectionObserver.observe(document.querySelector("#sentinel"));
+    return () => intersectionObserver.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) {
     return <LoadingFullScreen />;
@@ -69,12 +105,12 @@ export default function Profile() {
           <UserInfoContainer>
             <UserAvatar>
               <Avatar
-                src={profile.user_info.profilePhoto}
+                src={currentUser.user_info.profilePhoto}
                 sx={{ width: "200px", height: "200px" }}
                 variant="rounded"
               />
 
-              {user.id === profile.user_info.id ? (
+              {user.id === currentUser.user_info.id ? (
                 <Modal
                   textButton={<MdOutlineAddAPhoto />}
                   buttonBackground="#0000007b"
@@ -96,10 +132,11 @@ export default function Profile() {
             <UserData>
               <Header>
                 <Name>
-                  {profile.user_info.firstName} {profile.user_info.lastName}
+                  {currentUser.user_info.firstName}{" "}
+                  {currentUser.user_info.lastName}
                 </Name>
 
-                {profile.user_info.id !== user.id ? (
+                {currentUser.user_info.id !== user.id ? (
                   isFollowing ? (
                     <Modal
                       textButton="Seguindo"
@@ -111,12 +148,12 @@ export default function Profile() {
                       buttonHoverBackground="#c2c2c29e"
                       buttonFontColor="#000000"
                     >
-                      <ConfigFollow userData={profile.user_info} />
+                      <ConfigFollow userData={currentUser.user_info} />
                     </Modal>
                   ) : (
                     <Button
                       onClick={() =>
-                        handleClickFollow(profile.user_info.id, user.id)
+                        handleClickFollow(currentUser.user_info.id, user.id)
                       }
                       borderradius="5"
                       fontWeight="bold"
@@ -143,22 +180,22 @@ export default function Profile() {
                 )}
               </Header>
 
-              <Username> {profile.user_info.username} </Username>
-              <Title> {profile.user_info.title} </Title>
+              <Username> {currentUser.user_info.username} </Username>
+              <Title> {currentUser.user_info.title} </Title>
 
               <Footer>
-                <Followers> {profile.followers_count} Seguidores</Followers>
+                <Followers> {currentUser.followers_count} Seguidores</Followers>
 
-                <Followers> {profile.following_count} Seguindo</Followers>
+                <Followers> {currentUser.following_count} Seguindo</Followers>
 
                 <Badges>
                   <Badge
                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                    link={`https://github.com/${profile.user_info.gitHubLink}`}
+                    link={`https://github.com/${currentUser.user_info.gitHubLink}`}
                   />
                   <Badge
                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
-                    link={`https://www.linkedin.com/in/${profile.user_info.linkedinLink}/`}
+                    link={`https://www.linkedin.com/in/${currentUser.user_info.linkedinLink}/`}
                   />
                 </Badges>
               </Footer>
@@ -168,12 +205,11 @@ export default function Profile() {
       </section>
 
       <section className="activity-user">
-
         <div className="user-posts">
           <div className="label">
             <span>Atividade</span>
           </div>
-          <Feed postsData={profile.posts.content} />
+          <Feed postsData={postsCurrentUser} />
         </div>
       </section>
     </Container>

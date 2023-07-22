@@ -7,39 +7,36 @@ import { toast } from "react-toastify";
 import { fetchPostsForFeed } from "../../services/Feed";
 import { useSelector, useDispatch } from "react-redux";
 import LoadingFullScreen from "../../components/Generics/LoadingFullScreen";
+import { Container } from "./sytles";
 
 import {
   fetchPostsFeedToRedux,
   nextPage,
   setTotalPages,
 } from "../../redux/post/actions";
-import { Container } from "./sytles";
 
 import "./styles.css";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  
+
   const { postsFeed, currentPage, totalPages } = useSelector(
     (rootReducer) => rootReducer.postReducer
   );
   const dispatch = useDispatch();
-    
+
   const { isLoading, isFetching, isError } = useInfiniteQuery(
     ["postsFeed", currentPage, user.username],
     async () => {
-      
       const postsData = await fetchPostsForFeed(user.username, currentPage);
       if (!postsData.empty && currentPage <= totalPages) {
         dispatch(setTotalPages(postsData.totalPages));
         dispatch(fetchPostsFeedToRedux(postsData.content));
-        console.log("Tem post");
       }
       return postsData;
-      
     },
     {
-      staleTime: 1000 * 100,
+      staleTime: 2000 * 100,
       keepPreviousData: true,
     }
   );
@@ -61,8 +58,8 @@ export default function Home() {
 
   return (
     <Container>
-      {isLoading ? <LoadingFullScreen /> : <Feed postsData={postsFeed} /> }
-      {isFetching && <Loading color="#fff" /> }
+      {isLoading ? <LoadingFullScreen /> : <Feed postsData={postsFeed} />}
+      {isFetching && <Loading color="#fff" />}
     </Container>
   );
 }

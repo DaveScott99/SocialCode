@@ -51,7 +51,7 @@ const postReducer = (state = initialState, action) => {
     case PostActionTypes.NEW_COMENT:
       const postBeforeComent = state.postsFeed.map((post) =>
         post.id === action.payload.postId
-          ? { ...post, coments: [...post.coments, action.payload.coment]}
+          ? { ...post, coments: [...post.coments, action.payload.coment] }
           : post
       );
       return { ...state, postsFeed: postBeforeComent };

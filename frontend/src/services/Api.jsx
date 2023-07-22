@@ -152,7 +152,7 @@ export const findPostById = async (id) => {
 
 export const publishPost = async (post) => {
   try {
-    const response = await api.post("/post", post);
+    const response = await api.post("/posts", post);
     if (response) {
       return true
     } 
