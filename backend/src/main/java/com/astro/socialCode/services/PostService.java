@@ -21,7 +21,7 @@ public class PostService {
 	private final PostMapper postMapper;
 	
 	private final PostRepository postRepository;
-	
+	 
 	private final UserRepository userRepository;
 			
 	public PostService(PostMapper postMapper, PostRepository postRepository, UserRepository userRepository,

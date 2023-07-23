@@ -6,23 +6,19 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.astro.socialCode.dto.mapper.PostMapper;
 import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.request.RegisterUserDTO;
 import com.astro.socialCode.dto.request.UriDTO;
 import com.astro.socialCode.dto.request.UserUpdateDTO;
 import com.astro.socialCode.dto.response.LanguageDTO;
-import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.repositories.LanguageRepository;
-import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
 
@@ -30,37 +26,29 @@ import com.astro.socialCode.services.exceptions.EntityNotFoundException;
 public class UserService {
 	
 	private final UserMapper userMapper;
-	private final PostMapper postMapper;
 	private final UserRepository userRepository;
-	private final PostRepository postRepository;
 	private final S3Service s3Service;
 	private final LanguageRepository languageRepository;
 	
-	public UserService(UserMapper userMapper, PostMapper postMapper, UserRepository userRepository, 
-			PostRepository postRepository, S3Service s3Service, 
+	public UserService(UserMapper userMapper, UserRepository userRepository, 
+			 S3Service s3Service, 
 			LanguageRepository languageRepository) {
 		this.userMapper = userMapper;
-		this.postMapper = postMapper;
 		this.userRepository = userRepository;
-		this.postRepository = postRepository;
 		this.s3Service = s3Service;
 		this.languageRepository = languageRepository;
 	}
 	
 	@Transactional(readOnly = true)
-	public Map<String, Object> profile(@PageableDefault(size = 10) Pageable pageablePosts, String username) {
+	public Map<String, Object> profile(String username) {
 		
 		UserDTO user = userRepository.findByUsername(username)
 				.map(userMapper::toDTO)
 				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 		
-		Page<PostDTO> userPosts = postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageablePosts, user.getId())
-				 .map(postMapper::toDTO);
-		
 		Map<String, Object> profile = new HashMap<>();
 		
 		profile.put("user_info", user);
-		profile.put("posts", userPosts);
 		profile.put("followers_count", user.getFollowers().stream().count());
 		profile.put("following_count", user.getFollowing().stream().count());
 		
