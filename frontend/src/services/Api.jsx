@@ -181,3 +181,13 @@ export const findLanguages = async () => {
     console.log(err);
   }
 }
+
+export const findPostsByOwner = async (ownerId, page) => {
+  try {
+      const response =  await api.get(`/posts/findPostsByOwner?page=${page}&ownerId=${ownerId}`);
+      return response.data;
+  }
+  catch(err) {
+      console.log(err);
+  }
+}

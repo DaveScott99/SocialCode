@@ -15,6 +15,11 @@ export const fetchPostsUserToRedux = (payload) => ({
   payload,
 });
 
+export const resetCurrentUserPosts = () => ({
+  type: UserActionTypes.RESET_POSTS_CURRENT_USER
+});
+
+
 export const nextPage = (payload) => ({
   type: UserActionTypes.NEXT_PAGE,
   payload,

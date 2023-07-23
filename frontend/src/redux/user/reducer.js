@@ -11,12 +11,16 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case UserActionTypes.SELECT:
-      return { 
-        ...state, 
+      return {
+        ...state,
         currentUser: action.payload,
+      };
+    case UserActionTypes.RESET_POSTS_CURRENT_USER:
+      return {
+        ...state,
         postsCurrentUser: [],
         currentPage: 0,
-       };
+      };
 
     case UserActionTypes.SET_FOLLOWING:
       return { ...state, isFollowing: action.payload };

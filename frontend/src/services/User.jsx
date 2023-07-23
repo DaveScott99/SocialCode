@@ -1,9 +1,9 @@
 import { api } from "./Api";
 
 
-export const fetchProfileUser = async (username, postsPage) => {
+export const fetchProfileUser = async (username) => {
     try {
-        const response = await api.get(`/users/profile?username=${username}&postsPage=${postsPage}`);
+        const response = await api.get(`/users/profile?username=${username}`);
         return response.data
     }
     catch(err) {

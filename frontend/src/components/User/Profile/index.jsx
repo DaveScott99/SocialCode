@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed";
-import { followUser } from "../../../services/Api";
-import { useQuery } from "@tanstack/react-query";
+import { findPostsByOwner, followUser } from "../../../services/Api";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import InputAvatar from "../InputAvatar/InputAvatar";
 import { Avatar } from "@mui/material";
 import Modal from "../../Generics/Modal/Modal";
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPostsUserToRedux,
   nextPage,
+  resetCurrentUserPosts,
   selectUser,
   setIsFollowing,
   setTotalPages,
@@ -35,43 +36,72 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
+import Loading from "../../Generics/Loading/Loading";
 
 export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
-  const { currentUser, isFollowing, postsCurrentUser, currentPage, totalPages } = useSelector(
-    (rootReducer) => rootReducer.userReducer
-  );
+  const {
+    currentUser,
+    isFollowing,
+    postsCurrentUser,
+    currentPage,
+    totalPages,
+  } = useSelector((rootReducer) => rootReducer.userReducer);
 
   const dispatch = useDispatch();
 
-  const { isLoading, refetch } = useQuery(
-    [username, currentPage],
+  const { isLoading, refetch: refetchProfile } = useQuery(
+    [username],
     async () => {
-      const profile = await fetchProfileUser(username, currentPage);      
+      const profile = await fetchProfileUser(username);
       const isFollowing = await verifyIsFollowing(user.username, username);
       if (profile) {
         dispatch(selectUser(profile));
         dispatch(setIsFollowing(isFollowing));
-
-        if (currentPage <= totalPages) {
-          dispatch(fetchPostsUserToRedux(profile.posts.content));
-          dispatch(setTotalPages(profile.posts.totalPages));
-        }
       }
       return profile;
     },
     {
       staleTime: 2000 * 100,
       cacheTime: 0,
-      keepPreviousData: true,
     }
   );
 
   useEffect(() => {
-    refetch();
-  }, [refetch, username]);
+    refetchProfile();
+  }, [refetchProfile, username]);
+
+  useEffect(() => {
+    findPostsByOwner(2, currentPage)
+      .then((response) => {
+        console.log(response);
+        dispatch(fetchPostsUserToRedux(response.content));
+        dispatch(setTotalPages(response.totalPages));
+      })
+      .catch((err) => console.log(err));
+  }, [currentPage, dispatch]);
+
+  /*
+  const { isFetching } = useInfiniteQuery(
+    [currentUser, currentPage],
+    async () => {
+      if (currentUser) {
+        const postsByOwner = await findPostsByOwner(
+          currentUser.user_info.id,
+          currentPage
+        );
+
+        if (currentPage <= totalPages) {
+          dispatch(fetchPostsUserToRedux(postsByOwner.content));
+          dispatch(setTotalPages(postsByOwner.totalPages));
+        }
+        return postsByOwner;
+      }
+    }
+  );
+  */
 
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
