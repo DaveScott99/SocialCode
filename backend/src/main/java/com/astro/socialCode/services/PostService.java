@@ -32,8 +32,8 @@ public class PostService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<PostDTO> findPostsByOwner(Pageable pageable, Long ownerId) {
-		return postRepository.findPostsByOwnerIdOrderByCreationDateDesc(pageable, ownerId)
+	public Page<PostDTO> findPostsByOwner(Pageable pageable, String ownerUsername) {
+		return postRepository.findPostsByOwnerUsernameOrderByCreationDateDesc(pageable, ownerUsername)
 					.map(postMapper::toDTO);
 	}
 	

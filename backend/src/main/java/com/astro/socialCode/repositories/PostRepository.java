@@ -10,6 +10,8 @@ import com.astro.socialCode.entities.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
+	Page<Post> findPostsByOwnerUsernameOrderByCreationDateDesc(Pageable pageable ,String ownerUsername);
+	
 	Page<Post> findPostsByOwnerIdOrderByCreationDateDesc(Pageable pageable ,Long ownerId);
 	
 	List<Post> findAllByOrderByCreationDateDesc();

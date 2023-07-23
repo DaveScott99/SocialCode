@@ -33,8 +33,8 @@ public class PostController {
 	}
 	
 	@GetMapping(value = "/findPostsByOwner")
-	public ResponseEntity<Page<PostDTO>> findPostsByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long ownerId) {
-		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerId));
+	public ResponseEntity<Page<PostDTO>> findPostsByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam String ownerUsername) {
+		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerUsername));
 	}
 	
 	@GetMapping(value = "/{id}")
