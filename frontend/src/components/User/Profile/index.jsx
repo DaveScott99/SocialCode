@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed";
 import { findPostsByOwner, followUser } from "../../../services/Api";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import InputAvatar from "../InputAvatar/InputAvatar";
 import { Avatar } from "@mui/material";
 import Modal from "../../Generics/Modal/Modal";
@@ -36,7 +36,6 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
-import Loading from "../../Generics/Loading/Loading";
 
 export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
@@ -46,8 +45,7 @@ export default function Profile({ username }) {
     currentUser,
     isFollowing,
     postsCurrentUser,
-    currentPage,
-    totalPages,
+    currentPagePostsUser,
   } = useSelector((rootReducer) => rootReducer.userReducer);
 
   const dispatch = useDispatch();
@@ -71,37 +69,17 @@ export default function Profile({ username }) {
 
   useEffect(() => {
     refetchProfile();
-  }, [refetchProfile, username]);
+    dispatch(resetCurrentUserPosts());
+  }, [dispatch, refetchProfile, username]);
 
   useEffect(() => {
-    findPostsByOwner(2, currentPage)
+    findPostsByOwner(username, currentPagePostsUser)
       .then((response) => {
-        console.log(response);
         dispatch(fetchPostsUserToRedux(response.content));
         dispatch(setTotalPages(response.totalPages));
       })
       .catch((err) => console.log(err));
-  }, [currentPage, dispatch]);
-
-  /*
-  const { isFetching } = useInfiniteQuery(
-    [currentUser, currentPage],
-    async () => {
-      if (currentUser) {
-        const postsByOwner = await findPostsByOwner(
-          currentUser.user_info.id,
-          currentPage
-        );
-
-        if (currentPage <= totalPages) {
-          dispatch(fetchPostsUserToRedux(postsByOwner.content));
-          dispatch(setTotalPages(postsByOwner.totalPages));
-        }
-        return postsByOwner;
-      }
-    }
-  );
-  */
+  }, [username, currentPagePostsUser, dispatch]);
 
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
@@ -116,7 +94,7 @@ export default function Profile({ username }) {
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        dispatch(nextPage(currentPage + 1));
+        dispatch(nextPage(currentPagePostsUser + 1));
       }
     });
     intersectionObserver.observe(document.querySelector("#sentinel"));

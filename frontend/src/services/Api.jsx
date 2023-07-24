@@ -182,9 +182,9 @@ export const findLanguages = async () => {
   }
 }
 
-export const findPostsByOwner = async (ownerId, page) => {
+export const findPostsByOwner = async (username, page) => {
   try {
-      const response =  await api.get(`/posts/findPostsByOwner?page=${page}&ownerId=${ownerId}`);
+      const response =  await api.get(`/posts/findPostsByOwner?ownerUsername=${username}&page=${page}`);
       return response.data;
   }
   catch(err) {

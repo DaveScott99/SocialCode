@@ -4,22 +4,24 @@ const initialState = {
   currentUser: null,
   isFollowing: false,
   postsCurrentUser: [],
-  currentPage: 0,
-  totalPages: 0,
+  currentPagePostsUser: 0,
+  totalPagesPostsUser: 0,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    
     case UserActionTypes.SELECT:
       return {
         ...state,
         currentUser: action.payload,
       };
+
     case UserActionTypes.RESET_POSTS_CURRENT_USER:
       return {
         ...state,
         postsCurrentUser: [],
-        currentPage: 0,
+        currentPagePostsUser: 0,
       };
 
     case UserActionTypes.SET_FOLLOWING:
@@ -34,16 +36,16 @@ const userReducer = (state = initialState, action) => {
     case UserActionTypes.NEXT_PAGE:
       return {
         ...state,
-        currentPage:
-          state.currentPage < state.totalPages
-            ? state.currentPage + action.payload
-            : state.currentPage,
+        currentPagePostsUser:
+          state.currentPagePostsUser < state.totalPagesPostsUser
+            ? state.currentPagePostsUser + action.payload
+            : state.currentPagePostsUser,
       };
 
     case UserActionTypes.SET_TOTAL_PAGES:
       return {
         ...state,
-        totalPages: action.payload,
+        totalPagesPostsUser: action.payload,
       };
 
     default:
