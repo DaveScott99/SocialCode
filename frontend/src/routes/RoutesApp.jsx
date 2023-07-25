@@ -8,6 +8,7 @@ import Test from "../pages/Tests/Test";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Publish from "../pages/Publish";
 import ProgressLoader from "../components/Generics/LoadingFullScreen";
+import InterestSelection from "../pages/InterestSelection";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -60,6 +61,17 @@ export default function RouteApp() {
               <Private>
                 <Layout>
                   <Publish />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/interest"
+            element={
+              <Private>
+                <Layout>
+                  <InterestSelection />
                 </Layout>
               </Private>
             }

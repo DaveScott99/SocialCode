@@ -10,7 +10,6 @@ export const ContainerContent = styled.div`
   border-radius: 10px;
   width: 100%;
   cursor: pointer;
-
 `;
 
 export const Info = styled.header`
@@ -43,7 +42,7 @@ export const Owner = styled.div`
 
 export const Username = styled.span`
   font-weight: 600;
-  font-size: .8em;
+  font-size: 0.8em;
   margin-right: 5px;
   background: #0095ff23;
   padding: 5px;
@@ -67,7 +66,7 @@ export const Title = styled.div`
 
 export const LanguageContainer = styled.div`
   padding: 5px;
-`
+`;
 
 export const Language = styled.img`
   color: ${(props) => props.theme.colors.white};
