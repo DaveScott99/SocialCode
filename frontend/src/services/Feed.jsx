@@ -1,12 +1,13 @@
+import { toast } from "react-toastify";
 import { api } from "./Api"
 
 export const fetchPostsForFeed = async (username, page) => {
     try {
-        const response =  await api.get(`/feed?username=${username}&page=${page}`);
+        const response = await api.get(`/feed?username=${username}&page=${page}`);
         return response.data;
     }
     catch(err) {
-        console.log(err);
+        toast.error(err.response.data.message);
     }
 }
 

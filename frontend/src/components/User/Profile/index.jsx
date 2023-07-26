@@ -15,13 +15,12 @@ import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { fetchProfileUser, verifyIsFollowing } from "../../../services/User";
 import LoadingFullScreen from "../../Generics/LoadingFullScreen";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../Generics/Loading/Loading";
 import {
   fetchPostsUserToRedux,
-  nextPage,
   resetCurrentUserPosts,
   selectUser,
   setIsFollowing,
-  setTotalPages,
 } from "../../../redux/user/actions";
 import "./CardUserProfile.css";
 import {
@@ -40,13 +39,14 @@ import {
 export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
-  const {
-    currentUser,
-    isFollowing,
-    postsCurrentUser,
-    currentPagePostsUser,
-  } = useSelector((rootReducer) => rootReducer.userReducer);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const { currentUser, isFollowing, postsCurrentUser } = useSelector(
+    (rootReducer) => rootReducer.userReducer
+  );
 
   const dispatch = useDispatch();
 
@@ -73,13 +73,31 @@ export default function Profile({ username }) {
   }, [dispatch, refetchProfile, username]);
 
   useEffect(() => {
-    findPostsByOwner(username, currentPagePostsUser)
-      .then((response) => {
-        dispatch(fetchPostsUserToRedux(response.content));
-        dispatch(setTotalPages(response.totalPages));
-      })
-      .catch((err) => console.log(err));
-  }, [username, currentPagePostsUser, dispatch]);
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        if (currentPage < totalPages) {
+          setIsFetching(true);
+          findPostsByOwner(username, currentPage)
+            .then((response) => {
+              if (
+                response &&
+                !response.empty &&
+                response.number < response.totalPages
+              ) {
+                dispatch(fetchPostsUserToRedux(response.content));
+                setTotalPages(response.totalPages);
+                setCurrentPage((prevPage) => prevPage + 1);
+              }
+            })
+            .finally(() => {
+              setIsFetching(false);
+            });
+        }
+      }
+    });
+    intersectionObserver.observe(document.querySelector("#sentinel"));
+    return () => intersectionObserver.disconnect();
+  }, [currentPage, dispatch, totalPages, username]);
 
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
@@ -90,17 +108,6 @@ export default function Profile({ username }) {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        dispatch(nextPage(currentPagePostsUser + 1));
-      }
-    });
-    intersectionObserver.observe(document.querySelector("#sentinel"));
-    return () => intersectionObserver.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (isLoading) {
     return <LoadingFullScreen />;
@@ -217,7 +224,10 @@ export default function Profile({ username }) {
           <div className="label">
             <span>Atividade</span>
           </div>
+
           <Feed postsData={postsCurrentUser} />
+
+          {isFetching && <Loading color="#FFF" />}
         </div>
       </section>
     </Container>

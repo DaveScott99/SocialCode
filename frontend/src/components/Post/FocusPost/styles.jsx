@@ -34,12 +34,6 @@ export const InteractionButton = styled.div`
   }
 `;
 
-export const ContainerContent = styled.div`
-  background: ${(props) => props.theme.colors.white};
-  border-radius: 10px;
-  width: 100%;
-`;
-
 export const ImagePost = styled.img`
   width: 600px;
   height: 300px;
@@ -66,14 +60,13 @@ export const Info = styled.header`
 export const PostInfo = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `
-
-
 
 export const Owner = styled.div`
   display: flex;

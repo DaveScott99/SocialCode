@@ -5,15 +5,9 @@ export const fetchPostsFeedToRedux = (payload) => ({
   payload,
 });
 
-export const nextPage = (payload) => ({
-  type: PostActionTypes.NEXT_PAGE,
-  payload,
-});
-
-export const setTotalPages = (payload) => ({
-  type: PostActionTypes.SET_TOTAL_PAGES,
-  payload,
-});
+export const resetPosts = () => ({
+  type: PostActionTypes.RESET_POSTS,
+})
 
 export const publishPostOnRedux = (payload) => ({
   type: PostActionTypes.PUBLISH_POST,

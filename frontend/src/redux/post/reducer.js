@@ -2,8 +2,6 @@ import PostActionTypes from "./action-types";
 
 const initialState = {
   postsFeed: [],
-  currentPage: 0,
-  totalPages: 0,
 };
 
 const postReducer = (state = initialState, action) => {
@@ -11,19 +9,10 @@ const postReducer = (state = initialState, action) => {
     case PostActionTypes.FETCH_POSTS_SUCCESS:
       return { ...state, postsFeed: [...state.postsFeed, ...action.payload] };
 
-    case PostActionTypes.NEXT_PAGE:
+    case PostActionTypes.RESET_POSTS:
       return {
         ...state,
-        currentPage:
-          state.currentPage < state.totalPages
-            ? state.currentPage + action.payload
-            : state.currentPage,
-      };
-
-    case PostActionTypes.SET_TOTAL_PAGES:
-      return {
-        ...state,
-        totalPages: action.payload,
+        postsFeed: [],
       };
 
     case PostActionTypes.VOTE_POST:

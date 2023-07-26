@@ -19,13 +19,3 @@ export const resetCurrentUserPosts = () => ({
   type: UserActionTypes.RESET_POSTS_CURRENT_USER
 });
 
-
-export const nextPage = (payload) => ({
-  type: UserActionTypes.NEXT_PAGE,
-  payload,
-});
-
-export const setTotalPages = (payload) => ({
-  type: UserActionTypes.SET_TOTAL_PAGES,
-  payload,
-});
