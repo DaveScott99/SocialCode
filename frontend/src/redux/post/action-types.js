@@ -1,4 +1,5 @@
 const PostActionTypes = {
+  SELECT_POST: "post/select",
   FETCH_POSTS_SUCCESS: "post/fetch",
   RESET_POSTS: "post/reset",
   VOTE_POST: "post/vote",

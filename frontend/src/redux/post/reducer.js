@@ -7,6 +7,10 @@ const initialState = {
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case PostActionTypes.SELECT_POST:
+      return { ...state, currentPost: action.payload };
+
     case PostActionTypes.FETCH_POSTS_SUCCESS:
       return { ...state, postsFeed: [...state.postsFeed, ...action.payload] };
 

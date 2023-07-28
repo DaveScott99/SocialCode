@@ -1,8 +1,9 @@
 import { FiMoreHorizontal } from "react-icons/fi";
 import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   publishNewComent,
+  selectPost,
   unvotePost,
   votePost,
 } from "../../redux/post/actions";
@@ -15,7 +16,7 @@ import { Button } from "../../components/Generics/Button/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import ModalDialog from "../../components/Generics/ModalDialog";
-import ModalPost from "../../components/Generics/ModalPost"
+import ModalPost from "../../components/Generics/ModalPost";
 import DialogConfirmation from "../../components/Generics/DialogConfirmation";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Generics/Loading/Loading";
@@ -69,31 +70,32 @@ export default function Post() {
     },
   });
 
-  const { data: postData, isLoading } = useQuery(["currentPost"], async () => {
-    const response = await findPostById(post);
-    return response.data;
-  });
-
-  console.log(postData);
-
   const dispatch = useDispatch();
 
+  const { isLoading } = useQuery([post], async () => {
+    const postData = await findPostById(post);
+    dispatch(selectPost(postData.data));
+    return postData;
+  }, {staleTime: 2000 * 100});
+
+  const { currentPost } = useSelector((rootReducer) => rootReducer.postReducer);
+
   const handleVoteClick = (postId) => {
-    if (postData.votedByUser) {
+    if (currentPost.votedByUser) {
       console.log("Já votou");
     } else {
-      const newVotes = postData.votesCount + 1;
+      const newVotes = currentPost.votesCount + 1;
       dispatch(votePost(postId, newVotes));
       upVotePost(postId, user.id);
     }
   };
 
   const handleUnvoteClick = (postId) => {
-    if (!postData.votedByUser) {
+    if (!currentPost.votedByUser) {
       console.log("Já retirou o voto");
     } else {
-      if (postData.votesCount > 0) {
-        const newVotes = postData.votesCount - 1;
+      if (currentPost.votesCount > 0) {
+        const newVotes = currentPost.votesCount - 1;
         dispatch(unvotePost(postId, newVotes));
         downVotePost(postId, user.id);
       }
@@ -121,12 +123,12 @@ export default function Post() {
     console.log(data);
 
     if (data) {
-      dispatch(publishNewComent(postData.id, newComent));
+      dispatch(publishNewComent(currentPost.id, newComent));
       setComentBody("");
       setNewComent({
         text: "",
         post: {
-          id: postData.id,
+          id: currentPost.id,
         },
         user: {
           id: user.id,
@@ -146,7 +148,7 @@ export default function Post() {
     setNewComent({
       text: "",
       post: {
-        id: postData.id,
+        id: currentPost.id,
       },
       user: {
         id: user.id,
@@ -171,10 +173,10 @@ export default function Post() {
         <PostInfo>
           <PostHeader>
             <Owner>
-              <Link to={`/profile/${postData.owner.username}`}>
-                <Username>{postData.owner.username}</Username>
+              <Link to={`/profile/${currentPost.owner.username}`}>
+                <Username>{currentPost.owner.username}</Username>
               </Link>
-              <PostDate>· {dateFormat(postData.creationDate)}</PostDate>
+              <PostDate>· {dateFormat(currentPost.creationDate)}</PostDate>
             </Owner>
 
             <MoreButton onClick={handleOpenSubMenuPost}>
@@ -186,7 +188,7 @@ export default function Post() {
                 <SubMenuContainer>
                   <SubMenuContent>
                     <SubMenuItem>Salvar</SubMenuItem>
-                    {postData.owner.id === user.id && (
+                    {currentPost.owner.id === user.id && (
                       <SubMenuItem>Excluir publicação</SubMenuItem>
                     )}
                   </SubMenuContent>
@@ -196,24 +198,24 @@ export default function Post() {
           </PostHeader>
 
           <PostBody>
-            <Title>{postData.title}</Title>
+            <Title>{currentPost.title}</Title>
 
-            <MDEditor.Markdown source={postData.body} />
+            <MDEditor.Markdown source={currentPost.body} />
           </PostBody>
         </PostInfo>
 
         <ContainerVotes>
           <InteractionButton>
             <MdOutlineKeyboardArrowUp
-              onClick={() => handleVoteClick(postData.id)}
+              onClick={() => handleVoteClick(currentPost.id)}
             />
           </InteractionButton>
 
-          <VotesCount>{postData.votesCount}</VotesCount>
+          <VotesCount>{currentPost.votesCount}</VotesCount>
 
           <InteractionButton>
             <MdKeyboardArrowDown
-              onClick={() => handleUnvoteClick(postData.id)}
+              onClick={() => handleUnvoteClick(currentPost.id)}
             />
           </InteractionButton>
         </ContainerVotes>
@@ -282,7 +284,7 @@ export default function Post() {
           ) : null}
         </NewComment>
 
-        {postData.coments.map((coment) => (
+        {currentPost.coments.map((coment) => (
           <Comment key={coment.id}>
             <ContainerVotes>
               <InteractionButton>

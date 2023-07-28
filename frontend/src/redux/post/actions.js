@@ -1,5 +1,10 @@
 import PostActionTypes from "./action-types";
 
+export const selectPost = (payload) => ({
+  type: PostActionTypes.SELECT_POST,
+  payload,
+});
+
 export const fetchPostsFeedToRedux = (payload) => ({
   type: PostActionTypes.FETCH_POSTS_SUCCESS,
   payload,

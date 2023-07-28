@@ -91,7 +91,7 @@ export default function Nav() {
               {showSubMenuUser && (
                 <SubMenuContainer ref={subMenuRef}>
                   <SubMenuContent>
-                    <Link to={`/profile/${user.username}`}>
+                    <Link to={`/${user.username}`}>
                       <SubMenuItem>
                         <BiHomeAlt /> {user.username}
                       </SubMenuItem>

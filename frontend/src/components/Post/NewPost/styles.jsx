@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 
-export const Container = styled.article`
+export const Container = styled.article`    
     width: 100%;
+    max-width: 1012px;
     display: flex;
     justify-content: center;
     flex-direction: column;

@@ -28,26 +28,23 @@ export default function Sidebar() {
         <Link to="/">
           <MenuItem>
             <Icon></Icon>
-            <Label>Página inicial</Label>
-          </MenuItem>
-        </Link>
-        <Link to="/">
-          <MenuItem>
-            <Icon></Icon>
             <Label>Explorar</Label>
           </MenuItem>
         </Link>
-        <Link to="/">
+
+        <Link to="/watch">
           <MenuItem>
             <Icon></Icon>
-            <Label>Itens salvos</Label>
+            <Label>Vídeos</Label>
           </MenuItem>
         </Link>
 
-        <LineSeparator>
-          <Line />
-          <SectionName>Aprender</SectionName>
-        </LineSeparator>
+        <Link to="/">
+          <MenuItem>
+            <Icon></Icon>
+            <Label>Comunidades</Label>
+          </MenuItem>
+        </Link>
 
         <Link to="/">
           <MenuItem>
@@ -55,19 +52,7 @@ export default function Sidebar() {
             <Label>Cursos</Label>
           </MenuItem>
         </Link>
-        <Link to="/">
-          <MenuItem>
-            <Icon></Icon>
-            <Label>Tutoriais</Label>
-          </MenuItem>
-        </Link>
-        <Link to="/">
-          <MenuItem>
-            <Icon></Icon>
-            <Label>Desafios</Label>
-          </MenuItem>
-        </Link>
-
+   
         <LineSeparator>
           <Line />
           <SectionName>Outros</SectionName>

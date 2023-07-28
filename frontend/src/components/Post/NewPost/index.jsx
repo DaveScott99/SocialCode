@@ -10,10 +10,10 @@ import { findLanguages, publishPost } from "../../../services/Api";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import ModalDialog from "../../Generics/ModalDialog";
 import Dialog from "../../Generics/Dialog";
-
-import { Container, Others, TextEditorContainer, TitleInput } from "./styles";
 import DialogConfirmation from "../../Generics/DialogConfirmation";
 import { useNavigate } from "react-router";
+
+import { Container, Others, TextEditorContainer, TitleInput } from "./styles";
 
 export default function NewPost() {
   const navigate = useNavigate();

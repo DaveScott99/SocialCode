@@ -7,9 +7,10 @@ import Layout from "../components/Layout/Layout";
 import Test from "../pages/Tests/Test";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Publish from "../pages/Publish";
-import ProgressLoader from "../components/Generics/LoadingFullScreen";
 import InterestSelection from "../pages/InterestSelection";
 import Post from "../pages/Post";
+import WatchSelector from "../pages/Watch/WatchSelector";
+import WatchList from "../pages/Watch/WatchList";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -89,7 +90,31 @@ export default function RouteApp() {
               </Private>
             }
           />
-          
+
+          <Route
+            exact
+            path="/watch"
+            element={
+              <Private>
+                <Layout>
+                  <WatchSelector />
+                </Layout>
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/watch/:technology"
+            element={
+              <Private>
+                <Layout>
+                  <WatchList />
+                </Layout>
+              </Private>
+            }
+          />
+
           <Route
             exact
             path="/test"
