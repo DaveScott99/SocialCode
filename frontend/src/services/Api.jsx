@@ -144,7 +144,7 @@ export const unfollowUser = async (followerId, userId) => {
 
 export const findPostById = async (id) => {
   try {
-    return await api.get(`/post/findById/${id}`);
+    return await api.get(`/posts/${id}`);
   } catch (err) {
     console.log(err);
   }

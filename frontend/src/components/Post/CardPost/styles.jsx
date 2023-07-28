@@ -1,15 +1,14 @@
 import { styled } from "styled-components";
 
 export const Container = styled.article`
-  color: ${(props) => props.theme.colors.black};
+  color: ${(props) => props.theme.colors.white};
   margin: 10px;
 `;
 
 export const ContainerContent = styled.div`
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.black};
   border-radius: 10px;
   width: 100%;
-  cursor: pointer;
 `;
 
 export const Info = styled.header`
@@ -56,12 +55,34 @@ export const PostDate = styled.div`
 
 export const PostBody = styled.div`
   margin-top: 10px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 15;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  p {
+    background: #000;
+
+    img {
+      background: #000;
+    }
+  }
 `;
 
-export const Title = styled.div`
+export const Title = styled.h1`
   font-size: 1.3em;
   font-weight: 600;
   padding: 5px 0px 0px 0px;
+
+  cursor: pointer;
+
+  width: max-content;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const LanguageContainer = styled.div`

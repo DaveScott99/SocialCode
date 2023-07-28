@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/Auth/AuthContext"
 import { updateUser } from "../../../services/Api";
 import TextField from "../../Generics/TextField/TextField";
-import TextArea from "../../Generics/TextArea/TextArea";
 import { Button } from "../../Generics/Button/Button"
 
 import './ConfigAccount.css';
@@ -17,7 +16,6 @@ export default function ConfigAccount() {
         lastName: user.lastName,
         username: user.username,
         title: user.title,
-        biography: user.biography,
         profilePhoto: user.profilePhoto,
         backgroundImage: user.backgroundImage,
         gitHubLink: user.gitHubLink,
@@ -75,14 +73,6 @@ export default function ConfigAccount() {
                             value={userDetails.title}
                             name="title"
                             onChange={onChange}
-                        />
-
-                        <TextArea 
-                            name="biography"
-                            onChange={onChange}
-                            fieldName="Bio"
-                            valueDefault={userDetails.biography}
-                            
                         />
                         
                         <TextField

@@ -56,7 +56,8 @@ export default function Nav() {
   return (
     <NavContainer>
       <Menu>
-        <Left>
+
+          {/*
           <Link to="/">
             <MenuItem>
               <Logo>
@@ -64,11 +65,11 @@ export default function Nav() {
               </Logo>
             </MenuItem>
           </Link>
-        </Left>
+          */}
 
-        <Center>
-          <Search />
-        </Center>
+          <MenuItem>
+            <Search />
+          </MenuItem>
 
         <Right>
           <Link to="/publicar">

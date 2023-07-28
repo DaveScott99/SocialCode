@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 
 export const NavContainer = styled.nav`
     width: 100%;
-    
 `;
 
 export const Menu = styled.ul`
@@ -19,6 +18,7 @@ export const Menu = styled.ul`
     }
 `;
 
+/*
 export const Logo = styled.div`
     display: flex;
     align-items: center;
@@ -36,10 +36,11 @@ export const Logo = styled.div`
     }
 
 `
+*/
 
 export const MenuItem = styled.li`
     text-decoration: none;
-    color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.black};
 `;
 
 export const IconItem = styled.i`
@@ -57,20 +58,10 @@ export const ProfileImage = styled.div`
     cursor: pointer;
 `
 
-export const Left = styled.div`
-    display: flex;
-`
-
-export const Center = styled.div`
-    width: 500px;
-    
-`
-
 export const Right = styled.div`
-    display: flex;
     width: 100px;
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
     position: relative;
 `

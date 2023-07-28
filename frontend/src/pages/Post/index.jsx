@@ -1,19 +1,24 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { MdOutlineKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
-import { dateFormat } from "../../../utils/FormatDateInfo";
-import { Link } from "react-router-dom";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   publishNewComent,
   unvotePost,
   votePost,
-} from "../../../redux/post/actions";
-import { AuthContext } from "../../../contexts/Auth/AuthContext";
-import { downVotePost, upVotePost } from "../../../services/Feed";
+} from "../../redux/post/actions";
+import { downVotePost, upVotePost } from "../../services/Feed";
+import { findPostById, publishComent } from "../../services/Api";
+import { Link, useParams } from "react-router-dom";
+import { dateFormat } from "../../utils/FormatDateInfo";
+import { MdKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { Button } from "../../components/Generics/Button/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
-import { Button } from "../../Generics/Button/Button";
-import { publishComent } from "../../../services/Api";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
+import ModalDialog from "../../components/Generics/ModalDialog";
+import ModalPost from "../../components/Generics/ModalPost"
+import DialogConfirmation from "../../components/Generics/DialogConfirmation";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../components/Generics/Loading/Loading";
 
 import {
   Comment,
@@ -41,15 +46,13 @@ import {
   Username,
   VotesCount,
 } from "./styles";
-import ModalDialog from "../../Generics/ModalDialog";
-import DialogConfirmation from "../../Generics/DialogConfirmation";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
-export default function FocusPost({ postData }) {
+export default function Post() {
+  const { post } = useParams();
+
   const { user } = useContext(AuthContext);
 
   const [showSubMenuPost, setShowSubMenuPost] = useState(false);
-  const subMenuRef = useRef(null);
   const [isModalCancel, setIsModalCancel] = useState(false);
   const [showBtnComent, setShowBtnComent] = useState(true);
   const [editorIsOpen, setEditorIsOpen] = useState(false);
@@ -57,8 +60,7 @@ export default function FocusPost({ postData }) {
   const [newComent, setNewComent] = useState({
     text: "",
     post: {
-      id: postData.id,
-      body: postData.body,
+      id: post,
     },
     user: {
       id: user.id,
@@ -66,6 +68,13 @@ export default function FocusPost({ postData }) {
       profilePhoto: user.profilePhoto,
     },
   });
+
+  const { data: postData, isLoading } = useQuery(["currentPost"], async () => {
+    const response = await findPostById(post);
+    return response.data;
+  });
+
+  console.log(postData);
 
   const dispatch = useDispatch();
 
@@ -152,19 +161,9 @@ export default function FocusPost({ postData }) {
     setShowSubMenuPost(true);
   };
 
-  useEffect(() => {
-    const closeSubMenuOnClickOutside = (event) => {
-      if (showSubMenuPost && !subMenuRef.current.contains(event.target)) {
-        setShowSubMenuPost(false);
-      }
-    };
-
-    document.addEventListener("mousedown", closeSubMenuOnClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", closeSubMenuOnClickOutside);
-    };
-  }, [showSubMenuPost]);
+  if (isLoading) {
+    return <Loading color="#FFF" />;
+  }
 
   return (
     <Container>
@@ -183,22 +182,23 @@ export default function FocusPost({ postData }) {
             </MoreButton>
 
             {showSubMenuPost && (
-              <SubMenuContainer ref={subMenuRef}>
-                <SubMenuContent>
-                  <SubMenuItem>Salvar</SubMenuItem>
-                  {postData.owner.id === user.id && (
-                    <SubMenuItem>Excluir publicação</SubMenuItem>
-                  )}
-                </SubMenuContent>
-              </SubMenuContainer>
+              <ModalPost onClose={() => setShowSubMenuPost(false)}>
+                <SubMenuContainer>
+                  <SubMenuContent>
+                    <SubMenuItem>Salvar</SubMenuItem>
+                    {postData.owner.id === user.id && (
+                      <SubMenuItem>Excluir publicação</SubMenuItem>
+                    )}
+                  </SubMenuContent>
+                </SubMenuContainer>
+              </ModalPost>
             )}
           </PostHeader>
 
           <PostBody>
             <Title>{postData.title}</Title>
 
-            <ReactMarkdown>{postData.body}</ReactMarkdown>
-  
+            <MDEditor.Markdown source={postData.body} />
           </PostBody>
         </PostInfo>
 

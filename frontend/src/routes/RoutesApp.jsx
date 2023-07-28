@@ -9,6 +9,7 @@ import UserProfile from "../pages/UserProfile/UserProfile";
 import Publish from "../pages/Publish";
 import ProgressLoader from "../components/Generics/LoadingFullScreen";
 import InterestSelection from "../pages/InterestSelection";
+import Post from "../pages/Post";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -45,7 +46,7 @@ export default function RouteApp() {
           />
           <Route
             exact
-            path="/profile/:username"
+            path="/:username"
             element={
               <Private>
                 <Layout>
@@ -76,6 +77,19 @@ export default function RouteApp() {
               </Private>
             }
           />
+
+          <Route
+            exact
+            path="/:username/:post"
+            element={
+              <Private>
+                <Layout>
+                  <Post />
+                </Layout>
+              </Private>
+            }
+          />
+          
           <Route
             exact
             path="/test"

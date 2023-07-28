@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { dateFormat } from "../../../utils/FormatDateInfo";
-import { Link } from "react-router-dom";
-import ModalPost from "../../Generics/ModalPost";
-import FocusPost from "../FocusPost";
+import { Link, useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 
 import {
@@ -20,21 +18,18 @@ import {
 } from "./styles";
 
 export function CardPost({ post }) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const navigate = useNavigate();
+
+  //console.log(post);
 
   return (
-    <Container>
-      {isModalVisible ? (
-        <ModalPost onClose={() => setIsModalVisible(false)}>
-          <FocusPost postData={post}/>
-        </ModalPost>
-      ) : null}
-
-      <ContainerContent onClick={() => setIsModalVisible(true)} >
+    <Container >
+      <ContainerContent >
         <Info>
           <PostInfo>
           <Owner>
-              <Link to={`/profile/${post.owner.username}`}>
+              <Link to={`/${post.owner.username}`}>
                 <Username>{post.owner.username}</Username>
               </Link>
     
@@ -47,13 +42,12 @@ export function CardPost({ post }) {
               <Language key={language.id} src={language.icon}/>
             ))}
           </LanguageContainer>
-
           </PostInfo>
 
-          <Title>{post.title}</Title>
+          <Title onClick={() => navigate(`/${post.owner.username}/${post.id}`)}>{post.title}</Title>
 
           <PostBody>
-            <MDEditor.Markdown source={post.body} style={{ background: "#fff", color: "#000" }} />
+            <MDEditor.Markdown source={post.body} />
           </PostBody>
         </Info>
       </ContainerContent>

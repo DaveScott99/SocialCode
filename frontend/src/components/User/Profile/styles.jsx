@@ -5,7 +5,7 @@ export const UserInfoContainer = styled.section`
     display: flex;
     padding: 20px;
     background: ${props => props.theme.colors.white};
-    border-radius: 20px;
+    border-radius: 10px;
 `;
 
 export const UserData = styled.div`
@@ -14,6 +14,7 @@ export const UserData = styled.div`
     flex-direction: column;
     justify-content: flex-end;
     margin-left: 15px;
+
 `
 
 export const UserAvatar = styled.div`
@@ -31,29 +32,42 @@ export const Name = styled.span`
 `;
 
 export const Username = styled.span`
-    font-size: 1.1em;
-    font-weight: 200;
+    font-size: 1em;
+    font-weight: 300;
     margin-bottom: 10px;
 `
 
 export const Title = styled.span`
-    font-size: 1em;
+    font-size: .9em;
     font-weight: 300;
-    margin-bottom: 10px;
 `;
 
 export const Footer = styled.div`
     display: flex;
+    justify-content: space-between;
     align-items: center;
 `
 
+export const ContainerFollowers = styled.div`
+    display: flex;
+    align-items: center;    
+`
+
 export const Followers = styled.div`
-    width: 50%;
-    font-size: .9em;
+    font-size: .8em;
+    margin-right: 10px;
+    cursor: pointer;
+
+    span {
+        font-weight: 700;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
 `
 
 export const Badges = styled.div`
     display: flex;
     justify-content: flex-end;
-    width: 50%;
 `

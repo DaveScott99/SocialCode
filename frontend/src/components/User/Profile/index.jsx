@@ -25,6 +25,7 @@ import {
 import "./CardUserProfile.css";
 import {
   Badges,
+  ContainerFollowers,
   Followers,
   Footer,
   Header,
@@ -157,7 +158,7 @@ export default function Profile({ username }) {
                       textButton="Seguindo"
                       buttonBorderRadius="5"
                       buttonFontWeight="bold"
-                      buttonWidth={20}
+                      buttonWidth={10}
                       buttonTextCenter="center"
                       buttonBackground="#dedede"
                       buttonHoverBackground="#c2c2c29e"
@@ -177,7 +178,7 @@ export default function Profile({ username }) {
                       loadingHeight="25"
                       loadingWidth="25"
                       justify="center"
-                      width={20}
+                      width={10}
                     >
                       Seguir
                     </Button>
@@ -185,7 +186,9 @@ export default function Profile({ username }) {
                 ) : (
                   <Modal
                     textButton="Editar perfil"
-                    buttonPadding="10"
+                    buttonTextCenter="center"
+                    buttonWidth={10}
+                    buttonPadding={5}
                     buttonBorderRadius="5"
                     buttonFontWeight="bold"
                     title="Editar perfil"
@@ -199,9 +202,11 @@ export default function Profile({ username }) {
               <Title> {currentUser.user_info.title} </Title>
 
               <Footer>
-                <Followers> {currentUser.followers_count} Seguidores</Followers>
-
-                <Followers> {currentUser.following_count} Seguindo</Followers>
+                <ContainerFollowers>
+                  <Followers> <span>{currentUser.followers_count}</span> Seguidores</Followers>
+                  
+                  <Followers> <span>{currentUser.following_count}</span> Seguindo</Followers>
+                </ContainerFollowers>
 
                 <Badges>
                   <Badge
@@ -221,12 +226,7 @@ export default function Profile({ username }) {
 
       <section className="activity-user">
         <div className="user-posts">
-          <div className="label">
-            <span>Atividade</span>
-          </div>
-
           <Feed postsData={postsCurrentUser} />
-
           {isFetching && <Loading color="#FFF" />}
         </div>
       </section>

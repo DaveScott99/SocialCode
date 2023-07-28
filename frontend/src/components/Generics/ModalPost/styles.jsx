@@ -16,10 +16,12 @@ export const Overlay = styled.div`
 export const Container = styled.div`
     background: ${props => props.theme.colors.white};
     color: ${props => props.theme.colors.black};
-    border-radius: 20px;
+    border-radius: 10px;
+
+    min-width: 300px;
     width: 1000px;
     max-width: 1200px;
-    min-width: 300px;
+
     box-shadow: 1px 0px 10px 2px rgba(0, 0, 0, 0.073);
     padding: 10px 5px 5px 5px;
 
@@ -27,10 +29,14 @@ export const Container = styled.div`
 
 export const Body = styled.div`
     width: 100%;
+
+    min-height: 200px;
+    height: 700px;
+    max-height: 800px;
+
     display: flex;
     justify-content: center;
     overflow: auto;
-    height: 900px;
     position: relative;
 `;
 

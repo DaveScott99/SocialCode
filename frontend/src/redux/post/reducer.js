@@ -2,6 +2,7 @@ import PostActionTypes from "./action-types";
 
 const initialState = {
   postsFeed: [],
+  currentPost: null,
 };
 
 const postReducer = (state = initialState, action) => {

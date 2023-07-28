@@ -17,7 +17,6 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   width: 100%;
-  background: ${(props) => props.theme.colors.black};
 `;
 
 export const Main = styled.main`
@@ -26,8 +25,8 @@ export const Main = styled.main`
   overflow: auto;
   display: flex;
   align-items: center;
-  flex-direction: column;
-  background: var(--white-smoke);
+  justify-content: center;
+  //background: var(--white-smoke);
 `;
 
 export const Footer = styled.div`
@@ -37,25 +36,29 @@ export const Footer = styled.div`
   width: 100%;
 `;
 
-export const Sidebar = styled.nav`
-  width: 80px;
-  height: 95vh;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0;
-  border-radius: 10px;
+export const ContentContainer = styled.main`
   background: ${(props) => props.theme.colors.white};
-  margin-left: 10px;
 
-  @media (max-width: 767px) {
-    border-top: 1px solid ${(props) => props.theme.colors.grey};
-    width: 100%;
-    height: 60px;
-    padding: 0;
-    justify-content: center;
-    bottom: 0;
-    z-index: 4;
-    margin-left: 0;
-  }
-`;
+  width: 90vw;
+  height: 95vh;
+
+  margin-right: 10px;
+
+  border-radius: 20px;
+
+  padding: 10px;
+
+`
+
+export const Content = styled.div`
+  height: 88vh;
+  overflow: auto;
+
+
+
+`
+
+export const Sentinel = styled.div`
+  width: 100%;
+  height: 10px;
+`
