@@ -49,9 +49,9 @@ public class UserController {
 		return ResponseEntity.ok().body(users);
 	}
 	
-	@GetMapping(value = "/searchUsers/{username}")
-	public ResponseEntity<Page<UserMinDTO>> searchUsers(@PageableDefault(size = 10) Pageable pageable, @PathVariable String username) {
-		return ResponseEntity.ok().body(userService.searchUsers(pageable, username));
+	@GetMapping(value = "/searchUsers")
+	public ResponseEntity<Page<UserMinDTO>> searchUsers(@PageableDefault(size = 10) Pageable pageable, @RequestParam String q) {
+		return ResponseEntity.ok().body(userService.searchUsers(pageable, q));
 	}
 	
 	@GetMapping(value = "/username/{username}")
