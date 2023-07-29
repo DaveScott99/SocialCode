@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.socialCode.dto.mapper.PostMapper;
+import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.response.PostDTO;
+import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.repositories.ComentRepository;
 import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.PostRepository;
@@ -23,18 +25,38 @@ public class PostService {
 	private final PostRepository postRepository;
 	 
 	private final UserRepository userRepository;
+	
+	private final UserMapper userMapper;
 			
 	public PostService(PostMapper postMapper, PostRepository postRepository, UserRepository userRepository,
-			ComentRepository comentRepository, LanguageRepository languageRepository) {
+			ComentRepository comentRepository, LanguageRepository languageRepository, UserMapper userMapper) {
 		this.postMapper = postMapper;
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
+		this.userMapper = userMapper;
 	}
 
 	@Transactional(readOnly = true)
 	public Page<PostDTO> findPostsByOwner(Pageable pageable, String ownerUsername) {
 		return postRepository.findPostsByOwnerUsernameOrderByCreationDateDesc(pageable, ownerUsername)
 					.map(postMapper::toDTO);
+	}
+	
+	@Transactional(readOnly = true)
+	public PostDTO findByTitle(String title, String username) {
+		
+		UserMinDTO user = userRepository.findByUsername(username)
+				.map(userMapper::toMinDTO)
+				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+		
+		PostDTO post =  postRepository.findPostByTitle(title)
+					.map(postMapper::toDTO)
+					.orElseThrow(() -> new EntityNotFoundException("Post não encontrado"));
+				
+
+		post.setVotedByUser(post.getVotes().contains(user));
+
+		return post;
 	}
 	
 	@Transactional(readOnly = true)

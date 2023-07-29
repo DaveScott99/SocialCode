@@ -1,6 +1,8 @@
 package com.astro.socialCode.controllers;
 
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +39,16 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerUsername));
 	}
 	
+	@GetMapping
+	public ResponseEntity<PostDTO> findByTitle(@RequestParam String title, @RequestParam String user){
+		
+		String titleDecoded = URLDecoder.decode(title, StandardCharsets.UTF_8);
+		
+		System.out.println(titleDecoded);
+		
+		return ResponseEntity.ok().body(postService.findByTitle(titleDecoded, user));
+	}
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PostDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(postService.findById(id));
