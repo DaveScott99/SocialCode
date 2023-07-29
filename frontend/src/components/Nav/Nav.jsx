@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { AiOutlinePlus } from "react-icons/ai";
-import Search from "../Generics/Search/Search";
-import { BiTerminal } from "react-icons/bi";
 import { BiHomeAlt } from "react-icons/bi";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
 import DialogConfirmation from "../Generics/DialogConfirmation";
 
 import {
-  Center,
+  BackArrow,
   IconItem,
-  Left,
+  Label,
   LineSeparator,
-  Logo,
   Menu,
   MenuItem,
   NavContainer,
@@ -25,11 +23,12 @@ import {
   SubMenuItem,
 } from "./NavStyles";
 
-export default function Nav() {
+export default function Nav({ backPath }) {
   const { user, logout } = useContext(AuthContext);
   const [showSubMenuUser, setShowSubMenuUser] = useState(false);
   const [isModalLoggout, setIsModalLoggout] = useState(false);
   const subMenuRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleOpenSubMenuUser = () => {
     setShowSubMenuUser(true);
@@ -56,20 +55,20 @@ export default function Nav() {
   return (
     <NavContainer>
       <Menu>
-
-          {/*
-          <Link to="/">
-            <MenuItem>
-              <Logo>
-                <BiTerminal />
-              </Logo>
-            </MenuItem>
-          </Link>
-          */}
-
+        {/*
           <MenuItem>
             <Search />
           </MenuItem>
+          */}
+
+        <MenuItem>
+          {backPath && (
+            <BackArrow onClick={() => navigate(backPath)}>
+              <MdOutlineArrowBackIos />
+              <Label>Voltar</Label>
+            </BackArrow>
+          )}
+        </MenuItem>
 
         <Right>
           <Link to="/publicar">

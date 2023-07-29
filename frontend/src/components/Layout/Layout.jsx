@@ -4,7 +4,7 @@ import Sidebar from "../Sidebar";
 
 import { Content, ContentContainer, Header, Main, Sentinel, Wrapper } from "./LayoutStyles";
 
-export default function Layout({ children }) {
+export default function Layout({ children, backPath }) {
   return (
     <Wrapper>
       <Main>
@@ -16,7 +16,7 @@ export default function Layout({ children }) {
 
         <ContentContainer>
           <Header>
-            <Nav />
+            <Nav backPath={backPath}/>
           </Header>
 
           <Content>

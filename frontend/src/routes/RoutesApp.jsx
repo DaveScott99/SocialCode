@@ -11,6 +11,7 @@ import InterestSelection from "../pages/InterestSelection";
 import Post from "../pages/Post";
 import WatchSelector from "../pages/Watch/WatchSelector";
 import WatchList from "../pages/Watch/WatchList";
+import Explore from "../pages/Explore";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -84,7 +85,7 @@ export default function RouteApp() {
             path="/:username/:post"
             element={
               <Private>
-                <Layout>
+                <Layout backPath="/">
                   <Post />
                 </Layout>
               </Private>
@@ -108,8 +109,20 @@ export default function RouteApp() {
             path="/watch/:technology"
             element={
               <Private>
-                <Layout>
+                <Layout backPath="/watch">
                   <WatchList />
+                </Layout>
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/explore"
+            element={
+              <Private>
+                <Layout>
+                  <Explore />
                 </Layout>
               </Private>
             }

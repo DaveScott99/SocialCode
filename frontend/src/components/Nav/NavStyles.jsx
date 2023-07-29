@@ -58,6 +58,28 @@ export const ProfileImage = styled.div`
     cursor: pointer;
 `
 
+export const BackArrow = styled.div`
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+
+    svg {
+        font-size: .9em;
+    }
+
+    &:hover {
+        background: ${(props) => props.theme.colors.white_smoke};
+    }
+`
+
+export const Label = styled.span`
+    margin-left: 5px;
+    font-size: .9em;
+    font-weight: 500;
+`
+
 export const Right = styled.div`
     width: 100px;
     display: flex;

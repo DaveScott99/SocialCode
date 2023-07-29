@@ -15,7 +15,7 @@ export default function WatchSelector() {
   const navigate = useNavigate();
 
   const { data: technologies, isLoading } = useQuery(["technologies"], () =>
-    findLanguages()
+    findLanguages(), {staleTime: 2000 * 100}
   );
 
   if (isLoading) {

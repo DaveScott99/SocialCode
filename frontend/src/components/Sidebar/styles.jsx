@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-
+import theme  from "../../styles/theme"
 
 export const SidebarContainer = styled.aside`
   width: 250px;
@@ -47,12 +47,6 @@ export const Menu = styled.ul`
         font-weight: 500;
         border-radius: 5px;    
 
-        transition: all .1s;
-
-        &:hover {
-            background: ${(props) => props.theme.colors.primary};
-            color: ${(props) => props.theme.colors.white};
-        }
 
     }
 
@@ -67,6 +61,18 @@ export const MenuItem = styled.li`
 
     padding: 10px;
 
+    border-radius: 5px;
+    transition: all .1s;
+
+    background-color: ${({ selected }) => (selected ? theme.colors.primary : 'transparent')};
+    color: ${({ selected }) => (selected ? theme.colors.white : '#000')};
+    
+    &:hover {
+            background: ${(props) => props.theme.colors.primary};
+            color: ${(props) => props.theme.colors.white};
+        }
+
+    
 `;
 
 export const Label = styled.span`
@@ -78,9 +84,7 @@ export const Icon = styled.i`
     justify-content: center;
     font-size: 1.5em;
 
-    &:hover {
-        color: #b6b6b6 ;
-    }
+    margin-right: 10px;
 
 `
 
