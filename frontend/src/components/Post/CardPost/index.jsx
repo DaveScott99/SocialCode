@@ -21,15 +21,13 @@ export function CardPost({ post }) {
 
   const navigate = useNavigate();
 
-  //console.log(post);
-
   return (
     <Container >
       <ContainerContent >
         <Info>
           <PostInfo>
           <Owner>
-              <Link to={`/${post.owner.username}`}>
+              <Link to={`/profile/${post.owner.username}`}>
                 <Username>{post.owner.username}</Username>
               </Link>
     
@@ -44,7 +42,7 @@ export function CardPost({ post }) {
           </LanguageContainer>
           </PostInfo>
 
-          <Title onClick={() => navigate(`/${post.owner.username}/${post.id}`)}>{post.title}</Title>
+          <Title onClick={() => navigate(`/post/${post.id}`)}>{post.title}</Title>
 
           <PostBody>
             <MDEditor.Markdown source={post.body} />

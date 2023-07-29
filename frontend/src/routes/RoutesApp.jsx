@@ -12,6 +12,7 @@ import Post from "../pages/Post";
 import WatchSelector from "../pages/Watch/WatchSelector";
 import WatchList from "../pages/Watch/WatchList";
 import Explore from "../pages/Explore";
+import Search from "../pages/Search";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -48,7 +49,7 @@ export default function RouteApp() {
           />
           <Route
             exact
-            path="/:username"
+            path="/profile/:username"
             element={
               <Private>
                 <Layout>
@@ -79,10 +80,9 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route
             exact
-            path="/:username/:post"
+            path="/post/:title"
             element={
               <Private>
                 <Layout backPath="/">
@@ -91,7 +91,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route
             exact
             path="/watch"
@@ -103,7 +102,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route
             exact
             path="/watch/:technology"
@@ -115,7 +113,17 @@ export default function RouteApp() {
               </Private>
             }
           />
-
+          <Route
+            exact
+            path="/search/:query"
+            element={
+              <Private>
+                <Layout>
+                  <Search />
+                </Layout>
+              </Private>
+            }
+          />
           <Route
             exact
             path="/explore"
@@ -127,7 +135,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route
             exact
             path="/test"

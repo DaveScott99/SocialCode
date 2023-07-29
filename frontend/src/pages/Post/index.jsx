@@ -49,7 +49,7 @@ import {
 } from "./styles";
 
 export default function Post() {
-  const { post } = useParams();
+  const { title } = useParams();
 
   const { user } = useContext(AuthContext);
 
@@ -61,7 +61,7 @@ export default function Post() {
   const [newComent, setNewComent] = useState({
     text: "",
     post: {
-      id: post,
+      id: title,
     },
     user: {
       id: user.id,
@@ -72,8 +72,8 @@ export default function Post() {
 
   const dispatch = useDispatch();
 
-  const { isLoading } = useQuery([post], async () => {
-    const postData = await findPostById(post);
+  const { isLoading } = useQuery([title], async () => {
+    const postData = await findPostById(title);
     dispatch(selectPost(postData.data));
     return postData;
   }, {staleTime: 2000 * 100});

@@ -53,6 +53,8 @@ export default function Nav({ backPath }) {
     setIsModalLoggout(true);
   };
 
+
+
   return (
     <NavContainer>
       <Menu>
@@ -88,7 +90,7 @@ export default function Nav({ backPath }) {
               {showSubMenuUser && (
                 <SubMenuContainer ref={subMenuRef}>
                   <SubMenuContent>
-                    <Link to={`/${user.username}`}>
+                    <Link to={`/profile/${user.username}`}>
                       <SubMenuItem>
                         <BiHomeAlt /> {user.username}
                       </SubMenuItem>
