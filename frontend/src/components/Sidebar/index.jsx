@@ -1,22 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BiTerminal, BiSearchAlt, BiMoviePlay } from "react-icons/bi";
+import { BiTerminal, BiMoviePlay, BiCompass, BiCog } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import Footer from "../Footer";
 import { useState } from "react";
+import { useEffect } from "react";
 
 import {
   Icon,
   Label,
-  Line,
-  LineSeparator,
   Logo,
   Menu,
   MenuItem,
-  SectionName,
   SidebarContainer,
 } from "./styles";
-import { useEffect } from "react";
 
 export default function Sidebar() {
   const path = window.location.pathname;
@@ -57,7 +54,7 @@ export default function Sidebar() {
             onClick={() => handleSelectItemMenu("/explore")}
           >
             <Icon>
-              <BiSearchAlt />
+              <BiCompass />
             </Icon>
             <Label>Explorar</Label>
           </MenuItem>
@@ -83,17 +80,12 @@ export default function Sidebar() {
           </MenuItem>
         </Link>
 
-        <LineSeparator>
-          <Line />
-          <SectionName>Outros</SectionName>
-        </LineSeparator>
-
         <Link to="/">
           <MenuItem
             selected={selectedMenuItem === "/configuration"}
             onClick={() => handleSelectItemMenu("/configuration")}
           >
-            <Icon></Icon>
+            <Icon><BiCog /></Icon>
             <Label>Configurações</Label>
           </MenuItem>
         </Link>

@@ -22,11 +22,10 @@ export const Header = styled.header`
 export const Main = styled.main`
   width: 100vw;
   height: 100vh;
-  overflow: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  //background: var(--white-smoke);
+  overflow: hidden;
 `;
 
 export const Footer = styled.div`
@@ -38,24 +37,16 @@ export const Footer = styled.div`
 
 export const ContentContainer = styled.main`
   background: ${(props) => props.theme.colors.white};
-
   width: 90vw;
-  height: 95vh;
-
   margin-right: 10px;
-
   border-radius: 20px;
-
   padding: 10px;
-
 `
 
 export const Content = styled.div`
+  width: 100%;
   height: 88vh;
   overflow: auto;
-
-
-
 `
 
 export const Sentinel = styled.div`

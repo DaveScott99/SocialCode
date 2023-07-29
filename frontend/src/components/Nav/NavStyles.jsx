@@ -10,37 +10,12 @@ export const Menu = styled.ul`
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-
-    @media (max-width: 767px) {
-        display: flex;
-        width: 100%;
-        justify-content: space-evenly;
-    }
 `;
-
-/*
-export const Logo = styled.div`
-    display: flex;
-    align-items: center;
-    transition: all .1s ease-in-out;
-    color: ${(props) => props.theme.colors.white};
-
-    svg {
-        font-size: 2.5em;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    &:hover {
-        color: #b6b6b6 ;
-    }
-
-`
-*/
 
 export const MenuItem = styled.li`
     text-decoration: none;
     color: ${(props) => props.theme.colors.black};
+    margin-right: 15px;
 `;
 
 export const IconItem = styled.i`
@@ -81,10 +56,11 @@ export const Label = styled.span`
 `
 
 export const Right = styled.div`
-    width: 100px;
+    width: 100%;
+    max-width: 400px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-evenly;
     position: relative;
 `
 

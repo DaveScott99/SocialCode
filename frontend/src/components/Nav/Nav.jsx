@@ -7,6 +7,7 @@ import { BiHomeAlt } from "react-icons/bi";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
 import DialogConfirmation from "../Generics/DialogConfirmation";
+import Search from "../Generics/Search/Search";
 
 import {
   BackArrow,
@@ -55,12 +56,6 @@ export default function Nav({ backPath }) {
   return (
     <NavContainer>
       <Menu>
-        {/*
-          <MenuItem>
-            <Search />
-          </MenuItem>
-          */}
-
         <MenuItem>
           {backPath && (
             <BackArrow onClick={() => navigate(backPath)}>
@@ -71,6 +66,9 @@ export default function Nav({ backPath }) {
         </MenuItem>
 
         <Right>
+
+          <Search />
+
           <Link to="/publicar">
             <MenuItem>
               <IconItem>
