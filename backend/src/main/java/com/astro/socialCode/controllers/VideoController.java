@@ -1,58 +1,60 @@
 package com.astro.socialCode.controllers;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.astro.socialCode.entities.VideoFile;
-import com.astro.socialCode.repositories.VideoRepository;
-import com.astro.socialCode.services.exceptions.EntityNotFoundException;
+import com.astro.socialCode.dto.VideoDTO;
+import com.astro.socialCode.entities.Video;
+import com.astro.socialCode.services.VideoService;
 
 @RestController
-@RequestMapping("/watch")
+@RequestMapping("/videos")
 public class VideoController {
 
-	private final VideoRepository videoRepository;
-
-	public VideoController(VideoRepository videoRepository) {
-		this.videoRepository = videoRepository;
+	private final VideoService videoService;
+	
+	public VideoController(VideoService videoService) {
+		this.videoService = videoService;
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Resource> displayFile(@PathVariable Long id) {
-		
-		VideoFile videoFile = videoRepository.findById(id)
-					.orElseThrow(() -> new EntityNotFoundException("Vídeo não encontrado"));
-		
-		if (videoFile == null) {
-			return ResponseEntity.notFound().build();
-		}
-		
-		Path filePath = Paths.get(videoFile.getFilePath());
-		Resource resource;
-		
-		try {
-			resource = new UrlResource(filePath.toUri());
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
-		}
-		
-		String contentType = videoFile.getContentType();
-		MediaType mediaType = MediaType.parseMediaType(contentType);
-		
-		return ResponseEntity.ok().contentType(mediaType).body(resource);
-		
+	@GetMapping
+	public ResponseEntity<Page<VideoDTO>> findAll(@PageableDefault(size = 10) Pageable pageable) {
+		return ResponseEntity.ok().body(videoService.findAll(pageable));
+	}
+	
+	@GetMapping(value = "/{title}")
+	public ResponseEntity<VideoDTO> findByTitle(@PathVariable String title) {
+		String titleDecoded = URLDecoder.decode(title, StandardCharsets.UTF_8);
+		return ResponseEntity.ok().body(videoService.findByTitle(titleDecoded));
+	}
+	
+	@GetMapping(value = "/findById")
+	public ResponseEntity<VideoDTO> findById(@RequestParam Long videoId) {
+		return ResponseEntity.ok().body(videoService.findById(videoId));
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @RequestBody VideoDTO newVideo) {		
+		return ResponseEntity.ok().body(videoService.update(id, newVideo));
+	}
+	
+	@PostMapping
+	public ResponseEntity<Video> upload(@RequestParam MultipartFile file) {
+		return ResponseEntity.ok().body(videoService.upload(file));
 	}
 	
 }
