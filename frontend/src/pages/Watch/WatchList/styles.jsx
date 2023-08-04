@@ -17,7 +17,7 @@ export const VideoThumbnail = styled.img`
     width: 100%;
     max-width: 370px;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
     user-select: none;
 
     cursor: pointer;

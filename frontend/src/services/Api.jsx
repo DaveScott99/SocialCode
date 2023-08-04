@@ -191,3 +191,13 @@ export const findPostsByOwner = async (username, page) => {
       console.log(err);
   }
 }
+
+export const findAllVideos = async () => {
+  try {
+    const response = await api.get("/videos");
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}

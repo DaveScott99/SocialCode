@@ -9,10 +9,10 @@ import UserProfile from "../pages/UserProfile/UserProfile";
 import Publish from "../pages/Publish";
 import InterestSelection from "../pages/InterestSelection";
 import Post from "../pages/Post";
-import WatchSelector from "../pages/Watch/WatchSelector";
 import WatchList from "../pages/Watch/WatchList";
 import Explore from "../pages/Explore";
 import Search from "../pages/Search";
+import Watch from "../pages/Watch";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -97,22 +97,24 @@ export default function RouteApp() {
             element={
               <Private>
                 <Layout>
-                  <WatchSelector />
-                </Layout>
-              </Private>
-            }
-          />
-          <Route
-            exact
-            path="/watch/:technology"
-            element={
-              <Private>
-                <Layout backPath="/watch">
                   <WatchList />
                 </Layout>
               </Private>
             }
           />
+
+          <Route
+            exact
+            path="/watch/:filename"
+            element={
+              <Private>
+                <Layout>
+                  <Watch />
+                </Layout>
+              </Private>
+            }
+          />
+
           <Route
             exact
             path="/search/:query"

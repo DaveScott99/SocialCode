@@ -53,7 +53,7 @@ public class VideoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Video> upload(@RequestParam MultipartFile file) {
+	public ResponseEntity<Video> upload(@RequestParam MultipartFile file) throws InterruptedException {
 		return ResponseEntity.ok().body(videoService.upload(file));
 	}
 	

@@ -13,9 +13,11 @@
     "@uiw/react-md-editor": "^3.23.3",
     "axios": "^1.4.0",
     "easymde": "^2.18.0",
+    "hls.js": "^1.4.10",
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",
     "octokit": "^2.0.19",
+    "plyr": "^3.7.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
@@ -31,6 +33,8 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
     "styled-components": "^6.0.0-rc.3",
+    "uuid": "^9.0.0",
+    "videojs-react": "^0.1.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -56,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "video.js": "^8.3.0"
   }
 }

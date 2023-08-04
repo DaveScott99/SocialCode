@@ -2,6 +2,8 @@ package com.astro.socialCode.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -15,16 +17,19 @@ import com.astro.socialCode.dto.mapper.VideoMapper;
 import com.astro.socialCode.entities.Video;
 import com.astro.socialCode.repositories.VideoRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
+import com.astro.socialCode.util.FFmpegVideoConverter;
 
 @Service
 public class VideoService {
 	
 	private final VideoRepository videoRepository;
 	private final VideoMapper videoMapper;
+	private final FFmpegVideoConverter ffmpegVideoConverter;
 
-	public VideoService(VideoRepository videoRepository, VideoMapper videoMapper) {
+	public VideoService(VideoRepository videoRepository, VideoMapper videoMapper, FFmpegVideoConverter ffmpegVideoConverter) {
 		this.videoRepository = videoRepository;
 		this.videoMapper = videoMapper;
+		this.ffmpegVideoConverter = ffmpegVideoConverter;
 	}
 
 	@Transactional(readOnly = true)
@@ -61,27 +66,26 @@ public class VideoService {
 	}
 	
 	@Transactional
-	public Video upload(MultipartFile videoFile) {
+	public Video upload(MultipartFile videoFile) throws InterruptedException {
 		try {
+
+            String newFileName = UUID.randomUUID().toString();
 			
-			//D:/ARQUIVOS/PROJETOS SPRING/paraCodar/files
-			//D:/ARQUIVOS/PROJETOS SPRING/stream-video/src/main/resources/video
-			String uploadDir = "D:/ARQUIVOS/PROJETOS SPRING/paraCodar/files";
+            String uploadDir = "E:/videos-segmentos/videos/" + newFileName;
 			
-			File directory = new File(uploadDir);
+			File outputDirectory = new File(uploadDir);
 			
-			if (!directory.exists()) {
-				directory.mkdirs();
+			if (!outputDirectory.exists()) {
+				outputDirectory.mkdirs();
 			}
-			
-			String originalName = videoFile.getOriginalFilename();
-            String fileExtension = originalName.substring(originalName.lastIndexOf("."));
-            String newFileName = UUID.randomUUID().toString() + fileExtension;
-			
+            
 			String filePath = uploadDir + File.separator + newFileName;
 			
-			File dest = new File(filePath);
-			videoFile.transferTo(dest);
+			Path tempDir = Files.createTempDirectory("video-temp");
+			File tempFile = new File(tempDir.toFile(), videoFile.getOriginalFilename());
+			videoFile.transferTo(tempFile);
+			
+			ffmpegVideoConverter.convertToSegments(tempFile, outputDirectory);
 			
 			Video videoFileToInsert = new Video();
 			
@@ -91,6 +95,7 @@ public class VideoService {
 			videoFileToInsert.setFilePath(filePath);
 			
 			return videoRepository.save(videoFileToInsert);
+			
 		}
 		catch(IOException e) {
 			throw new IllegalArgumentException(e.getMessage());
