@@ -71,6 +71,10 @@ public class User {
 	@JsonIgnore
 	private List<Post> posts = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private Set<Video> videos = new HashSet<>();
+	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private List<Coment> coments = new ArrayList<>();
@@ -78,6 +82,10 @@ public class User {
 	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<Video> votedVideos = new HashSet<>();
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinTable(
@@ -244,6 +252,14 @@ public class User {
 		return interest;
 	}
 	
+	public Set<Video> getVideos() {
+		return videos;
+	}
+
+	public Set<Video> getVotedVideos() {
+		return votedVideos;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

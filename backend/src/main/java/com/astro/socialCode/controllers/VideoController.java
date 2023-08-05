@@ -36,6 +36,11 @@ public class VideoController {
 		return ResponseEntity.ok().body(videoService.findAll(pageable));
 	}
 	
+	@GetMapping(value = "/findByFileName")
+	public ResponseEntity<VideoDTO> findByFileName(@RequestParam String fileName) {
+		return ResponseEntity.ok().body(videoService.findByFileName(fileName));
+	}
+	
 	@GetMapping(value = "/{title}")
 	public ResponseEntity<VideoDTO> findByTitle(@PathVariable String title) {
 		String titleDecoded = URLDecoder.decode(title, StandardCharsets.UTF_8);
@@ -53,8 +58,8 @@ public class VideoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Video> upload(@RequestParam MultipartFile file) throws InterruptedException {
-		return ResponseEntity.ok().body(videoService.upload(file));
+	public ResponseEntity<Video> upload(@RequestParam MultipartFile file, @RequestParam Long ownerId) throws InterruptedException {
+		return ResponseEntity.ok().body(videoService.upload(file, ownerId));
 	}
 	
 }

@@ -37,18 +37,24 @@ public class Coment {
 	@JoinColumn(name = "ID_OWNER")
 	private User user;
 
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "ID_VIDEO")
+	private Video video;
+	
 	@Column(name = "CREATION_MOMENT_COMENT")
 	@CreationTimestamp
 	private Instant creationDate;
 	
 	public Coment() {
 	}
-
-	public Coment(Long id, String text, Post post, User user, Instant creationDate) {
+	
+	public Coment(Long id, String text, Post post, User user, Video video, Instant creationDate) {
 		this.id = id;
 		this.text = text;
 		this.post = post;
 		this.user = user;
+		this.video = video;
 		this.creationDate = creationDate;
 	}
 
@@ -90,6 +96,14 @@ public class Coment {
 
 	public void setCreationDate(Instant creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Video getVideo() {
+		return video;
+	}
+
+	public void setVideo(Video video) {
+		this.video = video;
 	}
 
 	@Override

@@ -10,8 +10,10 @@ import com.astro.socialCode.entities.Video;
 
 public interface VideoRepository extends JpaRepository<Video, Long> {
 	
-	Page<Video> findAllByOrderByUploadMomentDesc(Pageable pageable);
+	Page<Video> findAllByOrderByCreationDateDesc(Pageable pageable);
 	
 	Optional<Video> findByTitle(String title);
 	
+	Optional<Video> findByFileName(String fileName);
+
 }

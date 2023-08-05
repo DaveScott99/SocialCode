@@ -37,16 +37,12 @@ public class Language {
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "interest")
 	private Set<User> users = new HashSet<>();
-
-	public Language(){
-	}
 	
-	public Language(Long id, String name, String icon, Set<Post> posts, Set<User> users) {
-		this.id = id;
-		this.name = name;
-		this.icon = icon;
-		this.posts = posts;
-		this.users = users;
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
+	private Set<Video> videos = new HashSet<>();
+	
+	public Language(){
 	}
 
 	public Language(Long id) {
@@ -86,7 +82,11 @@ public class Language {
 		return posts;
 	}
 	
-	public Set<User> getUSers() {
+	public Set<Video> getVideos() {
+		return videos;
+	}
+
+	public Set<User> getUsers() {
 		return users;
 	}
 
@@ -105,11 +105,6 @@ public class Language {
 			return false;
 		Language other = (Language) obj;
 		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
-	}
-
-	@Override
-	public String toString() {
-		return "Language [id=" + id + ", name=" + name + "]";
 	}
 
 }
