@@ -2,24 +2,29 @@ import React, { useRef, useState } from "react";
 import { Button } from "../Generics/Button/Button";
 import { usePlayerState } from "../../hooks/usePlayerState";
 import { useEffect } from "react";
-import { v4 as uuidV4 } from "uuid";
 import Hls from "hls.js";
-import { getProgress } from "../../services/StreamingAPI";
 
 import {
+  BackItem,
   BufferedProgressBar,
+  ConfigItem,
   Container,
+  ContainerConfig,
   Controls,
   ControlsContainer,
   Current,
   Duration,
   DurationProgressBar,
+  ItensConfig,
   Left,
   NormalMode,
   ProgressBarContainer,
   Right,
+  SelectedConfig,
+  SelectionList,
   TheaterMode,
   TotalDuration,
+  VideoQuality,
   VideoScreen,
   Volume,
   VolumeRange,
@@ -35,14 +40,24 @@ import {
   BiFullscreen,
   BiCog,
   BiExitFullscreen,
+  BiChevronRight,
+  BiChevronLeft
 } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 export default function Player({ filename }) {
+  const videoPlayer = useRef(null);
+  const videoContainer = useRef(null);
+  const [isVolumeControl, setIsVolumeControl] = useState(false);
+  const [isHud, setIsHud] = useState(false);
+  const [showConfig, setShowConfig] = useState(false);
+  const [showListQuality, setShowListQuality] = useState(false);
 
-    const videoPlayer = useRef(null);
-    const videoContainer = useRef(null);
+  const { currentVideoTime } = useSelector(
+    (rootReducer) => rootReducer.videoReducer
+  );
 
-    const {
+  const {
     playerState,
     toggleVideoPlay,
     toggleMuteVideo,
@@ -52,59 +67,46 @@ export default function Player({ filename }) {
     handleChangeVideoPercentage,
     handleVideoTotalDuration,
     handleChangeVolume,
-    handleSeclectVideoQuality,
-    handleForward10Seconds
+    handleSeclectVideoQuality
   } = usePlayerState(videoPlayer);
 
   const STREAMING_API = process.env.REACT_APP_STREAMING_API_URL;
   let hls = new Hls();
 
-  const [isVolumeControl, setIsVolumeControl] = useState(false);
-  const [isHud, setIsHud] = useState(false);
-  const [sessionId, setSessionId] = useState("");
-
-  useEffect(() => {
-    setSessionId(uuidV4());
-  }, [])
-
   useEffect(() => {
     loadVideo(playerState.selectedQuality);
-     return () => {
+    return () => {
       if (hls) {
         hls.destroy();
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playerState.selectedQuality])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerState.selectedQuality, currentVideoTime]);
 
   const loadVideo = async (quality) => {
-
     const streamUrl = `${STREAMING_API}/streaming/${filename}/${quality}/segmentsUnion.m3u8`;
-
-    const response = await getProgress(quality);
-    
-    console.log(response);
 
     if (Hls.isSupported()) {
       hls.loadSource(streamUrl);
       hls.attachMedia(videoPlayer.current);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
-       
+        videoPlayer.current.currentTime = currentVideoTime;
         toggleVideoPlay();
       });
-    }
-    else if (videoPlayer.current.canPlayType('application/vnd.apple.mpegurl')) {
+    } else if (
+      videoPlayer.current.canPlayType("application/vnd.apple.mpegurl")
+    ) {
       videoPlayer.current.src = streamUrl;
-      videoPlayer.current.addEventListener('canplay', () => {
-        
+      videoPlayer.current.addEventListener("canplay", () => {
+        videoPlayer.current.currentTime = currentVideoTime;
         toggleVideoPlay();
       });
     }
 
     hls.on(Hls.Events.ERROR, (event, data) => {
-      console.error('Error occurred:', data);
+      console.error("Error occurred:", data);
     });
-  }
+  };
 
   function toggleFullScreenMode() {
     if (document.fullscreenElement == null) {
@@ -120,7 +122,7 @@ export default function Player({ filename }) {
     <Container
       onMouseEnter={() => setIsHud(true)}
       onMouseLeave={() => {
-        if (playerState.playing && isHud) {
+        if (playerState.playing && isHud && !showConfig) {
           setIsHud(false);
         }
       }}
@@ -138,22 +140,6 @@ export default function Player({ filename }) {
         onDoubleClick={toggleFullScreenMode}
         muted
       />
-
-      <div>
-        Quality:
-        <select
-          value={playerState.selectedQuality}
-          onChange={(e) => handleSeclectVideoQuality(e.target.value)}
-        >
-          <option value="240p">240p</option>
-          <option value="360p">360p</option>
-          <option value="720p">720p</option>
-        </select>
-      </div>
-
-      <button onClick={handleForward10Seconds}>
-        +10
-      </button>
 
       <ControlsContainer ishud={isHud.toString()}>
         <ProgressBarContainer>
@@ -225,7 +211,68 @@ export default function Player({ filename }) {
           </Left>
 
           <Right>
-            <BiCog />
+            <BiCog onClick={() => setShowConfig(!showConfig)} />
+
+            {showConfig ? (
+              <ContainerConfig>
+                <ItensConfig
+                  style={{ display: showListQuality ? "none" : "block" }}
+                >
+
+                  <ConfigItem>
+                    <p>Velocidade</p>
+                    <SelectedConfig>
+                      Normal
+                      <BiChevronRight />
+                    </SelectedConfig>
+                  </ConfigItem>
+
+                  <ConfigItem onClick={() => setShowListQuality(!showListQuality)}>
+                    <p>Qualidade</p>
+                    <SelectedConfig>
+                      {playerState.selectedQuality}
+                      <BiChevronRight />
+                    </SelectedConfig>
+                  </ConfigItem>
+
+                </ItensConfig>
+
+                {showListQuality ? 
+                    <SelectionList>
+
+                      <BackItem>
+                        <BiChevronLeft onClick={() => setShowListQuality(!showListQuality)} />
+                        <span onClick={() => setShowListQuality(!showListQuality)}>Qualidade</span>
+                      </BackItem>
+
+                      <VideoQuality onClick={() => {
+                        handleSeclectVideoQuality("720p")
+                        setShowListQuality(!showListQuality)
+                        setShowConfig(!showConfig)}}>
+                        <p>720p</p>
+                      </VideoQuality>
+                      <VideoQuality onClick={() => {
+                        handleSeclectVideoQuality("480p")
+                        setShowListQuality(!showListQuality)
+                        setShowConfig(!showConfig)}}>
+                        <p>480p</p>
+                      </VideoQuality>
+                      <VideoQuality onClick={() => {
+                        handleSeclectVideoQuality("360p")
+                        setShowListQuality(!showListQuality)
+                        setShowConfig(!showConfig)}}>
+                        <p>360p</p>
+                      </VideoQuality>
+                      <VideoQuality onClick={() => {
+                        handleSeclectVideoQuality("240p")
+                        setShowListQuality(!showListQuality)
+                        setShowConfig(!showConfig)}}>
+                        <p>240p</p>
+                      </VideoQuality>
+                    </SelectionList> 
+                  : null}
+              </ContainerConfig>
+            ) : null}
 
             {playerState.theaterMode
               ? !playerState.fullScreenMode && (

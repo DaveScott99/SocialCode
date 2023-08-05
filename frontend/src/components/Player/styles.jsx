@@ -4,6 +4,7 @@ import theme from "../../styles/theme";
 export const Container = styled.div`
   width: 100%;
   max-width: ${(props) => !props.theater ? "950px" : "100%"};
+  max-height: 620px;
   position: relative;
   box-shadow: ${(props) =>
     props.ishud === "true" && "inset 0px -500px 150px -200px #00000030"};
@@ -22,13 +23,13 @@ export const Container = styled.div`
 
 export const VideoScreen = styled.video`
   width: 100%;
-  max-height: ${(props) => !props.fullscreen ? "720px": ""};
+  max-height: ${(props) => !props.fullscreen ? "620px": "100vh"};
 
   user-select: none;
 
   @media (max-width: 1440px) {
     max-width: ${(props) => props.theater && !props.fullscreen ? "900px" : "100%"};  
-    
+
   }
 
   &::-webkit-media-controls {
@@ -258,6 +259,10 @@ export const VolumeRange = styled.input.attrs((props) => ({
 export const Right = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
 
   svg {
     font-size: 1.5em;
@@ -287,4 +292,103 @@ export const NormalMode = styled.button`
   background: none;
   margin-right: 10px;
   margin-left: 10px;
+`
+
+export const ContainerConfig = styled.div`
+  width: 100%;
+  max-width: 250px;
+  background-color: #000000a6;
+  border-radius: 5px;
+  padding: 5px 0px 5px 0px;
+  position: absolute;
+  bottom: 50px;
+`
+
+export const ItensConfig = styled.div`
+`
+
+export const ConfigItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 10px;
+  cursor: pointer;
+  transition: all .1s;
+
+  user-select: none;
+
+  p {
+    font-size: .8em;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background: #59595970;
+  }
+`
+
+export const SelectedConfig = styled.span`
+    font-size: .8em;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 0;
+      margin-left: 5px;
+    }
+
+`
+
+export const SelectionList = styled.div`
+  
+`
+
+export const VideoQuality = styled.div`
+  display: flex;
+  align-items: center;
+
+  padding: 10px 0px 10px 30px;
+  cursor: pointer;
+  transition: all .1s;
+
+  user-select: none;
+
+  p {
+    font-size: .8em;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background: #59595970;
+  }
+`
+
+export const BackItem = styled.div`
+
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 10px;
+
+  padding: 10px 0px 10px 0px;
+
+  border-bottom: 1px solid #565656c1;
+
+  span {
+    font-size: .8em;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  svg {
+    font-size: 1.3em;
+    margin-right: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
 `
