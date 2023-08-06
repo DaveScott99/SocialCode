@@ -3,7 +3,9 @@ import theme from "../../styles/theme";
 
 export const Container = styled.div`
   width: 100%;
-  max-width: ${(props) => !props.theater ? "950px" : "100%"};
+
+  max-width: ${(props) => !props.theater ? "1280px" : "100%"};
+
   max-height: 620px;
   position: relative;
   box-shadow: ${(props) =>
@@ -14,7 +16,6 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   
-
   @media (max-width: 1440px) {
     max-width: ${(props) => !props.theater ? "800px" : "100%"};  
   }
@@ -23,6 +24,9 @@ export const Container = styled.div`
 
 export const VideoScreen = styled.video`
   width: 100%;
+
+  object-fit: cover;
+
   max-height: ${(props) => !props.fullscreen ? "620px": "100vh"};
 
   user-select: none;

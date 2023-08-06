@@ -201,3 +201,13 @@ export const findAllVideos = async () => {
     console.log(err);
   }
 }
+
+export const findVideoByFileName = async (fileName) => {
+  try {
+    const response = await api.get(`/videos/findByFileName?fileName=${fileName}`);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
