@@ -53,8 +53,8 @@ public class VideoController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @RequestBody VideoDTO newVideo) {		
-		return ResponseEntity.ok().body(videoService.update(id, newVideo));
+	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @RequestBody VideoDTO newVideo, @RequestParam(name = "file") MultipartFile thumbnailFile) {		
+		return ResponseEntity.ok().body(videoService.update(id, newVideo, thumbnailFile));
 	}
 	
 	@PostMapping

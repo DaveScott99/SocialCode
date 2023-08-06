@@ -16,9 +16,11 @@ import com.astro.socialCode.dto.VideoDTO;
 import com.astro.socialCode.dto.mapper.VideoMapper;
 import com.astro.socialCode.dto.response.LanguageDTO;
 import com.astro.socialCode.entities.Language;
+import com.astro.socialCode.entities.ThumbnailVideo;
 import com.astro.socialCode.entities.User;
 import com.astro.socialCode.entities.Video;
 import com.astro.socialCode.repositories.LanguageRepository;
+import com.astro.socialCode.repositories.ThumbnailVideoRepository;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.repositories.VideoRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
@@ -29,18 +31,20 @@ public class VideoService {
 	
 	private final VideoRepository videoRepository;
 	private final LanguageRepository languageRepository;
+	private final ThumbnailVideoRepository thumbnailVideoRepository;
 	private final UserRepository userRepository;
 	private final VideoMapper videoMapper;
 	private final FFmpegVideoConverter ffmpegVideoConverter;
 
 	public VideoService(VideoRepository videoRepository, VideoMapper videoMapper, 
 			FFmpegVideoConverter ffmpegVideoConverter, LanguageRepository languageRepository,
-			UserRepository userRepository) {
+			UserRepository userRepository, ThumbnailVideoRepository thumbnailVideoRepository) {
 		this.videoRepository = videoRepository;
 		this.videoMapper = videoMapper;
 		this.ffmpegVideoConverter = ffmpegVideoConverter;
 		this.languageRepository = languageRepository;
 		this.userRepository = userRepository;
+		this.thumbnailVideoRepository = thumbnailVideoRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -71,7 +75,7 @@ public class VideoService {
 	}
 	
 	@Transactional
-	public VideoDTO update(Long id, VideoDTO newVideo){		
+	public VideoDTO update(Long id, VideoDTO newVideo, MultipartFile thumbnailFile){		
 		return videoRepository.findById(id)
 				 .map(videoFound -> {
 					 videoFound.setTitle(newVideo.getTitle());
@@ -84,6 +88,33 @@ public class VideoService {
 															.orElseThrow(() -> new EntityNotFoundException("Linguagem não encontrada"));
 							videoFound.getLanguages().add(language);
 					 }
+					 
+				 	 String uploadDir = "E:/videos-segmentos/videos/" + newVideo.getFileName().replace(".mp4", "");
+
+					 String originalName = thumbnailFile.getOriginalFilename();
+		             String fileExtension = originalName.substring(originalName.lastIndexOf("."));
+		             String newFileName = UUID.randomUUID().toString() + fileExtension;
+					 String filePath = uploadDir + File.separator + newFileName;
+					 File dest = new File(filePath);
+		             
+		             ThumbnailVideo thumbnail = new ThumbnailVideo();
+						
+					 thumbnail.setFileName(newFileName);
+					 thumbnail.setContentType(thumbnailFile.getContentType());
+					 thumbnail.setFileSize(thumbnailFile.getSize());
+					 thumbnail.setFilePath(filePath);
+					
+					 ThumbnailVideo savedThumbnail = thumbnailVideoRepository.save(thumbnail);
+		             
+					 videoFound.setThumbnailVideo(savedThumbnail);
+					 
+					 try {
+						 thumbnailFile.transferTo(dest);					
+					 }
+					 catch(IOException e) {
+						throw new IllegalArgumentException(e.getMessage());
+					 }
+					 
 					 return videoMapper.toDTO(videoRepository.save(videoFound));
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Vídeo não encontrado " + id));

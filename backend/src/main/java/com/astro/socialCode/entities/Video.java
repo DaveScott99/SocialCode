@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +20,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -55,6 +57,10 @@ public class Video {
 	@Column(name = "CREATION_MOMENT_VIDEO")
 	private Instant creationDate; 
 	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_THUMBNAIL_VIDEO")
+	private ThumbnailVideo thumbnailVideo;
+	
 	@ManyToOne
 	@JsonIgnoreProperties("videos")
 	@JoinColumn(name = "OWNER_ID")
@@ -84,7 +90,7 @@ public class Video {
 	}
 
 	public Video(Long id, String title, String description, String thumbnail, String fileName, Long fileSize,
-			String contentType, String filePath, Instant creationDate, User owner) {
+			String contentType, String filePath, Instant creationDate, User owner, ThumbnailVideo thumbnailVideo) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -96,6 +102,7 @@ public class Video {
 		this.filePath = filePath;
 		this.creationDate = creationDate;
 		this.owner = owner;
+		this.thumbnail = thumbnail;
 	}
 
 	public Long getId() {
@@ -176,6 +183,14 @@ public class Video {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public ThumbnailVideo getThumbnailVideo() {
+		return thumbnailVideo;
+	}
+
+	public void setThumbnailVideo(ThumbnailVideo thumbnailVideo) {
+		this.thumbnailVideo = thumbnailVideo;
 	}
 
 	public Set<Language> getLanguages() {
