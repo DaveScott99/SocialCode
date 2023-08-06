@@ -73,7 +73,8 @@ public class VideoController {
 		return ResponseEntity.ok().body(videoService.upload(file, ownerId));
 	}
 	
-	public ResponseEntity<Resource> serveThumbnail(@RequestParam String fileName, @RequestParam String videoFileName) throws MalformedURLException {
+	@GetMapping(value = "/thumbnail")
+	public ResponseEntity<Resource> showThumbnail(@RequestParam String fileName, @RequestParam String videoFileName) throws MalformedURLException {
 		Path imagePath = Paths.get(UPLOAD_VIDEO_DIRECTORY).resolve(fileName);
 		Resource resource = new UrlResource(imagePath.toUri());
 		
