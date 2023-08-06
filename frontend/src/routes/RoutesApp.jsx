@@ -13,6 +13,7 @@ import WatchList from "../pages/Watch/WatchList";
 import Explore from "../pages/Explore";
 import Search from "../pages/Search";
 import Watch from "../pages/Watch";
+import PublishVideo from "../pages/PublishVideo";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -65,6 +66,17 @@ export default function RouteApp() {
               <Private>
                 <Layout>
                   <Publish />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/publicar/video"
+            element={
+              <Private>
+                <Layout>
+                  <PublishVideo />
                 </Layout>
               </Private>
             }

@@ -45,8 +45,12 @@ export const ContentContainer = styled.main`
 
 export const Content = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   height: 88vh;
   overflow: auto;
+
 `
 
 export const Sentinel = styled.div`
