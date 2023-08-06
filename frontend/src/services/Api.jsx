@@ -211,3 +211,38 @@ export const findVideoByFileName = async (fileName) => {
     console.log(err);
   }
 }
+
+export const updateVideo = async (newVideo, videoId) => {
+  try {
+    const response = await api.put(`/videos/${videoId}`, newVideo, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    });
+    console.log(response);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const uploadVideo = async (videoFile, ownerId) => {
+  const formData = new FormData();
+  formData.append("file", videoFile);
+
+  try {
+    const response = await api.post(`/videos?ownerId=${ownerId}`, formData, {
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        console.log(progress);
+      }
+    });
+
+    console.log(response.data);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}

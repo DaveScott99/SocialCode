@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   AwarenessNoticeContainer,
   ButtonUpload,
   Container,
   ContainerInput,
   Input,
+  MessageProgress,
   Preview,
+  Progress,
+  ProgressBarContainer,
   SelectFile,
   TextWarning,
 } from "./styles";
@@ -13,9 +16,14 @@ import { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { CiWarning } from "react-icons/ci";
 import UploadVideoForm from "../../components/Forms/UploadVideoForm";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { api } from "../../services/Api";
 
 export default function PublishVideo() {
+  const { user } = useContext(AuthContext);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [progressUpload, setProgressUpload] = useState(0);
+  const [videoOnUpload, setVideoOnUpload] = useState(null);
 
   const handleVideoChange = (event) => {
     const file = event.target.files[0];
@@ -27,11 +35,43 @@ export default function PublishVideo() {
     }
   };
 
-  console.log(selectedVideo);
+  useEffect(() => {
+    if (selectedVideo) {
+      const formData = new FormData();
+      formData.append("file", selectedVideo);
+
+      api
+        .post(`/videos?ownerId=${user.id}`, formData, {
+          onUploadProgress: (progressEvent) => {
+            const progress = Math.round(
+              (progressEvent.loaded / progressEvent.total) * 100
+            );
+            setProgressUpload(progress);
+          },
+        })
+        .then((response) => setVideoOnUpload(response.data))
+        .catch((err) => console.log(err));
+    }
+  }, [selectedVideo, user.id]);
+
+  //console.log(videoOnUpload);
 
   return (
     <Container>
       <h1>Publicar um novo vídeo</h1>
+
+      {progressUpload > 0 ? (
+        <ProgressBarContainer>
+          <Progress type="range" value={progressUpload} min="0" max="100" />
+          <MessageProgress>
+            {progressUpload < 100
+              ? progressUpload + "%"
+              : videoOnUpload !== null
+              ? "Vídeo enviado com succeso!"
+              : "Processando até SD..."}
+          </MessageProgress>
+        </ProgressBarContainer>
+      ) : null}
 
       {!selectedVideo ? (
         <ContainerInput>
@@ -51,7 +91,7 @@ export default function PublishVideo() {
         </ContainerInput>
       ) : null}
 
-      {selectedVideo ? <UploadVideoForm /> : null}
+      {selectedVideo ? <UploadVideoForm videoOnUpload={videoOnUpload} /> : null}
 
       <AwarenessNoticeContainer>
         <CiWarning />

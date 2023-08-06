@@ -31,15 +31,15 @@ public class Language {
 	private String icon;
 	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "languages")
 	private Set<Post> posts = new HashSet<>();
 	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "interest")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "interest")
 	private Set<User> users = new HashSet<>();
 	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "languages")
 	private Set<Video> videos = new HashSet<>();
 	
 	public Language(){

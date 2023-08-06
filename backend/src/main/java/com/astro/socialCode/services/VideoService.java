@@ -14,23 +14,27 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.astro.socialCode.dto.VideoDTO;
 import com.astro.socialCode.dto.mapper.VideoMapper;
+import com.astro.socialCode.dto.request.VideoUploadFileDTO;
 import com.astro.socialCode.dto.response.LanguageDTO;
+import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.entities.ThumbnailVideo;
-import com.astro.socialCode.entities.User;
-import com.astro.socialCode.entities.Video;
+import com.astro.socialCode.entities.VideoQuality;
 import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.ThumbnailVideoRepository;
 import com.astro.socialCode.repositories.UserRepository;
+import com.astro.socialCode.repositories.VideoQualityRepository;
 import com.astro.socialCode.repositories.VideoRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
 import com.astro.socialCode.util.FFmpegVideoConverter;
+import com.astro.socialCode.util.PayloadUploadInfoVideo;
 
 @Service
 public class VideoService {
 	
 	private final VideoRepository videoRepository;
 	private final LanguageRepository languageRepository;
+	private final VideoQualityRepository videoQualityRepository;
 	private final ThumbnailVideoRepository thumbnailVideoRepository;
 	private final UserRepository userRepository;
 	private final VideoMapper videoMapper;
@@ -38,13 +42,15 @@ public class VideoService {
 
 	public VideoService(VideoRepository videoRepository, VideoMapper videoMapper, 
 			FFmpegVideoConverter ffmpegVideoConverter, LanguageRepository languageRepository,
-			UserRepository userRepository, ThumbnailVideoRepository thumbnailVideoRepository) {
+			UserRepository userRepository, ThumbnailVideoRepository thumbnailVideoRepository,
+			VideoQualityRepository videoQualityRepository) {
 		this.videoRepository = videoRepository;
 		this.videoMapper = videoMapper;
 		this.ffmpegVideoConverter = ffmpegVideoConverter;
 		this.languageRepository = languageRepository;
 		this.userRepository = userRepository;
 		this.thumbnailVideoRepository = thumbnailVideoRepository;
+		this.videoQualityRepository = videoQualityRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -75,23 +81,22 @@ public class VideoService {
 	}
 	
 	@Transactional
-	public VideoDTO update(Long id, VideoDTO newVideo, MultipartFile thumbnailFile){		
+	public VideoDTO update(Long id, PayloadUploadInfoVideo payload){		
 		return videoRepository.findById(id)
 				 .map(videoFound -> {
-					 videoFound.setTitle(newVideo.getTitle());
-					 videoFound.setDescription(newVideo.getDescription());
-					 videoFound.setThumbnail(newVideo.getThumbnail());
-					 videoFound.setFileName(newVideo.getFileName());
+					 videoFound.setTitle(payload.getTitle());
+					 videoFound.setDescription(payload.getDescription());
+					 videoFound.setFileName(payload.getFileName());
 					 
-					 for (LanguageDTO languageDto : newVideo.getLanguages()) {
+					 for (LanguageDTO languageDto : payload.getLanguages()) {
 							Language language = languageRepository.findById(languageDto.getId())
 															.orElseThrow(() -> new EntityNotFoundException("Linguagem não encontrada"));
 							videoFound.getLanguages().add(language);
 					 }
 					 
-				 	 String uploadDir = "E:/videos-segmentos/videos/" + newVideo.getFileName().replace(".mp4", "");
+				 	 String uploadDir = "E:/videos-segmentos/videos/" + payload.getFileName().replace(".mp4", "");
 
-					 String originalName = thumbnailFile.getOriginalFilename();
+					 String originalName = payload.getThumbnailFile().getOriginalFilename();
 		             String fileExtension = originalName.substring(originalName.lastIndexOf("."));
 		             String newFileName = UUID.randomUUID().toString() + fileExtension;
 					 String filePath = uploadDir + File.separator + newFileName;
@@ -100,8 +105,8 @@ public class VideoService {
 		             ThumbnailVideo thumbnail = new ThumbnailVideo();
 						
 					 thumbnail.setFileName(newFileName);
-					 thumbnail.setContentType(thumbnailFile.getContentType());
-					 thumbnail.setFileSize(thumbnailFile.getSize());
+					 thumbnail.setContentType(payload.getThumbnailFile().getContentType());
+					 thumbnail.setFileSize(payload.getThumbnailFile().getSize());
 					 thumbnail.setFilePath(filePath);
 					
 					 ThumbnailVideo savedThumbnail = thumbnailVideoRepository.save(thumbnail);
@@ -109,7 +114,7 @@ public class VideoService {
 					 videoFound.setThumbnailVideo(savedThumbnail);
 					 
 					 try {
-						 thumbnailFile.transferTo(dest);					
+						 payload.getThumbnailFile().transferTo(dest);					
 					 }
 					 catch(IOException e) {
 						throw new IllegalArgumentException(e.getMessage());
@@ -121,40 +126,41 @@ public class VideoService {
 	}
 	
 	@Transactional
-	public Video upload(MultipartFile videoFile, Long ownerId) throws InterruptedException {
+	public VideoUploadFileDTO upload(MultipartFile videoFile, Long ownerId) throws InterruptedException {
 		try {
 			
-			User owner = userRepository.findById(ownerId)
+			UserMinDTO owner = userRepository.findById(ownerId)
+					.map(user -> new UserMinDTO(user))
 					.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 			
 			if (owner != null) {
 				String newFileName = UUID.randomUUID().toString();
-				
 	            String uploadDir = "E:/videos-segmentos/videos/" + newFileName;
-				
 				File outputDirectory = new File(uploadDir);
-				
+				Path tempDir = Files.createTempDirectory("video-temp");
+				File tempFile = new File(tempDir.toFile(), videoFile.getOriginalFilename());
 				if (!outputDirectory.exists()) {
 					outputDirectory.mkdirs();
 				}
-	            
-				String filePath = uploadDir + File.separator + newFileName;
 				
-				Path tempDir = Files.createTempDirectory("video-temp");
-				File tempFile = new File(tempDir.toFile(), videoFile.getOriginalFilename());
 				videoFile.transferTo(tempFile);
-				
-				ffmpegVideoConverter.convertToSegments(tempFile, outputDirectory);
-				
-				Video videoFileToInsert = new Video();
-				
-				videoFileToInsert.setFileName(newFileName);
-				videoFileToInsert.setContentType(videoFile.getContentType());
-				videoFileToInsert.setFileSize(videoFile.getSize());
-				videoFileToInsert.setFilePath(filePath);
-				videoFileToInsert.setOwner(owner);
-				
-				return videoRepository.save(videoFileToInsert);
+	            
+				VideoUploadFileDTO videoFileToInsert = new VideoUploadFileDTO();
+
+				if (ffmpegVideoConverter.processor360p(tempFile, outputDirectory)) {
+					videoFileToInsert.setFileName(newFileName);
+					videoFileToInsert.setContentType(videoFile.getContentType());
+					videoFileToInsert.setFileSize(videoFile.getSize());
+					videoFileToInsert.setFilePath(uploadDir);
+					videoFileToInsert.setOwner(owner);
+					
+					VideoQuality quality360p = new VideoQuality(2L, "360p");
+					
+					videoFileToInsert.getQualities().add(quality360p);
+					
+					return videoMapper.toVideoUploadDTO(videoRepository.save(videoMapper.toEntityToUpload(videoFileToInsert)));
+				};
+								
 			}
 			
 		}

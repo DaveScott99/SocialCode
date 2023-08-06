@@ -66,7 +66,7 @@ public class Video {
 	@JoinColumn(name = "OWNER_ID")
 	private User owner;
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "VIDEO_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_VIDEO"),
@@ -74,7 +74,7 @@ public class Video {
 	)
 	private Set<Language> languages = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinTable(
 		name = "VIDEO_VOTES",
         joinColumns = @JoinColumn(name = "ID_VIDEO"),
@@ -82,7 +82,15 @@ public class Video {
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JoinTable(
+		name = "VIDEO_QUALITIES",
+        joinColumns = @JoinColumn(name = "ID_VIDEO"),
+        inverseJoinColumns = @JoinColumn(name = "ID_QUALITY")
+    )
+	private Set<VideoQuality> qualities = new HashSet<>();
+	
+	@OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("video")
 	private Set<Coment> coments = new HashSet<>();
 
@@ -203,6 +211,10 @@ public class Video {
 
 	public Set<Coment> getComents() {
 		return coments;
+	}
+
+	public Set<VideoQuality> getQualities() {
+		return qualities;
 	}
 	
 }

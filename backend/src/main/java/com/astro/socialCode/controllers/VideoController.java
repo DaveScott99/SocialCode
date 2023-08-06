@@ -8,18 +8,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.astro.socialCode.dto.VideoDTO;
-import com.astro.socialCode.entities.Video;
+import com.astro.socialCode.dto.request.VideoUploadFileDTO;
 import com.astro.socialCode.services.VideoService;
+import com.astro.socialCode.util.PayloadUploadInfoVideo;
 
 @RestController
 @RequestMapping("/videos")
@@ -52,13 +53,13 @@ public class VideoController {
 		return ResponseEntity.ok().body(videoService.findById(videoId));
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @RequestBody VideoDTO newVideo, @RequestParam(name = "file") MultipartFile thumbnailFile) {		
-		return ResponseEntity.ok().body(videoService.update(id, newVideo, thumbnailFile));
+	@PutMapping(value = "/{id}", consumes = { "multipart/form-data" })
+	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @ModelAttribute PayloadUploadInfoVideo payload) {		
+		return ResponseEntity.ok().body(videoService.update(id, payload));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Video> upload(@RequestParam MultipartFile file, @RequestParam Long ownerId) throws InterruptedException {
+	public ResponseEntity<VideoUploadFileDTO> upload(@RequestParam MultipartFile file, @RequestParam Long ownerId) throws InterruptedException {
 		return ResponseEntity.ok().body(videoService.upload(file, ownerId));
 	}
 	

@@ -6,10 +6,11 @@ import TextArea from "../../Generics/TextArea/TextArea";
 import { useState } from "react";
 import { TbPhotoUp } from "react-icons/tb"
 import { useQuery } from "@tanstack/react-query";
-import { findLanguages } from "../../../services/Api";
+import { findLanguages, updateVideo } from "../../../services/Api";
 import Select from "react-select";
+import { validateTitleVideo } from "../../../utils/Validators";
 
-export default function UploadVideoForm({ filename }) {
+export default function UploadVideoForm({ videoOnUpload }) {
 
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
@@ -17,9 +18,8 @@ export default function UploadVideoForm({ filename }) {
   const [newVideo, setNewVideo] = useState({
     title: "",
     description: "",
-    thumbnail: "",
-    fileName: filename,
-    languages: [],
+    fileName: "",
+    thumbnailFile: selectedThumbnail
   })
 
   const { data: languages } = useQuery(["languages"], () => findLanguages(), {staleTime: 5000*1000});
@@ -27,6 +27,8 @@ export default function UploadVideoForm({ filename }) {
   const handleImageChange = (event) => {
       const file = event.target.files[0];
       setSelectedThumbnail(file);
+
+      setNewVideo({ ...newVideo, thumbnailFile: file})
 
       if (file) {
           const reader = new FileReader();
@@ -48,6 +50,28 @@ export default function UploadVideoForm({ filename }) {
     const { name, value } = event.target;
     setNewVideo({ ...newVideo, [name]: value });
   };
+
+  console.log(newVideo);
+
+
+  const handleSaveVideo = () => {
+    if (videoOnUpload){
+      setNewVideo({
+        ...newVideo, 
+        fileName: videoOnUpload.fileName,      
+      });
+      console.log(newVideo);
+
+      if (newVideo.fileName.length > 1) {
+        updateVideo(newVideo, videoOnUpload.id);
+      }
+    }
+  }
+
+  const validatorInput = () => {
+    return videoOnUpload
+          && validateTitleVideo(newVideo.title);
+  }
 
   return (
     <ContainerForm>
@@ -97,6 +121,8 @@ export default function UploadVideoForm({ filename }) {
           borderradius="5"
           fontWeight="bold"
           justify="center"
+          onClick={handleSaveVideo}
+          disabled={!validatorInput()}
         >
           Salvar
         </Button>
