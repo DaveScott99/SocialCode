@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,6 @@ import com.astro.socialCode.entities.VideoQuality;
 import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.ThumbnailVideoRepository;
 import com.astro.socialCode.repositories.UserRepository;
-import com.astro.socialCode.repositories.VideoQualityRepository;
 import com.astro.socialCode.repositories.VideoRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
 import com.astro.socialCode.util.FFmpegVideoConverter;
@@ -32,9 +32,11 @@ import com.astro.socialCode.util.PayloadUploadInfoVideo;
 @Service
 public class VideoService {
 	
+	@Value("${video_directory}")
+	private String UPLOAD_VIDEO_DIRECTORY;
+	
 	private final VideoRepository videoRepository;
 	private final LanguageRepository languageRepository;
-	private final VideoQualityRepository videoQualityRepository;
 	private final ThumbnailVideoRepository thumbnailVideoRepository;
 	private final UserRepository userRepository;
 	private final VideoMapper videoMapper;
@@ -42,15 +44,13 @@ public class VideoService {
 
 	public VideoService(VideoRepository videoRepository, VideoMapper videoMapper, 
 			FFmpegVideoConverter ffmpegVideoConverter, LanguageRepository languageRepository,
-			UserRepository userRepository, ThumbnailVideoRepository thumbnailVideoRepository,
-			VideoQualityRepository videoQualityRepository) {
+			UserRepository userRepository, ThumbnailVideoRepository thumbnailVideoRepository) {
 		this.videoRepository = videoRepository;
 		this.videoMapper = videoMapper;
 		this.ffmpegVideoConverter = ffmpegVideoConverter;
 		this.languageRepository = languageRepository;
 		this.userRepository = userRepository;
 		this.thumbnailVideoRepository = thumbnailVideoRepository;
-		this.videoQualityRepository = videoQualityRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -94,7 +94,7 @@ public class VideoService {
 							videoFound.getLanguages().add(language);
 					 }
 					 
-				 	 String uploadDir = "E:/videos-segmentos/videos/" + payload.getFileName().replace(".mp4", "");
+				 	 String uploadDir = UPLOAD_VIDEO_DIRECTORY + payload.getFileName().replace(".mp4", "");
 
 					 String originalName = payload.getThumbnailFile().getOriginalFilename();
 		             String fileExtension = originalName.substring(originalName.lastIndexOf("."));
@@ -135,7 +135,7 @@ public class VideoService {
 			
 			if (owner != null) {
 				String newFileName = UUID.randomUUID().toString();
-	            String uploadDir = "E:/videos-segmentos/videos/" + newFileName;
+	            String uploadDir = UPLOAD_VIDEO_DIRECTORY + newFileName;
 				File outputDirectory = new File(uploadDir);
 				Path tempDir = Files.createTempDirectory("video-temp");
 				File tempFile = new File(tempDir.toFile(), videoFile.getOriginalFilename());

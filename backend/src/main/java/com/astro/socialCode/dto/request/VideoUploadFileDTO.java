@@ -1,5 +1,6 @@
 package com.astro.socialCode.dto.request;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,9 @@ import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.Video;
 import com.astro.socialCode.entities.VideoQuality;
 
-public class VideoUploadFileDTO {
+public class VideoUploadFileDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String fileName;

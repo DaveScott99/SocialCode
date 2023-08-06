@@ -1,11 +1,18 @@
 package com.astro.socialCode.controllers;
 
+import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +32,10 @@ import com.astro.socialCode.util.PayloadUploadInfoVideo;
 @RestController
 @RequestMapping("/videos")
 public class VideoController {
-
+	
+	@Value("{video_directory}")
+	private String UPLOAD_VIDEO_DIRECTORY;
+	
 	private final VideoService videoService;
 	
 	public VideoController(VideoService videoService) {
@@ -63,4 +73,15 @@ public class VideoController {
 		return ResponseEntity.ok().body(videoService.upload(file, ownerId));
 	}
 	
+	public ResponseEntity<Resource> serveThumbnail(@RequestParam String fileName, @RequestParam String videoFileName) throws MalformedURLException {
+		Path imagePath = Paths.get(UPLOAD_VIDEO_DIRECTORY).resolve(fileName);
+		Resource resource = new UrlResource(imagePath.toUri());
+		
+		if (resource.exists() && resource.isReadable()) {
+			return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(resource);
+		}
+		else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 }

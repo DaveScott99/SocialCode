@@ -57,7 +57,7 @@ public class Video {
 	@Column(name = "CREATION_MOMENT_VIDEO")
 	private Instant creationDate; 
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "ID_THUMBNAIL_VIDEO")
 	private ThumbnailVideo thumbnailVideo;
 	

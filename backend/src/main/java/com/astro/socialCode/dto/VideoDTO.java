@@ -1,6 +1,7 @@
 package com.astro.socialCode.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder(value = {"id", "title", "description", "thumbnail", "fileName", "owner", "languages", "coments", "qualities"})
+@JsonPropertyOrder(value = {"id", "title", "description", "thumbnail", "fileName", "owner", "languages", "coments", "qualities", "creationDate"})
 public class VideoDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,9 +28,6 @@ public class VideoDTO implements Serializable {
 	@JsonProperty(value = "description")
 	private String description;
 	
-	@JsonProperty(value = "thumbnail")
-	private String thumbnail;
-	
 	@JsonProperty(value = "fileName")
 	private String fileName;
 	
@@ -40,6 +38,12 @@ public class VideoDTO implements Serializable {
 	private Long votesCount;
 	
 	private boolean votedByUser;
+	
+	@JsonProperty(value = "creationDate")
+	private Instant creationDate;
+	
+	@JsonProperty(value = "thumbnail")
+	private ThumbnailVideoDTO thumbnailVideo;
 	
 	@JsonProperty(value = "languages")
 	private Set<LanguageDTO> languages = new HashSet<>();
@@ -56,26 +60,28 @@ public class VideoDTO implements Serializable {
 	public VideoDTO() {
 	}
 
-	public VideoDTO(Long id, String title, String description, String thumbnail, String fileName, UserMinDTO owner,
-			Long votesCount, boolean votedByUser) {
+	public VideoDTO(Long id, String title, String description, ThumbnailVideoDTO thumbnailVideo, String fileName, UserMinDTO owner,
+			Long votesCount, boolean votedByUser, Instant creationDate) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.thumbnail = thumbnail;
+		this.thumbnailVideo = thumbnailVideo;
 		this.fileName = fileName;
 		this.owner = owner;
 		this.votesCount = votesCount;
 		this.votedByUser = votedByUser;
+		this.creationDate = creationDate;
 	}
 
 	public VideoDTO(Video entity) {
 		id = entity.getId();
 		title = entity.getTitle();
 		description = entity.getDescription();
-		thumbnail = entity.getThumbnail();
+		thumbnailVideo = new ThumbnailVideoDTO(entity.getThumbnailVideo());
 		fileName = entity.getFileName();
 		owner = new UserMinDTO(entity.getOwner());
 		votesCount = entity.getVotes().stream().count();
+		creationDate = entity.getCreationDate();
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
 		entity.getQualities().forEach(quality -> getQualities().add(new VideoQuality(quality.getId(), quality.getQualityName())));
@@ -94,8 +100,8 @@ public class VideoDTO implements Serializable {
 		return description;
 	}
 
-	public String getThumbnail() {
-		return thumbnail;
+	public ThumbnailVideoDTO getThumbnailVideo() {
+		return thumbnailVideo;
 	}
 
 	public String getFileName() {
@@ -130,6 +136,10 @@ public class VideoDTO implements Serializable {
 		return votes;
 	}
 	
+	public Instant getCreationDate() {
+		return creationDate;
+	}
+
 	public Set<VideoQuality> getQualities() {
 		return qualities;
 	}

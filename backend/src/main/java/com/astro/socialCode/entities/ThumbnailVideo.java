@@ -48,6 +48,11 @@ public class ThumbnailVideo {
 		this.filePath = filePath;
 		this.creationDate = creationDate;
 	}
+	
+	public ThumbnailVideo(Long id, String fileName) {
+		this.id = id;
+		this.fileName = fileName;
+	}
 
 	public Long getId() {
 		return id;
