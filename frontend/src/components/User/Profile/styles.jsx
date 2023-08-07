@@ -6,6 +6,8 @@ export const UserInfoContainer = styled.section`
     padding: 20px;
     background: ${props => props.theme.colors.white};
     border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #00000026;
+
 `;
 
 export const UserData = styled.div`

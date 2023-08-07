@@ -3,21 +3,17 @@ import { styled } from "styled-components";
 export const Container = styled.div`
   width: 100%;
   color: ${(props) => props.theme.colors.black};
-  flex: 1 0 auto;  
   display: flex; 
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
 `;
 
 export const ContainerVotes = styled.div`
-  width: 50px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: ${(props) => props.theme.colors.white};
   margin-right: 10px;
 `;
 
@@ -44,13 +40,12 @@ export const ImagePost = styled.img`
 `;
 
 export const Info = styled.header`
-
   width: 100%;
   max-width: 900px;
-
   display: flex;
   flex-direction: row-reverse;
-  padding: 10px;
+
+  margin-bottom: 10px;
 
   a {
     color: ${(props) => props.theme.colors.primary};
@@ -211,7 +206,6 @@ export const MoreButton = styled.div`
     svg {
         font-size: 1.5em;
         position: relative;
-
     }
 
     &:hover {

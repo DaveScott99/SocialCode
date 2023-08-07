@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Player from "../../components/Player";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { nextVideo } from "../../redux/video/actions";
@@ -44,8 +44,9 @@ import { dateFormat } from "../../utils/FormatDateInfo";
 
 export default function Watch() {
   const { filename } = useParams();
-
   const [videosRecommendation, setVideosRecommendation] = useState([]);
+  const showThumbnail = process.env.REACT_APP_API;
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -60,8 +61,6 @@ export default function Watch() {
       setVideosRecommendation(response.content)
     );
   }, []);
-
-  console.log(videosRecommendation);
 
   useEffect(() => {
     dispatch(nextVideo(0));
@@ -82,7 +81,7 @@ export default function Watch() {
             <Title>{videoData.title}</Title>
             <Views>
               0 Visualizações
-              <VideoDate> · há {dateFormat(2)}</VideoDate>
+              <VideoDate> · há {dateFormat(videoData.creationDate)}</VideoDate>
             </Views>
           </TitleContainer>
 
@@ -153,17 +152,17 @@ export default function Watch() {
 
       <RecommendationsContainer>
         {videosRecommendation.map((video) => (
-          <ItemRecommendation key={video.id}>
-            <Thumbnail src={video.thumbnail} />
+          <ItemRecommendation key={video.id} onClick={() => navigate(`/watch/${video.fileName}`)}>
+            <Thumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail.fileName}&videoFileName=${video.fileName}`} />
             <Views>
-              <TitleRecommendation>{videoData.title}</TitleRecommendation>
+              <TitleRecommendation>{video.title}</TitleRecommendation>
               <OwnerRecommendation>
                 <UsernameRecommendation>
                   {video.owner.username}
                 </UsernameRecommendation>
               </OwnerRecommendation>
               0 Visualizações
-              <VideoDate> · há {dateFormat(2)}</VideoDate>
+              <VideoDate> · há {dateFormat(video.creationDate)}</VideoDate>
             </Views>
           </ItemRecommendation>
         ))}

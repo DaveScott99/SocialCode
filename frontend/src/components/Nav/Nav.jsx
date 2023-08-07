@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { AiOutlinePlus } from "react-icons/ai";
-import { BiHomeAlt } from "react-icons/bi";
+import { BiCompass, BiHomeAlt, BiTerminal, BiPlusCircle } from "react-icons/bi";
+import { BsCollectionPlay } from "react-icons/bs";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
 import DialogConfirmation from "../Generics/DialogConfirmation";
@@ -12,11 +12,16 @@ import Search from "../Generics/Search/Search";
 import {
   BackArrow,
   IconItem,
+  ItemNavigation,
   Label,
+  Left,
   LineSeparator,
+  Logo,
   Menu,
   MenuItem,
+  MenuNavigation,
   NavContainer,
+  PlataformName,
   ProfileImage,
   Right,
   SubMenuContainer,
@@ -30,6 +35,17 @@ export default function Nav({ backPath }) {
   const [isModalLoggout, setIsModalLoggout] = useState(false);
   const subMenuRef = useRef(null);
   const navigate = useNavigate();
+
+  const path = window.location.pathname;
+  const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+
+  const handleSelectItemMenu = (item) => {
+    setSelectedMenuItem(item);
+  };
+
+  useEffect(() => {
+    setSelectedMenuItem(path);
+  }, [path]);
 
   const handleOpenSubMenuUser = () => {
     setShowSubMenuUser(true);
@@ -53,11 +69,53 @@ export default function Nav({ backPath }) {
     setIsModalLoggout(true);
   };
 
-
-
   return (
     <NavContainer>
       <Menu>
+        
+        <Left>
+          <Link to="/">
+            <Logo>
+              <BiTerminal />
+              <PlataformName>SocialCode</PlataformName>
+            </Logo>
+          </Link> 
+        </Left>
+
+
+        <MenuNavigation>
+        <Link to="/">
+          <ItemNavigation
+            selected={selectedMenuItem === "/"}
+            onClick={() => handleSelectItemMenu("/")}
+          >
+            <IconItem>
+              <BiHomeAlt />
+            </IconItem>
+          </ItemNavigation>
+        </Link>
+
+        <Link to="/explore">
+          <ItemNavigation
+            selected={selectedMenuItem === "/explore"}
+            onClick={() => handleSelectItemMenu("/explore")}
+          >
+            <IconItem>
+              <BiCompass />
+            </IconItem>
+          </ItemNavigation>
+        </Link>
+
+        <Link to="/watch">
+          <ItemNavigation
+            selected={selectedMenuItem === "/watch"}
+            onClick={() => handleSelectItemMenu("/watch")}
+          >
+            <IconItem><BsCollectionPlay /></IconItem>
+          </ItemNavigation>
+        </Link>
+        </MenuNavigation>
+
         <MenuItem>
           {backPath && (
             <BackArrow onClick={() => navigate(backPath)}>
@@ -68,13 +126,12 @@ export default function Nav({ backPath }) {
         </MenuItem>
 
         <Right>
-
-          <Search />
+            <Search />
 
           <Link to="/publicar">
             <MenuItem>
               <IconItem>
-                <AiOutlinePlus />
+                <BiPlusCircle />
               </IconItem>
             </MenuItem>
           </Link>

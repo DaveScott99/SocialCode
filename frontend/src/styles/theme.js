@@ -4,7 +4,8 @@ const theme = {
         primary_hover: "#3a93ff",
 
         white: "#FFFFFF",
-        white_smoke: "#F0F2F5",
+        white_smoke: "#F7F9F9",
+        
 
         grey: "#c2c2c274",
         dark_grey: "#262626",

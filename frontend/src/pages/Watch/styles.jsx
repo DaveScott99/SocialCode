@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 export const Container = styled.div`
     display: flex;
     margin-top: 20px;
+    width: 100%;
+    max-width: 1550px;
 `
 
 export const PlayerContainer = styled.div`
@@ -10,7 +12,7 @@ export const PlayerContainer = styled.div`
 
 export const InfoVideo = styled.div`
     width: 100%;
-    padding: 10px;
+    margin-right: 10px;
 `
 
 export const Header = styled.div`
@@ -114,7 +116,7 @@ export const RecommendationsContainer = styled.div`
 export const ItemRecommendation = styled.div`
     display: flex;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 `
 
 export const Thumbnail = styled.img`
@@ -129,7 +131,7 @@ export const Thumbnail = styled.img`
 `
 
 export const TitleRecommendation = styled.h2`
-    font-size: 1.2em;
+    font-size: 1.1em;
 `
 
 export const OwnerRecommendation = styled.div`

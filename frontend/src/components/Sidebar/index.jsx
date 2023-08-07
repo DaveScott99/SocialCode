@@ -72,16 +72,6 @@ export default function Sidebar() {
 
         <Link to="/">
           <MenuItem
-            selected={selectedMenuItem === "/courses"}
-            onClick={() => handleSelectItemMenu("/courses")}
-          >
-            <Icon></Icon>
-            <Label>Cursos</Label>
-          </MenuItem>
-        </Link>
-
-        <Link to="/">
-          <MenuItem
             selected={selectedMenuItem === "/configuration"}
             onClick={() => handleSelectItemMenu("/configuration")}
           >

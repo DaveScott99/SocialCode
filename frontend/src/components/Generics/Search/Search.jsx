@@ -20,7 +20,6 @@ export default function Search() {
   return (
     <SearchContainer>
       <span>
-        <BiSearch name="search"/>
         <SearchInput
           id="searchInput"
           type="text"

@@ -5,26 +5,26 @@ export const Container = styled.div`
     grid-gap: 30px;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     padding: 20px;
-
+    width: 100%;
+    max-width: 1440px;
+    margin-top: 10px;
 `
 
 export const VideoItem = styled.article`
-
+    max-width: 340px;
 `
 
 export const VideoThumbnail = styled.img`
-    border-radius: 10px;
     width: 100%;
-    max-width: 370px;
     height: 200px;
-    object-fit: contain;
     user-select: none;
+    border-radius: 10px;
 
     cursor: pointer;
 `
 
 export const VideoTitle = styled.h2`
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: 600;
     cursor: pointer;
 `

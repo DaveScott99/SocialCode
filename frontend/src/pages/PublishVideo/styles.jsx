@@ -28,10 +28,11 @@ export const SelectFile = styled.label`
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
-  background: ${(props) => props.theme.colors.white_smoke};
+  background: ${(props) => props.theme.colors.grey};
+  transition: all .1s;
 
   &:hover {
-    background: ${(props) => props.theme.colors.grey};
+    background: #8888885b;
   }
 `;
 

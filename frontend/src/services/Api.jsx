@@ -67,13 +67,8 @@ export const findUserByUsername = async (username) => {
 export const searchUsersByUsername = async (username) => {
   try {
     if (username !== null) {
-      return await api.get(`/users/searchUsers/${username}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      return await api.get(`/users/searchUsers?q=${username}`);
     }
-    return null;
   } catch (error) {
     console.log(error);
   }

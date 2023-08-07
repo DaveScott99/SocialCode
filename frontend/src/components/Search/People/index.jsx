@@ -21,6 +21,8 @@ export default function People({ query }) {
     { staleTime: 2000 * 100 }
   );
 
+  console.log(searchResponse);
+
   if (isLoading) {
     return <Loading color="#FFF" />;
   }

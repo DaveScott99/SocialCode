@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import {
   Container,
   Date,
@@ -14,6 +14,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { findAllVideos } from "../../../services/Api";
 import Loading from "../../../components/Generics/Loading/Loading";
+import { dateFormat } from "../../../utils/FormatDateInfo";
 
 export default function WatchList() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function WatchList() {
           </Owner>
           <ViewsAndDate>
             <Views>{video.views} views - </Views>
-            <Date>há {video.date} horas</Date>
+            <Date>há {dateFormat(video.creationDate)}</Date>
           </ViewsAndDate>
         </VideoItem>
       ))}
