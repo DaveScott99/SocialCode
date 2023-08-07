@@ -24,7 +24,9 @@ export default function WatchList() {
     { staleTime: 2000 * 100 }
   );
 
-  //console.log(videosData);
+  console.log(videosData);
+  
+  const showThumbnail = process.env.REACT_APP_API;
 
   if (isLoading) {
     return <Loading color="#FFF" />
@@ -34,7 +36,7 @@ export default function WatchList() {
     <Container>
       {videosData.content.map((video) => (
         <VideoItem key={video.id} onClick={() => navigate(`/watch/${video.fileName}`)} >
-          <VideoThumbnail src={video.thumbnail} />
+          <VideoThumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail.fileName}&videoFileName=${video.fileName}`} />
           <VideoTitle>{video.title}</VideoTitle>
           <Owner>
             <Username>

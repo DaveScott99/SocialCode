@@ -33,7 +33,7 @@ import com.astro.socialCode.util.PayloadUploadInfoVideo;
 @RequestMapping("/videos")
 public class VideoController {
 	
-	@Value("{video_directory}")
+	@Value("${video_directory}")
 	private String UPLOAD_VIDEO_DIRECTORY;
 	
 	private final VideoService videoService;
@@ -74,12 +74,12 @@ public class VideoController {
 	}
 	
 	@GetMapping(value = "/thumbnail")
-	public ResponseEntity<Resource> showThumbnail(@RequestParam String fileName, @RequestParam String videoFileName) throws MalformedURLException {
-		Path imagePath = Paths.get(UPLOAD_VIDEO_DIRECTORY).resolve(fileName);
+	public ResponseEntity<Resource> showThumbnail(@RequestParam String thumbnailFileName, @RequestParam String videoFileName) throws MalformedURLException {
+		Path imagePath = Paths.get(UPLOAD_VIDEO_DIRECTORY + videoFileName + "/" + thumbnailFileName );
 		Resource resource = new UrlResource(imagePath.toUri());
 		
-		if (resource.exists() && resource.isReadable()) {
-			return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(resource);
+		if (resource.exists() || resource.isReadable()) {
+			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
 		}
 		else {
 			return ResponseEntity.notFound().build();
