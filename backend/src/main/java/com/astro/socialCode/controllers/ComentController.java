@@ -53,7 +53,6 @@ public class ComentController {
 		return ResponseEntity.ok().body(comentService.publishComentInVideo(comentDTO));
 	}
 	
-	
 	@PostMapping(value = "/publishComentPost")
 	public ResponseEntity<ComentPostDTO> publishComentInPost(@RequestBody ComentPostDTO comentDTO) {
 		return ResponseEntity.ok().body(comentService.publishComentInPost(comentDTO));

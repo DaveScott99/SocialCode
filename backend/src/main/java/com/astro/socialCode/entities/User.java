@@ -1,15 +1,11 @@
 package com.astro.socialCode.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,28 +62,25 @@ public class User {
 	private Instant registrationMoment;
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
-	private List<Post> posts = new ArrayList<>();
+	private Set<Post> posts = new HashSet<>();
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
 	private Set<Video> videos = new HashSet<>();
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
 	private Set<ComentPost> comentsInPosts = new HashSet<>();
 	
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
 	private Set<ComentVideo> comentsInVideos = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "votes")
-	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "votes")
-	@JsonIgnore
 	private Set<Video> votedVideos = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "users")
+	private Set<Language> interest = new HashSet<>();
 	
 	@ManyToMany
 	@JoinTable(
@@ -99,14 +92,6 @@ public class User {
 	
 	@ManyToMany(mappedBy = "following")
 	private Set<User> followers = new HashSet<>();
-	
-	@ManyToMany
-	@JoinTable(
-		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
-		joinColumns = @JoinColumn(name = "ID_USER"),
-		inverseJoinColumns = @JoinColumn(name = "ID_LANGUAGE")
-	)
-	private Set<Language> interest = new HashSet<>();
 	
 	public User() {
 	}
@@ -230,7 +215,7 @@ public class User {
 		this.password = password;
 	}
 
-	public List<Post> getPosts() {
+	public Set<Post> getPosts() {
 		return posts;
 	}
 

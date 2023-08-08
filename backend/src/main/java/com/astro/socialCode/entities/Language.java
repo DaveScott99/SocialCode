@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -30,15 +32,30 @@ public class Language {
 	private String icon;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "languages")
+	@ManyToMany
+	@JoinTable(
+		name = "POST_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_LANGUAGE"),
+		inverseJoinColumns = @JoinColumn(name = "ID_POST")
+	)
 	private Set<Post> posts = new HashSet<>();
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "interest")
+	@ManyToMany
+	@JoinTable(
+		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_LANGUAGE"),
+		inverseJoinColumns = @JoinColumn(name = "ID_USER")
+	)
 	private Set<User> users = new HashSet<>();
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "languages")
+	@ManyToMany
+	@JoinTable(
+		name = "VIDEO_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_LANGUAGE"),
+		inverseJoinColumns = @JoinColumn(name = "ID_VIDEO")
+	)
 	private Set<Video> videos = new HashSet<>();
 	
 	public Language(){

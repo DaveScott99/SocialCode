@@ -11,7 +11,6 @@ import com.astro.socialCode.dto.response.ComentPostDTO;
 import com.astro.socialCode.dto.response.ComentVideoDTO;
 import com.astro.socialCode.repositories.ComentPostRepository;
 import com.astro.socialCode.repositories.ComentVideoRepository;
-import com.astro.socialCode.repositories.VideoRepository;
 import com.astro.socialCode.services.exceptions.DatabaseException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -22,13 +21,11 @@ public class ComentService {
 	private final ComentPostRepository comentRepository;
 	private final ComentVideoRepository comentVideoRepository;
 	private final ComentMapper comentMapper;
-	private final VideoRepository videoRepository;
 	
 	public ComentService(ComentPostRepository comentRepository, ComentMapper comentMapper,
-			VideoRepository videoRepository, ComentVideoRepository comentVideoRepository) {
+			ComentVideoRepository comentVideoRepository) {
 		this.comentRepository = comentRepository;
 		this.comentMapper = comentMapper;
-		this.videoRepository = videoRepository;
 		this.comentVideoRepository = comentVideoRepository;
 	}
 
