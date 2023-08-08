@@ -1,8 +1,8 @@
 package com.astro.socialCode.services;
 
-import java.util.List;
-
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,32 +32,24 @@ public class ComentService {
 		this.comentVideoRepository = comentVideoRepository;
 	}
 
-	public List<ComentVideoDTO> findComentsByVideo(Long videoId) {
-		return comentVideoRepository.findComentVideoByVideoId(videoId)
-				.stream()
-				.map(comentMapper::toDTOComentVideo)
-				.toList();
+	public Page<ComentVideoDTO> findComentsByVideo(Pageable pageable ,Long videoId) {
+		return comentVideoRepository.findComentVideoByVideoId(pageable, videoId)
+				.map(comentMapper::toDTOComentVideo);
 	}
 	
-	public List<ComentPostDTO> findComentsByPost(Long postId) {
-		return comentRepository.findComentPostByPostId(postId)
-				.stream()
-				.map(comentMapper::toDTOComentPost)
-				.toList();
+	public Page<ComentVideoDTO> findComentsInVideoByOwner(Pageable pageable, Long OwnerId) {
+		return comentVideoRepository.findComentVideoByOwnerId(pageable, OwnerId)
+				.map(comentMapper::toDTOComentVideo);
 	}
 	
-	public List<ComentVideoDTO> findComentsInVideoByOwner(Long OwnerId) {
-		return comentVideoRepository.findComentVideoByOwnerId(OwnerId)
-				.stream()
-				.map(comentMapper::toDTOComentVideo)
-				.toList();
+	public Page<ComentPostDTO> findComentsByPost(Pageable pageable, Long postId) {
+		return comentRepository.findComentPostByPostId(pageable, postId)
+				.map(comentMapper::toDTOComentPost);
 	}
 	
-	public List<ComentPostDTO> findComentsInPostByOwner(Long OwnerId) {
-		return comentRepository.findComentPostByOwnerId(OwnerId)
-				.stream()
-				.map(comentMapper::toDTOComentPost)
-				.toList();
+	public Page<ComentPostDTO> findComentsInPostByOwner(Pageable pageable, Long OwnerId) {
+		return comentRepository.findComentPostByOwnerId(pageable, OwnerId)
+				.map(comentMapper::toDTOComentPost);
 	}
 
 	@Transactional

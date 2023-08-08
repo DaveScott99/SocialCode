@@ -1,7 +1,8 @@
 package com.astro.socialCode.controllers;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +28,24 @@ public class ComentController {
 	}
 	
 	@GetMapping(value = "/findComentsByVideo")
-	public ResponseEntity<List<ComentVideoDTO>> findComentsByVideo(@RequestParam Long videoId) {
-		return ResponseEntity.ok().body(comentService.findComentsByVideo(videoId));
+	public ResponseEntity<Page<ComentVideoDTO>> findComentsByVideo(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long videoId) {
+		return ResponseEntity.ok().body(comentService.findComentsByVideo(pageable, videoId));
 	}
 	
 	@GetMapping(value = "/findComentsByPost")
-	public ResponseEntity<List<ComentPostDTO>> findComentsByPost(@RequestParam Long postId) {
-		return ResponseEntity.ok().body(comentService.findComentsByPost(postId));
+	public ResponseEntity<Page<ComentPostDTO>> findComentsByPost(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long postId) {
+		return ResponseEntity.ok().body(comentService.findComentsByPost(pageable, postId));
 	}
 	
 
 	@GetMapping(value = "/findComentsInVideosByOwner")
-	public ResponseEntity<List<ComentVideoDTO>> findComentsInVideosByOwner(@RequestParam Long ownerId) {
-		return ResponseEntity.ok().body(comentService.findComentsInVideoByOwner(ownerId));
+	public ResponseEntity<Page<ComentVideoDTO>> findComentsInVideosByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long ownerId) {
+		return ResponseEntity.ok().body(comentService.findComentsInVideoByOwner(pageable, ownerId));
 	}
 	
 	@GetMapping(value = "/findComentsInPostsByOwner")
-	public ResponseEntity<List<ComentPostDTO>> findComentsInPostsByOwner(@RequestParam Long ownerId) {
-		return ResponseEntity.ok().body(comentService.findComentsInPostByOwner(ownerId));
+	public ResponseEntity<Page<ComentPostDTO>> findComentsInPostsByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long ownerId) {
+		return ResponseEntity.ok().body(comentService.findComentsInPostByOwner(pageable, ownerId));
 	}
 	
 	@PostMapping(value = "/publishComentVideo")
