@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.astro.socialCode.dto.ComentDTO;
+import com.astro.socialCode.dto.response.ComentPostDTO;
+import com.astro.socialCode.dto.response.ComentVideoDTO;
 import com.astro.socialCode.services.ComentService;
 
 @RestController
-@RequestMapping("/coment")
+@RequestMapping("/coments")
 public class ComentController {
 
 	private final ComentService comentService;
@@ -23,15 +25,37 @@ public class ComentController {
 	public ComentController(ComentService comentService) {
 		this.comentService = comentService;
 	}
-
-	@GetMapping(value = "/comentsByUser/{userId}")
-	public ResponseEntity<List<ComentDTO>> findComentsByUser(@PathVariable Long userId) {
-		return ResponseEntity.ok().body(comentService.findComentsByUser(userId));
+	
+	@GetMapping(value = "/findComentsByVideo")
+	public ResponseEntity<List<ComentVideoDTO>> findComentsByVideo(@RequestParam Long videoId) {
+		return ResponseEntity.ok().body(comentService.findComentsByVideo(videoId));
 	}
 	
-	@PostMapping(value = "/publishComent")
-	public ResponseEntity<ComentDTO> publishComent(@RequestBody ComentDTO comentDTO) {
-		return ResponseEntity.ok().body(comentService.publishComment(comentDTO));
+	@GetMapping(value = "/findComentsByPost")
+	public ResponseEntity<List<ComentPostDTO>> findComentsByPost(@RequestParam Long postId) {
+		return ResponseEntity.ok().body(comentService.findComentsByPost(postId));
+	}
+	
+
+	@GetMapping(value = "/findComentsInVideosByOwner")
+	public ResponseEntity<List<ComentVideoDTO>> findComentsInVideosByOwner(@RequestParam Long ownerId) {
+		return ResponseEntity.ok().body(comentService.findComentsInVideoByOwner(ownerId));
+	}
+	
+	@GetMapping(value = "/findComentsInPostsByOwner")
+	public ResponseEntity<List<ComentPostDTO>> findComentsInPostsByOwner(@RequestParam Long ownerId) {
+		return ResponseEntity.ok().body(comentService.findComentsInPostByOwner(ownerId));
+	}
+	
+	@PostMapping(value = "/publishComentVideo")
+	public ResponseEntity<ComentVideoDTO> publishComentInVideo(@RequestBody ComentVideoDTO comentDTO) {
+		return ResponseEntity.ok().body(comentService.publishComentInVideo(comentDTO));
+	}
+	
+	
+	@PostMapping(value = "/publishComentPost")
+	public ResponseEntity<ComentPostDTO> publishComentInPost(@RequestBody ComentPostDTO comentDTO) {
+		return ResponseEntity.ok().body(comentService.publishComentInPost(comentDTO));
 	}
 	
 	@DeleteMapping("/deleteComent/{comentId}")

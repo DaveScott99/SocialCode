@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.astro.socialCode.dto.VideoDTO;
 import com.astro.socialCode.dto.mapper.VideoMapper;
 import com.astro.socialCode.dto.request.VideoUploadFileDTO;
 import com.astro.socialCode.dto.response.LanguageDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
+import com.astro.socialCode.dto.response.VideoDTO;
 import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.entities.ThumbnailVideo;
 import com.astro.socialCode.entities.VideoQuality;

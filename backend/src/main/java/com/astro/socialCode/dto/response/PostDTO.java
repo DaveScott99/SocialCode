@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.astro.socialCode.dto.ComentDTO;
 import com.astro.socialCode.entities.Language;
 import com.astro.socialCode.entities.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,7 +45,7 @@ public class PostDTO implements Serializable {
 	private Set<LanguageDTO> languages = new HashSet<>();
 	
 	@JsonProperty(value = "coments")
-	private Set<ComentDTO> coments = new HashSet<>();
+	private Set<ComentPostDTO> coments = new HashSet<>();
 	
 	@JsonIgnore
 	private Set<UserMinDTO> votes = new HashSet<>();
@@ -75,7 +74,7 @@ public class PostDTO implements Serializable {
 		owner = new UserMinDTO(entity.getOwner());
 		votesCount = entity.getVotes().stream().count();
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
-		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
+		entity.getComents().forEach(comentUser -> getComents().add(new ComentPostDTO(comentUser)));
 		entity.getVotes().forEach(vote -> getVotes().add(new UserMinDTO(vote)));
 	}
 	
@@ -124,7 +123,7 @@ public class PostDTO implements Serializable {
 		return languages;
 	}
 	
-	public Set<ComentDTO> getComents() {
+	public Set<ComentPostDTO> getComents() {
 		return coments;
 	}
 

@@ -1,4 +1,4 @@
-package com.astro.socialCode.dto;
+package com.astro.socialCode.dto.response;
 
 import java.io.Serializable;
 import java.util.Objects;

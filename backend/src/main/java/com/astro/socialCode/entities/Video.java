@@ -8,10 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -66,7 +64,7 @@ public class Video {
 	@JoinColumn(name = "OWNER_ID")
 	private User owner;
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(
 		name = "VIDEO_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_VIDEO"),
@@ -74,7 +72,7 @@ public class Video {
 	)
 	private Set<Language> languages = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@ManyToMany
     @JoinTable(
 		name = "VIDEO_VOTES",
         joinColumns = @JoinColumn(name = "ID_VIDEO"),
@@ -82,7 +80,7 @@ public class Video {
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@ManyToMany
     @JoinTable(
 		name = "VIDEO_QUALITIES",
         joinColumns = @JoinColumn(name = "ID_VIDEO"),
@@ -90,9 +88,9 @@ public class Video {
     )
 	private Set<VideoQuality> qualities = new HashSet<>();
 	
-	@OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "video")
 	@JsonIgnoreProperties("video")
-	private Set<Coment> coments = new HashSet<>();
+	private Set<ComentVideo> coments = new HashSet<>();
 
 	public Video() {
 	}
@@ -111,6 +109,11 @@ public class Video {
 		this.creationDate = creationDate;
 		this.owner = owner;
 		this.thumbnail = thumbnail;
+	}
+	
+	public Video(Long id, String title) {
+		this.id = id;
+		this.title = title;
 	}
 
 	public Long getId() {
@@ -209,7 +212,7 @@ public class Video {
 		return votes;
 	}
 
-	public Set<Coment> getComents() {
+	public Set<ComentVideo> getComents() {
 		return coments;
 	}
 

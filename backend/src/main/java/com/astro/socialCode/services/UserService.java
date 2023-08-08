@@ -108,7 +108,6 @@ public class UserService {
 	
 	public UriDTO uploadProfilePhoto(MultipartFile file, String username) {
 		
-		//Salvamos a imagem no Bucket
 		URL url = s3Service.uploadFile(file, "users", "profile-photo"); 
 				
 		userRepository.findByUsername(username)

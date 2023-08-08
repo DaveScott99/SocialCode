@@ -11,10 +11,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -67,27 +65,31 @@ public class User {
 	@CreationTimestamp
 	private Instant registrationMoment;
 	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "owner")
 	@JsonIgnore
 	private List<Post> posts = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "owner")
 	@JsonIgnore
 	private Set<Video> videos = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "owner")
 	@JsonIgnore
-	private List<Coment> coments = new ArrayList<>();
+	private Set<ComentPost> comentsInPosts = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "owner")
+	@JsonIgnore
+	private Set<ComentVideo> comentsInVideos = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "votes")
 	@JsonIgnore
 	private Set<Post> votedPosts = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "votes")
 	@JsonIgnore
 	private Set<Video> votedVideos = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name = "USER_ACCOUNT_FOLLOWING",
 		joinColumns = @JoinColumn(name = "ID_USER"),
@@ -95,10 +97,10 @@ public class User {
 	)
 	private Set<User> following = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "following")
 	private Set<User> followers = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
 		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_USER"),
@@ -236,8 +238,12 @@ public class User {
 		return votedPosts;
 	}
 	
-	public List<Coment> getComents() {
-		return coments;
+	public Set<ComentPost> getComentsInPosts() {
+		return comentsInPosts;
+	}
+
+	public Set<ComentVideo> getComentsInVideos() {
+		return comentsInVideos;
 	}
 
 	public Set<User> getFollowing() {

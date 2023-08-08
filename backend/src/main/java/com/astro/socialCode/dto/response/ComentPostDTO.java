@@ -1,34 +1,29 @@
-package com.astro.socialCode.dto;
+package com.astro.socialCode.dto.response;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.astro.socialCode.dto.response.PostMinDTO;
-import com.astro.socialCode.dto.response.UserMinDTO;
-import com.astro.socialCode.entities.Coment;
+import com.astro.socialCode.entities.ComentPost;
 
-public class ComentDTO implements Serializable{
+public class ComentPostDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String text;
-	
+	private PostMinDTO post;
+	private UserMinDTO owner;
 	private Instant creationDate;
 	
-	private PostMinDTO post;
-	
-	private UserMinDTO user;
-	
-	public ComentDTO() {
+	public ComentPostDTO() {
 	}
 	
-	public ComentDTO(Coment entity) {
+	public ComentPostDTO(ComentPost entity) {
 		id = entity.getId();
 		text = entity.getText();
-		post = new PostMinDTO(entity.getPost()); // Conversão da Entidade para DTO
-		user = new UserMinDTO(entity.getUser()); // Conversão da Entidade para DTO
+		post = new PostMinDTO(entity.getPost()); 
+		owner = new UserMinDTO(entity.getOwner());
 		creationDate = entity.getCreationDate();
 	}
 
@@ -44,8 +39,8 @@ public class ComentDTO implements Serializable{
 		return post;
 	}
 
-	public UserMinDTO getUser() {
-		return user;
+	public UserMinDTO getOwner() {
+		return owner;
 	}
 
 	public Instant getCreationDate() {
@@ -65,7 +60,7 @@ public class ComentDTO implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComentDTO other = (ComentDTO) obj;
+		ComentPostDTO other = (ComentPostDTO) obj;
 		return Objects.equals(id, other.id);
 	}
 	

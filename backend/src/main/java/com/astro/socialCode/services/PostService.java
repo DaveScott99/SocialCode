@@ -10,7 +10,7 @@ import com.astro.socialCode.dto.mapper.PostMapper;
 import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.response.PostDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
-import com.astro.socialCode.repositories.ComentRepository;
+import com.astro.socialCode.repositories.ComentPostRepository;
 import com.astro.socialCode.repositories.LanguageRepository;
 import com.astro.socialCode.repositories.PostRepository;
 import com.astro.socialCode.repositories.UserRepository;
@@ -29,7 +29,7 @@ public class PostService {
 	private final UserMapper userMapper;
 			
 	public PostService(PostMapper postMapper, PostRepository postRepository, UserRepository userRepository,
-			ComentRepository comentRepository, LanguageRepository languageRepository, UserMapper userMapper) {
+			ComentPostRepository comentRepository, LanguageRepository languageRepository, UserMapper userMapper) {
 		this.postMapper = postMapper;
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;

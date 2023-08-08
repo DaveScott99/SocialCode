@@ -9,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,11 +49,11 @@ public class Post {
 	@CreationTimestamp
 	private Instant creationDate;
 	
-	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "post")
 	@JsonIgnoreProperties("post")
-	private Set<Coment> coments = new HashSet<>();
+	private Set<ComentPost> coments = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany
     @JoinTable(
 		name = "POST_VOTES",
         joinColumns = @JoinColumn(name = "ID_POST"),
@@ -62,7 +61,7 @@ public class Post {
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany
 	@JoinTable(
 		name = "POST_PROGRAMMING_LANGUAGE",
 		joinColumns = @JoinColumn(name = "ID_POST"),
@@ -135,7 +134,7 @@ public class Post {
 		this.owner = owner;
 	}
 
-	public Set<Coment> getComents() {
+	public Set<ComentPost> getComents() {
 		return coments;
 	}
 

@@ -5,8 +5,6 @@ import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,8 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "COMENT")
-public class Coment {
+@Table(name = "COMENT_VIDEO")
+public class ComentVideo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,16 +27,10 @@ public class Coment {
 	private String text;
 	
 	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "ID_POST")
-	private Post post;
-	
-	@ManyToOne
 	@JoinColumn(name = "ID_OWNER")
-	private User user;
+	private User owner;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "ID_VIDEO")
 	private Video video;
 	
@@ -46,14 +38,13 @@ public class Coment {
 	@CreationTimestamp
 	private Instant creationDate;
 	
-	public Coment() {
+	public ComentVideo() {
 	}
 	
-	public Coment(Long id, String text, Post post, User user, Video video, Instant creationDate) {
+	public ComentVideo(Long id, String text, User owner, Video video, Instant creationDate) {
 		this.id = id;
 		this.text = text;
-		this.post = post;
-		this.user = user;
+		this.owner = owner;
 		this.video = video;
 		this.creationDate = creationDate;
 	}
@@ -73,21 +64,13 @@ public class Coment {
 	public void setText(String text) {
 		this.text = text;
 	}
-
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
 	
-	public User getUser() {
-		return user;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	public Instant getCreationDate() {
@@ -119,7 +102,7 @@ public class Coment {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Coment other = (Coment) obj;
+		ComentVideo other = (ComentVideo) obj;
 		return Objects.equals(id, other.id);
 	}
 	

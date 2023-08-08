@@ -1,4 +1,4 @@
-package com.astro.socialCode.dto;
+package com.astro.socialCode.dto.response;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.astro.socialCode.dto.response.LanguageDTO;
-import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.Video;
 import com.astro.socialCode.entities.VideoQuality;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,7 +47,7 @@ public class VideoDTO implements Serializable {
 	private Set<LanguageDTO> languages = new HashSet<>();
 	
 	@JsonProperty(value = "coments")
-	private Set<ComentDTO> coments = new HashSet<>();
+	private Set<ComentVideoDTO> coments = new HashSet<>();
 	
 	@JsonProperty(value = "qualities")
 	private Set<VideoQuality> qualities = new HashSet<>();
@@ -83,7 +81,7 @@ public class VideoDTO implements Serializable {
 		votesCount = entity.getVotes().stream().count();
 		creationDate = entity.getCreationDate();
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
-		entity.getComents().forEach(comentUser -> getComents().add(new ComentDTO(comentUser)));
+		entity.getComents().forEach(comentUser -> getComents().add(new ComentVideoDTO(comentUser)));
 		entity.getQualities().forEach(quality -> getQualities().add(new VideoQuality(quality.getId(), quality.getQualityName())));
 		entity.getVotes().forEach(vote -> getVotes().add(new UserMinDTO(vote)));
 	}
@@ -128,7 +126,7 @@ public class VideoDTO implements Serializable {
 		return languages;
 	}
 
-	public Set<ComentDTO> getComents() {
+	public Set<ComentVideoDTO> getComents() {
 		return coments;
 	}
 
