@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -67,7 +68,8 @@ public class Video {
 	@JoinColumn(name = "OWNER_ID")
 	private User owner;
 	
-	@ManyToMany(mappedBy = "videos")
+	@ManyToMany(mappedBy = "videos", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Set<Language> languages = new HashSet<>();
 	
 	@ManyToMany
@@ -76,18 +78,20 @@ public class Video {
         joinColumns = @JoinColumn(name = "ID_VIDEO"),
         inverseJoinColumns = @JoinColumn(name = "ID_USER")
     )
+	@JsonIgnoreProperties(value= {"votedVideos"})
 	private Set<User> votes = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "videos")
+	@JsonIgnoreProperties(value= {"videos"})
 	private Set<VideoQuality> qualities = new HashSet<>();
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
     @JoinTable(
 		name = "VIDEO_PLAYLISTS",
         joinColumns = @JoinColumn(name = "ID_VIDEO"),
         inverseJoinColumns = @JoinColumn(name = "ID_PLAYLIST")
     )
-	@JsonIgnore
+	@JsonIgnoreProperties(value= {"videos"})
 	private Set<Playlist> playlists = new HashSet<>();
 
 

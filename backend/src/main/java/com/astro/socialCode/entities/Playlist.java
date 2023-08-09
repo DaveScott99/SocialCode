@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,7 +39,8 @@ public class Playlist {
 	@JoinColumn(name = "ID_OWNER")
 	private User owner;
 	
-	@ManyToMany(mappedBy = "playlists", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "playlists", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Set<Video> videos = new HashSet<>();
 	
 	public Playlist() {

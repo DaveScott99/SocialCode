@@ -3,8 +3,11 @@ package com.astro.socialCode.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,12 +28,13 @@ public class VideoQuality {
 	@Column(name = "QUALITY_NAME")
 	private String qualityName;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "VIDEO_QUALITY_OPTIONS",
         joinColumns = @JoinColumn(name = "ID_VIDEO_QUALITY"),
         inverseJoinColumns = @JoinColumn(name = "ID_VIDEO")
 	)
+	@JsonIgnore
 	private Set<Video> videos = new HashSet<>();
 
 	public VideoQuality(){
