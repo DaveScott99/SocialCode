@@ -73,6 +73,9 @@ public class User {
 	@OneToMany(mappedBy = "owner")
 	private Set<ComentVideo> comentsInVideos = new HashSet<>();
 	
+	@OneToMany(mappedBy = "owner")
+	private Set<Playlist> playlists = new HashSet<>();
+	
 	@ManyToMany(mappedBy = "votes")
 	private Set<Post> votedPosts = new HashSet<>();
 	
@@ -249,6 +252,10 @@ public class User {
 
 	public Set<Video> getVotedVideos() {
 		return votedVideos;
+	}
+
+	public Set<Playlist> getPlaylists() {
+		return playlists;
 	}
 
 	@Override

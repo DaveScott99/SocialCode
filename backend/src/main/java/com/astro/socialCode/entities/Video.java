@@ -6,8 +6,11 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,6 +60,9 @@ public class Video {
 	@JoinColumn(name = "ID_THUMBNAIL_VIDEO")
 	private ThumbnailVideo thumbnailVideo;
 	
+	@OneToMany(mappedBy = "video")
+	private Set<ComentVideo> coments = new HashSet<>();
+	
 	@ManyToOne
 	@JoinColumn(name = "OWNER_ID")
 	private User owner;
@@ -75,8 +81,15 @@ public class Video {
 	@ManyToMany(mappedBy = "videos")
 	private Set<VideoQuality> qualities = new HashSet<>();
 	
-	@OneToMany(mappedBy = "video")
-	private Set<ComentVideo> coments = new HashSet<>();
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+		name = "VIDEO_PLAYLISTS",
+        joinColumns = @JoinColumn(name = "ID_VIDEO"),
+        inverseJoinColumns = @JoinColumn(name = "ID_PLAYLIST")
+    )
+	@JsonIgnore
+	private Set<Playlist> playlists = new HashSet<>();
+
 
 	public Video() {
 	}
@@ -204,6 +217,10 @@ public class Video {
 
 	public Set<VideoQuality> getQualities() {
 		return qualities;
+	}
+
+	public Set<Playlist> getPlaylists() {
+		return playlists;
 	}
 	
 }
