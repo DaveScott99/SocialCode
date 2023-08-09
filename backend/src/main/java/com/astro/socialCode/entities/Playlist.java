@@ -29,12 +29,12 @@ public class Playlist {
 	@Column(name = "NAME_PLAYLIST")
 	private String name;
 	
-	@Column(name = "CREATION_MOMENT_USER")
+	@Column(name = "CREATION_MOMENT_PLAYLIST")
 	@CreationTimestamp
 	private Instant creationMoment;
 	
 	@ManyToOne
-	@JoinColumn(name = "OWNER_ID")
+	@JoinColumn(name = "ID_OWNER")
 	private User owner;
 	
 	@ManyToMany(mappedBy = "playlists", fetch = FetchType.EAGER)
