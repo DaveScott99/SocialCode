@@ -15,6 +15,7 @@ import com.astro.socialCode.entities.Video;
 import com.astro.socialCode.repositories.PlaylistRepository;
 import com.astro.socialCode.repositories.VideoRepository;
 import com.astro.socialCode.services.exceptions.DatabaseException;
+import com.astro.socialCode.util.MessageResponse;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -48,8 +49,8 @@ public class PlaylistService {
 	}
 	
 	@Transactional
-	public void addVideosOnPlaylist(String playlistName, String videoFileName) {
-		playlistRepository.findPlaylistByName(playlistName)
+	public MessageResponse addVideosOnPlaylist(String playlistName, String videoFileName) {
+		return playlistRepository.findPlaylistByName(playlistName)
 			.map(playlistFound -> {
 				Video videoForAdd = videoRepository.findByFileName(videoFileName)
 					.orElseThrow(() -> new EntityNotFoundException("Video não encontrado"));
@@ -62,14 +63,14 @@ public class PlaylistService {
 				videoForAdd.getPlaylists().add(playlistFound);
 				playlistRepository.save(playlistFound);
 				videoRepository.save(videoForAdd);
-				return "Video adicionado com sucesso";
+				return new MessageResponse("Vídeo adicionado");
 			})
 			.orElseThrow(() -> new EntityNotFoundException("Playlist não encontrada"));
 	}
 	
 	@Transactional
-	public void removeVideosOnPlaylist(String playlistName, String videoFileName) {
-		playlistRepository.findPlaylistByName(playlistName)
+	public MessageResponse removeVideosOnPlaylist(String playlistName, String videoFileName) {
+		return playlistRepository.findPlaylistByName(playlistName)
 			.map(playlistFound -> {
 				Video videoForAdd = videoRepository.findByFileName(videoFileName)
 					.orElseThrow(() -> new EntityNotFoundException("Video não encontrado"));
@@ -82,7 +83,7 @@ public class PlaylistService {
 				videoForAdd.getPlaylists().remove(playlistFound);
 				playlistRepository.save(playlistFound);
 				videoRepository.save(videoForAdd);
-				return "Video removido com sucesso";
+				return new MessageResponse("Vídeo removido");
 			})
 			.orElseThrow(() -> new EntityNotFoundException("Playlist não encontrada"));
 	}
@@ -93,12 +94,12 @@ public class PlaylistService {
 	}
 	
 	@Transactional
-	public void deletePlaylist(Long playlistId) {
+	public MessageResponse deletePlaylist(Long playlistId) {
 		try {
-			 playlistRepository.findById(playlistId)
+			 return playlistRepository.findById(playlistId)
 				  .map(playlistFound -> {
 					  playlistRepository.deleteById(playlistId);
-					  	return "Playlist excluida com sucesso";
+					  	return new MessageResponse("Playlist excluida");
 					  })
 				  .orElseThrow(() -> new EntityNotFoundException("Playlist não encontrada"));
 		}

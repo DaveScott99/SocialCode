@@ -17,6 +17,7 @@ import com.astro.socialCode.dto.request.PlaylistCreateDTO;
 import com.astro.socialCode.dto.response.PlaylistDTO;
 import com.astro.socialCode.dto.response.PlaylistMinDTO;
 import com.astro.socialCode.services.PlaylistService;
+import com.astro.socialCode.util.MessageResponse;
 
 @RestController
 @RequestMapping("/playlists")
@@ -39,15 +40,13 @@ public class PlaylistController {
 	}
 	
 	@PostMapping(value = "/addVideo")
-	public ResponseEntity<Void> addVideosOnPlaylist(@RequestParam String playlistName, @RequestParam String videoFileName) {
-		playlistService.addVideosOnPlaylist(playlistName, videoFileName);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<MessageResponse> addVideosOnPlaylist(@RequestParam String playlistName, @RequestParam String videoFileName) {
+		return ResponseEntity.ok().body(playlistService.addVideosOnPlaylist(playlistName, videoFileName));
 	}
 	
 	@PostMapping(value = "/removeVideo")
-	public ResponseEntity<Void> removeVideosOnPlaylist(@RequestParam String playlistName, @RequestParam String videoFileName) {
-		playlistService.removeVideosOnPlaylist(playlistName, videoFileName);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<MessageResponse> removeVideosOnPlaylist(@RequestParam String playlistName, @RequestParam String videoFileName) {
+		return ResponseEntity.ok().body(playlistService.removeVideosOnPlaylist(playlistName, videoFileName));
 	}
 	
 	
@@ -58,9 +57,8 @@ public class PlaylistController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Void> deletePlaylist(@RequestParam Long playlistId) {
-		playlistService.deletePlaylist(playlistId);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<MessageResponse> deletePlaylist(@RequestParam Long playlistId) {
+		return ResponseEntity.ok().body(playlistService.deletePlaylist(playlistId));
 	}
 	
 }

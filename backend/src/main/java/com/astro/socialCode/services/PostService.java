@@ -110,10 +110,6 @@ public class PostService {
 		  						postRepository.save(foundPost);
 		  						userRepository.save(foundUser);
 		  					}
-		  					else {
-		  						System.out.println("DEBUG::Já deu vote");
-		  					}
-	  				
 	  						return foundUser;
 		  				})
 		  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
@@ -135,10 +131,7 @@ public class PostService {
 		  						postRepository.save(foundPost);
 		  						userRepository.save(foundUser);
 		  					}
-		  					else {
-		  						System.out.println("DEBUG:: Já removeu o vote");
-		  					}
-		  						
+		  					
 		  					return foundUser;
 		  				})
 		  				.orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
