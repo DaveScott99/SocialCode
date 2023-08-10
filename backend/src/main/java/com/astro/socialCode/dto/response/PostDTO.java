@@ -41,10 +41,9 @@ public class PostDTO implements Serializable {
 	
 	private boolean votedByUser;
 	
-	@JsonProperty(value = "languages")
 	private Set<LanguageDTO> languages = new HashSet<>();
 	
-	@JsonProperty(value = "coments")
+	@JsonIgnore
 	private Set<ComentPostDTO> coments = new HashSet<>();
 	
 	@JsonIgnore

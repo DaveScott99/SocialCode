@@ -41,7 +41,7 @@ public class VideoDTO implements Serializable {
 	private Instant creationDate;
 	
 	@JsonProperty(value = "thumbnail")
-	private ThumbnailVideoDTO thumbnailVideo;
+	private Set<ThumbnailVideoDTO> thumbnailVideo = new HashSet<>();
 	
 	@JsonProperty(value = "languages")
 	private Set<LanguageDTO> languages = new HashSet<>();
@@ -58,12 +58,11 @@ public class VideoDTO implements Serializable {
 	public VideoDTO() {
 	}
 
-	public VideoDTO(Long id, String title, String description, ThumbnailVideoDTO thumbnailVideo, String fileName, UserMinDTO owner,
+	public VideoDTO(Long id, String title, String description, String fileName, UserMinDTO owner,
 			Long votesCount, boolean votedByUser, Instant creationDate) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.thumbnailVideo = thumbnailVideo;
 		this.fileName = fileName;
 		this.owner = owner;
 		this.votesCount = votesCount;
@@ -75,11 +74,11 @@ public class VideoDTO implements Serializable {
 		id = entity.getId();
 		title = entity.getTitle();
 		description = entity.getDescription();
-		thumbnailVideo = new ThumbnailVideoDTO(entity.getThumbnailVideo());
 		fileName = entity.getFileName();
 		owner = new UserMinDTO(entity.getOwner());
 		votesCount = entity.getVotes().stream().count();
 		creationDate = entity.getCreationDate();
+		entity.getThumbnailVideo().forEach(thumbnail -> getThumbnailVideo().add(new ThumbnailVideoDTO(thumbnail)));
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentVideoDTO(comentUser)));
 		entity.getQualities().forEach(quality -> getQualities().add(new VideoQuality(quality.getId(), quality.getQualityName())));
@@ -96,10 +95,6 @@ public class VideoDTO implements Serializable {
 
 	public String getDescription() {
 		return description;
-	}
-
-	public ThumbnailVideoDTO getThumbnailVideo() {
-		return thumbnailVideo;
 	}
 
 	public String getFileName() {
@@ -140,6 +135,10 @@ public class VideoDTO implements Serializable {
 
 	public Set<VideoQuality> getQualities() {
 		return qualities;
+	}
+
+	public Set<ThumbnailVideoDTO> getThumbnailVideo() {
+		return thumbnailVideo;
 	}
 
 	@Override

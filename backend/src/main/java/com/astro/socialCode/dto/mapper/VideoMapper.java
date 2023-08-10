@@ -6,7 +6,6 @@ import com.astro.socialCode.dto.request.VideoUploadFileDTO;
 import com.astro.socialCode.dto.response.LanguageDTO;
 import com.astro.socialCode.dto.response.VideoDTO;
 import com.astro.socialCode.entities.Language;
-import com.astro.socialCode.entities.ThumbnailVideo;
 import com.astro.socialCode.entities.User;
 import com.astro.socialCode.entities.Video;
 import com.astro.socialCode.entities.VideoQuality;
@@ -52,7 +51,6 @@ public class VideoMapper {
 		
 		entity.setTitle(videoDTO.getTitle());
 		entity.setDescription(videoDTO.getDescription());
-		entity.setThumbnailVideo(new ThumbnailVideo(videoDTO.getThumbnailVideo().getId(), videoDTO.getThumbnailVideo().getFileName()));
 		entity.setFileName(videoDTO.getFileName());
 		entity.setOwner(new User(videoDTO.getOwner().getId(), videoDTO.getOwner().getUsername(), videoDTO.getOwner().getProfilePhoto()));
 		

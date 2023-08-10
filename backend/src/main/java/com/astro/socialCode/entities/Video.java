@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,9 +56,9 @@ public class Video {
 	@Column(name = "CREATION_MOMENT_VIDEO")
 	private Instant creationDate; 
 	
-	@OneToOne
-	@JoinColumn(name = "ID_THUMBNAIL_VIDEO")
-	private ThumbnailVideo thumbnailVideo;
+	@OneToMany(mappedBy = "video")
+	@JsonIgnore
+	private Set<ThumbnailVideo> thumbnailVideo = new HashSet<>();
 	
 	@OneToMany(mappedBy = "video")
 	private Set<ComentVideo> coments = new HashSet<>();
@@ -68,8 +67,13 @@ public class Video {
 	@JoinColumn(name = "OWNER_ID")
 	private User owner;
 	
-	@ManyToMany(mappedBy = "videos", fetch = FetchType.LAZY)
-	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+			name = "VIDEO_PROGRAMMING_LANGUAGE",
+			joinColumns = @JoinColumn(name = "ID_VIDEO"),
+			inverseJoinColumns = @JoinColumn(name = "ID_LANGUAGE")
+	)
+	@JsonIgnoreProperties(value= {"videos"})
 	private Set<Language> languages = new HashSet<>();
 	
 	@ManyToMany
@@ -81,7 +85,12 @@ public class Video {
 	@JsonIgnoreProperties(value= {"votedVideos"})
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "videos")
+	@ManyToMany
+	@JoinTable(
+		name = "VIDEO_QUALITY_OPTIONS",
+        joinColumns = @JoinColumn(name = "ID_VIDEO"),
+        inverseJoinColumns = @JoinColumn(name = "ID_VIDEO_QUALITY")
+	)
 	@JsonIgnoreProperties(value= {"videos"})
 	private Set<VideoQuality> qualities = new HashSet<>();
 	
@@ -99,7 +108,7 @@ public class Video {
 	}
 
 	public Video(Long id, String title, String description, String thumbnail, String fileName, Long fileSize,
-			String contentType, String filePath, Instant creationDate, User owner, ThumbnailVideo thumbnailVideo) {
+			String contentType, String filePath, Instant creationDate, User owner) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -111,7 +120,6 @@ public class Video {
 		this.filePath = filePath;
 		this.creationDate = creationDate;
 		this.owner = owner;
-		this.thumbnail = thumbnail;
 	}
 	
 	public Video(Long id, String title) {
@@ -198,13 +206,9 @@ public class Video {
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
-
-	public ThumbnailVideo getThumbnailVideo() {
+	
+	public Set<ThumbnailVideo> getThumbnailVideo() {
 		return thumbnailVideo;
-	}
-
-	public void setThumbnailVideo(ThumbnailVideo thumbnailVideo) {
-		this.thumbnailVideo = thumbnailVideo;
 	}
 
 	public Set<Language> getLanguages() {

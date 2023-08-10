@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,13 +31,7 @@ public class Language {
 	@Column(name = "ICON_LANGUAGE")
 	private String icon;
 	
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(
-		name = "POST_PROGRAMMING_LANGUAGE",
-		joinColumns = @JoinColumn(name = "ID_LANGUAGE"),
-		inverseJoinColumns = @JoinColumn(name = "ID_POST")
-	)
+	@ManyToMany(mappedBy = "languages")
 	private Set<Post> posts = new HashSet<>();
 	
 	@JsonIgnore
@@ -50,13 +43,7 @@ public class Language {
 	)
 	private Set<User> users = new HashSet<>();
 	
-	@ManyToMany
-	@JoinTable(
-		name = "VIDEO_PROGRAMMING_LANGUAGE",
-		joinColumns = @JoinColumn(name = "ID_LANGUAGE"),
-		inverseJoinColumns = @JoinColumn(name = "ID_VIDEO")
-	)
-	@JsonIgnoreProperties(value= {"languages"})
+	@ManyToMany(mappedBy = "languages")
 	private Set<Video> videos = new HashSet<>();
 	
 	public Language(){

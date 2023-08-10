@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,22 +38,29 @@ public class ThumbnailVideo {
 	@Column(name = "CREATION_MOMENT_THUMBNAIL")
 	private Instant creationDate;
 	
+	@ManyToOne
+	@JoinColumn(name = "ID_VIDEO")
+	private Video video;
+	
 	public ThumbnailVideo() {
 	}
-
+	
 	public ThumbnailVideo(Long id, String fileName, Long fileSize, String contentType, String filePath,
-			Instant creationDate) {
+			 Video video) {
 		this.id = id;
 		this.fileName = fileName;
 		this.fileSize = fileSize;
 		this.contentType = contentType;
 		this.filePath = filePath;
-		this.creationDate = creationDate;
+		this.video = video;
 	}
-	
-	public ThumbnailVideo(Long id, String fileName) {
-		this.id = id;
+
+	public ThumbnailVideo(String fileName, Long fileSize, String contentType, String filePath, Video video) {
 		this.fileName = fileName;
+		this.fileSize = fileSize;
+		this.contentType = contentType;
+		this.filePath = filePath;
+		this.video = video;
 	}
 
 	public Long getId() {
@@ -100,6 +109,14 @@ public class ThumbnailVideo {
 
 	public void setCreationDate(Instant creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Video getVideo() {
+		return video;
+	}
+
+	public void setVideo(Video video) {
+		this.video = video;
 	}
 	
 }

@@ -15,10 +15,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.astro.socialCode.dto.request.VideoUploadFileDTO;
 import com.astro.socialCode.dto.response.VideoDTO;
+import com.astro.socialCode.dto.response.VideoInfoDTO;
 import com.astro.socialCode.services.VideoService;
-import com.astro.socialCode.util.PayloadUploadInfoVideo;
 
 @RestController
 @RequestMapping("/videos")
@@ -63,8 +63,8 @@ public class VideoController {
 		return ResponseEntity.ok().body(videoService.findById(videoId));
 	}
 	
-	@PutMapping(value = "/{id}", consumes = { "multipart/form-data" })
-	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @ModelAttribute PayloadUploadInfoVideo payload) {		
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<VideoDTO> update(@PathVariable Long id, @RequestBody VideoInfoDTO payload) {		
 		return ResponseEntity.ok().body(videoService.update(id, payload));
 	}
 	

@@ -61,7 +61,12 @@ public class Post {
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "posts")
+	@ManyToMany
+	@JoinTable(
+		name = "POST_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_POST"),
+		inverseJoinColumns = @JoinColumn(name = "ID_LANGUAGE")
+	)
 	private Set<Language> languages = new HashSet<>();
 		
 	public Post() {
