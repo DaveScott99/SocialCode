@@ -100,12 +100,11 @@ export const IconItem = styled.i`
     display: flex;
     justify-content: center;
     font-size: 1.6em;
+    cursor: pointer;
 `
 
 export const ProfileImage = styled.div`
     cursor: pointer;
-    margin-left: 20px;
-
 `
 
 export const BackArrow = styled.div`
@@ -142,36 +141,13 @@ export const Right = styled.div`
     padding: 0px 15px 0px 0px;
 `
 
-export const SubMenuContainer = styled.div`
-    position: absolute;
-    top: 35px;
-    right: 5px;
-    padding: 5px;
-`
-
-export const SubMenuContent = styled.div`
-    border-radius: 10px;
-    background: ${props => props.theme.colors.white};
-    margin-top: 5px;
-    width: 200px;
-    padding: 5px;
-
-    box-shadow: 0px 0px 10px 0px #00000042;
-    
-    a {
-        text-decoration: none;
-    }
-`
-
-export const SubMenuItem = styled.span`
+export const SubMenuItem = styled.li`
     color: ${props => props.theme.colors.black};
     font-weight: 400;
-    padding: 10px 16px;
     text-decoration: none;
     display: flex;
     align-items: center;
     cursor: pointer;
-    border-radius: 5px;
     font-size: .9em;
     display: flex;
     align-items: center;
@@ -179,7 +155,7 @@ export const SubMenuItem = styled.span`
     margin-bottom: 5px;
 
     svg {
-        font-size: 1.2em;
+        font-size: 1.5em;
         margin-right: 10px;
     }
 

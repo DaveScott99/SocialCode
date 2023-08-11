@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { BiCompass, BiHomeAlt, BiTerminal, BiPlusCircle } from "react-icons/bi";
+import { BiCompass, BiHomeAlt, BiTerminal, BiPlusCircle, BiVideoPlus, BiEditAlt } from "react-icons/bi";
 import { BsCollectionPlay } from "react-icons/bs";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
@@ -22,18 +22,14 @@ import {
   MenuNavigation,
   NavContainer,
   PlataformName,
-  ProfileImage,
   Right,
-  SubMenuContainer,
-  SubMenuContent,
   SubMenuItem,
 } from "./NavStyles";
+import DropDownMenu from "../Generics/DropDownMenu";
 
 export default function Nav({ backPath }) {
   const { user, logout } = useContext(AuthContext);
-  const [showSubMenuUser, setShowSubMenuUser] = useState(false);
   const [isModalLoggout, setIsModalLoggout] = useState(false);
-  const subMenuRef = useRef(null);
   const navigate = useNavigate();
 
   const path = window.location.pathname;
@@ -47,24 +43,6 @@ export default function Nav({ backPath }) {
     setSelectedMenuItem(path);
   }, [path]);
 
-  const handleOpenSubMenuUser = () => {
-    setShowSubMenuUser(true);
-  };
-
-  useEffect(() => {
-    const closeSubMenyOnClickOutside = (event) => {
-      if (showSubMenuUser && !subMenuRef.current.contains(event.target)) {
-        setShowSubMenuUser(false);
-      }
-    };
-
-    document.addEventListener("mousedown", closeSubMenyOnClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", closeSubMenyOnClickOutside);
-    };
-  }, [showSubMenuUser]);
-
   const handleOpenModalLoggout = () => {
     setIsModalLoggout(true);
   };
@@ -72,48 +50,48 @@ export default function Nav({ backPath }) {
   return (
     <NavContainer>
       <Menu>
-        
         <Left>
           <Link to="/">
             <Logo>
               <BiTerminal />
               <PlataformName>SocialCode</PlataformName>
             </Logo>
-          </Link> 
+          </Link>
         </Left>
 
-
         <MenuNavigation>
-        <Link to="/">
-          <ItemNavigation
-            selected={selectedMenuItem === "/"}
-            onClick={() => handleSelectItemMenu("/")}
-          >
-            <IconItem>
-              <BiHomeAlt />
-            </IconItem>
-          </ItemNavigation>
-        </Link>
+          <Link to="/">
+            <ItemNavigation
+              selected={selectedMenuItem === "/"}
+              onClick={() => handleSelectItemMenu("/")}
+            >
+              <IconItem>
+                <BiHomeAlt />
+              </IconItem>
+            </ItemNavigation>
+          </Link>
 
-        <Link to="/explore">
-          <ItemNavigation
-            selected={selectedMenuItem === "/explore"}
-            onClick={() => handleSelectItemMenu("/explore")}
-          >
-            <IconItem>
-              <BiCompass />
-            </IconItem>
-          </ItemNavigation>
-        </Link>
+          <Link to="/explore">
+            <ItemNavigation
+              selected={selectedMenuItem === "/explore"}
+              onClick={() => handleSelectItemMenu("/explore")}
+            >
+              <IconItem>
+                <BiCompass />
+              </IconItem>
+            </ItemNavigation>
+          </Link>
 
-        <Link to="/watch">
-          <ItemNavigation
-            selected={selectedMenuItem === "/watch"}
-            onClick={() => handleSelectItemMenu("/watch")}
-          >
-            <IconItem><BsCollectionPlay /></IconItem>
-          </ItemNavigation>
-        </Link>
+          <Link to="/watch">
+            <ItemNavigation
+              selected={selectedMenuItem === "/watch"}
+              onClick={() => handleSelectItemMenu("/watch")}
+            >
+              <IconItem>
+                <BsCollectionPlay />
+              </IconItem>
+            </ItemNavigation>
+          </Link>
         </MenuNavigation>
 
         <MenuItem>
@@ -126,43 +104,45 @@ export default function Nav({ backPath }) {
         </MenuItem>
 
         <Right>
-            <Search />
-
-          <Link to="/publicar">
-            <MenuItem>
-              <IconItem>
-                <BiPlusCircle />
-              </IconItem>
-            </MenuItem>
-          </Link>
+          <Search />
 
           <MenuItem>
-            <ProfileImage onClick={handleOpenSubMenuUser}>
-              <Avatar
-                alt="User image"
-                src={user.profilePhoto}
-                sx={{ width: "30px", height: "30px" }}
-                variant="rounded"
-              />
-              {showSubMenuUser && (
-                <SubMenuContainer ref={subMenuRef}>
-                  <SubMenuContent>
-                    <Link to={`/profile/${user.username}`}>
-                      <SubMenuItem>
-                        <BiHomeAlt /> {user.username}
-                      </SubMenuItem>
-                    </Link>
-                    <Link to={`/publicar`}>
-                      <SubMenuItem>Publicar novo conteúdo</SubMenuItem>
-                    </Link>
-                    <LineSeparator />
-                    <SubMenuItem onClick={handleOpenModalLoggout}>
-                      Sair
-                    </SubMenuItem>
-                  </SubMenuContent>
-                </SubMenuContainer>
-              )}
-            </ProfileImage>
+            <DropDownMenu
+              iconMenu={
+                <IconItem>
+                  <BiPlusCircle />
+                </IconItem>
+              }
+            >
+              <Link to={`/publicar`}>
+                <SubMenuItem><BiEditAlt /> Criar postagem</SubMenuItem>
+              </Link>
+
+              <Link to={`/publicar/video`}>
+                <SubMenuItem><BiVideoPlus /> Enviar vídeo</SubMenuItem>
+              </Link>
+            </DropDownMenu>
+          </MenuItem>
+
+          <MenuItem>
+            <DropDownMenu
+              iconMenu={
+                <Avatar
+                  alt="User image"
+                  src={user.profilePhoto}
+                  sx={{ width: "30px", height: "30px", cursor: "pointer", marginLeft: "20px" }}
+                  variant="rounded"
+                />
+              }
+            >
+              <Link to={`/profile/${user.username}`}>
+                <SubMenuItem>
+                  {user.username}
+                </SubMenuItem>
+              </Link>
+              <LineSeparator />
+              <SubMenuItem onClick={handleOpenModalLoggout}>Sair</SubMenuItem>
+            </DropDownMenu>
           </MenuItem>
         </Right>
       </Menu>

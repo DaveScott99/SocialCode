@@ -2,11 +2,11 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 980px;
+  max-width: 1280px;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 60px;
 
   h1 {
     font-size: 1.5em;
@@ -84,55 +84,3 @@ export const TextWarning = styled.span`
   font-size: 0.8em;
   font-weight: 500;
 `;
-
-export const ProgressBarContainer = styled.div`
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 30px;
-  max-height: 30px;
-  margin-top: 10px;
-
-  border-radius: 10px;
-`;
-
-const getBackgroundProgressBar = (value) => {
-  return `linear-gradient(to right, #2c3e50 0%, #3498db ${value}%, #9b9b9b1b ${value}%, #9b9b9b1b 100%)`;
-};
-
-export const Progress = styled.input.attrs((props) => ({
-  style: {
-    background: getBackgroundProgressBar(props.value),
-  },
-}))`
-  width: 100%;
-  height: 20px;
-  -webkit-appearance: none;
-  transition: all 0.2s;
-  appearance: none;
-  border-radius: 10px;
-
-  &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 0.3em;
-  }
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    display: none;
-  }
-`;
-
-
-export const MessageProgress = styled.span`
-
-  position: absolute;
-  font-weight: 600;
-  font-size: .9em;
-
-  color: #FFF;
-  
-`

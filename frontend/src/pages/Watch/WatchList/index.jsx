@@ -37,7 +37,7 @@ export default function WatchList() {
     <Container>
       {videosData.content.map((video) => (
         <VideoItem key={video.id} onClick={() => navigate(`/watch/${video.fileName}`)} >
-          <VideoThumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail.fileName}&videoFileName=${video.fileName}`} />
+          <VideoThumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`} />
           <VideoTitle>{video.title}</VideoTitle>
           <Owner>
             <Username>

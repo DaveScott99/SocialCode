@@ -1,17 +1,43 @@
-import React from "react";
-import { ButtonUpload, ContainerForm, ContainerInput, Form, Image, Input, Picture, Preview, ProportionThumbnail, TitleUploadThumbnail } from "./styles";
+import React, { useEffect } from "react";
+import {
+  Attachs,
+  ButtonUpload,
+  ContainerForm,
+  DescriptionInput,
+  Form,
+  Header,
+  Image,
+  Input,
+  Main,
+  MessageProgress,
+  OptionSelect,
+  Preview,
+  Progress,
+  ProgressBarContainer,
+  ProportionThumbnail,
+  SelectVisibility,
+  Thumbnail,
+  ThumbnailContainer,
+  TitleInput,
+  TitleUploadThumbnail,
+  VideoInformations,
+  WarningThumbnail,
+  WarningVideo,
+} from "./styles";
 import { Button } from "../../Generics/Button/Button";
-import TextField from "../../Generics/TextField/TextField";
-import TextArea from "../../Generics/TextArea/TextArea";
 import { useState } from "react";
-import { TbPhotoUp } from "react-icons/tb"
+import { TbPhotoUp } from "react-icons/tb";
 import { useQuery } from "@tanstack/react-query";
-import { findLanguages, updateVideo } from "../../../services/Api";
+import {
+  findLanguages,
+  updateVideo,
+  uploadThumbnail,
+} from "../../../services/Api";
 import Select from "react-select";
 import { validateTitleVideo } from "../../../utils/Validators";
+import { HiStar } from "react-icons/hi";
 
-export default function UploadVideoForm({ videoOnUpload }) {
-
+export default function UploadVideoForm({ videoOnUpload, progressUpload }) {
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -19,26 +45,31 @@ export default function UploadVideoForm({ videoOnUpload }) {
     title: "",
     description: "",
     fileName: "",
-    thumbnailFile: selectedThumbnail
-  })
+    languages: [],
+  });
 
-  const { data: languages } = useQuery(["languages"], () => findLanguages(), {staleTime: 5000*1000});
+  const { data: languages } = useQuery(["languages"], () => findLanguages(), {
+    staleTime: 5000 * 1000,
+  });
 
   const handleImageChange = (event) => {
-      const file = event.target.files[0];
-      setSelectedThumbnail(file);
+    const file = event.target.files[0];
+    setSelectedThumbnail(file);
 
-      setNewVideo({ ...newVideo, thumbnailFile: file})
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-      if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-              setPreviewImage(reader.result);
-          };
-          reader.readAsDataURL(file);
-      } 
-
-  }
+  useEffect(() => {
+    if (videoOnUpload && selectedThumbnail) {
+      uploadThumbnail(selectedThumbnail, videoOnUpload.fileName);
+    }
+  }, [selectedThumbnail, videoOnUpload]);
 
   const handleLanguageChange = (selectedLanguage) => {
     setSelectedLanguages(selectedLanguage);
@@ -53,30 +84,31 @@ export default function UploadVideoForm({ videoOnUpload }) {
 
   console.log(newVideo);
 
+  useEffect(() => {
+    if (videoOnUpload) {
+      setNewVideo({
+        ...newVideo,
+        fileName: videoOnUpload.fileName,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoOnUpload]);
 
   const handleSaveVideo = () => {
-    if (videoOnUpload){
-      setNewVideo({
-        ...newVideo, 
-        fileName: videoOnUpload.fileName,      
-      });
-      console.log(newVideo);
-
-      if (newVideo.fileName.length > 1) {
-        updateVideo(newVideo, videoOnUpload.id);
-      }
+    if (newVideo.fileName.length > 1) {
+      updateVideo(newVideo, videoOnUpload.id);
     }
-  }
+  };
 
   const validatorInput = () => {
-    return videoOnUpload
-          && validateTitleVideo(newVideo.title);
-  }
+    return videoOnUpload && validateTitleVideo(newVideo.title);
+  };
 
   return (
     <ContainerForm>
-      <ContainerInput className="input-user-avatar-container">
-        <Picture className="picture-user-avatar" tabIndex="0">
+      <ThumbnailContainer>
+        <Thumbnail>
           <Input
             type="file"
             accept="image/jpeg, image/png"
@@ -89,43 +121,103 @@ export default function UploadVideoForm({ videoOnUpload }) {
             ) : (
               <ButtonUpload>
                 <TbPhotoUp />
-                <TitleUploadThumbnail>Fazer upload da miniatura</TitleUploadThumbnail>
-                <ProportionThumbnail>Tamanho ideal 1.280 px por 720 px (uma proporção de 16:9)</ProportionThumbnail>
+                <TitleUploadThumbnail>
+                  Fazer upload da miniatura
+                </TitleUploadThumbnail>
+                <ProportionThumbnail>
+                  Tamanho ideal 1.280 px por 720 px (uma proporção de 16:9)
+                </ProportionThumbnail>
               </ButtonUpload>
             )}
           </Preview>
-        </Picture>
-        
-      </ContainerInput>
+        </Thumbnail>
+        <WarningThumbnail>O tamanho máximo do arquivo é 2MB.</WarningThumbnail>
+      </ThumbnailContainer>
 
-      <Form className="form-credentials">
-        <TextField type="text" fieldName="Título (Obrigatório)" name="title" onChange={onChangeInput} />
-        <TextArea name="description" fieldName="Descrição" onChange={onChangeInput}/>
+      <VideoInformations>
+        <Header>
+          <ProgressBarContainer>
+            <Progress type="range" value={progressUpload} min="0" max="100" />
+            <MessageProgress>
+              {progressUpload < 100
+                ? "Enviando " + progressUpload + "%"
+                : videoOnUpload !== null
+                ? "Vídeo enviado com succeso!"
+                : "Processando até SD..."}
+            </MessageProgress>
+          </ProgressBarContainer>
+          <Button
+            type="submit"
+            fontSize="1"
+            padding="5"
+            width={20}
+            fontWeight="bold"
+            justify="center"
+            onClick={handleSaveVideo}
+            disabled={!validatorInput()}
+            marginleft={10}
+          >
+            Publicar
+          </Button>
+        </Header>
 
-        <Select
-          placeholder="Selecione tecnologias"
-          options={languages}
-          isMulti
-          value={selectedLanguages}
-          onChange={handleLanguageChange}
-          getOptionLabel={(language) => language.name}
-          getOptionValue={(language) => language.id}
-          com
-        />
-      </Form>
+        {progressUpload < 100 ? (
+          <WarningVideo>
+            <HiStar />
+            Seu video ainda está sendo enviado. Deixe essa página aberta até a
+            conclusão.
+          </WarningVideo>
+        ) : null}
 
-        <Button
-          type="button"
-          fontSize="1"
-          padding="10"
-          borderradius="5"
-          fontWeight="bold"
-          justify="center"
-          onClick={handleSaveVideo}
-          disabled={!validatorInput()}
-        >
-          Salvar
-        </Button>
+        <Main>
+          <Form className="form-credentials">
+            <TitleInput
+              placeholder="Título (Obrigatório)"
+              type="text"
+              name="title"
+              onChange={onChangeInput}
+              required
+            />
+            <DescriptionInput
+              placeholder="Descrição"
+              name="description"
+              onChange={onChangeInput}
+            />
+
+            <Select
+              placeholder="Selecione tecnologias"
+              options={languages}
+              isMulti
+              value={selectedLanguages}
+              onChange={handleLanguageChange}
+              getOptionLabel={(language) => language.name}
+              getOptionValue={(language) => language.id}
+              com
+            />
+          </Form>
+
+          <Attachs>
+            <SelectVisibility name="visibility">
+              <OptionSelect value="public">Público</OptionSelect>
+              <OptionSelect value="private">Privado</OptionSelect>
+            </SelectVisibility>
+
+            <Button
+              type="button"
+              fontSize=".9"
+              padding="10"
+              width={100}
+              fontWeight="bold"
+              background="#FFF"
+              fontcolor="#000"
+              hoverbackground="#FFF"
+              borderradius={5}
+            >
+              + Adicionar à playlist
+            </Button>
+          </Attachs>
+        </Main>
+      </VideoInformations>
     </ContainerForm>
   );
 }

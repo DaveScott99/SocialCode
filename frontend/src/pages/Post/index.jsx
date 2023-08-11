@@ -284,7 +284,7 @@ export default function Post() {
           ) : null}
         </NewComment>
 
-        {currentPost.coments.map((coment) => (
+        {/*currentPost.coments.map((coment) => (
           <Comment key={coment.id}>
             <ContainerVotes>
               <InteractionButton>
@@ -313,7 +313,7 @@ export default function Post() {
               </CommentBody>
             </CommentContent>
           </Comment>
-        ))}
+        )) */}
       </CommentContainer>
     </Container>
   );

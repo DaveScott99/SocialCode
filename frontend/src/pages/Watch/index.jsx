@@ -153,7 +153,7 @@ export default function Watch() {
       <RecommendationsContainer>
         {videosRecommendation.map((video) => (
           <ItemRecommendation key={video.id} onClick={() => navigate(`/watch/${video.fileName}`)}>
-            <Thumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail.fileName}&videoFileName=${video.fileName}`} />
+            <Thumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`} />
             <Views>
               <TitleRecommendation>{video.title}</TitleRecommendation>
               <OwnerRecommendation>

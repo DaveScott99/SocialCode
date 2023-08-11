@@ -5,10 +5,7 @@ import {
   Container,
   ContainerInput,
   Input,
-  MessageProgress,
   Preview,
-  Progress,
-  ProgressBarContainer,
   SelectFile,
   TextWarning,
 } from "./styles";
@@ -20,10 +17,12 @@ import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { api } from "../../services/Api";
 
 export default function PublishVideo() {
+
   const { user } = useContext(AuthContext);
+
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [progressUpload, setProgressUpload] = useState(0);
   const [videoOnUpload, setVideoOnUpload] = useState(null);
+  const [progressUpload, setProgressUpload] = useState(0);
 
   const handleVideoChange = (event) => {
     const file = event.target.files[0];
@@ -53,25 +52,11 @@ export default function PublishVideo() {
         .catch((err) => console.log(err));
     }
   }, [selectedVideo, user.id]);
-
+  
   //console.log(videoOnUpload);
 
   return (
     <Container>
-      <h1>Publicar um novo vídeo</h1>
-
-      {progressUpload > 0 ? (
-        <ProgressBarContainer>
-          <Progress type="range" value={progressUpload} min="0" max="100" />
-          <MessageProgress>
-            {progressUpload < 100
-              ? progressUpload + "%"
-              : videoOnUpload !== null
-              ? "Vídeo enviado com succeso!"
-              : "Processando até SD..."}
-          </MessageProgress>
-        </ProgressBarContainer>
-      ) : null}
 
       {!selectedVideo ? (
         <ContainerInput>
@@ -91,7 +76,7 @@ export default function PublishVideo() {
         </ContainerInput>
       ) : null}
 
-      {selectedVideo ? <UploadVideoForm videoOnUpload={videoOnUpload} /> : null}
+      {selectedVideo ? <UploadVideoForm videoOnUpload={videoOnUpload} progressUpload={progressUpload}/> : null }
 
       <AwarenessNoticeContainer>
         <CiWarning />
