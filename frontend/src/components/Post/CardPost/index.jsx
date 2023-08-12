@@ -18,31 +18,31 @@ import {
 } from "./styles";
 
 export function CardPost({ post }) {
-
   const navigate = useNavigate();
 
   return (
-    <Container >
-      <ContainerContent >
+    <Container>
+      <ContainerContent>
         <Info>
           <PostInfo>
-          <Owner>
+            <Owner>
               <Link to={`/profile/${post.owner.username}`}>
                 <Username>{post.owner.username}</Username>
               </Link>
-    
+
               <PostDate>· {dateFormat(post.creationDate)}</PostDate>
             </Owner>
 
-
-          <LanguageContainer>
-            {post.languages?.map((language) => (
-              <Language key={language.id} src={language.icon}/>
-            ))}
-          </LanguageContainer>
+            <LanguageContainer>
+              {post.languages?.map((language) => (
+                <Language key={language.id} src={language.icon} />
+              ))}
+            </LanguageContainer>
           </PostInfo>
 
-          <Title onClick={() => navigate(`/post/${post.id}`)}>{post.title}</Title>
+          <Title onClick={() => navigate(`/post/${post.id}`)}>
+            {post.title}
+          </Title>
 
           <PostBody>
             <MDEditor.Markdown source={post.body} />

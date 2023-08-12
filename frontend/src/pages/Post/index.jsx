@@ -2,16 +2,17 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchComentsCurrentPost,
   publishNewComent,
   selectPost,
   unvotePost,
   votePost,
 } from "../../redux/post/actions";
 import { downVotePost, upVotePost } from "../../services/Feed";
-import { findPostById, publishComent } from "../../services/Api";
+import { findComentsByPost, findPostById, publishComentPost } from "../../services/Api";
 import { Link, useParams } from "react-router-dom";
 import { dateFormat } from "../../utils/FormatDateInfo";
-import { MdKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { BiChevronDown, BiChevronUp } from  "react-icons/bi"
 import { Button } from "../../components/Generics/Button/Button";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
@@ -63,7 +64,7 @@ export default function Post() {
     post: {
       id: title,
     },
-    user: {
+    owner: {
       id: user.id,
       username: user.username,
       profilePhoto: user.profilePhoto,
@@ -74,11 +75,13 @@ export default function Post() {
 
   const { isLoading } = useQuery([title], async () => {
     const postData = await findPostById(title);
+    const comentsPost = await findComentsByPost(title);
     dispatch(selectPost(postData.data));
+    dispatch(fetchComentsCurrentPost(comentsPost.data.content));
     return postData;
   }, {staleTime: 2000 * 100});
 
-  const { currentPost } = useSelector((rootReducer) => rootReducer.postReducer);
+  const { currentPost, comentsCurrentPost } = useSelector((rootReducer) => rootReducer.postReducer);
 
   const handleVoteClick = (postId) => {
     if (currentPost.votedByUser) {
@@ -118,19 +121,19 @@ export default function Post() {
   };
 
   const handleClickPublishComent = async () => {
-    const { data } = await publishComent(newComent);
+    const { data } = await publishComentPost(newComent);
 
     console.log(data);
 
     if (data) {
-      dispatch(publishNewComent(currentPost.id, newComent));
+      dispatch(publishNewComent(newComent));
       setComentBody("");
       setNewComent({
         text: "",
         post: {
           id: currentPost.id,
         },
-        user: {
+        owner: {
           id: user.id,
         },
       });
@@ -206,7 +209,7 @@ export default function Post() {
 
         <ContainerVotes>
           <InteractionButton>
-            <MdOutlineKeyboardArrowUp
+            <BiChevronUp
               onClick={() => handleVoteClick(currentPost.id)}
             />
           </InteractionButton>
@@ -214,7 +217,7 @@ export default function Post() {
           <VotesCount>{currentPost.votesCount}</VotesCount>
 
           <InteractionButton>
-            <MdKeyboardArrowDown
+            <BiChevronDown
               onClick={() => handleUnvoteClick(currentPost.id)}
             />
           </InteractionButton>
@@ -284,24 +287,24 @@ export default function Post() {
           ) : null}
         </NewComment>
 
-        {/*currentPost.coments.map((coment) => (
+        {comentsCurrentPost.map((coment) => (
           <Comment key={coment.id}>
             <ContainerVotes>
               <InteractionButton>
-                <MdOutlineKeyboardArrowUp />
+                <BiChevronUp />
               </InteractionButton>
 
               <VotesCount>{0}</VotesCount>
 
               <InteractionButton>
-                <MdKeyboardArrowDown />
+                <BiChevronDown />
               </InteractionButton>
             </ContainerVotes>
 
             <CommentContent>
               <CommentOwner>
-                <Link to={`/profile/${coment.user.username}`}>
-                  <Username>{coment.user.username}</Username>
+                <Link to={`/profile/${coment.owner.username}`}>
+                  <Username>{coment.owner.username}</Username>
                 </Link>
                 <PostDate>· {dateFormat(coment.creationDate)}</PostDate>
               </CommentOwner>
@@ -313,7 +316,7 @@ export default function Post() {
               </CommentBody>
             </CommentContent>
           </Comment>
-        )) */}
+        ))}
       </CommentContainer>
     </Container>
   );

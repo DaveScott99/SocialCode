@@ -14,11 +14,14 @@ export const ContainerVotes = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 10px;
 `;
 
 export const VotesCount = styled.span`
     user-select: none;
+    font-size: .8em;
+    color: ${(props) => props.theme.colors.primary};
+    margin-bottom: 5px;
+    margin-top: 5px;
 `;
 
 export const InteractionButton = styled.div`
@@ -26,9 +29,15 @@ export const InteractionButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border-radius: 5px;
+  transition: all .1s;
 
   svg {
-    font-size: 2em;
+    font-size: 1.5em;
+  }
+
+  &:hover {
+    background: #F0F2F5;
   }
 `;
 
@@ -113,7 +122,7 @@ export const PostBody = styled.div`
 
 export const Title = styled.div`
   font-size: 1.5em;
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
 
@@ -138,11 +147,12 @@ export const CardFooter = styled.footer`
 export const CommentContainer = styled.div`
   width: 100%;
   max-width: 900px;
+
 `
 
 export const Comment = styled.div`
-  padding: 10px;
   display: flex;
+  margin-bottom: 10px;
 `
 
 export const TextEditorContainer = styled.div`
@@ -174,7 +184,6 @@ export const CommentContent = styled.div`
 export const CommentOwner = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 5px 0px;
   line-height: 5px;
 

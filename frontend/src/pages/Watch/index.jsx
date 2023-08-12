@@ -7,19 +7,24 @@ import { nextVideo } from "../../redux/video/actions";
 import { useQuery } from "@tanstack/react-query";
 import { findAllVideos, findVideoByFileName } from "../../services/Api";
 import Loading from "../../components/Generics/Loading/Loading";
+import { Button } from "../../components/Generics/Button/Button";
+import { dateFormat } from "../../utils/FormatDateInfo";
+import DropDownMenu from "../../components/Generics/DropDownMenu";
 import {
   Container,
   ContainerVotes,
+  DescriptionContainer,
   Header,
   InfoVideo,
   InteractionButton,
   Interation,
   ItemRecommendation,
-  Owner,
+  Language,
+  LanguageContainer,
   OwnerRecommendation,
   PlayerContainer,
   RecommendationsContainer,
-  Separator,
+  SubMenuItem,
   Thumbnail,
   Title,
   TitleButton,
@@ -29,22 +34,19 @@ import {
   UsernameRecommendation,
   VideoDate,
   Views,
-  VotesCount,
 } from "./styles";
-import { Avatar } from "@mui/material";
 import {
-  BiChevronDown,
-  BiChevronUp,
   BiAddToQueue,
   BiShareAlt,
   BiDotsHorizontalRounded,
+  BiLike,
 } from "react-icons/bi";
-import { Button } from "../../components/Generics/Button/Button";
-import { dateFormat } from "../../utils/FormatDateInfo";
+import ModalPlaylist from "../../components/Generics/ModalPlaylist";
 
 export default function Watch() {
   const { filename } = useParams();
   const [videosRecommendation, setVideosRecommendation] = useState([]);
+  const [showModalSave, setShowModalSave] = useState(false);
   const showThumbnail = process.env.REACT_APP_API;
   const navigate = useNavigate();
 
@@ -80,24 +82,20 @@ export default function Watch() {
           <TitleContainer>
             <Title>{videoData.title}</Title>
             <Views>
-              0 Visualizações
-              <VideoDate> · há {dateFormat(videoData.creationDate)}</VideoDate>
+              <Username>{videoData.owner.username}</Username>
+              <VideoDate>- há {dateFormat(videoData.creationDate)}</VideoDate>
             </Views>
           </TitleContainer>
 
           <Interation>
             <ContainerVotes>
               <InteractionButton>
-                <BiChevronUp />
-              </InteractionButton>
-              <VotesCount>{videoData.votesCount}</VotesCount>
-              <InteractionButton>
-                <BiChevronDown />
+                <BiLike />
               </InteractionButton>
             </ContainerVotes>
 
             <Button
-              background="#F0F2F5"
+              background="#F7F9F9"
               padding={10}
               fontSize={0.8}
               borderradius={20}
@@ -111,7 +109,7 @@ export default function Watch() {
             </Button>
 
             <Button
-              background="#F0F2F5"
+              background="#F7F9F9"
               padding={10}
               fontSize={0.8}
               borderradius={20}
@@ -119,41 +117,59 @@ export default function Watch() {
               fontcolor="#000"
               fontWeight={500}
               marginright={5}
+              onClick={() => setShowModalSave(!showModalSave)}
             >
               <BiAddToQueue />
               <TitleButton>Salvar</TitleButton>
             </Button>
 
-            <Button
-              background="#F0F2F5"
-              padding={10}
-              fontSize={0.8}
-              borderradius={20}
-              hoverbackground="#F0F2F5"
-              fontcolor="#000"
-              fontWeight={500}
+            {
+              showModalSave ? 
+                <ModalPlaylist onClose={() => setShowModalSave(false)} videoFileName={videoData.fileName}/>
+              : null
+            }
+
+            <DropDownMenu
+              iconMenu={
+                <Button
+                  background="#F7F9F9"
+                  padding={10}
+                  fontSize={0.8}
+                  borderradius={20}
+                  hoverbackground="#F0F2F5"
+                  fontcolor="#000"
+                  fontWeight={500}
+                >
+                  <BiDotsHorizontalRounded />
+                </Button>
+              }
             >
-              <BiDotsHorizontalRounded />
-            </Button>
+              <SubMenuItem>Denunciar</SubMenuItem>
+            </DropDownMenu>
           </Interation>
         </Header>
 
-        <Separator />
-
-        <Owner>
-          <Avatar
-            src={videoData.owner.profilePhoto}
-            sx={{ width: "40px", height: "40px" }}
-            variant="circle"
-          />
-          <Username>{videoData.owner.username}</Username>
-        </Owner>
+        <DescriptionContainer>
+          <LanguageContainer>
+            {videoData.languages?.map((language) => (
+              <Language key={language.id} src={language.icon} />
+            ))}
+          </LanguageContainer>
+        </DescriptionContainer>
       </InfoVideo>
 
       <RecommendationsContainer>
-        {videosRecommendation.map((video) => (
-          <ItemRecommendation key={video.id} onClick={() => navigate(`/watch/${video.fileName}`)}>
-            <Thumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`} />
+        {videosRecommendation?.map((video) => (
+          <ItemRecommendation
+            key={video.id}
+            onClick={() => navigate(`/watch/${video.fileName}`)}
+          >
+            <Thumbnail
+              src={
+                showThumbnail +
+                `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`
+              }
+            />
             <Views>
               <TitleRecommendation>{video.title}</TitleRecommendation>
               <OwnerRecommendation>
@@ -167,6 +183,8 @@ export default function Watch() {
           </ItemRecommendation>
         ))}
       </RecommendationsContainer>
+
     </Container>
+    
   );
 }

@@ -5,6 +5,11 @@ export const selectPost = (payload) => ({
   payload,
 });
 
+export const fetchComentsCurrentPost = (payload) => ({
+  type: PostActionTypes.FETCH_COMENTS_CURRENT_POST,
+  payload,
+});
+
 export const fetchPostsFeedToRedux = (payload) => ({
   type: PostActionTypes.FETCH_POSTS_SUCCESS,
   payload,
@@ -29,7 +34,7 @@ export const unvotePost = (postId, newVotes) => ({
   payload: { postId, newVotes }
 })
 
-export const publishNewComent = (postId, coment) => ({
+export const publishNewComent = (payload) => ({
   type: PostActionTypes.NEW_COMENT,
-  payload: { postId, coment }
+  payload
 })

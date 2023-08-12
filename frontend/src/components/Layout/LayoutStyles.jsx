@@ -30,7 +30,7 @@ export const Content = styled.main`
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.white_smoke};
   padding: 20px;
 `
 

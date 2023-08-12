@@ -157,15 +157,31 @@ export const publishPost = async (post) => {
   }
 };
 
-export const publishComent = async (coment) => {
+export const publishComentPost = async (coment) => {
   try {
-    const response = api.post("/coment/publishComent", coment)
+    const response = await api.post("/coments/publishComentPost", coment)
+
+    console.log(response);
     return response;
   }
   catch (err) {
     console.log(err);
   }
+};
+
+export const findComentsByPost = async (postId, page) => {
+
+  try {
+    const response = await api.get(`/coments/findComentsByPost?postId=${postId}&page=${page}`)
+    console.log(response);
+    return response;
+  }
+  catch(err) {
+    console.log(err);
+  }
+
 }
+
 
 export const findLanguages = async () => {
   try {
@@ -229,5 +245,35 @@ export const uploadThumbnail = async (thumbnailFile, fileName) => {
   }
   catch(err) {
     console.log(err);
+  }
+}
+
+export const findPlaylistsByUser = async (username) => {
+  try{
+    const response = await api.get(`/playlists?ownerUsername=${username}`);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const createPlaylist = async (newPlaylist) => {
+  try {
+    return await api.post("/playlists", newPlaylist);
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const addVideoOnPlaylist = async (playlistName, videoFileName) => {
+  try{
+    const response = await api.post(`/playlists/addVideo?playlistName=${playlistName}&videoFileName=${videoFileName}`);
+    toast.success(response.data.message);
+  }
+  
+  catch(err) {
+    toast.error(err.response.data.message);
   }
 }

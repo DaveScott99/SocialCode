@@ -27,7 +27,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 20px;
 `;
 
 export const Body = styled.div`

@@ -11,7 +11,7 @@ import "./index.css";
 function App() {
   return (
     <>
-      <ToastContainer autoClose={3000} position={toast.POSITION.TOP_RIGHT} theme='dark' />
+      <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} theme='dark' />
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <RoutesApp />

@@ -41,11 +41,11 @@ export default function WatchList() {
           <VideoTitle>{video.title}</VideoTitle>
           <Owner>
             <Username>
-              
+              {video.owner.username}
             </Username>
           </Owner>
           <ViewsAndDate>
-            <Views>{video.views} views - </Views>
+            <Views>0 visualizações - </Views>
             <Date>há {dateFormat(video.creationDate)}</Date>
           </ViewsAndDate>
         </VideoItem>

@@ -16,7 +16,7 @@ export const VideoItem = styled.article`
 
 export const VideoThumbnail = styled.img`
     width: 100%;
-    height: 200px;
+    height: 180px;
     user-select: none;
     border-radius: 10px;
 
@@ -27,15 +27,16 @@ export const VideoTitle = styled.h2`
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
+    margin-top: 10px;
 `
 
 export const Owner = styled.div`
-    margin-top: 3px;
+    margin-top: 5px;
 `
 
 export const Username = styled.p`
-    font-size: .9em;
-    font-weight: 500;
+    font-size: .8em;
+    font-weight: 400;
     cursor: pointer;
     transition: all .1s;
     width: max-content;
@@ -47,7 +48,6 @@ export const Username = styled.p`
 `
 
 export const ViewsAndDate = styled.div`
-    margin-top: 3px;
 `
 
 export const Views = styled.span`

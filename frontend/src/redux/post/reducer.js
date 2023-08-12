@@ -3,6 +3,7 @@ import PostActionTypes from "./action-types";
 const initialState = {
   postsFeed: [],
   currentPost: null,
+  comentsCurrentPost: []
 };
 
 const postReducer = (state = initialState, action) => {
@@ -13,6 +14,9 @@ const postReducer = (state = initialState, action) => {
 
     case PostActionTypes.FETCH_POSTS_SUCCESS:
       return { ...state, postsFeed: [...state.postsFeed, ...action.payload] };
+
+    case PostActionTypes.FETCH_COMENTS_CURRENT_POST:
+      return { ...state, comentsCurrentPost: [...state.comentsCurrentPost, ...action.payload] };
 
     case PostActionTypes.RESET_POSTS:
       return {
@@ -43,12 +47,7 @@ const postReducer = (state = initialState, action) => {
       };
 
     case PostActionTypes.NEW_COMENT:
-      const postBeforeComent = state.postsFeed.map((post) =>
-        post.id === action.payload.postId
-          ? { ...post, coments: [...post.coments, action.payload.coment] }
-          : post
-      );
-      return { ...state, postsFeed: postBeforeComent };
+      return { ...state, comentsCurrentPost: [...state.comentsCurrentPost, action.payload] };
 
     default:
       return state;
