@@ -2,27 +2,33 @@ import React from "react";
 import Nav from "../Nav/Nav";
 
 import {
+  Aside,
   Content,
   Header,
+  Main,
   Sentinel,
   Wrapper,
 } from "./LayoutStyles";
 
-export default function Layout({ children, backPath }) {
+export default function Layout({ children, backPath, asideItens }) {
   return (
     <Wrapper>
-      {/*
-        <Sidebar />
-      */}
-
       <Header>
         <Nav backPath={backPath} />
       </Header>
 
-      <Content>
-        {children}
-        <Sentinel id="sentinel" />
-      </Content>
+      <Main>
+        <Content>
+          {children}
+          <Sentinel id="sentinel" />
+        </Content>
+        {
+          asideItens ?
+            <Aside>{asideItens}</Aside>
+          : null
+
+        }
+      </Main>
     </Wrapper>
   );
 }

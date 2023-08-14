@@ -3,31 +3,19 @@ import theme from "../../styles/theme";
 
 export const SidebarContainer = styled.aside`
   width: 100%;
-  max-width: 200px;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   margin-right: 10px;
-  padding: 5px;
+  height: 95vh;
+  transition: all .1s;
+  overflow: hidden;
+
+  &:hover {
+    overflow: auto;
+  }
 
   @media (max-width: 767px) {
     width: 55px;
-  }
-`;
-
-export const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 20px;
-  margin-bottom: 20px;
-
-  color: ${(props) => props.theme.colors.black};
-
-  svg {
-    font-size: 2.5em;
-    user-select: none;
   }
 `;
 
@@ -35,8 +23,7 @@ export const Menu = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
-
-  height: 100vh;
+  padding: 20px 5px 0px 5px;
 
   a {
     text-decoration: none;
@@ -50,23 +37,25 @@ export const Menu = styled.ul`
 export const MenuItem = styled.li`
   display: flex;
   align-items: center;
-
-  padding: 10px;
-
+  padding: 10px 10px 10px 15px;
   border-radius: 5px;
   transition: all 0.1s;
+  cursor: pointer;
 
   background-color: ${({ selected }) =>
-    selected ? theme.colors.primary : "transparent"};
-  color: ${({ selected }) => (selected ? theme.colors.white : "#000")};
+    selected ? theme.colors.grey : "transparent"};
+  color: ${props => props.theme.colors.black };
 
   &:hover {
-    background: ${(props) => props.theme.colors.primary};
-    color: ${(props) => props.theme.colors.white};
+    background: ${(props) => props.theme.colors.grey};
+    color: ${(props) => props.theme.colors.black};
   }
 `;
 
 export const Label = styled.span`
+  font-size: .9em;
+  font-weight: 400;
+
   @media (max-width: 767px) {
     display: none;
   }
@@ -80,15 +69,26 @@ export const Icon = styled.i`
   margin-right: 10px;
 `;
 
-export const LineSeparator = styled.div`
-  margin-top: 30px;
+export const TecnologyIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+`
+
+export const ExpansiveDiv = styled.div`
+  height: ${(props) => props.isExpansive ? "max-content" : "45px"};
+  overflow: hidden;
+`
+
+export const Line = styled.hr`
+  width: 100%;
+  border: 1px solid #00000018;
+
+  margin-top: 5px;
+  margin-bottom: 10px;
 `;
 
-export const Line = styled.hr``;
-
-export const SectionName = styled.div`
+export const SectionName = styled.span`
   font-size: 0.8em;
   margin-top: 10px;
-
-  margin-bottom: 20px;
 `;

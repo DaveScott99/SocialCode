@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import {
   Container,
+  ContainerGridVideos,
   Date,
   Owner,
   Username,
@@ -26,30 +27,38 @@ export default function WatchList() {
   );
 
   console.log(videosData);
-  
+
   const showThumbnail = process.env.REACT_APP_API;
 
   if (isLoading) {
-    return <Loading color="#FFF" />
+    return <Loading color="#FFF" />;
   }
 
   return (
     <Container>
-      {videosData.content.map((video) => (
-        <VideoItem key={video.id} onClick={() => navigate(`/watch/${video.fileName}`)} >
-          <VideoThumbnail src={showThumbnail + `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`} />
-          <VideoTitle>{video.title}</VideoTitle>
-          <Owner>
-            <Username>
-              {video.owner.username}
-            </Username>
-          </Owner>
-          <ViewsAndDate>
-            <Views>0 visualizações - </Views>
-            <Date>há {dateFormat(video.creationDate)}</Date>
-          </ViewsAndDate>
-        </VideoItem>
-      ))}
+      <ContainerGridVideos>
+        {videosData.content.map((video) => (
+          <VideoItem
+            key={video.id}
+            onClick={() => navigate(`/watch/${video.fileName}`)}
+          >
+            <VideoThumbnail
+              src={
+                showThumbnail +
+                `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`
+              }
+            />
+            <VideoTitle>{video.title}</VideoTitle>
+            <Owner>
+              <Username>{video.owner.username}</Username>
+            </Owner>
+            <ViewsAndDate>
+              <Views>0 visualizações - </Views>
+              <Date>há {dateFormat(video.creationDate)}</Date>
+            </ViewsAndDate>
+          </VideoItem>
+        ))}
+      </ContainerGridVideos>
     </Container>
   );
 }

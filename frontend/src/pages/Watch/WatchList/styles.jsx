@@ -1,13 +1,16 @@
 import { styled } from "styled-components";
 
 export const Container = styled.div`
+    width: 100%;
+    display: flex;
+`
+
+export const ContainerGridVideos = styled.div`
     display: grid;
     grid-gap: 30px;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     padding: 20px;
     width: 100%;
-    max-width: 1440px;
-    margin-top: 10px;
 `
 
 export const VideoItem = styled.article`

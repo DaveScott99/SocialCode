@@ -14,6 +14,7 @@ import Explore from "../pages/Explore";
 import Search from "../pages/Search";
 import Watch from "../pages/Watch";
 import PublishVideo from "../pages/PublishVideo";
+import SidebarVideo from "../components/SidebarVideo";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -108,7 +109,7 @@ export default function RouteApp() {
             path="/watch"
             element={
               <Private>
-                <Layout>
+                <Layout asideItens={<SidebarVideo />}>
                   <WatchList />
                 </Layout>
               </Private>

@@ -2,16 +2,19 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
     display: flex;
-    margin-top: 20px;
+    justify-content: center;
     width: 100%;
-    max-width: 1550px;
+    padding: 0px 0px 50px 0px;
+
 `
 
 export const PlayerContainer = styled.div`
+
 `
 
 export const InfoVideo = styled.div`
     width: 100%;
+    max-width: 1100px;
 `
 
 export const Header = styled.div`
@@ -138,7 +141,7 @@ export const InteractionButton = styled.div`
 `
 
 export const RecommendationsContainer = styled.div`
-    margin-left: 10px;
+    margin-left: 20px;
     width: 100%;
     max-width: 400px;
 `

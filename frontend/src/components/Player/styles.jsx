@@ -4,7 +4,6 @@ import theme from "../../styles/theme";
 export const Container = styled.div`
   width: 100%;
 
-  max-width: ${(props) => !props.theater ? "1280px" : "100%"};
 
   max-height: 620px;
   position: relative;
@@ -15,10 +14,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  @media (max-width: 1440px) {
-    max-width: ${(props) => !props.theater ? "800px" : "100%"};  
-  }
+
 
 `;
 
@@ -30,11 +26,6 @@ export const VideoScreen = styled.video`
   max-height: ${(props) => !props.fullscreen ? "620px": "100vh"};
 
   user-select: none;
-
-  @media (max-width: 1440px) {
-    max-width: ${(props) => props.theater && !props.fullscreen ? "900px" : "100%"};  
-
-  }
 
   &::-webkit-media-controls {
     display:none !important;

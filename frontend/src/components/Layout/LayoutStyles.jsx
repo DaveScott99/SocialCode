@@ -23,18 +23,31 @@ export const Header = styled.header`
   z-index: 10;
 `;
 
-export const Content = styled.main`
+export const Main = styled.main`
   width: 100vw;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   background: ${(props) => props.theme.colors.white_smoke};
-  padding: 20px;
+`
+
+export const Content = styled.div`
+  width: 100%;
+  overflow: auto;
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+`
+
+export const Aside = styled.aside`
+  width: 100%;
+  max-width: 220px;
+  margin-right: 10px;
 `
 
 export const Sentinel = styled.div`
   width: 100%;
-  height: 10px;
+  height: 40px;
 `
