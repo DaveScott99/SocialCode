@@ -258,6 +258,17 @@ export const findPlaylistsByUser = async (username) => {
   }
 }
 
+export const findPlaylistsByName = async (playlistName) => {
+  try{
+    const response = await api.get(`/playlists/findByName?playlistName=${playlistName}`);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+
 export const createPlaylist = async (newPlaylist) => {
   try {
     return await api.post("/playlists", newPlaylist);

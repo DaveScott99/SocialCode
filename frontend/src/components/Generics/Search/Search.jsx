@@ -1,5 +1,4 @@
 import React from "react";
-import { BiSearch } from "react-icons/bi";
 
 import { SearchContainer, SearchInput } from "./SearchStyles";
 import { useNavigate } from "react-router";
@@ -14,8 +13,6 @@ export default function Search() {
   const handleChangeSearchQuery = (event) => {
     setSearchQuery(event.target.value);
   }
-
-  console.log(searchQuery);
 
   return (
     <SearchContainer>

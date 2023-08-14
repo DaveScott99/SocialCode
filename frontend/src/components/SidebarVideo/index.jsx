@@ -50,8 +50,6 @@ export default function Sidebar() {
     }
   );
 
-  console.log(playlists);
-
   useEffect(() => {
     setSelectedMenuItem(path);
   }, [path]);
@@ -105,7 +103,7 @@ export default function Sidebar() {
 
         <ExpansiveDiv isExpansive={showMorePlaylist}>
           {playlists.map((playlist) => (
-            <Link>
+            <Link to={`/playlist/${playlist.name}`}>
               <MenuItem key={playlist.id}>
                 <Icon>
                   <MdOutlinePlaylistPlay />
