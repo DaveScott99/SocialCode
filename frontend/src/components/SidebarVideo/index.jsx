@@ -3,19 +3,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import {
-  MdVideoLibrary,
   MdOutlinePlaylistPlay,
   MdHistory,
   MdHistoryToggleOff,
-  MdArrowDropDown,
-  MdArrowDropUp,
+  MdOutlineVideoLibrary,
 } from "react-icons/md";
 import {
   ExpansiveDiv,
   Icon,
   Label,
   Line,
-  Menu,
   MenuItem,
   SidebarContainer,
   TecnologyIcon,
@@ -30,7 +27,6 @@ export default function Sidebar() {
   const { user } = useContext(AuthContext);
   const path = window.location.pathname;
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
-  const [showMorePlaylist, setShowMorePlaylist] = useState(false);
 
   const handleSelectItemMenu = (item) => {
     setSelectedMenuItem(item);
@@ -64,14 +60,13 @@ export default function Sidebar() {
 
   return (
     <SidebarContainer>
-      <Menu>
         <Link>
           <MenuItem
-            selected={selectedMenuItem === "/"}
-            onClick={() => handleSelectItemMenu("/")}
+            selected={selectedMenuItem === "/library"}
+            onClick={() => handleSelectItemMenu("/library")}
           >
             <Icon>
-              <MdVideoLibrary />
+              <MdOutlineVideoLibrary />
             </Icon>
             <Label>Biblioteca</Label>
           </MenuItem>
@@ -79,8 +74,8 @@ export default function Sidebar() {
 
         <Link>
           <MenuItem
-            selected={selectedMenuItem === "/explore"}
-            onClick={() => handleSelectItemMenu("/explore")}
+            selected={selectedMenuItem === "/history"}
+            onClick={() => handleSelectItemMenu("/history")}
           >
             <Icon>
               <MdHistory />
@@ -91,8 +86,8 @@ export default function Sidebar() {
 
         <Link>
           <MenuItem
-            selected={selectedMenuItem === "/explore"}
-            onClick={() => handleSelectItemMenu("/explore")}
+            selected={selectedMenuItem === "/WL"}
+            onClick={() => handleSelectItemMenu("/WL")}
           >
             <Icon>
               <MdHistoryToggleOff />
@@ -101,7 +96,19 @@ export default function Sidebar() {
           </MenuItem>
         </Link>
 
-        <ExpansiveDiv isExpansive={showMorePlaylist}>
+        <Link>
+          <MenuItem
+            selected={selectedMenuItem === "/playlists"}
+            onClick={() => handleSelectItemMenu("/playlists")}
+          >
+            <Icon>
+              <MdOutlinePlaylistPlay />
+            </Icon>
+            <Label>Playlists</Label>
+          </MenuItem>
+        </Link>
+
+        <ExpansiveDiv>
           {playlists.map((playlist) => (
             <Link to={`/playlist/${playlist.name}`}>
               <MenuItem key={playlist.id}>
@@ -114,38 +121,18 @@ export default function Sidebar() {
           ))}
         </ExpansiveDiv>
 
-        <Link>
-          <MenuItem onClick={() => setShowMorePlaylist(!showMorePlaylist)}>
-            {!showMorePlaylist ? (
-              <>
-                <Icon>
-                  <MdArrowDropDown />
-                </Icon>
-                <Label>Mostrar mais</Label>
-              </>
-            ) : (
-              <>
-                <Icon>
-                  <MdArrowDropUp />
-                </Icon>
-                <Label>Mostrar menos</Label>
-              </>
-            )}
-          </MenuItem>
-        </Link>
-
         <Line />
 
         {tecnologies.map((language) => (
+          <Link>
             <MenuItem key={language.id}>
               <TecnologyIcon src={language.icon} />
               <Label>{language.name}</Label>
             </MenuItem>
+          </Link>
         ))}
 
         <Line />
-
-      </Menu>
     </SidebarContainer>
   );
 }

@@ -6,33 +6,6 @@ export const NavContainer = styled.nav`
     padding: 3px;
 `;
 
-export const Left = styled.div`
-    display: flex;
-    align-items: center;
-    width: 90%;
-    max-width: 600px;
-    height: 50px;
-    padding: 0px 0px 0px 15px;
-    margin-right: 10px;
-`
-
-export const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) => props.theme.colors.black};
-
-  svg {
-    font-size: 2.2em;
-    user-select: none;
-  }
-`;
-
-export const PlataformName = styled.h1`
-    font-size: 1.2em;
-    margin-left: 5px;
-`
-
 export const Menu = styled.ul`
     list-style: none;
     display: flex;
@@ -130,7 +103,7 @@ export const Label = styled.span`
 `
 
 export const Right = styled.div`
-    width: 90%;
+    width: 40%;
     max-width: 600px;
     height: 50px;
     margin-left: 10px;

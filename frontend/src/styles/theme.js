@@ -5,6 +5,7 @@ const theme = {
 
         white: "#FFFFFF",
         white_smoke: "#F5F5F5",
+        background_color: "#fdfdfd",
         
 
         grey: "#c2c2c274",

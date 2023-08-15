@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { BiCompass, BiHomeAlt, BiTerminal, BiPlusCircle, BiVideoPlus, BiEditAlt } from "react-icons/bi";
+import { BiCompass, BiHomeAlt, BiPlusCircle, BiVideoPlus, BiEditAlt } from "react-icons/bi";
 import { BsCollectionPlay } from "react-icons/bs";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
@@ -14,14 +14,11 @@ import {
   IconItem,
   ItemNavigation,
   Label,
-  Left,
   LineSeparator,
-  Logo,
   Menu,
   MenuItem,
   MenuNavigation,
   NavContainer,
-  PlataformName,
   Right,
   SubMenuItem,
 } from "./NavStyles";
@@ -50,15 +47,7 @@ export default function Nav({ backPath }) {
   return (
     <NavContainer>
       <Menu>
-        <Left>
-          <Link to="/">
-            <Logo>
-              <BiTerminal />
-              <PlataformName>SocialCode</PlataformName>
-            </Logo>
-          </Link>
-        </Left>
-
+      
         <MenuNavigation>
           <Link to="/">
             <ItemNavigation
