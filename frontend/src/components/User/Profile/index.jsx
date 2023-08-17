@@ -26,6 +26,8 @@ import "./CardUserProfile.css";
 import {
   Badges,
   ContainerFollowers,
+  Filter,
+  Filters,
   Followers,
   Footer,
   Header,
@@ -36,14 +38,24 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
+import VideosUser from "../VideosUser";
+import PlaylistsUser from "../PlaylistsUser"
 
 export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
-
+  const [selectedFilter, setSelectedFilter] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+
+  const handleSelectFilter = (item) => {
+    setSelectedFilter(item);
+  };
+
+  useEffect(() => {
+    setSelectedFilter("posts");
+  }, []);
 
   const { currentUser, isFollowing, postsCurrentUser } = useSelector(
     (rootReducer) => rootReducer.userReducer
@@ -223,13 +235,50 @@ export default function Profile({ username }) {
           </UserInfoContainer>
         </article>
       </section>
+                
+      <Filters>
 
-      <section className="activity-user">
-        <div className="user-posts">
-          <Feed postsData={postsCurrentUser} />
-          {isFetching && <Loading color="#FFF" />}
-        </div>
-      </section>
+        <Filter 
+         selected={selectedFilter === "posts"}
+         onClick={() => handleSelectFilter("posts")}
+        >
+          Publicações
+        </Filter>
+        <Filter 
+         selected={selectedFilter === "videos"}
+         onClick={() => handleSelectFilter("videos")}
+        >
+          Vídeos
+        </Filter>
+        <Filter 
+         selected={selectedFilter === "playlists"}
+         onClick={() => handleSelectFilter("playlists")}
+        >
+          Playlists
+        </Filter>
+
+      </Filters>
+      
+      {
+        selectedFilter === "posts" &&
+        <section className="activity-user">
+          <div className="user-posts">
+            <Feed postsData={postsCurrentUser} />
+            {isFetching && <Loading color="#FFF" />}
+          </div>
+        </section>
+      }
+
+      {
+        selectedFilter === "videos" &&
+        <VideosUser />
+      }
+
+      {
+        selectedFilter === "playlists" &&
+        <PlaylistsUser userUsername={currentUser.user_info.username}/>
+      }
+     
     </Container>
   );
 }

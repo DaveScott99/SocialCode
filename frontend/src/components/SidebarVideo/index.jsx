@@ -9,7 +9,6 @@ import {
   MdOutlineVideoLibrary,
 } from "react-icons/md";
 import {
-  ExpansiveDiv,
   Icon,
   Label,
   Line,
@@ -17,14 +16,11 @@ import {
   SidebarContainer,
   TecnologyIcon,
 } from "./styles";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { findLanguages, findPlaylistsByUser } from "../../services/Api";
+import { findLanguages } from "../../services/Api";
 import Loading from "../Generics/Loading/Loading";
 
 export default function Sidebar() {
-  const { user } = useContext(AuthContext);
   const path = window.location.pathname;
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
 
@@ -32,11 +28,6 @@ export default function Sidebar() {
     setSelectedMenuItem(item);
   };
 
-  const { data: playlists, isLoading: isLoadingPlaylists } = useQuery(
-    [user.id],
-    () => findPlaylistsByUser(user.username),
-    { staleTime: 2000 * 100 }
-  );
 
   const { data: tecnologies, isLoading: isLoadingTecnologies } = useQuery(
     ["languages"],
@@ -51,10 +42,6 @@ export default function Sidebar() {
   }, [path]);
 
   if (isLoadingTecnologies) {
-    return <Loading color="#FFF" />;
-  }
-
-  if (isLoadingPlaylists) {
     return <Loading color="#FFF" />;
   }
 
@@ -107,19 +94,6 @@ export default function Sidebar() {
             <Label>Playlists</Label>
           </MenuItem>
         </Link>
-
-        <ExpansiveDiv>
-          {playlists.map((playlist) => (
-            <Link to={`/playlist/${playlist.name}`}>
-              <MenuItem key={playlist.id}>
-                <Icon>
-                  <MdOutlinePlaylistPlay />
-                </Icon>
-                <Label>{playlist.name}</Label>
-              </MenuItem>
-            </Link>
-          ))}
-        </ExpansiveDiv>
 
         <Line />
 

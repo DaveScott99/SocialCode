@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import theme from "../../../styles/theme";
 
 export const UserInfoContainer = styled.section`
     width: 100%;
@@ -72,4 +73,23 @@ export const Followers = styled.div`
 export const Badges = styled.div`
     display: flex;
     justify-content: flex-end;
+`
+
+export const Filters = styled.ul`
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    list-style: none;
+`
+
+export const Filter = styled.li`
+    cursor: pointer;
+    padding: 10px 15px 10px 15px;
+    margin-right: 10px;
+    border-bottom: ${({ selected }) => selected ? "2px solid"  + theme.colors.primary : ""};
+    color: ${(props) => props.theme.colors.black};
+    transition: all .1s;
+    font-weight: 500;
 `

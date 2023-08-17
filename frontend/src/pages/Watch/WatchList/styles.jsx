@@ -3,13 +3,15 @@ import { styled } from "styled-components";
 export const Container = styled.div`
     width: 100%;
     display: flex;
+    padding-bottom: 40px;
+
 `
 
 export const ContainerGridVideos = styled.div`
     display: grid;
-    grid-gap: 30px;
+    grid-gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    padding: 20px;
+    padding: 10px;
     width: 100%;
 `
 
