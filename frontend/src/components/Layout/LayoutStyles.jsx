@@ -88,13 +88,13 @@ export const Content = styled.div`
   height: 100vh;
   padding: 10px;
   display: flex;
+  align-items: center;
   flex-direction: column;
 `
 
 export const Aside = styled.aside`
   width: 100%;
   max-width: ${(props) => props.expand ? "220px" : "80px"};
-  margin-right: 10px;
   background: ${(props) => props.theme.colors.background_color};
   padding: 10px;
   overflow: hidden;

@@ -24,9 +24,11 @@ export default function Layout({ children, backPath, asideItens }) {
   return (
     <Wrapper>
       <Header>
-        <AsideButton onClick={() => setExpandAside(!expandAside)}>
-          <RxHamburgerMenu />
-        </AsideButton>
+        {asideItens ? (
+          <AsideButton onClick={() => setExpandAside(!expandAside)}>
+            <RxHamburgerMenu />
+          </AsideButton>
+        ) : null}
 
         <Logo>
           <Link to="/">

@@ -16,6 +16,7 @@ import Watch from "../pages/Watch";
 import PublishVideo from "../pages/PublishVideo";
 import SidebarVideo from "../components/SidebarVideo";
 import Playlist from "../pages/Playlist";
+import SidebarPost from "../components/SidebarPost";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -44,7 +45,7 @@ export default function RouteApp() {
             path="/"
             element={
               <Private>
-                <Layout>
+                <Layout asideItens={<SidebarPost />}>
                   <Home />
                 </Layout>
               </Private>
@@ -99,7 +100,7 @@ export default function RouteApp() {
             path="/post/:title"
             element={
               <Private>
-                <Layout backPath="/">
+                <Layout asideItens={<SidebarPost />}>
                   <Post />
                 </Layout>
               </Private>
