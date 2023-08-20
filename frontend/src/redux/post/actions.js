@@ -19,6 +19,10 @@ export const resetPosts = () => ({
   type: PostActionTypes.RESET_POSTS,
 })
 
+export const resetComents = () => ({
+  type: PostActionTypes.RESET_COMENTS,
+})
+
 export const publishPostOnRedux = (payload) => ({
   type: PostActionTypes.PUBLISH_POST,
   payload,

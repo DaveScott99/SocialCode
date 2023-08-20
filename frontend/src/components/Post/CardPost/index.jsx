@@ -40,7 +40,7 @@ export function CardPost({ post }) {
             </LanguageContainer>
           </PostInfo>
 
-          <Title onClick={() => navigate(`/post/${post.id}`)}>
+          <Title onClick={() => navigate(`/post/${post.title}`)}>
             {post.title}
           </Title>
 

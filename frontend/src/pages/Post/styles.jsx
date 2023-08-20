@@ -14,6 +14,7 @@ export const ContainerVotes = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: 10px;
 `;
 
 export const VotesCount = styled.span`
@@ -50,7 +51,7 @@ export const ImagePost = styled.img`
 
 export const Info = styled.header`
   width: 100%;
-  max-width: 900px;
+  max-width: 980px;
   display: flex;
   flex-direction: row-reverse;
 
@@ -80,7 +81,6 @@ export const PostHeader = styled.div`
 export const Owner = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 `;
 
 export const Username = styled.span`
@@ -108,8 +108,6 @@ export const Language = styled.div`
 `;
 
 export const PostBody = styled.div`
-  margin-top: 10px;
-
   p {
     background: ${(props) => props.theme.colors.white};
     color: ${(props) => props.theme.colors.black};
@@ -121,8 +119,8 @@ export const PostBody = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 1.5em;
-  font-weight: 500;
+  font-size: 1.8em;
+  font-weight: 600;
   display: flex;
   align-items: center;
 
@@ -146,8 +144,7 @@ export const CardFooter = styled.footer`
 
 export const CommentContainer = styled.div`
   width: 100%;
-  max-width: 900px;
-
+  max-width: 980px;
 `
 
 export const Comment = styled.div`

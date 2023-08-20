@@ -3,12 +3,11 @@ import PostActionTypes from "./action-types";
 const initialState = {
   postsFeed: [],
   currentPost: null,
-  comentsCurrentPost: []
+  comentsCurrentPost: [],
 };
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
-
     case PostActionTypes.SELECT_POST:
       return { ...state, currentPost: action.payload };
 
@@ -16,12 +15,21 @@ const postReducer = (state = initialState, action) => {
       return { ...state, postsFeed: [...state.postsFeed, ...action.payload] };
 
     case PostActionTypes.FETCH_COMENTS_CURRENT_POST:
-      return { ...state, comentsCurrentPost: [...state.comentsCurrentPost, ...action.payload] };
+      return {
+        ...state,
+        comentsCurrentPost: [...state.comentsCurrentPost, ...action.payload],
+      };
 
     case PostActionTypes.RESET_POSTS:
       return {
         ...state,
         postsFeed: [],
+      };
+
+    case PostActionTypes.RESET_COMENTS:
+      return {
+        ...state,
+        comentsCurrentPost: [],
       };
 
     case PostActionTypes.VOTE_POST:
@@ -47,7 +55,10 @@ const postReducer = (state = initialState, action) => {
       };
 
     case PostActionTypes.NEW_COMENT:
-      return { ...state, comentsCurrentPost: [...state.comentsCurrentPost, action.payload] };
+      return {
+        ...state,
+        comentsCurrentPost: [...state.comentsCurrentPost, action.payload],
+      };
 
     default:
       return state;

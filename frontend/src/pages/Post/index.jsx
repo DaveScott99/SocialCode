@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchComentsCurrentPost,
   publishNewComent,
+  resetComents,
   selectPost,
   unvotePost,
   votePost,
 } from "../../redux/post/actions";
 import { downVotePost, upVotePost } from "../../services/Feed";
-import { findComentsByPost, findPostById, publishComentPost } from "../../services/Api";
+import { findComentsByPost, findPostByTitle, publishComentPost } from "../../services/Api";
 import { Link, useParams } from "react-router-dom";
 import { dateFormat } from "../../utils/FormatDateInfo";
 import { BiChevronDown, BiChevronUp } from  "react-icons/bi"
@@ -48,12 +49,16 @@ import {
   Username,
   VotesCount,
 } from "./styles";
+import { useEffect } from "react";
 
 export default function Post() {
   const { title } = useParams();
 
   const { user } = useContext(AuthContext);
 
+  const [currentPageComents, setCurrentPageComents] = useState(0);
+  const [totalPagesComents, setTotalPagesComents] = useState(1);
+  const [isFetchingComents, setIsFetchingComents] = useState(true);
   const [showSubMenuPost, setShowSubMenuPost] = useState(false);
   const [isModalCancel, setIsModalCancel] = useState(false);
   const [showBtnComent, setShowBtnComent] = useState(true);
@@ -73,15 +78,51 @@ export default function Post() {
 
   const dispatch = useDispatch();
 
-  const { isLoading } = useQuery([title], async () => {
-    const postData = await findPostById(title);
-    const comentsPost = await findComentsByPost(title);
+  const { isLoading, refetch } = useQuery([title], async () => {
+    const postData = await findPostByTitle(title, user.username);
     dispatch(selectPost(postData.data));
-    dispatch(fetchComentsCurrentPost(comentsPost.data.content));
     return postData;
-  }, {staleTime: 2000 * 100});
+  },{
+    staleTime: 2000 * 100,
+    cacheTime: 0,
+  });
+
+  useEffect(() => {
+    refetch();
+    dispatch(resetComents());
+  }, [dispatch, refetch])
 
   const { currentPost, comentsCurrentPost } = useSelector((rootReducer) => rootReducer.postReducer);
+  
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+
+        console.log("TESTE");
+
+        if (currentPageComents < totalPagesComents) {
+          setIsFetchingComents(true);
+          findComentsByPost(1, currentPageComents)
+            .then((response) => {
+              if (
+                response.data &&
+                !response.data.empty &&
+                response.data.number < response.data.totalPages
+              ) {
+                dispatch(fetchComentsCurrentPost(response.data.content));
+                setTotalPagesComents(response.data.totalPages);
+                setCurrentPageComents((prevPage) => prevPage + 1);
+              }
+            })
+            .finally(() => {
+              setIsFetchingComents(false);
+            });
+        }
+      }
+    });
+    intersectionObserver.observe(document.querySelector("#sentinel"));
+    return () => intersectionObserver.disconnect();
+  }, [currentPageComents, dispatch, totalPagesComents]);
 
   const handleVoteClick = (postId) => {
     if (currentPost.votedByUser) {
@@ -317,6 +358,8 @@ export default function Post() {
             </CommentContent>
           </Comment>
         ))}
+
+        {isFetchingComents && <Loading color="#FFF" /> }
       </CommentContainer>
     </Container>
   );

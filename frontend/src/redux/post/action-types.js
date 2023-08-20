@@ -7,6 +7,7 @@ const PostActionTypes = {
   UNVOTE_POST: "post/unvote",
   PUBLISH_POST: "post/publish",
   NEW_COMENT: "post/new_coment",
+  RESET_COMENTS: "post/reset_coments"
 };
 
 export default PostActionTypes;

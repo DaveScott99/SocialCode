@@ -137,6 +137,14 @@ export const unfollowUser = async (followerId, userId) => {
   }
 };
 
+export const findPostByTitle = async (title, username) => {
+  try {
+    return await api.get(`/posts?title=${title}&user=${username}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export const findPostById = async (id) => {
   try {
     return await api.get(`/posts/${id}`);
@@ -173,7 +181,6 @@ export const findComentsByPost = async (postId, page) => {
 
   try {
     const response = await api.get(`/coments/findComentsByPost?postId=${postId}&page=${page}`)
-    console.log(response);
     return response;
   }
   catch(err) {
@@ -181,7 +188,6 @@ export const findComentsByPost = async (postId, page) => {
   }
 
 }
-
 
 export const findLanguages = async () => {
   try {
@@ -192,6 +198,8 @@ export const findLanguages = async () => {
     console.log(err);
   }
 }
+
+
 
 export const findPostsByOwner = async (username, page) => {
   try {
