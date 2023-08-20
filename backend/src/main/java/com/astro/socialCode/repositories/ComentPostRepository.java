@@ -11,4 +11,6 @@ public interface ComentPostRepository extends JpaRepository<ComentPost, Long>{
 	Page<ComentPost> findComentPostByOwnerId(Pageable pageable ,Long ownerId);
 	
 	Page<ComentPost> findComentPostByPostId(Pageable pageable, Long postId);
+	
+	Page<ComentPost> findComentPostByPostTitle(Pageable pageable, String postTitle);
 }

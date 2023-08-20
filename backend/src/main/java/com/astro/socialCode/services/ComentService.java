@@ -39,6 +39,11 @@ public class ComentService {
 				.map(comentMapper::toDTOComentVideo);
 	}
 	
+	public Page<ComentPostDTO> findComentsByPostTitle(Pageable pageable, String postTitle) {
+		return comentRepository.findComentPostByPostTitle(pageable, postTitle)
+				.map(comentMapper::toDTOComentPost);
+	}
+	
 	public Page<ComentPostDTO> findComentsByPost(Pageable pageable, Long postId) {
 		return comentRepository.findComentPostByPostId(pageable, postId)
 				.map(comentMapper::toDTOComentPost);

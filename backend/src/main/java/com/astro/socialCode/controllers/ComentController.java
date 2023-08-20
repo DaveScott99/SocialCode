@@ -32,6 +32,11 @@ public class ComentController {
 		return ResponseEntity.ok().body(comentService.findComentsByVideo(pageable, videoId));
 	}
 	
+	@GetMapping(value = "/findComentsByPostTitle")
+	public ResponseEntity<Page<ComentPostDTO>> findComentsByPostTitle(@PageableDefault(size = 10) Pageable pageable, @RequestParam String postTitle) {
+		return ResponseEntity.ok().body(comentService.findComentsByPostTitle(pageable, postTitle));
+	}
+	
 	@GetMapping(value = "/findComentsByPost")
 	public ResponseEntity<Page<ComentPostDTO>> findComentsByPost(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long postId) {
 		return ResponseEntity.ok().body(comentService.findComentsByPost(pageable, postId));
