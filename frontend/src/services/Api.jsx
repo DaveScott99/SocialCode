@@ -177,6 +177,19 @@ export const publishComentPost = async (coment) => {
   }
 };
 
+
+export const findComentsByPostTitle = async (postTitle, page) => {
+
+  try {
+    const response = await api.get(`/coments/findComentsByPostTitle?postTitle=${postTitle}&page=${page}`)
+    return response;
+  }
+  catch(err) {
+    console.log(err);
+  }
+
+}
+
 export const findComentsByPost = async (postId, page) => {
 
   try {

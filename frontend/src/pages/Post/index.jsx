@@ -10,7 +10,7 @@ import {
   votePost,
 } from "../../redux/post/actions";
 import { downVotePost, upVotePost } from "../../services/Feed";
-import { findComentsByPost, findPostByTitle, publishComentPost } from "../../services/Api";
+import { findComentsByPost, findComentsByPostTitle, findPostByTitle, publishComentPost } from "../../services/Api";
 import { Link, useParams } from "react-router-dom";
 import { dateFormat } from "../../utils/FormatDateInfo";
 import { BiChevronDown, BiChevronUp } from  "react-icons/bi"
@@ -102,7 +102,7 @@ export default function Post() {
 
         if (currentPageComents < totalPagesComents) {
           setIsFetchingComents(true);
-          findComentsByPost(1, currentPageComents)
+          findComentsByPostTitle(title, currentPageComents)
             .then((response) => {
               if (
                 response.data &&
@@ -122,7 +122,7 @@ export default function Post() {
     });
     intersectionObserver.observe(document.querySelector("#sentinel"));
     return () => intersectionObserver.disconnect();
-  }, [currentPageComents, dispatch, totalPagesComents]);
+  }, [currentPageComents, dispatch, title, totalPagesComents]);
 
   const handleVoteClick = (postId) => {
     if (currentPost.votedByUser) {
