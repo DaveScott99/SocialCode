@@ -274,13 +274,13 @@ export default function Player({ filename }) {
               </ContainerConfig>
             ) : null}
 
-            {playerState.theaterMode
+            { /*playerState.theaterMode
               ? !playerState.fullScreenMode && (
                   <TheaterMode onClick={toggleVideoScreenSizeTheater} />
                 )
               : !playerState.fullScreenMode && (
                   <NormalMode onClick={toggleVideoScreenSizeTheater} />
-                )}
+              ) */}
 
             {playerState.fullScreenMode ? (
               <BiExitFullscreen onClick={toggleFullScreenMode} />

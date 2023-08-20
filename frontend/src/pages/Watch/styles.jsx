@@ -5,16 +5,14 @@ export const Container = styled.div`
     justify-content: center;
     width: 100%;
     padding: 0px 0px 50px 0px;
-
 `
 
 export const PlayerContainer = styled.div`
-
 `
 
 export const InfoVideo = styled.div`
     width: 100%;
-    max-width: 1100px;
+    max-width: 1280px;
 `
 
 export const Header = styled.div`

@@ -3,9 +3,8 @@ import theme from "../../styles/theme";
 
 export const Container = styled.div`
   width: 100%;
+  max-height: 720px;
 
-
-  max-height: 620px;
   position: relative;
   box-shadow: ${(props) =>
     props.ishud === "true" && "inset 0px -500px 150px -200px #00000030"};
@@ -20,10 +19,7 @@ export const Container = styled.div`
 
 export const VideoScreen = styled.video`
   width: 100%;
-
-  object-fit: cover;
-
-  max-height: ${(props) => !props.fullscreen ? "620px": "100vh"};
+  max-height: ${(props) => !props.fullscreen ? "720px": "100vh"};
 
   user-select: none;
 
@@ -247,7 +243,7 @@ export const VolumeRange = styled.input.attrs((props) => ({
 
     cursor: pointer;
     -webkit-appearance: none;
-    margin-top: -5px;
+    margin-top: -4px;
   }
 `;
 
