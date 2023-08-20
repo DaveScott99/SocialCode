@@ -5,7 +5,6 @@ export const Container = styled.div`
     max-width: 1440px;
     display: flex;
     padding-bottom: 40px;
-
 `
 
 export const ContainerGridVideos = styled.div`
@@ -31,13 +30,20 @@ export const VideoThumbnail = styled.img`
 
 export const VideoTitle = styled.h2`
     font-size: 1em;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 8px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 `
 
 export const Owner = styled.div`
-    margin-top: 5px;
+    margin-top: 8px;
 `
 
 export const Username = styled.p`

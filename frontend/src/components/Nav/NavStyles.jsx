@@ -50,7 +50,7 @@ export const ItemNavigation = styled.li`
 
     height:  ${({ selected }) => (selected ? "55px" : "45px")};
     width: 100%;
-    max-width: 150px;
+    max-width: 130px;
 
     border-radius: ${({ selected }) => (!selected ? "10px" : "0px")};
 
@@ -62,17 +62,13 @@ export const ItemNavigation = styled.li`
         background: ${({ selected }) => (selected ? "transparent" : theme.colors.white_smoke)};
         color: ${({ selected }) => (selected ? theme.colors.primary : "#000")};
     }
-    
-    svg {
-        font-size: 1.1em;
-    }
 
 `
 
 export const IconItem = styled.i`
     display: flex;
     justify-content: center;
-    font-size: 1.6em;
+    font-size: 1.8em;
     cursor: pointer;
 `
 

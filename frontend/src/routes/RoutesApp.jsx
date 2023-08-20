@@ -10,13 +10,13 @@ import Publish from "../pages/Publish";
 import InterestSelection from "../pages/InterestSelection";
 import Post from "../pages/Post";
 import WatchList from "../pages/Watch/WatchList";
-import Explore from "../pages/Explore";
 import Search from "../pages/Search";
 import Watch from "../pages/Watch";
 import PublishVideo from "../pages/PublishVideo";
 import SidebarVideo from "../components/SidebarVideo";
 import Playlist from "../pages/Playlist";
 import SidebarPost from "../components/SidebarPost";
+import Groups from "../pages/Groups";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -155,11 +155,11 @@ export default function RouteApp() {
           />
           <Route
             exact
-            path="/explore"
+            path="/groups"
             element={
               <Private>
-                <Layout>
-                  <Explore />
+                <Layout asideItens={<SidebarPost />}>
+                  <Groups />
                 </Layout>
               </Private>
             }

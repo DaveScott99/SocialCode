@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import {
-  MdOutlineVideoLibrary,
   MdOutlineGroups,
-  MdOutlineFolderOpen,
   MdCode,
   MdBookmarkBorder,
 } from "react-icons/md";
@@ -15,6 +13,7 @@ import {
   MenuItem,
   SidebarContainer,
 } from "./styles";
+import { BiGitRepoForked } from "react-icons/bi";
 
 export default function SidebarPost() {
   const path = window.location.pathname;
@@ -49,7 +48,7 @@ export default function SidebarPost() {
             onClick={() => handleSelectItemMenu("/projects")}
           >
             <Icon>
-              <MdOutlineFolderOpen />
+              <BiGitRepoForked />
             </Icon>
             <Label>Projetos</Label>
           </MenuItem>

@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { BiCompass, BiHomeAlt, BiPlusCircle, BiVideoPlus, BiEditAlt } from "react-icons/bi";
-import { BsCollectionPlay } from "react-icons/bs";
-import { MdOutlineArrowBackIos } from "react-icons/md";
+import { BiPlusCircle, BiVideoPlus, BiEditAlt, BiGitRepoForked, BiGridAlt } from "react-icons/bi";
+import { MdOutlineArrowBackIos, MdOutlineGroups, MdOutlineOndemandVideo } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
 import DialogConfirmation from "../Generics/DialogConfirmation";
 import Search from "../Generics/Search/Search";
@@ -55,18 +54,7 @@ export default function Nav({ backPath }) {
               onClick={() => handleSelectItemMenu("/")}
             >
               <IconItem>
-                <BiHomeAlt />
-              </IconItem>
-            </ItemNavigation>
-          </Link>
-
-          <Link to="/explore">
-            <ItemNavigation
-              selected={selectedMenuItem === "/explore"}
-              onClick={() => handleSelectItemMenu("/explore")}
-            >
-              <IconItem>
-                <BiCompass />
+                <BiGridAlt />
               </IconItem>
             </ItemNavigation>
           </Link>
@@ -77,10 +65,33 @@ export default function Nav({ backPath }) {
               onClick={() => handleSelectItemMenu("/watch")}
             >
               <IconItem>
-                <BsCollectionPlay />
+                <MdOutlineOndemandVideo />
               </IconItem>
             </ItemNavigation>
           </Link>
+
+          <Link to="/projects">
+            <ItemNavigation
+              selected={selectedMenuItem === "/projects"}
+              onClick={() => handleSelectItemMenu("/projects")}
+            >
+              <IconItem>
+                <BiGitRepoForked />
+              </IconItem>
+            </ItemNavigation>
+          </Link>
+
+          <Link to="/groups">
+            <ItemNavigation
+              selected={selectedMenuItem === "/groups"}
+              onClick={() => handleSelectItemMenu("/groups")}
+            >
+              <IconItem>
+                <MdOutlineGroups />
+              </IconItem>
+            </ItemNavigation>
+          </Link>
+
         </MenuNavigation>
 
         <MenuItem>
