@@ -80,6 +80,7 @@ export const Main = styled.main`
   height: 100vh;
   overflow: hidden;
   background: ${(props) => props.theme.colors.background_color};  
+  position: relative;
 `
 
 export const Content = styled.div`
@@ -103,6 +104,58 @@ export const Aside = styled.aside`
     overflow: auto;
   }
 
+`
+
+export const AsideAbsolute = styled.aside`
+  width: 100%;
+  max-width: 220px;
+  height: 95vh;
+  background: ${(props) => props.theme.colors.white};
+  padding: 10px;
+  overflow: hidden;
+
+  &:hover {
+    overflow: auto;
+  }
+
+`
+
+export const NavAsideAbsolute = styled.ul `
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.black};
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+
+    svg {
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    img {
+      margin-right: 10px;
+    }
+
+  }
+`
+
+export const Overlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: ${(props) => props.expand ? "block" : "none"};
+
+  background: #00000021;
 `
 
 export const NavAside = styled.ul`

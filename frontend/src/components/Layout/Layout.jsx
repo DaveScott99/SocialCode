@@ -3,12 +3,15 @@ import Nav from "../Nav/Nav";
 
 import {
   Aside,
+  AsideAbsolute,
   AsideButton,
   Content,
   Header,
   Logo,
   Main,
   NavAside,
+  NavAsideAbsolute,
+  Overlay,
   PlataformName,
   Sentinel,
   Wrapper,
@@ -18,14 +21,29 @@ import { BiTerminal } from "react-icons/bi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from "react";
 
-export default function Layout({ children, backPath, asideItens }) {
+export default function Layout({
+  children,
+  backPath,
+  asideItens,
+  asideItensAbsolute,
+}) {
   const [expandAside, setExpandAside] = useState(false);
+
+  const [expandAsideAbsolute, setExpandAsideAbsolute] = useState(false);
 
   return (
     <Wrapper>
       <Header>
         {asideItens ? (
           <AsideButton onClick={() => setExpandAside(!expandAside)}>
+            <RxHamburgerMenu />
+          </AsideButton>
+        ) : null}
+
+        {asideItensAbsolute ? (
+          <AsideButton
+            onClick={() => setExpandAsideAbsolute(!expandAsideAbsolute)}
+          >
             <RxHamburgerMenu />
           </AsideButton>
         ) : null}
@@ -49,6 +67,16 @@ export default function Layout({ children, backPath, asideItens }) {
           <Aside expand={expandAside}>
             <NavAside expand={expandAside}>{asideItens}</NavAside>
           </Aside>
+        ) : null}
+
+        {asideItensAbsolute ? (
+          <Overlay expand={expandAsideAbsolute} onClick={() => setExpandAsideAbsolute(!expandAsideAbsolute)}>
+            <AsideAbsolute>
+              <NavAsideAbsolute>
+                {asideItensAbsolute}
+              </NavAsideAbsolute>
+            </AsideAbsolute>
+          </Overlay>
         ) : null}
       </Main>
     </Wrapper>

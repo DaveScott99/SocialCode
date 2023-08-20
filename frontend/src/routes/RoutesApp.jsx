@@ -56,7 +56,7 @@ export default function RouteApp() {
             path="/profile/:username"
             element={
               <Private>
-                <Layout>
+                <Layout asideItensAbsolute={<SidebarPost />}>
                   <UserProfile />
                 </Layout>
               </Private>
@@ -67,7 +67,7 @@ export default function RouteApp() {
             path="/publicar"
             element={
               <Private>
-                <Layout>
+                <Layout asideItensAbsolute={<SidebarPost />}>
                   <Publish />
                 </Layout>
               </Private>
@@ -78,7 +78,7 @@ export default function RouteApp() {
             path="/publicar/video"
             element={
               <Private>
-                <Layout>
+                <Layout asideItensAbsolute={<SidebarVideo />}>
                   <PublishVideo />
                 </Layout>
               </Private>
@@ -100,7 +100,7 @@ export default function RouteApp() {
             path="/post/:title"
             element={
               <Private>
-                <Layout asideItens={<SidebarPost />}>
+                <Layout asideItensAbsolute={<SidebarPost />}>
                   <Post />
                 </Layout>
               </Private>
@@ -135,7 +135,7 @@ export default function RouteApp() {
             path="/watch/:filename"
             element={
               <Private>
-                <Layout>
+                <Layout asideItensAbsolute={<SidebarVideo />}>
                   <Watch />
                 </Layout>
               </Private>
@@ -147,7 +147,7 @@ export default function RouteApp() {
             path="/search/:query"
             element={
               <Private>
-                <Layout>
+                <Layout asideItensAbsolute={<SidebarPost />}>
                   <Search />
                 </Layout>
               </Private>
