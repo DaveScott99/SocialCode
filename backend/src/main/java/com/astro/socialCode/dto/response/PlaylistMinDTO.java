@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.astro.socialCode.entities.Playlist;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class PlaylistMinDTO implements Serializable{
 
@@ -12,12 +13,19 @@ public class PlaylistMinDTO implements Serializable{
 	private Long id;
 	private String name;
 	
+	private Long videosCount;
+	
+	@JsonIgnoreProperties({"id", "title", "creationDate"})
+	private VideoMinDTO thumbnailPlaylist;
+	
 	public PlaylistMinDTO() {
 	}
 	
 	public PlaylistMinDTO(Playlist entity) {
 		id = entity.getId();
 		name = entity.getName();
+		videosCount = entity.getVideos().stream().count();
+		thumbnailPlaylist = entity.getVideos().stream().map(video -> new VideoMinDTO(video)).findFirst().get();
 	}
 
 	public Long getId() {
@@ -34,6 +42,14 @@ public class PlaylistMinDTO implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getVideosCount() {
+		return videosCount;
+	}
+
+	public VideoMinDTO getThumbnailPlaylist() {
+		return thumbnailPlaylist;
 	}
 
 	@Override
