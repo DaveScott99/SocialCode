@@ -10,7 +10,7 @@ import com.astro.socialCode.entities.Video;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder(value = {"id", "title", "fileName", "creantionDate", "thumbnail"})
+@JsonPropertyOrder(value = {"id", "title", "fileName", "owner", "creantionDate", "thumbnail"})
 public class VideoMinDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -23,6 +23,9 @@ public class VideoMinDTO implements Serializable {
 	
 	@JsonProperty(value = "fileName")
 	private String fileName;
+	
+	@JsonProperty(value = "owner")
+	private UserMinDTO owner;
 	
 	@JsonProperty(value = "creationDate")
 	private Instant creationDate;
@@ -43,6 +46,7 @@ public class VideoMinDTO implements Serializable {
 		title = entity.getTitle();
 		fileName = entity.getFileName();
 		creationDate = entity.getCreationDate();
+		owner = new UserMinDTO(entity.getOwner());
 		entity.getThumbnailVideo().forEach(thumbnail -> getThumbnailVideo().add(new ThumbnailVideoDTO(thumbnail)));
 	}
 	
@@ -60,6 +64,10 @@ public class VideoMinDTO implements Serializable {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public UserMinDTO getOwner() {
+		return owner;
 	}
 
 	public Instant getCreationDate() {

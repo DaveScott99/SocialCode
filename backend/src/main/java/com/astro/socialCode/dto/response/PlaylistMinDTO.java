@@ -15,7 +15,7 @@ public class PlaylistMinDTO implements Serializable{
 	
 	private Long videosCount;
 	
-	@JsonIgnoreProperties({"id", "title", "creationDate"})
+	@JsonIgnoreProperties({"id", "title", "creationDate", "owner"})
 	private VideoMinDTO thumbnailPlaylist;
 	
 	public PlaylistMinDTO() {
@@ -25,7 +25,7 @@ public class PlaylistMinDTO implements Serializable{
 		id = entity.getId();
 		name = entity.getName();
 		videosCount = entity.getVideos().stream().count();
-		thumbnailPlaylist = entity.getVideos().stream().map(video -> new VideoMinDTO(video)).findFirst().get();
+		thumbnailPlaylist = entity.getVideos().stream().count() >= 1 ? entity.getVideos().stream().map(video -> new VideoMinDTO(video)).findFirst().get() : null;
 	}
 
 	public Long getId() {
