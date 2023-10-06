@@ -1,11 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "../../Generics/Container/Container";
 import Feed from "../../Feed";
-import Repositories from "../Repositories/Repositories";
-import { followUser } from "../../../services/Api";
+import { findPostsByOwner, followUser } from "../../../services/Api";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../Generics/Loading/Loading";
-import { useParams } from "react-router";
 import InputAvatar from "../InputAvatar/InputAvatar";
 import { Avatar } from "@mui/material";
 import Modal from "../../Generics/Modal/Modal";
@@ -16,10 +13,21 @@ import { Button } from "../../Generics/Button/Button";
 import ConfigAccount from "../ConfigAccount/ConfigAccount";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { fetchProfileUser, verifyIsFollowing } from "../../../services/User";
-
+import LoadingFullScreen from "../../Generics/LoadingFullScreen";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../Generics/Loading/Loading";
+import {
+  fetchPostsUserToRedux,
+  resetCurrentUserPosts,
+  selectUser,
+  setIsFollowing,
+} from "../../../redux/user/actions";
 import "./CardUserProfile.css";
 import {
   Badges,
+  ContainerFollowers,
+  Filter,
+  Filters,
   Followers,
   Footer,
   Header,
@@ -30,39 +38,93 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
-import { profile } from "../../../utils/Data";
+import VideosUser from "../VideosUser";
+import PlaylistsUser from "../PlaylistsUser"
 
-export default function Profile() {
-  const { username } = useParams();
+export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
-  
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const { data: isFollowing } = useQuery(["isFollowing", username], () => {}
-    //verifyIsFollowing(user.username, username)
+  const handleSelectFilter = (item) => {
+    setSelectedFilter(item);
+  };
+
+  useEffect(() => {
+    setSelectedFilter("posts");
+  }, []);
+
+  const { currentUser, isFollowing, postsCurrentUser } = useSelector(
+    (rootReducer) => rootReducer.userReducer
   );
- /*
-  const { data: profile, isLoading } = useQuery(
-    ["currentUser", username],
-    () => fetchProfileUser(username, 0),
+
+  const dispatch = useDispatch();
+
+  const { isLoading, refetch: refetchProfile } = useQuery(
+    [username],
+    async () => {
+      const profile = await fetchProfileUser(username);
+      const isFollowing = await verifyIsFollowing(user.username, username);
+      if (profile) {
+        dispatch(selectUser(profile));
+        dispatch(setIsFollowing(isFollowing));
+      }
+      return profile;
+    },
     {
-      staleTime: 1000 * 100,
+      staleTime: 2000 * 100,
+      cacheTime: 0,
     }
   );
 
-  if (isLoading) {
-    return <Loading color="#FFF" />;
-  }
-    */
+  useEffect(() => {
+    refetchProfile();
+    dispatch(resetCurrentUserPosts());
+  }, [dispatch, refetchProfile, username]);
+
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        if (currentPage < totalPages) {
+          setIsFetching(true);
+          findPostsByOwner(username, currentPage)
+            .then((response) => {
+              if (
+                response &&
+                !response.empty &&
+                response.number < response.totalPages
+              ) {
+                dispatch(fetchPostsUserToRedux(response.content));
+                setTotalPages(response.totalPages);
+                setCurrentPage((prevPage) => prevPage + 1);
+              }
+            })
+            .finally(() => {
+              setIsFetching(false);
+            });
+        }
+      }
+    });
+    intersectionObserver.observe(document.querySelector("#sentinel"));
+    return () => intersectionObserver.disconnect();
+  }, [currentPage, dispatch, totalPages, username]);
 
   const handleClickFollow = async (followerId, userId) => {
     setLoading(true);
     try {
-      //await followUser(followerId, userId);
+      await followUser(followerId, userId);
+      dispatch(setIsFollowing(true));
     } finally {
       setLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingFullScreen />;
+  }
 
   return (
     <Container className="user-profile-container">
@@ -71,12 +133,12 @@ export default function Profile() {
           <UserInfoContainer>
             <UserAvatar>
               <Avatar
-                src={profile.user_info.profilePhoto}
+                src={currentUser.user_info.profilePhoto}
                 sx={{ width: "200px", height: "200px" }}
                 variant="rounded"
               />
 
-              {user.id === profile.user_info.id ? (
+              {user.id === currentUser.user_info.id ? (
                 <Modal
                   textButton={<MdOutlineAddAPhoto />}
                   buttonBackground="#0000007b"
@@ -98,27 +160,28 @@ export default function Profile() {
             <UserData>
               <Header>
                 <Name>
-                  {profile.user_info.firstName} {profile.user_info.lastName}
+                  {currentUser.user_info.firstName}{" "}
+                  {currentUser.user_info.lastName}
                 </Name>
 
-                {profile.user_info.id !== user.id ? (
+                {currentUser.user_info.id !== user.id ? (
                   isFollowing ? (
                     <Modal
                       textButton="Seguindo"
                       buttonBorderRadius="5"
                       buttonFontWeight="bold"
-                      buttonWidth={20}
+                      buttonWidth={10}
                       buttonTextCenter="center"
                       buttonBackground="#dedede"
                       buttonHoverBackground="#c2c2c29e"
                       buttonFontColor="#000000"
                     >
-                      <ConfigFollow userData={profile.user_info} />
+                      <ConfigFollow userData={currentUser.user_info} />
                     </Modal>
                   ) : (
                     <Button
                       onClick={() =>
-                        handleClickFollow(profile.user_info.id, user.id)
+                        handleClickFollow(currentUser.user_info.id, user.id)
                       }
                       borderradius="5"
                       fontWeight="bold"
@@ -127,7 +190,7 @@ export default function Profile() {
                       loadingHeight="25"
                       loadingWidth="25"
                       justify="center"
-                      width={20}
+                      width={10}
                     >
                       Seguir
                     </Button>
@@ -135,7 +198,9 @@ export default function Profile() {
                 ) : (
                   <Modal
                     textButton="Editar perfil"
-                    buttonPadding="10"
+                    buttonTextCenter="center"
+                    buttonWidth={10}
+                    buttonPadding={5}
                     buttonBorderRadius="5"
                     buttonFontWeight="bold"
                     title="Editar perfil"
@@ -145,22 +210,24 @@ export default function Profile() {
                 )}
               </Header>
 
-              <Username> {profile.user_info.username} </Username>
-              <Title> {profile.user_info.title} </Title>
+              <Username> {currentUser.user_info.username} </Username>
+              <Title> {currentUser.user_info.title} </Title>
 
               <Footer>
-                <Followers> {profile.followers_count} Seguidores</Followers>
-
-                <Followers> {profile.following_count} Seguindo</Followers>
+                <ContainerFollowers>
+                  <Followers> <span>{currentUser.followers_count}</span> Seguidores</Followers>
+                  
+                  <Followers> <span>{currentUser.following_count}</span> Seguindo</Followers>
+                </ContainerFollowers>
 
                 <Badges>
                   <Badge
                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                    link={`https://github.com/${profile.user_info.gitHubLink}`}
+                    link={`https://github.com/${currentUser.user_info.gitHubLink}`}
                   />
                   <Badge
                     imgBagde="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-plain.svg"
-                    link={`https://www.linkedin.com/in/${profile.user_info.linkedinLink}/`}
+                    link={`https://www.linkedin.com/in/${currentUser.user_info.linkedinLink}/`}
                   />
                 </Badges>
               </Footer>
@@ -168,16 +235,50 @@ export default function Profile() {
           </UserInfoContainer>
         </article>
       </section>
+                
+      <Filters>
 
-      <section className="activity-user">
+        <Filter 
+         selected={selectedFilter === "posts"}
+         onClick={() => handleSelectFilter("posts")}
+        >
+          Publicações
+        </Filter>
+        <Filter 
+         selected={selectedFilter === "videos"}
+         onClick={() => handleSelectFilter("videos")}
+        >
+          Vídeos
+        </Filter>
+        <Filter 
+         selected={selectedFilter === "playlists"}
+         onClick={() => handleSelectFilter("playlists")}
+        >
+          Playlists
+        </Filter>
 
-        <div className="user-posts">
-          <div className="label">
-            <span>Atividade</span>
+      </Filters>
+      
+      {
+        selectedFilter === "posts" &&
+        <section className="activity-user">
+          <div className="user-posts">
+            <Feed postsData={postsCurrentUser} />
+            {isFetching && <Loading color="#FFF" />}
           </div>
-          <Feed postsData={profile.posts.content} />
-        </div>
-      </section>
+        </section>
+      }
+
+      {
+        selectedFilter === "videos" &&
+        <VideosUser />
+      }
+
+      {
+        selectedFilter === "playlists" &&
+        <PlaylistsUser userUsername={currentUser.user_info.username}/>
+      }
+     
     </Container>
   );
 }

@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 
-export const Container = styled.article`
+export const Container = styled.article`    
     width: 100%;
+    max-width: 1012px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -12,6 +13,8 @@ export const Container = styled.article`
 export const Others = styled.div`
     margin-top: 10px;
     width: 100%;
+    display: flex;
+    justify-content: flex-end;
 `
 
 export const TextEditorContainer = styled.div`

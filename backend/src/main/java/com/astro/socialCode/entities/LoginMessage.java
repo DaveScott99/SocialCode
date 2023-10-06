@@ -1,18 +1,18 @@
 package com.astro.socialCode.entities;
 
-import com.astro.socialCode.dto.response.UserDTO;
+import com.astro.socialCode.dto.response.UserMinDTO;
 
 public class LoginMessage {
 	
 	private AuthToken token;
 	private String message;
-	private UserDTO user;
+	private UserMinDTO user;
 	private boolean status;
 	
 	public LoginMessage() {
 	}
 	
-	public LoginMessage(String message, UserDTO user, AuthToken token, boolean status) {
+	public LoginMessage(String message, UserMinDTO user, AuthToken token, boolean status) {
 		this.message = message;
 		this.user = user;
 		this.token = token;
@@ -32,11 +32,11 @@ public class LoginMessage {
 		this.message = message;
 	}
 
-	public UserDTO getUser() {
+	public UserMinDTO getUser() {
 		return user;
 	}
 
-	public void setUser(UserDTO user) {
+	public void setUser(UserMinDTO user) {
 		this.user = user;
 	}
 

@@ -1,9 +1,7 @@
 package com.astro.socialCode.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,10 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,50 +28,51 @@ public class Post {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "ID_POST")
 	private Long id;
 	
-	@Column(name = "IMAGE", nullable = true, columnDefinition = "TEXT")
+	@Column(name = "COVER_IMG_POST")
 	private String image;
 	
-	@Column(name = "TITLE", nullable= false)
+	@Column(name = "TITLE_POST")
 	private String title;
 	
-	@Column(name = "BODY", nullable = false, columnDefinition = "TEXT")
+	@Column(name = "BODY_POST")
 	private String body;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("posts")
+	@JoinColumn(name = "OWNER_ID")
 	private User owner;
-	
-	@Column(name = "CREATION_DATE", nullable = false)
+
+	@Column(name = "CREATION_MOMEMT_POST")
 	@CreationTimestamp
 	private Instant creationDate;
 	
-	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "post")
 	@JsonIgnoreProperties("post")
-	private List<Coment> coments = new ArrayList<>();
+	private Set<ComentPost> coments = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany
     @JoinTable(
-		name = "post_vote",
-        joinColumns = @JoinColumn(name = "post_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
+		name = "POST_VOTES",
+        joinColumns = @JoinColumn(name = "ID_POST"),
+        inverseJoinColumns = @JoinColumn(name = "ID_USER")
     )
 	private Set<User> votes = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(
-		name = "post_language",
-		joinColumns = @JoinColumn(name = "post_id"),
-		inverseJoinColumns = @JoinColumn(name = "language_id")
+		name = "POST_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_POST"),
+		inverseJoinColumns = @JoinColumn(name = "ID_LANGUAGE")
 	)
 	private Set<Language> languages = new HashSet<>();
 		
 	public Post() {
 	}
 
-	public Post(Long id, @NotNull Instant creationDate, String title, String image, @NotNull String body, @NotNull User owner) {
+	public Post(Long id, Instant creationDate, String title, String image, @NotNull String body, @NotNull User owner) {
 		this.id = id;
 		this.image = image;
 		this.title = title;
@@ -137,7 +134,7 @@ public class Post {
 		this.owner = owner;
 	}
 
-	public List<Coment> getComents() {
+	public Set<ComentPost> getComents() {
 		return coments;
 	}
 

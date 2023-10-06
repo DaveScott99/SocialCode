@@ -2,27 +2,27 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/Auth/AuthContext"
 import { updateUser } from "../../../services/Api";
 import TextField from "../../Generics/TextField/TextField";
-import TextArea from "../../Generics/TextArea/TextArea";
 import { Button } from "../../Generics/Button/Button"
 
 import './ConfigAccount.css';
+import { useSelector } from "react-redux";
 
 export default function ConfigAccount() {
 
     const { user } = useContext(AuthContext);
 
+    const { currentUser } = useSelector(
+        (rootReducer) => rootReducer.userReducer
+    );   
+    
     const [userDetails, setUserDetails] = useState({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        title: user.title,
-        biography: user.biography,
-        profilePhoto: user.profilePhoto,
-        backgroundImage: user.backgroundImage,
-        gitHubLink: user.gitHubLink,
-        linkedinLink: user.linkedinLink,
-        instagramLink: user.instagramLink,
+        id: currentUser.user_info.id,
+        firstName: currentUser.user_info.firstName,
+        lastName: currentUser.user_info.lastName,
+        username: currentUser.user_info.username,
+        title: currentUser.user_info.title,
+        gitHubLink: currentUser.user_info.gitHubLink,
+        linkedinLink: currentUser.user_info.linkedinLink,
     })
 
     const handleClickUpdateUser = async () => {
@@ -75,14 +75,6 @@ export default function ConfigAccount() {
                             value={userDetails.title}
                             name="title"
                             onChange={onChange}
-                        />
-
-                        <TextArea 
-                            name="biography"
-                            onChange={onChange}
-                            fieldName="Bio"
-                            valueDefault={userDetails.biography}
-                            
                         />
                         
                         <TextField

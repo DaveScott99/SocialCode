@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("current-newPost")
     api.defaults.headers.common["Authorization"] = null;
     setUser(null);
     navigate("/authentication");
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated: !!user, user, loading, login, logout }}
+      value={{ authenticated: !!user, user, setUser, loading, login, logout }}
     >
       {children}
     </AuthContext.Provider>

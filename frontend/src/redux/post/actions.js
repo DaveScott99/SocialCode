@@ -1,19 +1,27 @@
 import PostActionTypes from "./action-types";
 
+export const selectPost = (payload) => ({
+  type: PostActionTypes.SELECT_POST,
+  payload,
+});
+
+export const fetchComentsCurrentPost = (payload) => ({
+  type: PostActionTypes.FETCH_COMENTS_CURRENT_POST,
+  payload,
+});
+
 export const fetchPostsFeedToRedux = (payload) => ({
   type: PostActionTypes.FETCH_POSTS_SUCCESS,
   payload,
 });
 
-export const nextPage = (payload) => ({
-  type: PostActionTypes.NEXT_PAGE,
-  payload,
-});
+export const resetPosts = () => ({
+  type: PostActionTypes.RESET_POSTS,
+})
 
-export const setTotalPages = (payload) => ({
-  type: PostActionTypes.SET_TOTAL_PAGES,
-  payload,
-});
+export const resetComents = () => ({
+  type: PostActionTypes.RESET_COMENTS,
+})
 
 export const publishPostOnRedux = (payload) => ({
   type: PostActionTypes.PUBLISH_POST,
@@ -28,4 +36,9 @@ export const votePost = (postId, newVotes) => ({
 export const unvotePost = (postId, newVotes) => ({
   type: PostActionTypes.UNVOTE_POST,
   payload: { postId, newVotes }
+})
+
+export const publishNewComent = (payload) => ({
+  type: PostActionTypes.NEW_COMENT,
+  payload
 })

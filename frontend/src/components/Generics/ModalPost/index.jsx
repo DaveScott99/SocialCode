@@ -16,17 +16,13 @@ export default function ModalPost({
   return (
     <Overlay id={id} onClick={handleOutsideClick}>
       <Container>
-
         <Body>
-
           <CloseButton onClick={onClose}>
             <CgClose />
           </CloseButton>
 
           {children}
-
         </Body>
-
       </Container>
     </Overlay>
   );

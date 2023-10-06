@@ -409,3 +409,52 @@ export const postsFeed = {
   numberOfElements: 10,
   empty: false,
 };
+
+export const videosData = {
+  content: [
+    {
+      id: 1,
+      title: "Video sobre React",
+      thumbnail: "https://images.velog.io/images/rivernine/post/a497adbe-bc30-4b70-83a6-af92e00aca31/img.jpg",
+      views: 1000,
+      owner: {
+        id: 1,
+        username: "monica99",
+      },
+      date: 5
+    },
+    {
+      id: 2,
+      title: "Video sobre Spring",
+      thumbnail: "https://images.velog.io/images/rivernine/post/a497adbe-bc30-4b70-83a6-af92e00aca31/img.jpg",
+      views: 1000,
+      owner: {
+        id: 1,
+        username: "davescott99",
+      },
+      date: 5
+    },
+    {
+      id: 3,
+      title: "Video sobre Node",
+      thumbnail: "https://images.velog.io/images/rivernine/post/a497adbe-bc30-4b70-83a6-af92e00aca31/img.jpg",
+      views: 1000,
+      owner: {
+        id: 1,
+        username: "davescott99",
+      },
+      date: 5
+    },
+    {
+      id: 4,
+      title: "Video sobre HTML",
+      thumbnail: "https://images.velog.io/images/rivernine/post/a497adbe-bc30-4b70-83a6-af92e00aca31/img.jpg",
+      views: 1000,
+      owner: {
+        id: 1,
+        username: "davescott99",
+      },
+      date: 5
+    },
+  ],
+};

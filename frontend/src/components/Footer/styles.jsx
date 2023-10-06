@@ -5,6 +5,10 @@ export const FooterContainer = styled.footer`
     justify-content: center;
     align-items: center;
     width: 100%;
+    
+    @media (max-width: 767px) {
+        display: none;
+    }
 `
 
 export const Logo = styled.div`

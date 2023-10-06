@@ -1,9 +1,7 @@
 package com.astro.socialCode.entities;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,78 +22,83 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USER_ACCOUNT")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "ID_USER")
 	private Long id;
 	
-	@Column(name="FIRST_NAME", nullable = false, length = 120)
+	@Column(name="FIRST_NAME_USER")
 	private String firstName;
 	
-	@Column(name="LAST_NAME", nullable = false, length = 120)
+	@Column(name="LAST_NAME_USER")
 	private String lastName;
 	
-	@Column(name="USERNAME", unique = true, nullable = false, length = 150)
+	@Column(name="USERNAME_USER")
 	private String username;
 	
-	@Column(name="BIOGRAPHY", nullable = true, length = 255)
+	@Column(name="BIOGRAPHY_USER")
 	private String biography;
 	
-	@Column(name="TITLE", nullable = true, length = 120)
+	@Column(name="TITLE_USER")
 	private String title;
 	
-	@Column(name="GITHUB_LINK", nullable = true, length = 255)
+	@Column(name="GITHUB_USER")
 	private String gitHubLink;
 	
-	@Column(name="LINKEDIN_LINK", nullable = true, length = 255)
+	@Column(name="LINKEDIN_USER")
 	private String linkedinLink;
 	
-	@Column(name="PROFILE_PHOTO", nullable = true, columnDefinition = "TEXT")
+	@Column(name="PROFILE_PHOTO_USER")
 	private String profilePhoto;
 	
-	@Column(name="EMAIL", unique = true, nullable = false, updatable = false)
+	@Column(name="EMAIL_USER")
 	private String email;
 	
-	@Column(name="PASSWORD", nullable = false)
+	@Column(name="PASSWORD_USER")
 	private String password;
 	
-	@Column(name = "REGISTRATION_MOMENT", nullable = false)
+	@Column(name = "REGISTRATION_MOMENT_USER")
 	@CreationTimestamp
 	private Instant registrationMoment;
 	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JsonIgnore
-	private List<Post> posts = new ArrayList<>();
+	@OneToMany(mappedBy = "owner")
+	private Set<Post> posts = new HashSet<>();
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JsonIgnore
-	private List<Coment> coments = new ArrayList<>();
+	@OneToMany(mappedBy = "owner")
+	private Set<Video> videos = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "votes", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JsonIgnore
+	@OneToMany(mappedBy = "owner")
+	private Set<ComentPost> comentsInPosts = new HashSet<>();
+	
+	@OneToMany(mappedBy = "owner")
+	private Set<ComentVideo> comentsInVideos = new HashSet<>();
+	
+	@OneToMany(mappedBy = "owner")
+	private Set<Playlist> playlists = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "votes")
 	private Set<Post> votedPosts = new HashSet<>();
 	
-	@ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "votes", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<Video> votedVideos = new HashSet<>();
+	
+	@ManyToMany(mappedBy = "users")
+	private Set<Language> interest = new HashSet<>();
+	
+	@ManyToMany
 	@JoinTable(
-		name = "user_following",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "following_id")
+		name = "USER_ACCOUNT_FOLLOWING",
+		joinColumns = @JoinColumn(name = "ID_USER"),
+		inverseJoinColumns = @JoinColumn(name = "ID_FOLLOWING")
 	)
 	private Set<User> following = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "following", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "following")
 	private Set<User> followers = new HashSet<>();
-	
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	@JoinTable(
-		name = "user_language",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "language_id")
-	)
-	private Set<Language> interest = new HashSet<>();
 	
 	public User() {
 	}
@@ -220,7 +222,7 @@ public class User {
 		this.password = password;
 	}
 
-	public List<Post> getPosts() {
+	public Set<Post> getPosts() {
 		return posts;
 	}
 
@@ -228,8 +230,12 @@ public class User {
 		return votedPosts;
 	}
 	
-	public List<Coment> getComents() {
-		return coments;
+	public Set<ComentPost> getComentsInPosts() {
+		return comentsInPosts;
+	}
+
+	public Set<ComentVideo> getComentsInVideos() {
+		return comentsInVideos;
 	}
 
 	public Set<User> getFollowing() {
@@ -244,6 +250,18 @@ public class User {
 		return interest;
 	}
 	
+	public Set<Video> getVideos() {
+		return videos;
+	}
+
+	public Set<Video> getVotedVideos() {
+		return votedVideos;
+	}
+
+	public Set<Playlist> getPlaylists() {
+		return playlists;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

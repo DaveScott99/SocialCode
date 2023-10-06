@@ -26,6 +26,10 @@ const validateTextPost = (text) => {
     return text?.toString().length > 1;
 }
 
+const validateTitleVideo = (title) => {
+    return title?.toString().length > 1;
+}
+
 export {
     validateFirstName,
     validateLastName,
@@ -33,5 +37,6 @@ export {
     validateEmail,
     validatePassword,
     validateConfirmPassword,
-    validateTextPost
+    validateTextPost,
+    validateTitleVideo
 }

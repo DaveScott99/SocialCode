@@ -1,10 +1,13 @@
 const PostActionTypes = {
+  SELECT_POST: "post/select",
   FETCH_POSTS_SUCCESS: "post/fetch",
+  FETCH_COMENTS_CURRENT_POST: "post/current_coments",
+  RESET_POSTS: "post/reset",
   VOTE_POST: "post/vote",
   UNVOTE_POST: "post/unvote",
   PUBLISH_POST: "post/publish",
-  NEXT_PAGE: "post/next_page",
-  SET_TOTAL_PAGES: "post/set_total_pages"
+  NEW_COMENT: "post/new_coment",
+  RESET_COMENTS: "post/reset_coments"
 };
 
 export default PostActionTypes;

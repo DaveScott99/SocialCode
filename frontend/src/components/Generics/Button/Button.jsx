@@ -5,7 +5,7 @@ import Loading from "../Loading/Loading";
 export function Button({ children, onClick, type, disabled, width, background, padding, 
                          borderradius, fontcolor, fontWeight, fontSize, hoverbackground,
                          position, top, bottom, left, right, justify, loading, loadingColor,
-                         loadingHeight, loadingWidth }){
+                         loadingHeight, loadingWidth, marginright, marginleft }){
     return(
         <CustomButton 
             onClick={onClick}
@@ -25,6 +25,8 @@ export function Button({ children, onClick, type, disabled, width, background, p
             right={right}
             bottom={bottom}
             justify={justify}
+            marginright={marginright}
+            marginleft={marginleft}
         >
             {
                 loading 

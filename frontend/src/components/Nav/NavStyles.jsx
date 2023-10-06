@@ -1,7 +1,9 @@
 import { styled } from "styled-components";
+import theme from "../../styles/theme";
 
 export const NavContainer = styled.nav`
     width: 100%;
+    padding: 3px;
 `;
 
 export const Menu = styled.ul`
@@ -9,69 +11,130 @@ export const Menu = styled.ul`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
 
-    @media (max-width: 767px) {
-        display: flex;
-        width: 100%;
-        justify-content: space-evenly;
+    a {
+        text-decoration: none;
     }
 `;
 
-export const Logo = styled.div`
+export const MenuNavigation = styled.div`
+    width: 100%;
+    height: 50px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    transition: all .1s ease-in-out;
-    color: ${(props) => props.theme.colors.white};
 
-    svg {
-        font-size: 2.5em;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    &:hover {
-        color: #b6b6b6 ;
+    a {
+        width: 100%;
+        max-width: 150px;
+        margin-right: 10px;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+ 
     }
 
 `
 
 export const MenuItem = styled.li`
     text-decoration: none;
-    color: ${(props) => props.theme.colors.white};
+    color: ${(props) => props.theme.colors.black};
 `;
 
-export const IconItem = styled.i`
+export const ItemNavigation = styled.li`
     display: flex;
+    align-items: center;
     justify-content: center;
-    font-size: 1.5em;
+    transition: all 0.1s;
+
+    height:  ${({ selected }) => (selected ? "55px" : "45px")};
+    width: 100%;
+    max-width: 130px;
+
+    border-radius: ${({ selected }) => (!selected ? "10px" : "0px")};
+
+    border-bottom: 3px solid ${({ selected }) =>
+        selected ? theme.colors.primary : "transparent"};
+    color: ${({ selected }) => (selected ? theme.colors.primary : "#000")};
 
     &:hover {
-        color: #b6b6b6 ;
+        background: ${({ selected }) => (selected ? "transparent" : theme.colors.white_smoke)};
+        color: ${({ selected }) => (selected ? theme.colors.primary : "#000")};
     }
 
 `
 
-export const ProfileImage = styled.div`
-
-`
-
-export const Left = styled.div`
+export const IconItem = styled.i`
     display: flex;
+    justify-content: center;
+    font-size: 1.8em;
+    cursor: pointer;
 `
 
-export const Center = styled.div`
-    width: 500px;
+export const ProfileImage = styled.div`
+    cursor: pointer;
+`
+
+export const BackArrow = styled.div`
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+
+    svg {
+        font-size: .9em;
+    }
+
+    &:hover {
+        background: ${(props) => props.theme.colors.white_smoke};
+    }
+`
+
+export const Label = styled.span`
+    margin-left: 5px;
+    font-size: .9em;
+    font-weight: 500;
 `
 
 export const Right = styled.div`
+    width: 40%;
+    max-width: 600px;
+    height: 50px;
+    margin-left: 10px;
     display: flex;
-    width: 100px;
+    justify-content: flex-end;
     align-items: center;
+    position: relative;
+    padding: 0px 15px 0px 0px;
+`
 
+export const SubMenuItem = styled.li`
+    color: ${props => props.theme.colors.black};
+    font-weight: 400;
+    text-decoration: none;
     display: flex;
-    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+    font-size: .9em;
+    display: flex;
+    align-items: center;
+    transition: all .1s;
+    margin-bottom: 5px;
 
+    svg {
+        font-size: 1.5em;
+        margin-right: 10px;
+    }
 
+    &:hover {
+        background: ${props => props.theme.colors.grey};
+    }
+`
 
+export const LineSeparator = styled.hr`
+    border: 1px solid ${props => props.theme.colors.grey};
+    margin-top: 5px;
+    margin-bottom: 5px;
 `

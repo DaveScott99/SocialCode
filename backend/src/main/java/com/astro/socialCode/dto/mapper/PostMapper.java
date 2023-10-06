@@ -1,6 +1,5 @@
 package com.astro.socialCode.dto.mapper;
 
-import java.time.Instant;
 import org.springframework.stereotype.Component;
 
 import com.astro.socialCode.dto.response.LanguageDTO;
@@ -34,10 +33,13 @@ public class PostMapper {
 		
 		Post post = new Post();
 		
+		if (postDTO.getId() != null) {
+			post.setId(postDTO.getId());
+		}
+		
 		post.setTitle(postDTO.getTitle());
 		post.setImage(postDTO.getImage());
 		post.setBody(postDTO.getBody());
-		post.setCreationDate(Instant.now());
 		post.setOwner(new User(postDTO.getOwner().getId(), postDTO.getOwner().getUsername(), postDTO.getOwner().getProfilePhoto()));
 	
 		post.getLanguages().clear();

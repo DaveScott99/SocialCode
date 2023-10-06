@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { dateFormat } from "../../../utils/FormatDateInfo";
-import { Link } from "react-router-dom";
-import ModalPost from "../../Generics/ModalPost";
-import FocusPost from "../FocusPost";
+import { Link, useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 
 import {
@@ -19,44 +17,35 @@ import {
   Username,
 } from "./styles";
 
-import "./styles.css";
-
 export function CardPost({ post }) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Container>
-      {isModalVisible ? (
-        <ModalPost onClose={() => setIsModalVisible(false)}>
-          <FocusPost postData={post}/>
-        </ModalPost>
-      ) : null}
-
-      <ContainerContent onClick={() => setIsModalVisible(true)}>
-        {/* post.image && <ImagePost src={post.image} alt="Imagem do post" /> */}
+      <ContainerContent>
         <Info>
           <PostInfo>
-          <Owner>
+            <Owner>
               <Link to={`/profile/${post.owner.username}`}>
                 <Username>{post.owner.username}</Username>
               </Link>
-    
+
               <PostDate>· {dateFormat(post.creationDate)}</PostDate>
             </Owner>
 
-
-          <LanguageContainer>
-            {post.languages?.map((language) => (
-              <Language key={language.id} src={language.icon}/>
-            ))}
-          </LanguageContainer>
-
+            <LanguageContainer>
+              {post.languages?.map((language) => (
+                <Language key={language.id} src={language.icon} />
+              ))}
+            </LanguageContainer>
           </PostInfo>
 
-          <Title>{post.title}</Title>
+          <Title onClick={() => navigate(`/post/${post.title}`)}>
+            {post.title}
+          </Title>
 
           <PostBody>
-            <MDEditor.Markdown source={post.body} className="markdown-view" />
+            <MDEditor.Markdown source={post.body} />
           </PostBody>
         </Info>
       </ContainerContent>

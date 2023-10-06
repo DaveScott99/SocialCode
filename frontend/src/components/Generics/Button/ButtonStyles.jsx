@@ -14,11 +14,15 @@ export const CustomButton = styled.button`
     color: ${props => props.fontcolor ? props.fontcolor : props.theme.colors.white};
     font-size: ${props => props.fontSize}em;
 
+    margin-right: ${props => props.marginright}px;
+    margin-left: ${props => props.marginleft}px;
+
     position: ${props => props.position};
     top: ${props => props.top};
     bottom: ${props => props.bottom};
     left: ${props => props.left};
     right: ${props => props.right};
+    transition: all .1s;
 
     svg {
         font-size: 1.4em;
@@ -30,6 +34,7 @@ export const CustomButton = styled.button`
 
     &:disabled {
         background: ${props => props.theme.colors.grey};
+        color: #8d8d8d;
         cursor: auto;
     }
 `;

@@ -10,15 +10,19 @@ import { findLanguages, publishPost } from "../../../services/Api";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import ModalDialog from "../../Generics/ModalDialog";
 import Dialog from "../../Generics/Dialog";
+import DialogConfirmation from "../../Generics/DialogConfirmation";
+import { useNavigate } from "react-router";
 
 import { Container, Others, TextEditorContainer, TitleInput } from "./styles";
 
 export default function NewPost() {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { data: languages } = useQuery(["languages"], () => findLanguages());
   const dispatch = useDispatch();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalSuccess, setIsModalSuccess] = useState(false);
+  const [isModalCancel, setIsModalCancel] = useState(false);
   const [value, setValue] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [title, setTitle] = useState("");
@@ -68,7 +72,6 @@ export default function NewPost() {
   };
 
   const insertPost = async () => {
-    
     const response = await publishPost(
       JSON.parse(localStorage.getItem("current-newPost"))
     );
@@ -84,26 +87,50 @@ export default function NewPost() {
         owner: {
           id: user.id,
           username: user.username,
-          profilePhoto: user.profilePhoto
+          profilePhoto: user.profilePhoto,
         },
         languages: [],
         votesCount: 0,
         votedByUser: false,
       };
 
-      localStorage.setItem("current-newPost", JSON.stringify(newPostForPublish));
-      
-      setIsModalVisible(true);
+      localStorage.setItem(
+        "current-newPost",
+        JSON.stringify(newPostForPublish)
+      );
+
+      setIsModalSuccess(true);
     }
   };
 
+  const cancelPublishPost = () => {
+    const newPostForPublish = {
+      title: "",
+      body: "",
+      owner: {
+        id: user.id,
+        username: user.username,
+        profilePhoto: user.profilePhoto,
+      },
+      languages: [],
+      votesCount: 0,
+      votedByUser: false,
+    };
+
+    localStorage.setItem("current-newPost", JSON.stringify(newPostForPublish));
+
+    navigate("/");
+  };
+
+  const handleShowModalConfirmation = async () => {
+    setIsModalCancel(true);
+  };
+
   const validatorInput = () => {
-    return validateTextPost(newPost.body)
-        && selectedLanguages.length > 0;
+    return validateTextPost(newPost.body) && selectedLanguages.length > 0;
   };
 
   return (
-    
     <Container>
       <h1>Publicar novo conteúdo</h1>
 
@@ -140,13 +167,24 @@ export default function NewPost() {
 
       <Others>
         <Button
-          type="submit"
-          onClick={insertPost}
-          width="100"
+          onClick={handleShowModalConfirmation}
           fontSize="1"
           padding="10"
           borderradius="5"
-          fontWeight="bold"
+          justify="center"
+          background="#F0F2F5"
+          fontcolor="#878787"
+          hoverbackground="#cdcdcd44"
+          marginright={10}
+        >
+          Cancelar
+        </Button>
+        <Button
+          type="submit"
+          onClick={insertPost}
+          fontSize="1"
+          padding="10"
+          borderradius="5"
           justify="center"
           disabled={!validatorInput()}
         >
@@ -154,12 +192,22 @@ export default function NewPost() {
         </Button>
       </Others>
 
-      {isModalVisible ? (
-        <ModalDialog onClose={() => setIsModalVisible(false)}>
+      {isModalSuccess ? (
+        <ModalDialog>
           <Dialog message="Publicado com sucesso" pagePath="/" />
         </ModalDialog>
       ) : null}
 
+      {isModalCancel ? (
+        <ModalDialog>
+          <DialogConfirmation
+            title="Tem certeza que deseja sair da edição?"
+            body="Os dados não salvos serão perdidos."
+            onClose={() => setIsModalCancel(false)}
+            functionIfYes={cancelPublishPost}
+          />
+        </ModalDialog>
+      ) : null}
     </Container>
   );
 }

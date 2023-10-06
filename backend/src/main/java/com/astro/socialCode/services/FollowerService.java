@@ -12,6 +12,7 @@ import com.astro.socialCode.dto.response.UserMinDTO;
 import com.astro.socialCode.entities.User;
 import com.astro.socialCode.repositories.UserRepository;
 import com.astro.socialCode.services.exceptions.EntityNotFoundException;
+import com.astro.socialCode.util.MessageResponse;
 import com.astro.socialCode.util.UtilMethods;
 
 @Service
@@ -28,8 +29,8 @@ public class FollowerService {
 	}
 
 	@Transactional
-	public void followUser(Long userId, Long followerId) {		
-		userRepository.findById(userId)
+	public MessageResponse followUser(Long userId, Long followerId) {		
+		return userRepository.findById(userId)
 		  	 .map(userFound -> {
 		  		User userToFollow = userRepository.findById(followerId)
 					  	    .orElseThrow(() -> new EntityNotFoundException("Usuário a ser seguido não encontrado"));
@@ -37,18 +38,18 @@ public class FollowerService {
 		  		if (!(userFound.getFollowing().contains(userToFollow)) && userFound.getId() != userToFollow.getId()) {
 		  			userFound.getFollowing().add(userToFollow);
 		  			userRepository.save(userFound);
-					System.out.println("DEBUG::Usuário seguido com sucesso!");
+		  			
+		  			return new MessageResponse("Usuário seguido");
 		  		}
-
-		  		return userFound;
+				return null;
 		  		
 		  	 })
 		  	 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 	}
 	
 	@Transactional
-	public void unfollowUser(Long userId, Long followerId) {
-		userRepository.findById(userId)
+	public MessageResponse unfollowUser(Long userId, Long followerId) {
+		return userRepository.findById(userId)
 			  .map(userFound -> {
 				  User userToUnfollow = userRepository.findById(followerId)
 					  	    .orElseThrow(() -> new EntityNotFoundException("Usuário seguido não encontrado"));
@@ -56,10 +57,10 @@ public class FollowerService {
 				  if ((userFound.getFollowing().contains(userToUnfollow)) && userFound.getId() != userToUnfollow.getId()) {
 					  userFound.getFollowing().remove(userToUnfollow); 
 					  userRepository.save(userFound);
-					  System.out.println("DEBUG::Usuário não está mais sendo seguido");
+			  		  return new MessageResponse("Deixou de seguir");
 				  }
 				  
-				  return userFound;
+				  return null;
 				  
 			  })
 			  .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));

@@ -8,45 +8,45 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "LANGUAGE")
+@Table(name = "PROGRAMMING_LANGUAGE")
 public class Language {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "ID_LANGUAGE")
 	private Long id;
 	
-	@Column(name="NAME", nullable = false, length = 120)
+	@Column(name="NAME_LANGUAGE")
 	private String name;
 	
-	@Column(name = "ICON", nullable = false, length = 220)
+	@Column(name = "ICON_LANGUAGE")
 	private String icon;
 	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "languages")
+	@ManyToMany(mappedBy = "languages")
 	private Set<Post> posts = new HashSet<>();
 	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "interest")
+	@ManyToMany
+	@JoinTable(
+		name = "USER_ACCOUNT_PROGRAMMING_LANGUAGE",
+		joinColumns = @JoinColumn(name = "ID_LANGUAGE"),
+		inverseJoinColumns = @JoinColumn(name = "ID_USER")
+	)
 	private Set<User> users = new HashSet<>();
-
-	public Language(){
-	}
 	
-	public Language(Long id, String name, String icon, Set<Post> posts, Set<User> users) {
-		this.id = id;
-		this.name = name;
-		this.icon = icon;
-		this.posts = posts;
-		this.users = users;
+	@ManyToMany(mappedBy = "languages")
+	private Set<Video> videos = new HashSet<>();
+	
+	public Language(){
 	}
 
 	public Language(Long id) {
@@ -86,7 +86,11 @@ public class Language {
 		return posts;
 	}
 	
-	public Set<User> getUSers() {
+	public Set<Video> getVideos() {
+		return videos;
+	}
+
+	public Set<User> getUsers() {
 		return users;
 	}
 
@@ -105,11 +109,6 @@ public class Language {
 			return false;
 		Language other = (Language) obj;
 		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
-	}
-
-	@Override
-	public String toString() {
-		return "Language [id=" + id + ", name=" + name + "]";
 	}
 
 }

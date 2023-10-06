@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -40,12 +39,8 @@ public class UserController {
 	
 	@GetMapping(value = "/profile")
 	public ResponseEntity<Map<String, Object>> getUserComplementsForProfille(
-			@RequestParam String username, 
-			@RequestParam int postsPage) {
-		
-		Pageable postsPageable = PageRequest.of(postsPage, 10);
-		
-		return ResponseEntity.ok().body(userService.profile(postsPageable, username));
+			@RequestParam String username) {
+		return ResponseEntity.ok().body(userService.profile(username));
 	}
 	
 	@GetMapping
@@ -54,9 +49,9 @@ public class UserController {
 		return ResponseEntity.ok().body(users);
 	}
 	
-	@GetMapping(value = "/searchUsers/{username}")
-	public ResponseEntity<Page<UserMinDTO>> searchUsers(@PageableDefault(size = 10) Pageable pageable, @PathVariable String username) {
-		return ResponseEntity.ok().body(userService.searchUsers(pageable, username));
+	@GetMapping(value = "/searchUsers")
+	public ResponseEntity<Page<UserMinDTO>> searchUsers(@PageableDefault(size = 10) Pageable pageable, @RequestParam String q) {
+		return ResponseEntity.ok().body(userService.searchUsers(pageable, q));
 	}
 	
 	@GetMapping(value = "/username/{username}")

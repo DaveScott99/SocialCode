@@ -67,13 +67,8 @@ export const findUserByUsername = async (username) => {
 export const searchUsersByUsername = async (username) => {
   try {
     if (username !== null) {
-      return await api.get(`/users/searchUsers/${username}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      return await api.get(`/users/searchUsers?q=${username}`);
     }
-    return null;
   } catch (error) {
     console.log(error);
   }
@@ -142,9 +137,17 @@ export const unfollowUser = async (followerId, userId) => {
   }
 };
 
+export const findPostByTitle = async (title, username) => {
+  try {
+    return await api.get(`/posts?title=${title}&user=${username}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export const findPostById = async (id) => {
   try {
-    return await api.get(`/post/findById/${id}`);
+    return await api.get(`/posts/${id}`);
   } catch (err) {
     console.log(err);
   }
@@ -152,7 +155,7 @@ export const findPostById = async (id) => {
 
 export const publishPost = async (post) => {
   try {
-    const response = await api.post("/post", post);
+    const response = await api.post("/posts", post);
     if (response) {
       return true
     } 
@@ -162,6 +165,43 @@ export const publishPost = async (post) => {
   }
 };
 
+export const publishComentPost = async (coment) => {
+  try {
+    const response = await api.post("/coments/publishComentPost", coment)
+
+    console.log(response);
+    return response;
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
+
+
+export const findComentsByPostTitle = async (postTitle, page) => {
+
+  try {
+    const response = await api.get(`/coments/findComentsByPostTitle?postTitle=${postTitle}&page=${page}`)
+    return response;
+  }
+  catch(err) {
+    console.log(err);
+  }
+
+}
+
+export const findComentsByPost = async (postId, page) => {
+
+  try {
+    const response = await api.get(`/coments/findComentsByPost?postId=${postId}&page=${page}`)
+    return response;
+  }
+  catch(err) {
+    console.log(err);
+  }
+
+}
+
 export const findLanguages = async () => {
   try {
     const response = await api.get("/languages");
@@ -169,5 +209,103 @@ export const findLanguages = async () => {
   }
   catch(err) {
     console.log(err);
+  }
+}
+
+
+
+export const findPostsByOwner = async (username, page) => {
+  try {
+      const response =  await api.get(`/posts/findPostsByOwner?ownerUsername=${username}&page=${page}`);
+      return response.data;
+  }
+  catch(err) {
+      console.log(err);
+  }
+}
+
+export const findAllVideos = async () => {
+  try {
+    const response = await api.get("/videos");
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const findVideoByFileName = async (fileName) => {
+  try {
+    const response = await api.get(`/videos/findByFileName?fileName=${fileName}`);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const updateVideo = async (newVideo, videoId) => {
+  try {
+    const response = await api.put(`/videos/${videoId}`, newVideo);
+    console.log(response);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const uploadThumbnail = async (thumbnailFile, fileName) => {
+  const formData = new FormData();
+  formData.append("file", thumbnailFile);
+
+  try {
+    const response = await api.post(`/thumbnail?videoFileName=${fileName}`, formData);
+    console.log(response.data);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const findPlaylistsByUser = async (username) => {
+  try{
+    const response = await api.get(`/playlists?ownerUsername=${username}`);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const findPlaylistsByName = async (playlistName) => {
+  try{
+    const response = await api.get(`/playlists/findByName?playlistName=${playlistName}`);
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+
+export const createPlaylist = async (newPlaylist) => {
+  try {
+    return await api.post("/playlists", newPlaylist);
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+export const addVideoOnPlaylist = async (playlistName, videoFileName) => {
+  try{
+    const response = await api.post(`/playlists/addVideo?playlistName=${playlistName}&videoFileName=${videoFileName}`);
+    toast.success(response.data.message);
+  }
+  
+  catch(err) {
+    toast.error(err.response.data.message);
   }
 }

@@ -7,6 +7,16 @@ import Layout from "../components/Layout/Layout";
 import Test from "../pages/Tests/Test";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Publish from "../pages/Publish";
+import InterestSelection from "../pages/InterestSelection";
+import Post from "../pages/Post";
+import WatchList from "../pages/Watch/WatchList";
+import Search from "../pages/Search";
+import Watch from "../pages/Watch";
+import PublishVideo from "../pages/PublishVideo";
+import SidebarVideo from "../components/SidebarVideo";
+import Playlist from "../pages/Playlist";
+import SidebarPost from "../components/SidebarPost";
+import Groups from "../pages/Groups";
 
 export default function RouteApp() {
   const Private = ({ children }) => {
@@ -35,7 +45,7 @@ export default function RouteApp() {
             path="/"
             element={
               <Private>
-                <Layout>
+                <Layout asideItens={<SidebarPost />}>
                   <Home />
                 </Layout>
               </Private>
@@ -46,8 +56,63 @@ export default function RouteApp() {
             path="/profile/:username"
             element={
               <Private>
-                <Layout>
+                <Layout asideItensAbsolute={<SidebarPost />}>
                   <UserProfile />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/publicar"
+            element={
+              <Private>
+                <Layout asideItensAbsolute={<SidebarPost />}>
+                  <Publish />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/publicar/video"
+            element={
+              <Private>
+                <Layout asideItensAbsolute={<SidebarVideo />}>
+                  <PublishVideo />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/interest"
+            element={
+              <Private>
+                <Layout>
+                  <InterestSelection />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/post/:title"
+            element={
+              <Private>
+                <Layout asideItensAbsolute={<SidebarPost />}>
+                  <Post />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/watch"
+            element={
+              <Private>
+                <Layout asideItens={<SidebarVideo />}>
+                  <WatchList />
                 </Layout>
               </Private>
             }
@@ -55,16 +120,50 @@ export default function RouteApp() {
 
           <Route
             exact
-            path="/publicar"
+            path="/playlist/:playlistName"
             element={
               <Private>
-                <Layout>
-                  <Publish />
+                <Layout asideItens={<SidebarVideo />}>
+                  <Playlist />
                 </Layout>
               </Private>
             }
           />
 
+          <Route
+            exact
+            path="/watch/:filename"
+            element={
+              <Private>
+                <Layout asideItensAbsolute={<SidebarVideo />}>
+                  <Watch />
+                </Layout>
+              </Private>
+            }
+          />
+
+          <Route
+            exact
+            path="/search/:query"
+            element={
+              <Private>
+                <Layout asideItensAbsolute={<SidebarPost />}>
+                  <Search />
+                </Layout>
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/groups"
+            element={
+              <Private>
+                <Layout asideItens={<SidebarPost />}>
+                  <Groups />
+                </Layout>
+              </Private>
+            }
+          />
           <Route
             exact
             path="/test"
@@ -76,7 +175,6 @@ export default function RouteApp() {
               </Private>
             }
           />
-
           <Route exact path="/authentication" element={<Authentication />} />
         </Routes>
       </AuthProvider>

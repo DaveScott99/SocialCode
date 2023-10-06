@@ -1,81 +1,38 @@
-import React, { useEffect, useRef, useState } from "react";
-import { searchUsersByUsername } from "../../../services/Api";
-import { Link } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import React from "react";
 
-import {
-  CardSearchResponse,
-  SearchContainer,
-  SearchInput,
-  SearchResponse,
-  SearchResponseContainer,
-  Username,
-} from "./SearchStyles";
+import { SearchContainer, SearchInput } from "./SearchStyles";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export default function Search() {
-  const [searchResponse, setSearchResponse] = useState([]);
-  const [showSubMenu, setShowSubMenu] = useState(false);
-  const subMenuRef = useRef(null);
 
-  const handleClickShowSubMenu = () => {
-    setShowSubMenu(!showSubMenu);
-  };
+  const navigate = useNavigate();
 
-  const style = showSubMenu ? { display: "block" } : { display: "none" };
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const closeSubMenyOnClickOutside = (event) => {
-      if (showSubMenu && !subMenuRef.current.contains(event.target)) {
-        setShowSubMenu(false);
-      }
-    };
-
-    document.addEventListener("mousedown", closeSubMenyOnClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", closeSubMenyOnClickOutside);
-    };
-  }, [showSubMenu]);
-
-  const onChangeUsernameSearch = async (event) => {
-    const usernameSearch = event.target.value;
-
-    if (usernameSearch.length >= 1) {
-      var response = await searchUsersByUsername(usernameSearch);
-    }
-
-    if (response) {
-      setSearchResponse(response.data.content);
-    }
-
-    if (usernameSearch.length <= 0) {
-      setSearchResponse(null);
-    }
-  };
+  const handleChangeSearchQuery = (event) => {
+    setSearchQuery(event.target.value);
+  }
 
   return (
-    <SearchContainer ref={subMenuRef}>
-      <SearchInput
-        type="text"
-        name="search"
-        placeholder="Pesquisar no SocialCode"
-        onChange={onChangeUsernameSearch}
-        onClick={handleClickShowSubMenu}
-      />
-
-      <SearchResponseContainer style={style}>
-        <SearchResponse>
-          <CardSearchResponse>
-            {searchResponse &&
-              searchResponse.map((user) => (
-                <Link to={`/profile/${user.username}`} key={user.id}>
-                  <Avatar src={user.profilePhoto} variant="rounded" />
-                  <Username>{user.username}</Username>
-                </Link>
-              ))}
-          </CardSearchResponse>
-        </SearchResponse>
-      </SearchResponseContainer>
+    <SearchContainer>
+      <span>
+        <SearchInput
+          id="searchInput"
+          type="text"
+          name="search"
+          placeholder="Pesquisar no SocialCode"
+          autoComplete="off"
+          onChange={(event) => handleChangeSearchQuery(event)}
+          onKeyUp={(event) => {
+            if (event.which === 13 || event.keyCode === 13) {
+              if (searchQuery.length > 0) {
+                navigate(`/search/${searchQuery}`)
+              }
+            } 
+          }}  
+        />
+      </span>
     </SearchContainer>
   );
 }

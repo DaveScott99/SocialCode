@@ -1,9 +1,12 @@
 package com.astro.socialCode.controllers;
 
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +25,7 @@ import com.astro.socialCode.services.PostService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
 
 	private final PostService postService;
@@ -31,11 +34,21 @@ public class PostController {
 		this.postService = postService;
 	}
 	
-	@GetMapping(value = "/findPostsByOwner/{ownerId}")
-	public ResponseEntity<Page<PostDTO>> findPostsByOwner(Pageable pageable, @PathVariable Long ownerId) {
-		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerId));
+	@GetMapping(value = "/findPostsByOwner")
+	public ResponseEntity<Page<PostDTO>> findPostsByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam String ownerUsername) {
+		return ResponseEntity.ok().body(postService.findPostsByOwner(pageable, ownerUsername));
 	}
 	
+	@GetMapping
+	public ResponseEntity<PostDTO> findByTitle(@RequestParam String title, @RequestParam String user){
+		
+		String titleDecoded = URLDecoder.decode(title, StandardCharsets.UTF_8);
+		
+		System.out.println(titleDecoded);
+		
+		return ResponseEntity.ok().body(postService.findByTitle(titleDecoded, user));
+	}
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PostDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(postService.findById(id));
