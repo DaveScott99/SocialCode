@@ -5,22 +5,24 @@ import TextField from "../../Generics/TextField/TextField";
 import { Button } from "../../Generics/Button/Button"
 
 import './ConfigAccount.css';
+import { useSelector } from "react-redux";
 
 export default function ConfigAccount() {
 
     const { user } = useContext(AuthContext);
 
+    const { currentUser } = useSelector(
+        (rootReducer) => rootReducer.userReducer
+    );   
+    
     const [userDetails, setUserDetails] = useState({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        title: user.title,
-        profilePhoto: user.profilePhoto,
-        backgroundImage: user.backgroundImage,
-        gitHubLink: user.gitHubLink,
-        linkedinLink: user.linkedinLink,
-        instagramLink: user.instagramLink,
+        id: currentUser.user_info.id,
+        firstName: currentUser.user_info.firstName,
+        lastName: currentUser.user_info.lastName,
+        username: currentUser.user_info.username,
+        title: currentUser.user_info.title,
+        gitHubLink: currentUser.user_info.gitHubLink,
+        linkedinLink: currentUser.user_info.linkedinLink,
     })
 
     const handleClickUpdateUser = async () => {
