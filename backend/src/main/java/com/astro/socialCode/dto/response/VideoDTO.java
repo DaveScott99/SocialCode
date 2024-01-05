@@ -40,9 +40,6 @@ public class VideoDTO implements Serializable {
 	@JsonProperty(value = "creationDate")
 	private Instant creationDate;
 	
-	@JsonProperty(value = "thumbnail")
-	private Set<ThumbnailVideoDTO> thumbnailVideo = new HashSet<>();
-	
 	@JsonProperty(value = "languages")
 	private Set<LanguageDTO> languages = new HashSet<>();
 	
@@ -78,7 +75,6 @@ public class VideoDTO implements Serializable {
 		owner = new UserMinDTO(entity.getOwner());
 		votesCount = entity.getVotes().stream().count();
 		creationDate = entity.getCreationDate();
-		entity.getThumbnailVideo().forEach(thumbnail -> getThumbnailVideo().add(new ThumbnailVideoDTO(thumbnail)));
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentVideoDTO(comentUser)));
 		entity.getQualities().forEach(quality -> getQualities().add(new VideoQuality(quality.getId(), quality.getQualityName())));
@@ -135,10 +131,6 @@ public class VideoDTO implements Serializable {
 
 	public Set<VideoQuality> getQualities() {
 		return qualities;
-	}
-
-	public Set<ThumbnailVideoDTO> getThumbnailVideo() {
-		return thumbnailVideo;
 	}
 
 	@Override

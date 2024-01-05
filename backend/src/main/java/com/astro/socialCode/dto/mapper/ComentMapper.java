@@ -36,7 +36,7 @@ public class ComentMapper {
 		ComentPost coment = new ComentPost();
 		
 		coment.setText(comentDTO.getText());
-		coment.setOwner(new User(comentDTO.getOwner().getId(), comentDTO.getOwner().getUsername(), comentDTO.getOwner().getProfilePhoto()));
+		coment.setOwner(new User(comentDTO.getOwner().getId(), comentDTO.getOwner().getUsername(), comentDTO.getOwner().getPhoto()));
 		coment.setPost(new Post(comentDTO.getPost().getId(), comentDTO.getPost().getBody()));
 		
 		return coment;
@@ -51,7 +51,7 @@ public class ComentMapper {
 		ComentVideo coment = new ComentVideo();
 		
 		coment.setText(comentDTO.getText());
-		coment.setOwner(new User(comentDTO.getOwner().getId(), comentDTO.getOwner().getUsername(), comentDTO.getOwner().getProfilePhoto()));
+		coment.setOwner(new User(comentDTO.getOwner().getId(), comentDTO.getOwner().getUsername(), comentDTO.getOwner().getPhoto()));
 		coment.setVideo(new Video(comentDTO.getVideo().getId(), comentDTO.getVideo().getTitle()));
 		
 		return coment;

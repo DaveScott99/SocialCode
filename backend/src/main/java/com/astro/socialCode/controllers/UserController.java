@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astro.socialCode.dto.request.RegisterUserDTO;
-import com.astro.socialCode.dto.request.UriDTO;
 import com.astro.socialCode.dto.request.UserUpdateDTO;
 import com.astro.socialCode.dto.response.UserDTO;
 import com.astro.socialCode.dto.response.UserMinDTO;
@@ -74,12 +72,6 @@ public class UserController {
 	@PutMapping(value = "/{userId}")
 	public ResponseEntity<UserDTO> update(@PathVariable Long userId, @Valid @RequestBody UserUpdateDTO userUpdateDto){
 		return ResponseEntity.ok().body(userService.update(userId, userUpdateDto));
-	}
-	
-	@PostMapping(value = "/upload/profilePhoto/{username}")
-	public ResponseEntity<UriDTO> uploadProfilePhoto(@RequestParam("file") MultipartFile file, @PathVariable String username) {
-		UriDTO dto = userService.uploadProfilePhoto(file, username);
-		return ResponseEntity.ok().body(dto);
 	}
 
 }

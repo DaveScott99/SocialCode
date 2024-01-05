@@ -52,7 +52,7 @@ public class VideoMapper {
 		entity.setTitle(videoDTO.getTitle());
 		entity.setDescription(videoDTO.getDescription());
 		entity.setFileName(videoDTO.getFileName());
-		entity.setOwner(new User(videoDTO.getOwner().getId(), videoDTO.getOwner().getUsername(), videoDTO.getOwner().getProfilePhoto()));
+		entity.setOwner(new User(videoDTO.getOwner().getId(), videoDTO.getOwner().getUsername(), videoDTO.getOwner().getPhoto()));
 		
 		entity.getLanguages().clear();
 		
@@ -80,7 +80,7 @@ public class VideoMapper {
 		entity.setFileName(videoFile.getFileName());
 		entity.setFileSize(videoFile.getFileSize());
 		entity.setFilePath(videoFile.getFilePath());
-		entity.setOwner(new User(videoFile.getOwner().getId(), videoFile.getOwner().getUsername(), videoFile.getOwner().getProfilePhoto()));
+		entity.setOwner(new User(videoFile.getOwner().getId(), videoFile.getOwner().getUsername(), videoFile.getOwner().getPhoto()));
 		
 		entity.getQualities().clear();
 		

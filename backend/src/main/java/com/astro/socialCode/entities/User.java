@@ -45,14 +45,14 @@ public class User {
 	@Column(name="TITLE_USER")
 	private String title;
 	
+	@Column(name="PROFILE_PHOTO_USER")
+	private String photo;
+	
 	@Column(name="GITHUB_USER")
 	private String gitHubLink;
 	
 	@Column(name="LINKEDIN_USER")
 	private String linkedinLink;
-	
-	@Column(name="PROFILE_PHOTO_USER")
-	private String profilePhoto;
 	
 	@Column(name="EMAIL_USER")
 	private String email;
@@ -105,7 +105,7 @@ public class User {
 	
 	public User(Long id, String firstName, String lastName, String username, String biography, String title,
 			String gitHubLink, String linkedinLink, String profilePhoto,
-			String email, String password, Instant registrationMoment) {
+			String email, String password, Instant registrationMoment, String photo) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -114,16 +114,15 @@ public class User {
 		this.title = title;
 		this.gitHubLink = gitHubLink;
 		this.linkedinLink = linkedinLink;
-		this.profilePhoto = profilePhoto;
 		this.email = email;
 		this.password = password;
 		this.registrationMoment = registrationMoment;
+		this.photo = photo;
 	}
 	
 	public User(Long id, String username, String profilePhoto) {
 		this.id = id;
 		this.username = username;
-		this.profilePhoto = profilePhoto;
 	}
 			
 	public Long getId() {
@@ -190,13 +189,6 @@ public class User {
 		this.linkedinLink = linkedinLink;
 	}
 
-	public String getProfilePhoto() {
-		return profilePhoto;
-	}
-
-	public void setProfilePhoto(String profilePhoto) {
-		this.profilePhoto = profilePhoto;
-	}
 	
 	public String getEmail() {
 		return email;
@@ -206,6 +198,14 @@ public class User {
 		this.email = email;
 	}
 	
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	public Instant getRegistrationMoment() {
 		return registrationMoment;
 	}

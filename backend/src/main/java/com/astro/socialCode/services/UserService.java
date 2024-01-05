@@ -1,6 +1,5 @@
 package com.astro.socialCode.services;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,11 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.astro.socialCode.dto.mapper.UserMapper;
 import com.astro.socialCode.dto.request.RegisterUserDTO;
-import com.astro.socialCode.dto.request.UriDTO;
 import com.astro.socialCode.dto.request.UserUpdateDTO;
 import com.astro.socialCode.dto.response.LanguageDTO;
 import com.astro.socialCode.dto.response.UserDTO;
@@ -27,15 +24,12 @@ public class UserService {
 	
 	private final UserMapper userMapper;
 	private final UserRepository userRepository;
-	private final S3Service s3Service;
 	private final LanguageRepository languageRepository;
 	
 	public UserService(UserMapper userMapper, UserRepository userRepository, 
-			 S3Service s3Service, 
 			LanguageRepository languageRepository) {
 		this.userMapper = userMapper;
 		this.userRepository = userRepository;
-		this.s3Service = s3Service;
 		this.languageRepository = languageRepository;
 	}
 	
@@ -105,19 +99,5 @@ public class UserService {
 				 })
 				 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado " + userId));
 	}
-	
-	public UriDTO uploadProfilePhoto(MultipartFile file, String username) {
-		
-		URL url = s3Service.uploadFile(file, "users", "profile-photo"); 
-				
-		userRepository.findByUsername(username)
-			 .map(userFound -> {
-				 userFound.setProfilePhoto(url.toString());
-				 return userRepository.save(userFound);
-			 })
-			 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
-		
-		return new UriDTO(url.toString());
-	}
-	
+
 }

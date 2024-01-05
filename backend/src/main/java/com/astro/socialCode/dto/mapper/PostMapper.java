@@ -40,7 +40,7 @@ public class PostMapper {
 		post.setTitle(postDTO.getTitle());
 		post.setImage(postDTO.getImage());
 		post.setBody(postDTO.getBody());
-		post.setOwner(new User(postDTO.getOwner().getId(), postDTO.getOwner().getUsername(), postDTO.getOwner().getProfilePhoto()));
+		post.setOwner(new User(postDTO.getOwner().getId(), postDTO.getOwner().getUsername(), postDTO.getOwner().getPhoto()));
 	
 		post.getLanguages().clear();
 		

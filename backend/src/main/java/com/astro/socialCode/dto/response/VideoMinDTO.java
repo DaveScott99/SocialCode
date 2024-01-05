@@ -2,9 +2,7 @@ package com.astro.socialCode.dto.response;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import com.astro.socialCode.entities.Video;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,15 +22,15 @@ public class VideoMinDTO implements Serializable {
 	@JsonProperty(value = "fileName")
 	private String fileName;
 	
+	@JsonProperty(value = "thumbnail")
+	private String thumbnail;
+	
 	@JsonProperty(value = "owner")
 	private UserMinDTO owner;
 	
 	@JsonProperty(value = "creationDate")
 	private Instant creationDate;
-	
-	@JsonProperty(value = "thumbnail")
-	private Set<ThumbnailVideoDTO> thumbnailVideo = new HashSet<>();
-	
+
 	public VideoMinDTO() {
 	}
 
@@ -45,9 +43,9 @@ public class VideoMinDTO implements Serializable {
 		id = entity.getId();
 		title = entity.getTitle();
 		fileName = entity.getFileName();
+		thumbnail = entity.getThumbnail();
 		creationDate = entity.getCreationDate();
 		owner = new UserMinDTO(entity.getOwner());
-		entity.getThumbnailVideo().forEach(thumbnail -> getThumbnailVideo().add(new ThumbnailVideoDTO(thumbnail)));
 	}
 	
 	public Long getId() {
@@ -73,11 +71,7 @@ public class VideoMinDTO implements Serializable {
 	public Instant getCreationDate() {
 		return creationDate;
 	}
-
-	public Set<ThumbnailVideoDTO> getThumbnailVideo() {
-		return thumbnailVideo;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

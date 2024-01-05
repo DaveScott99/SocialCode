@@ -11,7 +11,7 @@ public class UserMinDTO implements Serializable {
 	
 	private Long id;
 	private String username;
-	private String profilePhoto;
+	private String photo;
 	private String title;
 	
 	public UserMinDTO() {
@@ -20,7 +20,7 @@ public class UserMinDTO implements Serializable {
 	public UserMinDTO(User user) {
 		id = user.getId();
 		username = user.getUsername();
-		profilePhoto = user.getProfilePhoto();
+		photo = user.getPhoto();
 		title = user.getTitle();
 	}
 
@@ -32,8 +32,8 @@ public class UserMinDTO implements Serializable {
 		return username;
 	}
 
-	public String getProfilePhoto() {
-		return profilePhoto;
+	public String getPhoto() {
+		return photo;
 	}
 	
 	public String getTitle() {

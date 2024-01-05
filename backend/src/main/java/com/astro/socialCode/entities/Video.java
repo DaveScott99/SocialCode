@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -19,7 +18,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -55,10 +53,6 @@ public class Video {
 	@CreationTimestamp
 	@Column(name = "CREATION_MOMENT_VIDEO")
 	private Instant creationDate; 
-	
-	@OneToMany(mappedBy = "video")
-	@JsonIgnore
-	private Set<ThumbnailVideo> thumbnailVideo = new HashSet<>();
 	
 	@OneToMany(mappedBy = "video")
 	private Set<ComentVideo> coments = new HashSet<>();
@@ -109,7 +103,6 @@ public class Video {
 
 	public Video(Long id, String title, String description, String thumbnail, String fileName, Long fileSize,
 			String contentType, String filePath, Instant creationDate, User owner) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -207,10 +200,6 @@ public class Video {
 		this.owner = owner;
 	}
 	
-	public Set<ThumbnailVideo> getThumbnailVideo() {
-		return thumbnailVideo;
-	}
-
 	public Set<Language> getLanguages() {
 		return languages;
 	}

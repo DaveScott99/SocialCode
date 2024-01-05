@@ -72,7 +72,7 @@ public class PlaylistMapper {
 		}
 		
 		entity.setName(dto.getName());
-		entity.setOwner(new User(dto.getOwner().getId(), dto.getOwner().getUsername(), dto.getOwner().getProfilePhoto()));
+		entity.setOwner(new User(dto.getOwner().getId(), dto.getOwner().getUsername(), dto.getOwner().getPhoto()));
 		
 		entity.getVideos().clear();
 		

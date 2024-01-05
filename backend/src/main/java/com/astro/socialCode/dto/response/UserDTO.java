@@ -18,10 +18,10 @@ public class UserDTO implements Serializable {
 	private String username;
 	private String biography;
 	private String title;
-	private String profilePhoto;
 	private String gitHubLink;
 	private String linkedinLink;
 	private String email;
+	private String photo;
 	
 	private Set<LanguageDTO> interest = new HashSet<>();
 	
@@ -35,17 +35,17 @@ public class UserDTO implements Serializable {
 	}
 	
 	public UserDTO(Long id, String firstName, String lastName, String username, String biography, String title,
-			String profilePhoto, String gitHubLink, String linkedinLink, String email) {
+			String gitHubLink, String linkedinLink, String email, String photo) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.biography = biography;
 		this.title = title;
-		this.profilePhoto = profilePhoto;
 		this.gitHubLink = gitHubLink;
 		this.linkedinLink = linkedinLink;
 		this.email = email;
+		this.photo = photo;
 	}
 
 	public UserDTO(User entity) {
@@ -55,7 +55,7 @@ public class UserDTO implements Serializable {
 		username = entity.getUsername();
 		biography = entity.getBiography();
 		title = entity.getTitle();
-		profilePhoto = entity.getProfilePhoto();
+		photo = entity.getPhoto();
 		gitHubLink = entity.getGitHubLink();
 		linkedinLink = entity.getLinkedinLink();
 		email = entity.getEmail();
@@ -92,6 +92,10 @@ public class UserDTO implements Serializable {
 	public String getTitle() {
 		return title;
 	}
+	
+	public String getPhoto() {
+		return photo;
+	}
 
 	public String getGitHubLink() {
 		return gitHubLink;
@@ -99,10 +103,6 @@ public class UserDTO implements Serializable {
 
 	public String getLinkedinLink() {
 		return linkedinLink;
-	}
-
-	public String getProfilePhoto() {
-		return profilePhoto;
 	}
 
 	public String getEmail() {
