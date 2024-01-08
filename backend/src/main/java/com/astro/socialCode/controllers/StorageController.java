@@ -39,8 +39,8 @@ public class StorageController {
 	}
 	
 	@PostMapping(value = "/thumbnail/upload")
-	public ResponseEntity<MessageResponse> uploadThumbnail(@RequestParam(name = "file") MultipartFile photo, @RequestParam String userAccount) throws InterruptedException {
-		return ResponseEntity.ok().body(storageService.uploadProfilePhoto(photo, userAccount));
+	public ResponseEntity<MessageResponse> uploadThumbnail(@RequestParam(name = "file") MultipartFile thumbnail, @RequestParam String videoFileName) throws InterruptedException {
+		return ResponseEntity.ok().body(storageService.uploadThumbnailVideo(thumbnail, videoFileName));
 	}
 	
 	@PostMapping(value = "/video/upload")

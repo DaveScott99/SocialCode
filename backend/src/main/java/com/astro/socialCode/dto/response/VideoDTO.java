@@ -35,6 +35,9 @@ public class VideoDTO implements Serializable {
 	@JsonProperty(value = "votesCount")
 	private Long votesCount;
 	
+	@JsonProperty(value = "thumbnail")
+	private String thumbnail;
+	
 	private boolean votedByUser;
 	
 	@JsonProperty(value = "creationDate")
@@ -56,7 +59,7 @@ public class VideoDTO implements Serializable {
 	}
 
 	public VideoDTO(Long id, String title, String description, String fileName, UserMinDTO owner,
-			Long votesCount, boolean votedByUser, Instant creationDate) {
+			Long votesCount, boolean votedByUser, Instant creationDate, String thumbnail) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -65,6 +68,7 @@ public class VideoDTO implements Serializable {
 		this.votesCount = votesCount;
 		this.votedByUser = votedByUser;
 		this.creationDate = creationDate;
+		this.thumbnail = thumbnail;
 	}
 
 	public VideoDTO(Video entity) {
@@ -75,6 +79,7 @@ public class VideoDTO implements Serializable {
 		owner = new UserMinDTO(entity.getOwner());
 		votesCount = entity.getVotes().stream().count();
 		creationDate = entity.getCreationDate();
+		thumbnail = entity.getThumbnail();
 		entity.getLanguages().forEach(language -> getLanguages().add(new LanguageDTO(language)));
 		entity.getComents().forEach(comentUser -> getComents().add(new ComentVideoDTO(comentUser)));
 		entity.getQualities().forEach(quality -> getQualities().add(new VideoQuality(quality.getId(), quality.getQualityName())));
@@ -111,6 +116,10 @@ public class VideoDTO implements Serializable {
 
 	public boolean isVotedByUser() {
 		return votedByUser;
+	}
+	
+	public String getThumbnail() {
+		return thumbnail;
 	}
 
 	public Set<LanguageDTO> getLanguages() {

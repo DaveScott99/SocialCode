@@ -122,6 +122,8 @@ export default function Profile({ username }) {
     }
   };
 
+  const showPhoto = process.env.REACT_APP_API;
+
   if (isLoading) {
     return <LoadingFullScreen />;
   }
@@ -133,7 +135,7 @@ export default function Profile({ username }) {
           <UserInfoContainer>
             <UserAvatar>
               <Avatar
-                src={currentUser.user_info.profilePhoto}
+                src={showPhoto + `/storage/userPhoto?fileName=${user.photo}&folderName=${user.username}`}
                 sx={{ width: "200px", height: "200px" }}
                 variant="rounded"
               />

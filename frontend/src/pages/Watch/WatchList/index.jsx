@@ -26,8 +26,6 @@ export default function WatchList() {
     { staleTime: 2000 * 100 }
   );
 
-  console.log(videosData);
-
   const showThumbnail = process.env.REACT_APP_API;
 
   if (isLoading) {
@@ -45,7 +43,7 @@ export default function WatchList() {
             <VideoThumbnail
               src={
                 showThumbnail +
-                `/videos/thumbnail?thumbnailFileName=${video.thumbnail[0]?.fileName}&videoFileName=${video.fileName}`
+                `/storage/thumbnail?fileName=${video.thumbnail}&folderName=${video.fileName}`
               }
             />
             <VideoTitle>{video.title}</VideoTitle>
