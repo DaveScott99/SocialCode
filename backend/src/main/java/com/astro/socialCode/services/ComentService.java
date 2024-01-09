@@ -8,9 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.astro.socialCode.dto.mapper.ComentMapper;
 import com.astro.socialCode.dto.response.ComentPostDTO;
-import com.astro.socialCode.dto.response.ComentVideoDTO;
 import com.astro.socialCode.repositories.ComentPostRepository;
-import com.astro.socialCode.repositories.ComentVideoRepository;
 import com.astro.socialCode.services.exceptions.DatabaseException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -19,24 +17,11 @@ import jakarta.persistence.EntityNotFoundException;
 public class ComentService {
 
 	private final ComentPostRepository comentRepository;
-	private final ComentVideoRepository comentVideoRepository;
 	private final ComentMapper comentMapper;
 	
-	public ComentService(ComentPostRepository comentRepository, ComentMapper comentMapper,
-			ComentVideoRepository comentVideoRepository) {
+	public ComentService(ComentPostRepository comentRepository, ComentMapper comentMapper) {
 		this.comentRepository = comentRepository;
 		this.comentMapper = comentMapper;
-		this.comentVideoRepository = comentVideoRepository;
-	}
-
-	public Page<ComentVideoDTO> findComentsByVideo(Pageable pageable ,Long videoId) {
-		return comentVideoRepository.findComentVideoByVideoId(pageable, videoId)
-				.map(comentMapper::toDTOComentVideo);
-	}
-	
-	public Page<ComentVideoDTO> findComentsInVideoByOwner(Pageable pageable, Long OwnerId) {
-		return comentVideoRepository.findComentVideoByOwnerId(pageable, OwnerId)
-				.map(comentMapper::toDTOComentVideo);
 	}
 	
 	public Page<ComentPostDTO> findComentsByPostTitle(Pageable pageable, String postTitle) {
@@ -52,11 +37,6 @@ public class ComentService {
 	public Page<ComentPostDTO> findComentsInPostByOwner(Pageable pageable, Long OwnerId) {
 		return comentRepository.findComentPostByOwnerId(pageable, OwnerId)
 				.map(comentMapper::toDTOComentPost);
-	}
-
-	@Transactional
-	public ComentVideoDTO publishComentInVideo(ComentVideoDTO comentDTO) {
-		return comentMapper.toDTOComentVideo(comentVideoRepository.save(comentMapper.toEntityComentVideo(comentDTO)));
 	}
 	
 	@Transactional

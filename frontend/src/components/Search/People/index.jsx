@@ -14,6 +14,7 @@ import { Avatar } from "@mui/material";
 
 export default function People({ query }) {
   const navigate = useNavigate();
+  const showPhoto = process.env.REACT_APP_API;
 
   const { data: searchResponse, isLoading } = useQuery(
     [query],
@@ -30,7 +31,7 @@ export default function People({ query }) {
       {searchResponse.data.content.map((response) => (
         <Person key={response.id}>
           <Avatar
-            src={response.profilePhoto}
+            src={showPhoto + `/storage/userPhoto?fileName=${response.photo}&folderName=${response.username}`}
             sx={{ width: "120px", height: "120px" }}
             variant="circle"
           />

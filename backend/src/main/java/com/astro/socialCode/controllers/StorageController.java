@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.astro.socialCode.dto.request.VideoUploadFileDTO;
 import com.astro.socialCode.services.StorageService;
 import com.astro.socialCode.util.MessageResponse;
 
@@ -22,9 +21,6 @@ import com.astro.socialCode.util.MessageResponse;
 public class StorageController {
 
 	private final StorageService storageService;
-	
-	@Value("${video_directory}")
-	private String VIDEO_DIRECTORY;
 	
 	@Value("${profile_photo_directory}")
 	private String UPLOAD_PROFILE_PHOTO_DIRECTORY;
@@ -36,30 +32,6 @@ public class StorageController {
 	@PostMapping(value = "/userPhoto/upload")
 	public ResponseEntity<MessageResponse> uploadProfilePhoto(@RequestParam(name = "file") MultipartFile photo, @RequestParam String userAccount) throws InterruptedException {
 		return ResponseEntity.ok().body(storageService.uploadProfilePhoto(photo, userAccount));
-	}
-	
-	@PostMapping(value = "/thumbnail/upload")
-	public ResponseEntity<MessageResponse> uploadThumbnail(@RequestParam(name = "file") MultipartFile thumbnail, @RequestParam String videoFileName) throws InterruptedException {
-		return ResponseEntity.ok().body(storageService.uploadThumbnailVideo(thumbnail, videoFileName));
-	}
-	
-	@PostMapping(value = "/video/upload")
-	public ResponseEntity<VideoUploadFileDTO> upload(@RequestParam MultipartFile file, @RequestParam Long ownerId) throws InterruptedException {
-		return ResponseEntity.ok().body(storageService.uploadVideo(file, ownerId));
-	}
-	
-	@GetMapping(value = "/thumbnail")
-	public ResponseEntity<Resource> showThumbnail(@RequestParam String fileName, @RequestParam String folderName) throws MalformedURLException {
-		
-		Resource image = storageService.showImage(VIDEO_DIRECTORY, fileName, folderName);
-		
-		if (image != null) {
-			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-		}
-		else {
-			return ResponseEntity.notFound().build();
-		}
-		
 	}
 	
 	@GetMapping(value = "/userPhoto")

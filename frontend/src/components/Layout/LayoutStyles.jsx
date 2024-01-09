@@ -53,8 +53,8 @@ export const Logo = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
-  width: 400px;
-  max-width: 400px;
+  cursor: default;
+  
 
   a {
     color: ${(props) => props.theme.colors.black};

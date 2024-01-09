@@ -41,11 +41,7 @@ public class PostController {
 	
 	@GetMapping
 	public ResponseEntity<PostDTO> findByTitle(@RequestParam String title, @RequestParam String user){
-		
-		String titleDecoded = URLDecoder.decode(title, StandardCharsets.UTF_8);
-		
-		System.out.println(titleDecoded);
-		
+		String titleDecoded = URLDecoder.decode(title, StandardCharsets.UTF_8);		
 		return ResponseEntity.ok().body(postService.findByTitle(titleDecoded, user));
 	}
 

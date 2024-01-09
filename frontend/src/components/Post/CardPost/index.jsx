@@ -35,7 +35,7 @@ export function CardPost({ post }) {
 
             <LanguageContainer>
               {post.languages?.map((language) => (
-                <Language key={language.id} src={language.icon} />
+                <Language>{language.name}</Language>
               ))}
             </LanguageContainer>
           </PostInfo>

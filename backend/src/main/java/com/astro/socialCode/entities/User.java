@@ -7,11 +7,8 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -68,23 +65,10 @@ public class User {
 	private Set<Post> posts = new HashSet<>();
 	
 	@OneToMany(mappedBy = "owner")
-	private Set<Video> videos = new HashSet<>();
-	
-	@OneToMany(mappedBy = "owner")
 	private Set<ComentPost> comentsInPosts = new HashSet<>();
-	
-	@OneToMany(mappedBy = "owner")
-	private Set<ComentVideo> comentsInVideos = new HashSet<>();
-	
-	@OneToMany(mappedBy = "owner")
-	private Set<Playlist> playlists = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "votes")
 	private Set<Post> votedPosts = new HashSet<>();
-	
-	@ManyToMany(mappedBy = "votes", fetch = FetchType.LAZY)
-	@JsonIgnore
-	private Set<Video> votedVideos = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "users")
 	private Set<Language> interest = new HashSet<>();
@@ -234,10 +218,6 @@ public class User {
 		return comentsInPosts;
 	}
 
-	public Set<ComentVideo> getComentsInVideos() {
-		return comentsInVideos;
-	}
-
 	public Set<User> getFollowing() {
 		return following;
 	}
@@ -250,18 +230,6 @@ public class User {
 		return interest;
 	}
 	
-	public Set<Video> getVideos() {
-		return videos;
-	}
-
-	public Set<Video> getVotedVideos() {
-		return votedVideos;
-	}
-
-	public Set<Playlist> getPlaylists() {
-		return playlists;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

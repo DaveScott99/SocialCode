@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.astro.socialCode.dto.response.ComentPostDTO;
-import com.astro.socialCode.dto.response.ComentVideoDTO;
 import com.astro.socialCode.services.ComentService;
 
 @RestController
@@ -27,11 +26,6 @@ public class ComentController {
 		this.comentService = comentService;
 	}
 	
-	@GetMapping(value = "/findComentsByVideo")
-	public ResponseEntity<Page<ComentVideoDTO>> findComentsByVideo(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long videoId) {
-		return ResponseEntity.ok().body(comentService.findComentsByVideo(pageable, videoId));
-	}
-	
 	@GetMapping(value = "/findComentsByPostTitle")
 	public ResponseEntity<Page<ComentPostDTO>> findComentsByPostTitle(@PageableDefault(size = 10) Pageable pageable, @RequestParam String postTitle) {
 		return ResponseEntity.ok().body(comentService.findComentsByPostTitle(pageable, postTitle));
@@ -42,20 +36,9 @@ public class ComentController {
 		return ResponseEntity.ok().body(comentService.findComentsByPost(pageable, postId));
 	}
 	
-
-	@GetMapping(value = "/findComentsInVideosByOwner")
-	public ResponseEntity<Page<ComentVideoDTO>> findComentsInVideosByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long ownerId) {
-		return ResponseEntity.ok().body(comentService.findComentsInVideoByOwner(pageable, ownerId));
-	}
-	
 	@GetMapping(value = "/findComentsInPostsByOwner")
 	public ResponseEntity<Page<ComentPostDTO>> findComentsInPostsByOwner(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long ownerId) {
 		return ResponseEntity.ok().body(comentService.findComentsInPostByOwner(pageable, ownerId));
-	}
-	
-	@PostMapping(value = "/publishComentVideo")
-	public ResponseEntity<ComentVideoDTO> publishComentInVideo(@RequestBody ComentVideoDTO comentDTO) {
-		return ResponseEntity.ok().body(comentService.publishComentInVideo(comentDTO));
 	}
 	
 	@PostMapping(value = "/publishComentPost")

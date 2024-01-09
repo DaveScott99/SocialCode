@@ -1,9 +1,7 @@
 import { styled } from "styled-components";
-import theme from "../../styles/theme";
 
 export const NavContainer = styled.nav`
     width: 100%;
-    padding: 3px;
 `;
 
 export const Menu = styled.ul`
@@ -21,18 +19,12 @@ export const MenuNavigation = styled.div`
     width: 100%;
     height: 50px;
     display: flex;
-    justify-content: center;
     align-items: center;
 
     a {
         width: 100%;
-        max-width: 150px;
-        margin-right: 10px;
-        margin-left: 10px;
+        max-width: 80px;
         display: flex;
-        align-items: center;
-        justify-content: center;
- 
     }
 
 `
@@ -44,28 +36,15 @@ export const MenuItem = styled.li`
 
 export const ItemNavigation = styled.li`
     display: flex;
-    align-items: center;
     justify-content: center;
-    transition: all 0.1s;
-
-    height:  ${({ selected }) => (selected ? "55px" : "45px")};
+    align-items: center;
+    height: 55px;
     width: 100%;
-    max-width: 130px;
-
-    border-radius: ${({ selected }) => (!selected ? "10px" : "0px")};
-
-    border-bottom: 3px solid ${({ selected }) =>
-        selected ? theme.colors.primary : "transparent"};
-    color: ${({ selected }) => (selected ? theme.colors.primary : "#000")};
-
-    &:hover {
-        background: ${({ selected }) => (selected ? "transparent" : theme.colors.white_smoke)};
-        color: ${({ selected }) => (selected ? theme.colors.primary : "#000")};
-    }
-
+    color: #000;
+    font-weight: 500;
 `
 
-export const IconItem = styled.i`
+export const IconItem = styled.span`
     display: flex;
     justify-content: center;
     font-size: 1.8em;

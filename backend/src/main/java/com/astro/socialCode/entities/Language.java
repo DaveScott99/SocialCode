@@ -43,9 +43,6 @@ public class Language {
 	)
 	private Set<User> users = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "languages")
-	private Set<Video> videos = new HashSet<>();
-	
 	public Language(){
 	}
 
@@ -86,10 +83,6 @@ public class Language {
 		return posts;
 	}
 	
-	public Set<Video> getVideos() {
-		return videos;
-	}
-
 	public Set<User> getUsers() {
 		return users;
 	}

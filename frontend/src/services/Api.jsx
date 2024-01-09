@@ -260,7 +260,7 @@ export const uploadThumbnail = async (thumbnailFile, fileName) => {
   formData.append("file", thumbnailFile);
 
   try {
-    const response = await api.post(`/thumbnail?videoFileName=${fileName}`, formData);
+    const response = await api.post(`/storage/thumbnail/upload?videoFileName=${fileName}`, formData);
     console.log(response.data);
     return response.data;
   }

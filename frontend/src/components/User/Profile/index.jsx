@@ -38,8 +38,6 @@ import {
   UserInfoContainer,
   Username,
 } from "./styles";
-import VideosUser from "../VideosUser";
-import PlaylistsUser from "../PlaylistsUser"
 
 export default function Profile({ username }) {
   const { user } = useContext(AuthContext);
@@ -246,18 +244,6 @@ export default function Profile({ username }) {
         >
           Publicações
         </Filter>
-        <Filter 
-         selected={selectedFilter === "videos"}
-         onClick={() => handleSelectFilter("videos")}
-        >
-          Vídeos
-        </Filter>
-        <Filter 
-         selected={selectedFilter === "playlists"}
-         onClick={() => handleSelectFilter("playlists")}
-        >
-          Playlists
-        </Filter>
 
       </Filters>
       
@@ -269,16 +255,6 @@ export default function Profile({ username }) {
             {isFetching && <Loading color="#FFF" />}
           </div>
         </section>
-      }
-
-      {
-        selectedFilter === "videos" &&
-        <VideosUser />
-      }
-
-      {
-        selectedFilter === "playlists" &&
-        <PlaylistsUser userUsername={currentUser.user_info.username}/>
       }
      
     </Container>

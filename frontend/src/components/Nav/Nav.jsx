@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
-import { BiPlusCircle, BiVideoPlus, BiEditAlt, BiGitRepoForked, BiGridAlt } from "react-icons/bi";
-import { MdOutlineArrowBackIos, MdOutlineGroups, MdOutlineOndemandVideo } from "react-icons/md";
+import { BiPlusCircle, BiEditAlt } from "react-icons/bi";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 import ModalDialog from "../Generics/ModalDialog";
 import DialogConfirmation from "../Generics/DialogConfirmation";
 import Search from "../Generics/Search/Search";
@@ -43,6 +43,8 @@ export default function Nav({ backPath }) {
     setIsModalLoggout(true);
   };
 
+  const showPhoto = process.env.REACT_APP_API;
+
   return (
     <NavContainer>
       <Menu>
@@ -53,45 +55,9 @@ export default function Nav({ backPath }) {
               selected={selectedMenuItem === "/"}
               onClick={() => handleSelectItemMenu("/")}
             >
-              <IconItem>
-                <BiGridAlt />
-              </IconItem>
+              Início
             </ItemNavigation>
           </Link>
-
-          <Link to="/watch">
-            <ItemNavigation
-              selected={selectedMenuItem === "/watch"}
-              onClick={() => handleSelectItemMenu("/watch")}
-            >
-              <IconItem>
-                <MdOutlineOndemandVideo />
-              </IconItem>
-            </ItemNavigation>
-          </Link>
-
-          <Link to="/projects">
-            <ItemNavigation
-              selected={selectedMenuItem === "/projects"}
-              onClick={() => handleSelectItemMenu("/projects")}
-            >
-              <IconItem>
-                <BiGitRepoForked />
-              </IconItem>
-            </ItemNavigation>
-          </Link>
-
-          <Link to="/groups">
-            <ItemNavigation
-              selected={selectedMenuItem === "/groups"}
-              onClick={() => handleSelectItemMenu("/groups")}
-            >
-              <IconItem>
-                <MdOutlineGroups />
-              </IconItem>
-            </ItemNavigation>
-          </Link>
-
         </MenuNavigation>
 
         <MenuItem>
@@ -115,12 +81,9 @@ export default function Nav({ backPath }) {
               }
             >
               <Link to={`/publicar`}>
-                <SubMenuItem><BiEditAlt /> Criar postagem</SubMenuItem>
+                <SubMenuItem><BiEditAlt />Criar postagem</SubMenuItem>
               </Link>
 
-              <Link to={`/publicar/video`}>
-                <SubMenuItem><BiVideoPlus /> Enviar vídeo</SubMenuItem>
-              </Link>
             </DropDownMenu>
           </MenuItem>
 
@@ -129,7 +92,7 @@ export default function Nav({ backPath }) {
               iconMenu={
                 <Avatar
                   alt="User image"
-                  src={user.profilePhoto}
+                  src={showPhoto + `/storage/userPhoto?fileName=${user.photo}&folderName=${user.username}`}
                   sx={{ width: "30px", height: "30px", cursor: "pointer", marginLeft: "20px" }}
                   variant="rounded"
                 />

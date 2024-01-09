@@ -34,7 +34,7 @@ export default function Layout({
   return (
     <Wrapper>
       <Header>
-        {asideItens ? (
+        {/*asideItens ? (
           <AsideButton onClick={() => setExpandAside(!expandAside)}>
             <RxHamburgerMenu />
           </AsideButton>
@@ -46,13 +46,11 @@ export default function Layout({
           >
             <RxHamburgerMenu />
           </AsideButton>
-        ) : null}
+        ) : null*/}
 
         <Logo>
-          <Link to="/">
             <BiTerminal />
             <PlataformName>SocialCode</PlataformName>
-          </Link>
         </Logo>
 
         <Nav backPath={backPath} />
@@ -63,13 +61,13 @@ export default function Layout({
           {children}
           <Sentinel id="sentinel" />
         </Content>
-        {asideItens ? (
+        {/*asideItens ? (
           <Aside expand={expandAside}>
             <NavAside expand={expandAside}>{asideItens}</NavAside>
           </Aside>
         ) : null}
 
-        {asideItensAbsolute ? (
+        { asideItensAbsolute ? (
           <Overlay expand={expandAsideAbsolute} onClick={() => setExpandAsideAbsolute(!expandAsideAbsolute)}>
             <AsideAbsolute>
               <NavAsideAbsolute>
@@ -77,7 +75,7 @@ export default function Layout({
               </NavAsideAbsolute>
             </AsideAbsolute>
           </Overlay>
-        ) : null}
+        ) : null*/}
       </Main>
     </Wrapper>
   );

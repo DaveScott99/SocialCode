@@ -46,18 +46,6 @@ export default function Search() {
           >
             Pessoas
           </Filter>
-          <Filter
-            selected={selectedFilter === "videos"}
-            onClick={() => handleSelectFilter("videos")}
-          >
-            Videos
-          </Filter>
-          <Filter
-            selected={selectedFilter === "courses"}
-            onClick={() => handleSelectFilter("courses")}
-          >
-            Cursos
-          </Filter>
         </Filters>
 
         { selectedFilter === "people" && (

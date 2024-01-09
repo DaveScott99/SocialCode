@@ -55,7 +55,6 @@ export const PostDate = styled.div`
 
 export const PostBody = styled.div`
   margin-top: 10px;
-
   display: -webkit-box;
   -webkit-line-clamp: 15;
   -webkit-box-orient: vertical;
@@ -89,11 +88,12 @@ export const LanguageContainer = styled.div`
   padding: 5px;
 `;
 
-export const Language = styled.img`
-  color: ${(props) => props.theme.colors.white};
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  margin-right: 3px;
+export const Language = styled.span`
+  font-weight: 600;
+  font-size: .8em;
+  background: #0095ff98;
+  padding: 5px 15px 5px 15px;
+  border-radius: 5px;
   margin-left: 3px;
+  margin-right: 3px;
 `;
